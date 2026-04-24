@@ -154,15 +154,20 @@ export default function Testimonials() {
             <li
               key={i}
               className="v2-testimonials-item v2-testimonials-reveal v2-testimonials-reveal--h"
-              /* Per-card stagger in CSS pixels — ~160px per "beat"
+              /* Per-card stagger in CSS pixels — 40px per "beat"
                  so each character clearly appears after its neighbor
-                 instead of nearly together. Tuned up from 50px
-                 because at a shorter stagger the cards entered
-                 essentially in parallel. At 160px per step: card 1
-                 starts at progress 0, card 2 needs ~160px more
-                 scroll to begin, card 3 needs ~320px more — about
-                 one character per ~1/4 viewport of scroll. */
-              data-stagger={i * 160}
+                 while still finishing its reveal once the section
+                 snap-aligns at the top. Previously 160px, but the
+                 page uses `scroll-snap-type: y` on <html> with
+                 `scroll-snap-align: start` on this section, so snap
+                 pins rect.top before cards 2 and 3 can reach
+                 progress=1 — they froze at ~0.91 and ~0.625 opacity
+                 (with a matching 12.9px / 56.25px horizontal offset),
+                 which read as a washed-out, shifted penguin against
+                 the pink band. Cap max stagger (i=2 → 80px) comfortably
+                 below vh - entryRamp so all three cards complete
+                 reveal at the snapped position. */
+              data-stagger={i * 40}
             >
               <div className="v2-testimonials-pet">
                 <Image
