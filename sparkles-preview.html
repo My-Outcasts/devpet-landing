@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Codepet — Sparkles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    padding: 56px 32px 80px;
+    background: linear-gradient(180deg, #2A2466 0%, #534AB7 50%, #C9A0E8 100%);
+    font-family: "Press Start 2P", monospace;
+    color: #fff;
+    text-align: center;
+  }
+  h1 {
+    font-size: 28px;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .sub { font-size: 11px; letter-spacing: 0.2em; opacity: 0.7; margin-bottom: 56px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px 32px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .cell img {
+    width: 144px;
+    height: 144px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+  .name {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    opacity: 0.85;
+    text-transform: uppercase;
+  }
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
+    .cell img { width: 112px; height: 112px; }
+  }
+</style>
+</head>
+<body>
+  <h1>SPARKLING <br/>PIXEL</h1>
+  <div class="sub">9 × 16 × 16</div>
+
+  <div class="grid">
+    <div class="cell"><img src="sprites-svg/ui/sparkle-twinkle.svg" alt="twinkle"/><div class="name">TWINKLE</div></div>
+    <div class="cell"><img src="sprites-svg/ui/sparkle-diamond.svg" alt="diamond"/><div class="name">DIAMOND</div></div>
+    <div class="cell"><img src="sprites-svg/ui/sparkle-cluster.svg" alt="cluster"/><div class="name">CLUSTER</div></div>
+
+    <div class="cell"><img src="sprites-svg/ui/sparkle-cross-bold.svg" alt="cross bold"/><div class="name">CROSS&nbsp;BOLD</div></div>
+    <div class="cell"><img src="sprites-svg/ui/sparkle-snowflake.svg" alt="snowflake"/><div class="name">SNOWFLAKE</div></div>
+    <div class="cell"><img src="sprites-svg/ui/sparkle-asterisk.svg" alt="asterisk"/><div class="name">ASTERISK</div></div>
+
+    <div class="cell"><img src="sprites-svg/ui/sparkle-bow.svg" alt="bow"/><div class="name">BOW</div></div>
+    <div class="cell"><img src="sprites-svg/ui/sparkle-flake-circles.svg" alt="flake circles"/><div class="name">FLAKE&nbsp;·&nbsp;O</div></div>
+    <div class="cell"><img src="sprites-svg/ui/sparkle-compass.svg" alt="compass"/><div class="name">COMPASS</div></div>
+  </div>
+</body>
+</html>

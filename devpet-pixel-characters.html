@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DevPet — Chibi Pixel Crew</title>
+<style>
+  body{margin:0;font-family:'Courier New',monospace;background:#1C1A12;color:#F5F2E8;padding:40px 20px;}
+  h1{text-align:center;font-size:32px;letter-spacing:2px;margin:0 0 8px;}
+  .sub{text-align:center;color:#888;margin-bottom:40px;font-size:13px;}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1400px;margin:0 auto;}
+  .card{background:#2a2820;border-radius:8px;padding:18px;text-align:center;box-shadow:0 4px 0 #000;}
+  .stage{display:flex;align-items:center;justify-content:center;margin-bottom:14px;}
+  .name{font-size:20px;font-weight:bold;letter-spacing:1.5px;margin-bottom:2px;}
+  .species{font-size:10px;color:#aaa;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+  .badge{display:inline-block;font-size:10px;padding:3px 8px;border-radius:3px;margin-top:4px;letter-spacing:0.5px;}
+  @media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:600px){.grid{grid-template-columns:1fr;}}
+  svg{image-rendering:pixelated;shape-rendering:crispEdges;}
+</style>
+</head>
+<body>
+<h1>DEV<span style="color:#E8A800;">PET</span> · CHIBI CREW</h1>
+<p class="sub">8 characters, redesigned in 8-bit sprite / perler-bead style</p>
+<div class="grid" id="grid"></div>
+
+<script>
+/* ── Each character = 2D array of strings. Each string = 1 row. Each char = 1 pixel. */
+/* ── Characters use per-design palette maps, then render on visible grid background. */
+
+const CELL = 18;          // pixel size
+const COLS = 22;          // grid width
+const ROWS = 26;          // grid height
+const GRID_LINE = '#000'; // visible grid line
+const GRID_OPACITY = 0.08;
+
+/* ════════  BYTE — purple server blob  ════════ */
+const BYTE = {
+  palette:{'.':null,'B':'#1C1A12','P':'#7F77DD','D':'#534AB7','d':'#3C3489','W':'#ffffff','Y':'#FCDE5A'},
+  bg:'#FCDE5A',
+  rows:[
+    '......................',
+    '......BB......BB......',
+    '.....BYYB....BYYB.....',
+    '.....BYYB....BYYB.....',
+    '......BB......BB......',
+    '.......B......B.......',
+    '.......B......B.......',
+    '....BBBBBBBBBBBBBB....',
+    '...BDDDDDDDDDDDDDDB...',
+    '..BDDDDDDDDDDDDDDDDB..',
+    '..BDPPPPPPPPPPPPPPDB..',
+    '..BDPddddddddddddPPDB.',
+    '..BDPPPPPPPPPPPPPPPDB.',
+    '..BDPPBBPPPPPPPPBBPDB.',
+    '..BDPBWBBPPPPPPBBWBDB.',
+    '..BDPBWBBPPPPPPBBWBDB.',
+    '..BDPPBBPPPPPPPPBBPDB.',
+    '..BDPPPPPPPPPPPPPPPDB.',
+    '..BDPPPPBBBBBBBBPPPDB.',
+    '..BDPPPBddddddddBPPDB.',
+    '..BDPPPBBBBBBBBBBPPDB.',
+    '..BDPPPPPPPPPPPPPPPDB.',
+    '..BDDDDDDDDDDDDDDDDDB.',
+    '...BDDDDDDDDDDDDDDDB..',
+    '....BBBBBBBBBBBBBBB...',
+    '.....BB......BB.......'
+  ]
+};
+
+/* ════════  NOVA — fire fox  ════════ */
+const NOVA = {
+  palette:{'.':null,'B':'#1C1A12','O':'#EF9F27','o':'#BA7517','d':'#633806','W':'#ffffff','Y':'#FCDE5A','C':'#FAEEDA'},
+  bg:'#FCDE5A',
+  rows:[
+    '......................',
+    '....BB............BB..',
+    '...BooB..........BooB.',
+    '..BoOOB..........BOOoB',
+    '..BOOOOB........BOOOOB',
+    '..BOOOOBBBBBBBBBOOOOB.',
+    '.BOOOOOOOOOOOOOOOOOOB.',
+    '.BOOBBOOOOOOOOOOOOBBOB',
+    '.BOBWWBOOOOOOOOOOBWWBO',
+    '.BOBWYBOOOOOOOOOOBYWBO',
+    '.BOBBBOOOOOOOOOOOOBBBO',
+    '.BOOOOOOOCCCCCCOOOOOOB',
+    '.BOOOOOOCCCWWCCCOOOOOB',
+    '.BOOOOOCCCBBBBCCCOOOOB',
+    '.BOOOOCCCCCCCCCCCOOOOB',
+    '.BBOOCCCCCYYYCCCCCOOBB',
+    '..BOCCCCCYBBYCCCCCOB..',
+    '..BOCCCCCYBBYCCCCCOB..',
+    '..BBOCCCCCCCCCCCOOBB..',
+    '...BBOOOOOOOOOOOOBB...',
+    '.....BBOOOOOOOOOBB....',
+    '.......BBOOOOOBB......',
+    '.........BBBBBB.......',
+    '..........BB..BB......',
+    '..........BB..BB......',
+    '......................'
+  ]
+};
+
+/* ════════  GLITCH — pink hacker cat  ════════ */
+const GLITCH = {
+  palette:{'.':null,'B':'#1C1A12','P':'#ED93B1','p':'#D4537E','d':'#993556','W':'#ffffff','R':'#E24B4A','H':'#2C2C2A','K':'#3C3489'},
+  bg:'#FCDE5A',
+  rows:[
+    '......................',
+    '.....BB........BB.....',
+    '....BHHB......BHHB....',
+    '....BHPB......BPHB....',
+    '...BHPPPBBBBBBPPPHB...',
+    '..BHPPPPPPPPPPPPPPHB..',
+    '..BHPPPPPPPPPPPPPPHB..',
+    '..BHPPPPPPPPPPPPPPHB..',
+    '..BHHHHHPPPPPPPBBBHB..',
+    '..BHHRRHPPPPPPBWWBHB..',
+    '..BHHRRHPPPPPPBWBBHB..',
+    '..BHHHHHPPPPPPPBBPHB..',
+    '..BHPPPPPPPPPPPPPPHB..',
+    '..BHPPPPPBBBBBPPPPHB..',
+    '..BHPPPBBdddBPPPPPHB..',
+    '..BHPPPPPPPPPPPPPPHB..',
+    '..BBHpppppKKKKpppppHB.',
+    '...BBpppppKKKKppppppB.',
+    '....BBpppppKKpppppppB.',
+    '.....BBppppppppppppB..',
+    '......BBpppppppppppB..',
+    '.......BBppppppppppB..',
+    '........BBpppppppppB..',
+    '.........BBBBBBBBBBB..',
+    '.........BB.....BB....',
+    '.........BB.....BB....'
+  ]
+};
+
+/* ════════  SAGE — teal owl archivist  ════════ */
+const SAGE = {
+  palette:{'.':null,'B':'#1C1A12','T':'#1D9E75','t':'#0F6E56','d':'#085041','W':'#ffffff','Y':'#EF9F27','C':'#9FE1CB'},
+  bg:'#FCDE5A',
+  rows:[
+    '......................',
+    '....BBB........BBB....',
+    '...BdddB......BdddB...',
+    '..BdddddBBBBBBdddddB..',
+    '.BTTTTTTTTTTTTTTTTTTB.',
+    '.BTtTTTTTTTTTTTTTTtTB.',
+    '.BTTTTTTTTTTTTTTTTTTB.',
+    '.BTBBBBTTTTTTTTBBBBTB.',
+    '.BBWWWWBTTTTTTBWWWWBB.',
+    '.BBWBBWBTTTTTTBWBBWBB.',
+    '.BBWWWWBTTTTTTBWWWWBB.',
+    '.BTBBBBTTYYYYTTBBBBTB.',
+    '.BTTTTTTTYYYYTTTTTTTB.',
+    '.BTTtttTTTTTTTTtttTTB.',
+    '.BTtTTTTTTTTTTTTTTtTB.',
+    '.BTTTTTCBWWWWBCTTTTB..',
+    '.BTTTTCBWBBBWBCTTTTB..',
+    '.BTTTTCBWWWWWBCTTTTB..',
+    '.BTTTTCBBBBBBBCTTTTB..',
+    '.BBTTTtttttttttTTTBB..',
+    '..BBTTTTtttttTTTTBB...',
+    '...BBTTTTTTTTTTBB.....',
+    '.....BBBBBBBBBB.......',
+    '.....BB......BB.......',
+    '.....BB......BB.......',
+    '......................'
+  ]
+};
+
+/* ════════  CRASH — red bear builder  ════════ */
+const CRASH = {
+  palette:{'.':null,'B':'#1C1A12','R':'#E24B4A','r':'#A32D2D','d':'#791F1F','W':'#ffffff','Y':'#FCDE5A','C':'#F09595'},
+  bg:'#FCDE5A',
+  rows:[
+    '......................',
+    '..BBBB..........BBBB..',
+    '.BRRRRB........BRRRRB.',
+    '.BRdRRBBBBBBBBBBRRdRB.',
+    '.BBRRRRRRRRRRRRRRRRBB.',
+    '.BRRRRRRRRRRRRRRRRRRB.',
+    '.BRRBBBRRRRRRRRRBBBRB.',
+    '.BRRBBRBBRRRRRRBBBBRB.',
+    '.BRRRRRBWBRRRRBWBRRRB.',
+    '.BRRRRRBBBRRRRBBBRRRB.',
+    '.BRRRRRRRRRRRRRRRRRRB.',
+    '.BRRRRRRCCCCCCRRRRRRB.',
+    '.BRRRRRCCWWWWCCRRRRRB.',
+    '.BRRRRRCBBBBBBCRRRRRB.',
+    '.BRRRRRRCCCCCCRRRRRRB.',
+    '.BBRRRrrrrrrrrrrRRRBB.',
+    '.BrrrBBRRRRRRRRRRBBrrB',
+    '.BrrrBrRRRYYYYRRrBrrrB',
+    '.BrrrBdRRRYYYYRRdBrrrB',
+    '.BrrrBBRRRrrrrRRRBBrrB',
+    '.BBrrrrrrrrrrrrrrrrBB.',
+    '..BBrrrrrrrrrrrrrrBB..',
+    '...BBrrrrrrrrrrrrBB...',
+    '....BBBBBBBBBBBBBB....',
+    '....BB..........BB....',
+    '....BB..........BB....'
+  ]
+};
+
+/* ════════  ZERO — code wraith  ════════ */
+const ZERO = {
+  palette:{'.':null,'B':'#1C1A12','G':'#888780','g':'#5F5E5A','d':'#2C2C2A','W':'#ffffff','C':'#378ADD','c':'#D3D1C7'},
+  bg:'#ffffff',
+  rows:[
+    '......................',
+    '.......BBBBBBBB.......',
+    '......BddddddddB......',
+    '.....BdddddddddB......',
+    '....BdddddddddddB.....',
+    '...BdddddddddddddB....',
+    '..BdddddddddddddddB...',
+    '..BddBBBBddddBBBBdB...',
+    '..BdBCCCCBddBCCCCBB...',
+    '..BdBCWWCBddBCWWCBB...',
+    '..BdBCCCCBddBCCCCBB...',
+    '..BdddBBddddddBBddB...',
+    '..BGGGGGGGGGGGGGGGB...',
+    '.BGGGGGGGGGGGGGGGGGB..',
+    '.BGGGGGGGGGGGGGGGGGB..',
+    '.BGGGGGGGGGGGGGGGGGB..',
+    '.BGGBccccccccccccBGB..',
+    '.BGBcCCCCCCCCCCCCcBB..',
+    '.BBccCCcccccccCCccBB..',
+    '..BGGGGGGGGGGGGGGGB...',
+    '..BGGggGGGGGGGGggGB...',
+    '...BgggggGGGGGgggB....',
+    '....BBgggggggggBB.....',
+    '......BBBgggBBB.......',
+    '.........BB...........',
+    '......................'
+  ]
+};
+
+/* ════════  LUNA — indie dreamer human  ════════ */
+const LUNA = {
+  palette:{'.':null,'B':'#1C1A12','S':'#F5D3B3','s':'#D4A57F','P':'#7F77DD','p':'#534AB7','d':'#3C3489','W':'#ffffff','H':'#2C2C2A','Y':'#FCDE5A','C':'#AFA9EC'},
+  bg:'#FCDE5A',
+  rows:[
+    '......................',
+    '.....BBBBBBBBBB.......',
+    '....BHHHHHHHHHHB......',
+    '...BHHHHHHHHHHHHB.....',
+    '..BHBBBBBBBBBBBBHB....',
+    '..BBPPPPPPPPPPPPBBB...',
+    '..BPHSSSSSSSSSSHPBB...',
+    '..BPHSSSSSSSSSSHPBB...',
+    '..BPHSBBSSSSBBSSHPB...',
+    '..BPHSBWBSSBWBSSHPB...',
+    '..BPHSBBSSSSBBSSHPB...',
+    '..BPHSSSSSSSSSSSHPB...',
+    '..BPHSSSSBBBBSSSHPB...',
+    '..BBHSSSSSSSSSSHBBB...',
+    '...BBHHHHHHHHHHHBB....',
+    '....BPPPPPPPPPPPB.....',
+    '...BppPPYYYYYYPPppB...',
+    '..BppPPPPPPPPPPPPppB..',
+    '..BppPdddddddddPPppB..',
+    '..BppPPPPPPPPPPPPppB..',
+    '..BppPPPCCCCCPPPPppB..',
+    '..BBppPPPPPPPPPppBB...',
+    '...BBppppppppppBB.....',
+    '....BBHHHHHHHHBB......',
+    '.....BB......BB.......',
+    '.....BB......BB.......'
+  ]
+};
+
+/* ════════  NULL — asymmetric jester slime  ════════ */
+const NULL_ = {
+  palette:{'.':null,'B':'#1C1A12','G':'#639922','g':'#3B6D11','P':'#7F77DD','p':'#3C3489','Y':'#FCDE5A','W':'#ffffff','S':'#F5D3B3','Q':'#C8A87A'},
+  bg:'#ffffff',
+  rows:[
+    '......................',
+    '....BBB.........BBB...',
+    '...BgggB.......BpppB..',
+    '..BggYggB.....BppYppB.',
+    '..BBgggBB.....BBpppBB.',
+    '....BBB.........BBB...',
+    '...BBBBBBBBBBBBBBBBB..',
+    '..BGGGGGGGGGPPPPPPPPB.',
+    '.BGGGGGGGGGGGPPPPPPPPB',
+    '.BGgggGGGGGGGPPPPPpPPB',
+    '.BGBBGGGGGGGGPPBBPPPPB',
+    '.BGBWBGGGGGGGPBWBPPPPB',
+    '.BGBYBGGGGGGGPBQBPPPPB',
+    '.BGBBGGGGGGGGGPBBPPPPB',
+    '.BGGGGGGYBYGGPPPPPPPPB',
+    '.BGGGGGGYBYGPPPPPPPPB.',
+    '.BGGGGGGYBYGPPPPPPPPB.',
+    '.BGgggGGGGGGPPPPpPPPB.',
+    '.BGgggGGGGGGPPPPpPPPB.',
+    '.BBGggggggggPPPPPPPPB.',
+    '..BBggggggggPPPPPPBB..',
+    '....BBgggggBPPPPBB....',
+    '......BBBBBBBBBB......',
+    '......BB......BB......',
+    '......BB......BB......',
+    '......BB......BB......'
+  ]
+};
+
+/* ── renderer ── */
+function render(character){
+  const {palette,bg,rows} = character;
+  const w = COLS*CELL, h = ROWS*CELL;
+  const parts = [`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}">`];
+  // background
+  parts.push(`<rect width="${w}" height="${h}" fill="${bg}"/>`);
+  // pixel fills
+  for(let y=0;y<rows.length;y++){
+    const row = rows[y];
+    for(let x=0;x<row.length;x++){
+      const ch = row[x];
+      const c = palette[ch];
+      if(c){
+        parts.push(`<rect x="${x*CELL}" y="${y*CELL}" width="${CELL}" height="${CELL}" fill="${c}"/>`);
+      }
+    }
+  }
+  // grid lines (drawn over, low opacity)
+  for(let x=0;x<=COLS;x++){
+    parts.push(`<line x1="${x*CELL}" y1="0" x2="${x*CELL}" y2="${h}" stroke="${GRID_LINE}" stroke-opacity="${GRID_OPACITY}" stroke-width="1"/>`);
+  }
+  for(let y=0;y<=ROWS;y++){
+    parts.push(`<line x1="0" y1="${y*CELL}" x2="${w}" y2="${y*CELL}" stroke="${GRID_LINE}" stroke-opacity="${GRID_OPACITY}" stroke-width="1"/>`);
+  }
+  parts.push('</svg>');
+  return parts.join('');
+}
+
+const CHARS = [
+  {id:'byte',data:BYTE,name:'BYTE',species:'Spirit Blob',badge:'The Chaotic Core',color:'#7F77DD'},
+  {id:'nova',data:NOVA,name:'NOVA',species:'Fire Fox',badge:'The Genius Mentor',color:'#BA7517'},
+  {id:'glitch',data:GLITCH,name:'GLITCH',species:'Hacker Cat',badge:'The Rebel',color:'#993556'},
+  {id:'sage',data:SAGE,name:'SAGE',species:'Archivist Owl',badge:'The Wise Guide',color:'#085041'},
+  {id:'crash',data:CRASH,name:'CRASH',species:'Builder Bear',badge:'The Brute Force Hero',color:'#A32D2D'},
+  {id:'zero',data:ZERO,name:'ZERO',species:'Code Wraith',badge:'The Silent Optimiser',color:'#5F5E5A'},
+  {id:'luna',data:LUNA,name:'LUNA',species:'Indie Dreamer',badge:'The Creative Builder',color:'#534AB7'},
+  {id:'null',data:NULL_,name:'NULL',species:'Uninitialised Slime',badge:'The Wild Card',color:'#3B6D11'}
+];
+
+const host = document.getElementById('grid');
+CHARS.forEach(c=>{
+  const card = document.createElement('div');
+  card.className='card';
+  card.innerHTML = `
+    <div class="stage">${render(c.data)}</div>
+    <div class="name">${c.name}</div>
+    <div class="species">${c.species}</div>
+    <span class="badge" style="background:${c.color}22;color:${c.color};border:1px solid ${c.color};">${c.badge}</span>
+  `;
+  host.appendChild(card);
+});
+</script>
+</body>
+</html>

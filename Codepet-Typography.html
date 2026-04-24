@@ -1,0 +1,842 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Codepet — Typography</title>
+
+<!-- Fallback web fonts that approximate the licensed brand fonts. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+<style>
+/* ─── Tokens ────────────────────────────────────────── */
+:root {
+  --ink:        #1E1848;
+  --purple:     #7B6BD8;
+  --purpleDk:   #534AB7;
+  --purpleLt:   #A89BF2;
+  --bg:         #F7F5FC;
+  --paper:      #FFFFFF;
+  --text:       #2D2B26;
+  --muted:      #6C6780;
+  --line:       #E4DEF1;
+
+  /* In a real brand build-out, replace these stacks with the licensed faces. */
+  --font-display: "Minecraft", "Minecraftia", "Press Start 2P", "VT323", monospace;
+  --font-body:    "PP Neue Montreal", "Neue Montreal", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; background: var(--bg); }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--purpleLt); color: var(--ink); }
+
+a { color: var(--purpleDk); text-decoration: none; border-bottom: 1px solid currentColor; }
+a:hover { color: var(--ink); }
+
+/* ─── Layout shell ──────────────────────────────────── */
+.shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 56px;
+}
+
+@media (max-width: 720px) {
+  .shell { padding: 0 24px; }
+  body { font-size: 16px; }
+}
+
+/* ─── Top bar ───────────────────────────────────────── */
+.topbar {
+  border-bottom: 1px solid var(--line);
+  padding: 20px 0;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.topbar .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.topbar .brand { color: var(--ink); }
+.topbar .dot { color: var(--purple); margin: 0 12px; }
+
+/* ─── Hero ──────────────────────────────────────────── */
+.hero {
+  padding: 140px 0 120px;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero .eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--purpleDk);
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+
+.hero h1 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(64px, 11vw, 160px);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0 0 28px;
+}
+
+.hero h1 em {
+  color: var(--purple);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.hero .lede {
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.5;
+  color: var(--text);
+  max-width: 640px;
+  margin: 0;
+}
+
+.hero .meta {
+  margin-top: 72px;
+  display: flex;
+  gap: 72px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--muted);
+}
+.hero .meta strong { color: var(--ink); font-weight: 600; display: block; font-size: 15px; margin-bottom: 4px; }
+
+/* ─── Section scaffolding ───────────────────────────── */
+section.font-block,
+section.scale-block,
+section.pairing-block,
+section.rules-block {
+  padding: 120px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-head {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 32px;
+  margin-bottom: 64px;
+}
+
+.section-head .num {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--purple);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  image-rendering: pixelated;
+  padding-top: 14px;
+}
+
+.section-head .label {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.section-head h2 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(40px, 6vw, 68px);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+
+.section-head .sub {
+  font-size: 17px;
+  color: var(--muted);
+  font-style: italic;
+  max-width: 640px;
+  margin: 0;
+}
+
+/* ─── Specimen card (big display) ───────────────────── */
+.specimen {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 80px 64px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.specimen .corner {
+  position: absolute;
+  top: 24px;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+.specimen .corner.tl { left: 24px; }
+.specimen .corner.tr { right: 24px; }
+
+/* Minecraft specimen */
+.specimen.mc {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 96px 64px;
+  text-align: center;
+}
+.specimen.mc .corner { color: var(--purpleLt); }
+
+.specimen.mc .display {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 8vw, 96px);
+  line-height: 1.15;
+  color: var(--purpleLt);
+  letter-spacing: 0.02em;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  font-smooth: never;
+  margin: 32px 0;
+}
+
+.specimen.mc .display .hot { color: var(--paper); }
+
+.specimen.mc .caption {
+  font-family: var(--font-body);
+  color: var(--purpleLt);
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 40px;
+  font-weight: 500;
+}
+
+/* PP Neue Montreal specimen */
+.specimen.pp {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 80px 64px;
+}
+
+.specimen.pp .display {
+  font-family: var(--font-body);
+  font-size: clamp(120px, 22vw, 280px);
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin: 0;
+}
+.specimen.pp .display em {
+  color: var(--purple);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* ─── Info grid (under specimens) ───────────────────── */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  padding-top: 48px;
+}
+@media (max-width: 720px) {
+  .info-grid { grid-template-columns: 1fr; gap: 24px; }
+  .section-head { grid-template-columns: 1fr; gap: 12px; }
+  .specimen { padding: 48px 24px; }
+  .specimen.mc { padding: 64px 24px; }
+}
+
+.info-grid .cell .label {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--purpleDk);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.info-grid .cell h3 {
+  font-family: var(--font-body);
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0 0 8px;
+  letter-spacing: -0.01em;
+}
+.info-grid .cell p {
+  font-size: 15px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ─── Weight ladder ─────────────────────────────────── */
+.weights {
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+}
+
+.weights .row {
+  display: grid;
+  grid-template-columns: 160px 1fr 100px;
+  align-items: baseline;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
+  gap: 32px;
+}
+.weights .row .label {
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+.weights .row .sample {
+  font-family: var(--font-body);
+  font-size: 42px;
+  line-height: 1.1;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.weights .row .sample.w400 { font-weight: 400; }
+.weights .row .sample.w500 { font-weight: 500; }
+.weights .row .sample.w700 { font-weight: 700; }
+
+.weights .row .mono {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--muted);
+  text-align: right;
+}
+@media (max-width: 720px) {
+  .weights .row { grid-template-columns: 1fr; gap: 6px; }
+  .weights .row .mono { text-align: left; }
+}
+
+/* ─── Type scale ladder ─────────────────────────────── */
+.scale-list {
+  border-top: 1px solid var(--line);
+}
+.scale-list .row {
+  display: grid;
+  grid-template-columns: 140px 1fr 140px 140px;
+  gap: 32px;
+  align-items: baseline;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--line);
+}
+.scale-list .row .name {
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+.scale-list .row .sample {
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.scale-list .row .family {
+  font-size: 12px;
+  color: var(--purpleDk);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.scale-list .row .size {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.scale-list .sample.display {
+  font-family: var(--font-display);
+  font-size: 44px;
+  line-height: 1.1;
+  color: var(--ink);
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+}
+
+.scale-list .sample.h1 { font-family: var(--font-body); font-size: 48px; font-weight: 600; line-height: 1.05; }
+.scale-list .sample.h2 { font-family: var(--font-body); font-size: 32px; font-weight: 500; line-height: 1.15; }
+.scale-list .sample.h3 { font-family: var(--font-body); font-size: 24px; font-weight: 600; line-height: 1.2; }
+.scale-list .sample.body { font-family: var(--font-body); font-size: 17px; font-weight: 400; line-height: 1.55; }
+.scale-list .sample.caption { font-family: var(--font-body); font-size: 13px; font-weight: 500; line-height: 1.4; color: var(--muted); }
+.scale-list .sample.eyebrow {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--purple);
+  image-rendering: pixelated;
+}
+
+@media (max-width: 720px) {
+  .scale-list .row { grid-template-columns: 1fr; gap: 8px; padding: 24px 0; }
+  .scale-list .row .size { text-align: left; }
+  .scale-list .sample.display { font-size: 32px; }
+  .scale-list .sample.h1 { font-size: 36px; }
+  .scale-list .sample.h2 { font-size: 26px; }
+}
+
+/* ─── Pairing composition ───────────────────────────── */
+.pairing-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 72px 64px;
+}
+
+.pairing-card .eyebrow-mc {
+  font-family: var(--font-display);
+  color: var(--purple);
+  font-size: 14px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  margin-bottom: 20px;
+}
+.pairing-card h3 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-size: clamp(36px, 6vw, 64px);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  margin: 0 0 32px;
+  text-transform: uppercase;
+}
+.pairing-card h3 em { color: var(--purple); font-style: normal; }
+
+.pairing-card .title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 0 0 20px;
+  max-width: 720px;
+}
+
+.pairing-card .body {
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--text);
+  line-height: 1.6;
+  max-width: 640px;
+  margin: 0 0 12px;
+}
+
+.pairing-card .attrib {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--line);
+}
+.pairing-card .attrib code {
+  font-family: var(--font-body);
+  color: var(--purpleDk);
+  font-weight: 600;
+}
+
+.pairing-note {
+  padding: 32px 0 0;
+  font-size: 15px;
+  color: var(--muted);
+  max-width: 720px;
+  font-style: italic;
+}
+
+/* ─── Rules (do/don't) ──────────────────────────────── */
+.rules-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 16px;
+}
+@media (max-width: 720px) { .rules-grid { grid-template-columns: 1fr; } }
+
+.rule {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  padding: 40px;
+}
+.rule .tag {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+.rule.do .tag { color: #3F9D55; }
+.rule.dont .tag { color: #D64A4A; }
+
+.rule ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rule li {
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.55;
+}
+.rule li:first-child { border-top: 0; }
+.rule li strong { color: var(--ink); font-weight: 600; }
+
+/* ─── Footer ────────────────────────────────────────── */
+footer.page-footer {
+  padding: 72px 0;
+  border-top: 1px solid var(--line);
+  background: var(--ink);
+  color: var(--purpleLt);
+}
+footer.page-footer .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+footer.page-footer .row .mark {
+  font-family: var(--font-display);
+  color: var(--paper);
+  font-size: 18px;
+  letter-spacing: 0.08em;
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+}
+footer.page-footer .row .meta {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ Top bar ═══════════════════════════════════════ -->
+<div class="topbar">
+  <div class="shell row">
+    <div><span class="brand">CODEPET</span> <span class="dot">·</span> TYPOGRAPHY</div>
+    <div>BRAND SYSTEM <span class="dot">·</span> v1.0</div>
+  </div>
+</div>
+
+<!-- ═══ Hero ══════════════════════════════════════════ -->
+<section class="hero">
+  <div class="shell">
+    <div class="eyebrow">00 · The system</div>
+    <h1>Two fonts. <em>One voice.</em></h1>
+    <p class="lede">
+      Codepet runs on a single typographic pair. A pixel-art display face for the
+      moments that should feel like a game. A modern grotesque for everything that
+      should feel like a product. Used together, they say the same thing twice —
+      playful, confident, made for people who ship.
+    </p>
+    <div class="meta">
+      <div><strong>Minecraft</strong>Headlines, eyebrows, emphasis</div>
+      <div><strong>PP Neue Montreal</strong>Titles, body, UI, long-form</div>
+      <div><strong>Tone</strong>Playful, encouraging, honest</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 01 · Minecraft ════════════════════════════════ -->
+<section class="font-block" id="minecraft">
+  <div class="shell">
+    <div class="section-head">
+      <div class="num">01</div>
+      <div>
+        <div class="label">The display</div>
+        <h2>Minecraft.</h2>
+        <p class="sub">
+          The pixel-art voice of the brand. Used for headlines, section numbers, button
+          labels, and any word that has to land like a level-up.
+        </p>
+      </div>
+    </div>
+
+    <div class="specimen mc">
+      <div class="corner tl">MINECRAFT · DISPLAY</div>
+      <div class="corner tr">LEVEL 01 / READY</div>
+      <div class="display">BUILD <span class="hot">TODAY</span></div>
+      <div class="caption">A font that earns its pixels</div>
+    </div>
+
+    <div class="info-grid">
+      <div class="cell">
+        <div class="label">Role</div>
+        <h3>Headlines &amp; highlights</h3>
+        <p>Use Minecraft when a word needs to stop the eye — section numbers,
+          eyebrow labels, hero headlines, and the biggest calls to action.</p>
+      </div>
+      <div class="cell">
+        <div class="label">Sizes</div>
+        <h3>Small or huge, never middle</h3>
+        <p>Micro (10–14 pt) for eyebrows and meta. Large (40 pt and up) for
+          headlines and posters. Avoid the 18–32 pt middle zone — it reads muddy.</p>
+      </div>
+      <div class="cell">
+        <div class="label">Rendering</div>
+        <h3>Pixelated, always</h3>
+        <p><code>image-rendering: pixelated</code> on the web.
+          <code>.interpolation(.none)</code> in SwiftUI. Never anti-alias a
+          pixel-art face — it destroys the grid.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 02 · PP Neue Montreal ═════════════════════════ -->
+<section class="font-block" id="neue-montreal">
+  <div class="shell">
+    <div class="section-head">
+      <div class="num">02</div>
+      <div>
+        <div class="label">The workhorse</div>
+        <h2>PP Neue Montreal.</h2>
+        <p class="sub">
+          The grown-up half of the pair. Carries every title, every paragraph, every
+          UI label — anywhere Codepet needs to be read for more than a second.
+        </p>
+      </div>
+    </div>
+
+    <div class="specimen pp">
+      <div class="corner tl">PP NEUE MONTREAL · TEXT</div>
+      <div class="corner tr">ABCDEFGHIJKLMNOPQRSTUVWXYZ</div>
+      <div class="display">A<em>a</em></div>
+    </div>
+
+    <div class="weights">
+      <div class="row">
+        <div class="label">Regular · 400</div>
+        <div class="sample w400">Build small things, every day.</div>
+        <div class="mono">Body &amp; long-form</div>
+      </div>
+      <div class="row">
+        <div class="label">Medium · 500</div>
+        <div class="sample w500">Ship it when it runs, not when it's perfect.</div>
+        <div class="mono">Titles &amp; H2</div>
+      </div>
+      <div class="row">
+        <div class="label">Bold · 700</div>
+        <div class="sample w700">Go beyond the tutorial.</div>
+        <div class="mono">H1 &amp; emphasis</div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="cell">
+        <div class="label">Role</div>
+        <h3>Titles &amp; long-form</h3>
+        <p>PP Neue Montreal holds every surface where a reader slows down —
+          H1–H3, paragraphs, menus, tooltips, captions, data labels.</p>
+      </div>
+      <div class="cell">
+        <div class="label">Line length</div>
+        <h3>Between 50 and 80 characters</h3>
+        <p>For running text, aim for 60 characters per line. Tight grids can
+          compress to 50. Never let a body paragraph stretch past 80.</p>
+      </div>
+      <div class="cell">
+        <div class="label">Line height</div>
+        <h3>1.5 for body, 1.1 for display</h3>
+        <p>Body runs at 1.5. Pull-quotes and titles tighten to 1.1 so letters
+          lock against each other. Never use the default 1.2 browser value.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 03 · The scale ════════════════════════════════ -->
+<section class="scale-block" id="scale">
+  <div class="shell">
+    <div class="section-head">
+      <div class="num">03</div>
+      <div>
+        <div class="label">The scale</div>
+        <h2>A ladder of sizes.</h2>
+        <p class="sub">
+          Every Codepet surface pulls from the same eight-step scale. Use these sizes
+          exactly. Don't invent new ones.
+        </p>
+      </div>
+    </div>
+
+    <div class="scale-list">
+      <div class="row">
+        <div class="name">Eyebrow</div>
+        <div class="sample eyebrow">SECTION NUMBER · 01</div>
+        <div class="family">Minecraft · 500</div>
+        <div class="size">11 / 16 · +0.30em</div>
+      </div>
+      <div class="row">
+        <div class="name">Display</div>
+        <div class="sample display">BUILD TODAY</div>
+        <div class="family">Minecraft</div>
+        <div class="size">44–96 / 1.1</div>
+      </div>
+      <div class="row">
+        <div class="name">H1</div>
+        <div class="sample h1">Ship real products.</div>
+        <div class="family">PP Neue · 600</div>
+        <div class="size">48 / 1.05 · –0.02em</div>
+      </div>
+      <div class="row">
+        <div class="name">H2</div>
+        <div class="sample h2">Learn from every build.</div>
+        <div class="family">PP Neue · 500</div>
+        <div class="size">32 / 1.15</div>
+      </div>
+      <div class="row">
+        <div class="name">H3</div>
+        <div class="sample h3">What you will do this week.</div>
+        <div class="family">PP Neue · 600</div>
+        <div class="size">24 / 1.2</div>
+      </div>
+      <div class="row">
+        <div class="name">Body</div>
+        <div class="sample body">Codepet is a macOS application that helps people develop their thinking and ship products of their own. Guided agentic coding, adaptive feedback, and a daily-practice loop turn early exposure to programming into durable skill.</div>
+        <div class="family">PP Neue · 400</div>
+        <div class="size">17 / 1.55</div>
+      </div>
+      <div class="row">
+        <div class="name">Caption</div>
+        <div class="sample caption">8 AI companions · 16 coding skills · 4 learning domains</div>
+        <div class="family">PP Neue · 500</div>
+        <div class="size">13 / 1.4</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 04 · Pairing ══════════════════════════════════ -->
+<section class="pairing-block" id="pairing">
+  <div class="shell">
+    <div class="section-head">
+      <div class="num">04</div>
+      <div>
+        <div class="label">In combination</div>
+        <h2>How they work together.</h2>
+        <p class="sub">
+          A sample composition. Minecraft tops the page and marks the moment.
+          PP Neue Montreal says the rest.
+        </p>
+      </div>
+    </div>
+
+    <div class="pairing-card">
+      <div class="eyebrow-mc">CHAPTER 03 · LEVEL UP</div>
+      <h3>YOUR FIRST <em>SHIPPED</em> APP</h3>
+      <p class="title">
+        This week, you'll turn an idea in your head into a running product in
+        your dock — shipped, opened, and used by someone other than you.
+      </p>
+      <p class="body">
+        You will build in small, deliberate loops. Pick the smallest version of
+        the thing, get it running, hand it to a friend, learn what broke. Every
+        Codepet lesson is a rehearsal for the real motion: write, run, watch,
+        repair. By Friday, the product will be real enough to install.
+      </p>
+      <div class="attrib">
+        Eyebrow &amp; title: <code>Minecraft</code> · Lede &amp; body: <code>PP Neue Montreal</code>
+      </div>
+    </div>
+
+    <p class="pairing-note">
+      The pair follows a rule: Minecraft announces, PP Neue explains. When you're
+      tempted to set a paragraph in Minecraft — don't. When you're tempted to set
+      a hero in PP Neue — pause and ask whether this moment should feel like a game
+      or a document.
+    </p>
+  </div>
+</section>
+
+<!-- ═══ 05 · Rules ════════════════════════════════════ -->
+<section class="rules-block" id="rules">
+  <div class="shell">
+    <div class="section-head">
+      <div class="num">05</div>
+      <div>
+        <div class="label">The rules</div>
+        <h2>Do &amp; don't.</h2>
+        <p class="sub">
+          Short list. Keep the pair clean, and every surface reads as Codepet on
+          first glance.
+        </p>
+      </div>
+    </div>
+
+    <div class="rules-grid">
+      <div class="rule do">
+        <div class="tag">Do</div>
+        <ul>
+          <li><strong>Use Minecraft sparingly.</strong> One word, one phrase, one eyebrow per surface. It is a spotlight, not a spotlight on everything.</li>
+          <li><strong>Set it in uppercase or short words.</strong> Minecraft reads best in three to five characters at a time.</li>
+          <li><strong>Use PP Neue Montreal for everything a reader scans or reads.</strong> Titles, paragraphs, UI, data.</li>
+          <li><strong>Render Minecraft pixel-perfect.</strong> Integer scales only. Never bilinear, bicubic, or blurred.</li>
+          <li><strong>Pair it with whitespace.</strong> Minecraft works loud — let the margins be loud too.</li>
+        </ul>
+      </div>
+      <div class="rule dont">
+        <div class="tag">Don't</div>
+        <ul>
+          <li><strong>Don't set body text in Minecraft.</strong> It becomes unreadable past two lines. Always swap to PP Neue for anything longer than a phrase.</li>
+          <li><strong>Don't size Minecraft between 18 and 32 pt.</strong> It falls into an awkward middle. Go smaller, or go much larger.</li>
+          <li><strong>Don't anti-alias Minecraft.</strong> Smoothing kills the pixel grid and makes it look like a knockoff.</li>
+          <li><strong>Don't mix italics.</strong> Minecraft doesn't do italic. Never synthesize one.</li>
+          <li><strong>Don't introduce a third font.</strong> Two is the whole system. Never smuggle in a display script or a serif.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ Footer ════════════════════════════════════════ -->
+<footer class="page-footer">
+  <div class="shell row">
+    <div class="mark">CODEPET</div>
+    <div class="meta">Typography · v1.0 · April 2026</div>
+    <div class="meta">MURROR</div>
+  </div>
+</footer>
+
+</body>
+</html>

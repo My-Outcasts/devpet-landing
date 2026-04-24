@@ -1,0 +1,3325 @@
+/* ── v2 landing typography ───────────────────────────────────────────
+   Drop font files into /public/fonts/ (see README there). Until they
+   exist, each @font-face silently fails and the `local()` / system
+   fallbacks in the font stack take over — no FOUC, no 404 errors in
+   the console because font-display: swap handles it gracefully.
+   ──────────────────────────────────────────────────────────────── */
+
+/* Thin — 200, normal */
+@font-face {
+  font-family: 'PP Neue Montreal';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url('/fonts/pp-neue-montreal/ppneuemontreal-thin.otf') format('opentype');
+}
+
+/* Book — 400, normal */
+@font-face {
+  font-family: 'PP Neue Montreal';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/pp-neue-montreal/ppneuemontreal-book.otf') format('opentype');
+}
+
+/* Book Italic — 400, italic */
+@font-face {
+  font-family: 'PP Neue Montreal';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/pp-neue-montreal/ppneuemontreal-italic.otf') format('opentype');
+}
+
+/* Medium — 500, normal */
+@font-face {
+  font-family: 'PP Neue Montreal';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/pp-neue-montreal/ppneuemontreal-medium.otf') format('opentype');
+}
+
+/* SemiBold Italic — 600, italic (used for the bold-italic hero subhead) */
+@font-face {
+  font-family: 'PP Neue Montreal';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/pp-neue-montreal/ppneuemontreal-semibolditalic.otf') format('opentype');
+}
+
+/* Bold — 700, normal */
+@font-face {
+  font-family: 'PP Neue Montreal';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/pp-neue-montreal/ppneuemontreal-bold.otf') format('opentype');
+}
+
+/* Minecraft — the only weight that was uploaded; we declare both 400 and
+   700 pointed at the same file so text/nav that asks for bold gets a
+   sensible (if identical) match instead of falling back to a system font. */
+@font-face {
+  font-family: 'Minecraft';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/minecraft/Minecraft.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Minecraft';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/minecraft/Minecraft.ttf') format('truetype');
+}
+
+/* Upheaval TT BRK — heavy pixel display face. Used for the big
+   hero headline (LEARN TO BUILD / AGENTIC CODE). Bold pixel
+   silhouette reads as the "game title" voice of the brand. */
+@font-face {
+  font-family: 'Upheaval TT';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/upheaval/upheavtt.ttf') format('truetype');
+}
+
+/* Scoped typography tokens — only apply under .v2-root so the existing
+   landing at / keeps its Varela Round setup. */
+.v2-root {
+  --font-display:
+    'PP Neue Montreal',
+    'Inter',
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  --font-pixel:
+    'Minecraft',
+    'Silkscreen',
+    'Courier New',
+    monospace;
+
+  /* Brand/design tokens specific to v2 */
+  --v2-bg: #000000;
+  --v2-bg-inverse: #FFFFFF;
+  --v2-text-primary: #FFFFFF;
+  --v2-text-secondary: #B0B0B0;
+  --v2-text-muted: #777777;
+  --v2-accent-purple: #7B6BD8;  /* Codepet Purple */
+  --v2-accent-lilac: #A89BF2;   /* Luna Lilac */
+  --v2-accent-violet: #534AB7;
+  --v2-divider: #1C40CF;        /* Brand blue for pixel dashes */
+
+  /* Inverse-surface text tokens — used on the white sections */
+  --v2-ink-primary: #1E1848;    /* Midnight Ink */
+  --v2-ink-secondary: #534AB7;  /* Deep Violet, for eyebrow / caption */
+  --v2-ink-muted: #6B6B7A;
+
+  font-family: var(--font-display);
+  color: var(--v2-text-primary);
+  background: var(--v2-bg);
+  font-feature-settings: 'kern' 1, 'liga' 1, 'ss01' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Defensive: clip any child section that would otherwise push
+     the layout wider than the viewport (e.g. a nowrap headline
+     at a narrow viewport). Without this, the document scrolls
+     horizontally and fixed/top content like the nav appears
+     shifted or clipped on the left edge. */
+  overflow-x: clip;
+}
+
+/* ── Full-viewport sections ──────────────────────────────────
+   Each major content section below should fill at least the
+   viewport height so that when the reader scrolls onto it, the
+   section dominates the screen. Combined with scroll-snap
+   (see html rule below), scrolling "lands" cleanly at the top
+   of each section rather than stopping mid-band. */
+.v2-mindset,
+.v2-getgood,
+.v2-skilltrees,
+.v2-testimonials,
+.v2-finalcta {
+  min-height: 100vh;
+  /* Use dvh where supported so mobile browser chrome (address bar)
+     appearing/disappearing doesn't cause a resize flash. */
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  /* Center content vertically inside the 100vh band so when the
+     reader scrolls onto a section it lands at the middle of the
+     viewport instead of sticking to the top. flex-direction: column
+     keeps the default vertical stacking flow, `align-items` is left
+     at its default `stretch` so inner containers that rely on
+     max-width + margin: 0 auto still center horizontally the same
+     way they did in normal block flow. */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Enable smooth scroll-snap at the document level. `proximity`
+   (rather than `mandatory`) is used so the browser only snaps
+   when the user's scroll lands near a boundary — intermediate
+   scrolling still feels natural and mandatory snap doesn't fight
+   touch/trackpad momentum. */
+html {
+  scroll-snap-type: y proximity;
+  scroll-behavior: smooth;
+}
+
+.v2-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: 0.025em;
+  /* Minecraft/pixel fonts look best with crisp rendering */
+  image-rendering: pixelated;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+/* ── Dashed pixel divider (used under nav, above/below footer) ──
+   Renders as blue dashes against whatever background sits behind.
+   Height is 4px so it reads as a chunky pixel stroke at desktop. */
+.v2-pixel-divider {
+  height: 4px;
+  width: 100%;
+  background-image: repeating-linear-gradient(
+    to right,
+    var(--v2-divider) 0 16px,
+    transparent 16px 28px
+  );
+  image-rendering: pixelated;
+}
+
+/* ── Nav layout ─────────────────────────────────────────────── */
+.v2-nav {
+  /* Solid hero-blue sticky nav. Headroom JS in Nav.tsx toggles
+     `.v2-nav--hidden` for hide-on-scroll-down; a separate
+     `.v2-nav--scrolled` class fires once the reader scrolls past
+     the hero, which is used ONLY to fade out the CTA pill below —
+     the nav itself keeps its blue fill and white text throughout. */
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: #1C40CF;
+  color: #FFFFFF;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+/* Slide off the top of the viewport when scrolling down. */
+.v2-nav--hidden {
+  transform: translateY(-100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-nav { transition: none; }
+}
+
+.v2-nav-inner {
+  /* 3-column grid:
+       [ nav links LEFT ] [ wordmark CENTER ] [ CTA RIGHT ]
+     1fr auto 1fr keeps the wordmark true-centered in the bar
+     regardless of the link/CTA widths. */
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px 40px;
+}
+
+/* ── Appear effect ────────────────────────────────────────────
+   Framer spec: Enter { opacity: 0, y: -150 }, Spring (Physics)
+   stiffness 150 / damping 25 / mass 1.
+   Damping ratio = 25 / (2·√(150·1)) ≈ 1.02 → critically damped,
+   no overshoot. Matched with an ease-out-quint cubic-bezier at
+   ~0.6s for a visually identical drop-in.
+
+   The animation is applied per child (wordmark + each nav link)
+   rather than to the whole .v2-nav-inner container so the three
+   nav links can drop in on a stagger:
+     Product   → delay 0s
+     Get Good  → delay 0.1s
+     Skill Tree→ delay 0.2s */
+@keyframes v2-nav-drop-in {
+  from {
+    opacity: 0;
+    transform: translateY(-150px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.v2-nav-inner--enter .v2-nav-wordmark,
+.v2-nav-inner--enter .v2-nav-cta,
+.v2-nav-inner--enter .v2-nav-links > li {
+  animation: v2-nav-drop-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Cascade:
+     - Product   : 0s
+     - Wordmark  : 0s (anchor of the bar)
+     - Get Good  : 0.1s
+     - Skill Tree: 0.2s
+     - CTA       : 0.3s (last element, smooth trail) */
+.v2-nav-inner--enter .v2-nav-links > li:nth-child(1) { animation-delay: 0s;   } /* Product    */
+.v2-nav-inner--enter .v2-nav-wordmark                { animation-delay: 0s;   }
+.v2-nav-inner--enter .v2-nav-links > li:nth-child(2) { animation-delay: 0.1s; } /* Get Good   */
+.v2-nav-inner--enter .v2-nav-links > li:nth-child(3) { animation-delay: 0.2s; } /* Skill Tree */
+.v2-nav-inner--enter .v2-nav-cta                     { animation-delay: 0.3s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-nav-inner--enter .v2-nav-wordmark,
+  .v2-nav-inner--enter .v2-nav-cta,
+  .v2-nav-inner--enter .v2-nav-links > li { animation: none; }
+}
+
+/* Layout alignment inside the 3-column nav grid */
+.v2-nav-inner > .v2-nav-links { justify-self: start; }
+.v2-nav-inner > .v2-nav-wordmark { justify-self: center; }
+.v2-nav-inner > .v2-nav-cta     { justify-self: end; }
+
+/* Empty right-column placeholder rendered in place of the CTA once
+   the reader scrolls past the fold. Same column width footprint as
+   the CTA so the wordmark keeps its true-centered position. */
+.v2-nav-cta-placeholder {
+  display: block;
+  width: 1px;
+  height: 1px;
+  justify-self: end;
+}
+
+/* The wordmark is now an <Image> tag wrapping the pixel-art SVG at
+   public/v2/codepet-wordmark.svg. The anchor itself is just a click
+   target; all sizing is on the inner <img>. */
+.v2-nav-wordmark {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.v2-nav-wordmark img {
+  display: block;
+  /* Centered and scaled up per the new brief — wordmark is now
+     the primary anchor of the bar, not a subdued corner logo.
+     Responsive clamp so it shrinks gracefully on narrow widths. */
+  height: clamp(40px, 5vw, 72px);
+  width: auto;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* ── Nav CTA — "Start Your Journey" pixel-art pill ──────────
+   Classic 4-layer NES-style button, top → bottom:
+     rows 0–1  : black outer outline
+     rows 2–5  : lighter-red highlight band (4px)
+     rows 6–33 : main red body (~28px)
+     rows 34–37: darker-red shadow band (4px)
+     rows 38–39: black outer outline
+
+   Outline is painted via 4 zero-blur drop-shadows (one per
+   axis). Because `filter: drop-shadow()` respects the
+   element's clip-path, the black contour wraps around every
+   stepped corner cleanly — something `box-shadow` can't do.
+   Highlight / shadow bands come from two inset box-shadows
+   on top — those stack on the clip-path's body and give the
+   pill its raised 3D look. */
+/* Two-layer pixel-art button:
+     outer <a.v2-nav-cta>       → filter: drop-shadow (black outline)
+     inner <span.v2-nav-cta-body> → clip-path + body fill + bevel
+   Splitting the filter off the clipped element sidesteps the
+   Chrome quirk where clip-path crops drop-shadow output. */
+.v2-nav-cta {
+  display: inline-block;
+  text-decoration: none;
+  line-height: 0;
+  filter:
+    drop-shadow( 2px 0 0 #1E1848)
+    drop-shadow(-2px 0 0 #1E1848)
+    drop-shadow(0  2px 0 #1E1848)
+    drop-shadow(0 -2px 0 #1E1848);
+  transition:
+    filter 0.15s ease,
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* Once the reader scrolls past the hero, every downstream section
+   has its own "Join the waitlist" CTA, so the nav CTA becomes
+   redundant. Fade + lift it out of the way — pointer-events: none
+   so focus rings and clicks stop going there too.
+
+   `!important` is required because the `.v2-nav-cta` entrance
+   animation (`v2-nav-drop-in`) runs with `animation-fill-mode: both`
+   and its `to` keyframe sets `opacity: 1` / `transform: translateY(0)`.
+   CSS animations (even in their forwards-fill phase) override normal
+   cascaded declarations, so without `!important` the final keyframe
+   silently wins and the CTA stays fully visible. */
+.v2-nav--scrolled .v2-nav-cta {
+  /* Explicitly kill the drop-in entrance animation so its `both`
+     fill can't keep pinning opacity / transform to the `to` frame.
+     Belt and braces alongside !important on each property below. */
+  animation: none !important;
+  opacity: 0 !important;
+  pointer-events: none;
+  transform: translateY(-6px) !important;
+  visibility: hidden !important;
+  /* Delay the visibility flip until AFTER the opacity fade so the
+     viewer sees the fade instead of a snap. On scroll-up (scrolled
+     class removed) the default transition on .v2-nav-cta kicks in —
+     which has no visibility line — so visibility returns to `visible`
+     immediately and the fade-in reads correctly. */
+  transition:
+    filter 0.15s ease,
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    visibility 0s linear 0.3s !important;
+}
+
+.v2-nav-cta-body {
+  display: inline-block;
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  font-weight: 500;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.024em;
+  background: #E24B4A;
+  height: 40px;
+  padding: 13px 28px 12px;
+  box-sizing: border-box;
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  /* Bevel — 4px highlight on top, 4px shadow on bottom. Both
+     get auto-cropped to the pill silhouette by the clip-path. */
+  box-shadow:
+    inset 0  4px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.25);
+  /* 5-step staircase per quarter, 20px radius = half-height.
+     Clockwise from the left end of the top edge:
+       top edge → TR quarter → right apex (y=16→24)
+       → BR quarter → bottom edge → BL quarter
+       → left apex (y=24→16) → TL quarter → close. */
+  clip-path: polygon(
+    20px 0, calc(100% - 20px) 0,
+    calc(100% - 16px) 0,  calc(100% - 16px) 4px,
+    calc(100% - 12px) 4px, calc(100% - 12px) 8px,
+    calc(100% - 8px)  8px, calc(100% - 8px)  12px,
+    calc(100% - 4px)  12px, calc(100% - 4px) 16px,
+    100% 16px,
+    100% 24px,
+    calc(100% - 4px)  24px, calc(100% - 4px)  28px,
+    calc(100% - 8px)  28px, calc(100% - 8px)  32px,
+    calc(100% - 12px) 32px, calc(100% - 12px) 36px,
+    calc(100% - 16px) 36px, calc(100% - 16px) 40px,
+    calc(100% - 20px) 40px,
+    20px 40px,
+    16px 40px, 16px 36px,
+    12px 36px, 12px 32px,
+    8px  32px, 8px  28px,
+    4px  28px, 4px  24px,
+    0 24px,
+    0 16px,
+    4px  16px, 4px  12px,
+    8px  12px, 8px  8px,
+    12px 8px,  12px 4px,
+    16px 4px,  16px 0
+  );
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.v2-nav-cta:hover .v2-nav-cta-body,
+.v2-nav-cta:focus-visible .v2-nav-cta-body {
+  background: #FFFFFF;
+  color: #E24B4A;
+}
+
+.v2-nav-cta:focus-visible { outline: none; }
+
+.v2-nav-links {
+  display: flex;
+  align-items: center;
+  /* Framer spec: gap 32 */
+  gap: 32px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.v2-nav-links a {
+  font-family: var(--font-pixel);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--v2-text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.024em; /* ~0.4px at 17px */
+  text-decoration: none;
+  line-height: 1;
+  /* Position + padding so the ::after outline (see below) has room
+     to sit around the label without touching the glyphs.
+     Asymmetric top/bottom compensates for Minecraft's pixel-font
+     metrics: its glyphs sit at the top of the em box with empty
+     space below, so symmetric padding reads as bottom-heavy. More
+     top padding + less bottom padding → glyph sits optically
+     centered inside the ::after outline. */
+  position: relative;
+  display: inline-block;
+  padding: 9px 10px 3px;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+/* Hover: thin rectangular outline fades in around the link (INK
+   GAMES reference). Drawn with ::after so the outline doesn't
+   affect layout — the label stays exactly where it was. */
+.v2-nav-link::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid currentColor;
+  opacity: 0;
+  transition: opacity 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.v2-nav-link:hover::after,
+.v2-nav-link:focus-visible::after {
+  opacity: 1;
+}
+
+.v2-nav-link:focus { outline: none; }  /* suppress default focus ring; ::after handles it */
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-nav-link::after { transition: none; }
+}
+
+/* ── Hero (Section 2) ──────────────────────────────────────────
+   Three-part vertical composition:
+     1. Display headline (two lines, PP Neue Montreal)
+     2. Row of 7 pet sprites, pixelated
+     3. Italic subhead + pixel-pill CTA
+   Sits on pure black — type and pets carry the weight.
+   ─────────────────────────────────────────────────────────── */
+.v2-hero {
+  position: relative;
+  /* Edge-to-edge blue wash — no max-width so the blue spans the
+     full viewport and blends into the nav above. Inner content
+     (headline, pets) caps itself independently. */
+  margin: 0;
+  /* Brand blue (Framer Hero fill) — matches the nav above so the
+     top of the page reads as a single blue band. */
+  background: #1C40CF;
+  /* Fit the whole composition inside one viewport. Nav is 104px
+     (32 top + 40 wordmark line-height + 32 bottom) — subtract a
+     slightly smaller number so the hero always overlaps the full
+     remaining viewport and the white Product section below never
+     peeks through as a lighter strip at the bottom. */
+  min-height: calc(100vh - 88px);
+  min-height: calc(100dvh - 88px);
+  padding: clamp(16px, 4vh, 48px) 48px clamp(20px, 4.5vh, 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+  /* Clip the bottom bloom to the hero bounds so the soft light
+     never bleeds over into the neighbouring Product band. */
+  overflow: hidden;
+}
+
+/* Bloom/blur layer removed per brief — the hero now sits on a
+   flat #1C40CF wash with no radial softening. */
+
+/* ── Hero flanking decorations ────────────────────────────────
+   Four pixel-art sprites positioned per Framer inspector on a
+   1440×1024 canvas:
+     sparkle-tl  (L=42, T=208, 133×120)   · sparkle-mr (L=1288→R=32, T=397, 120×120)
+     heart-ml    (L=76, T=392, 60×60)     · heart-tr   (L=1288→R=92, T=197, 60×60)
+
+   Two-layer structure so drop-in stagger and idle bob don't
+   fight over `transform`:
+     outer .v2-hero-deco     → absolute position + drop-in anim
+     inner .v2-hero-deco-img → continuous bob loop
+*/
+.v2-hero-deco {
+  position: absolute;
+  z-index: 0;                  /* behind headline/subhead */
+  pointer-events: none;
+  user-select: none;
+  /* Per-deco rotation exposed as a CSS variable so the drop-in
+     keyframe can preserve it through the animation (keyframe
+     reads var(--r), which the modifier class sets). */
+  --r: 0deg;
+  /* Drop-in stagger: falls from y=-140 with opacity fade.
+     animation-fill-mode: both keeps the final pose locked. */
+  animation: v2-hero-deco-drop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  will-change: transform;
+}
+
+.v2-hero-deco-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  /* Continuous idle bob — same keyframe as the pets so the
+     whole scene breathes in the same rhythm. */
+  animation: v2-pet-bob 4s ease-in-out infinite;
+}
+
+/* Drop-in keyframe — reads --r so rotation survives the anim. */
+@keyframes v2-hero-deco-drop {
+  from { opacity: 0; transform: translateY(-140px) rotate(var(--r)); }
+  to   { opacity: 1; transform: translateY(0)      rotate(var(--r)); }
+}
+
+/* Positions & sizes (percentages mapped from Framer's 1440×1024
+   canvas so the layout scales with viewport). Rotation values
+   are tasteful nudges, not literal from Framer. */
+
+/* Visual-matched positions (bigger top-to-bottom spread than the
+   raw Framer px numbers would give on a taller viewport). The
+   text block centers vertically in the hero, so the decorations
+   need to live further from centre to read as "flanking" rather
+   than "next to". */
+
+.v2-hero-deco--sparkle-tl {
+  left: 2.9%;
+  top: 18%;                              /* above/beside LEARN TO BUILD */
+  width: clamp(80px, 9.2vw, 133px);
+  --r: 6deg;
+  animation-delay: 0.4s;
+}
+
+.v2-hero-deco--heart-tr {
+  right: 6.4%;
+  top: 16%;                              /* mirror of sparkle-tl on the right flank */
+  width: clamp(36px, 4.2vw, 60px);
+  --r: 12deg;
+  animation-delay: 0.5s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-hero-deco,
+  .v2-hero-deco-img { animation: none; }
+}
+
+/* Direct children sit above the bloom layer. Because the hero is a
+   flex column, lifting each child into its own stacking context also
+   keeps the z-index ordering predictable. */
+/* Direct children above the (old) bloom layer. Excludes the
+   flanking decorations — those run their own absolute
+   positioning via .v2-hero-deco and must NOT be forced to
+   `position: relative` here (that reverts them to flex-flow
+   and dumps all four onto the left rail). */
+.v2-hero > :not(.v2-hero-deco) {
+  position: relative;
+  z-index: 1;
+}
+
+.v2-hero-headline {
+  /* Upheaval TT BRK per brief — heavy pixel display face.
+     Minecraft is the safe pixel fallback if the .ttf hasn't
+     loaded yet; monospace is the last-resort geometric fallback. */
+  font-family: 'Upheaval TT', 'Minecraft', monospace;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  /* Framer inspector: Size 140px. Cap matches exactly; the clamp
+     below preserves fluid scaling on smaller viewports. */
+  font-size: clamp(48px, min(9.5vw, 16vh), 140px);
+  /* Framer inspector: Line 0.8em. */
+  line-height: 0.8;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--v2-text-primary);
+  max-width: 1350px;
+  margin: 0 auto;
+}
+
+.v2-hero-headline .line {
+  display: block;
+}
+
+/* ── Hero appear effects ──────────────────────────────────────
+   Framer spec per element, all Physics spring
+   (stiffness 200, damping 35, mass 1, ζ ≈ 1.24 → overdamped,
+   no bounce → mapped to 0.6s ease-out cubic-bezier):
+
+   • "AGENTIC CODE"   : opacity 0 + y:-150 → 0 · delay 0s
+   • "LEARN TO BUILD" : opacity 0 + y:-150 → 0 · delay 0.2s
+   • "with your crew" : opacity 0 → 1 (no translate)    · delay 0.3s
+
+   The two headline lines drop in from above; the subhead just
+   fades. Using plain CSS keyframes so the animation fires on
+   mount without any Motion/SSR hydration gotchas. */
+@keyframes v2-hero-drop-in {
+  from { opacity: 0; transform: translateY(-150px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes v2-hero-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.v2-hero-headline .line:nth-child(2) {
+  /* AGENTIC CODE — fires first */
+  animation: v2-hero-drop-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0s both;
+}
+.v2-hero-headline .line:nth-child(1) {
+  /* LEARN TO BUILD — 0.2s behind */
+  animation: v2-hero-drop-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-hero-headline .line:nth-child(1),
+  .v2-hero-headline .line:nth-child(2),
+  .v2-hero-subhead { animation: none; }
+}
+
+.v2-hero-pets {
+  display: flex;
+  /* V-shape choreography: pets top-align into a fixed-height
+     box, then per-pet translateY pushes each one down into its
+     Framer-specified tier. Fixed container height = 220 (pet
+     height) + 160 (V depth) so the whole V lives inside the
+     box and nothing overflows into adjacent content. */
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(12px, 2.2vw, 32px);
+  min-height: 380px;
+  margin: clamp(16px, 3.5vh, 32px) 0 clamp(20px, 4.5vh, 48px);
+  flex-wrap: nowrap;
+}
+
+.v2-hero-pet {
+  /* Outer wrapper — holds the static V-offset (set per modifier
+     below) and the fixed 170×220 box. No animations live here so
+     the V geometry is immutable; the bob + hover transforms
+     stack on the child layers. */
+  display: inline-block;
+  width: 170px;
+  height: 220px;
+  /* Allow the hover scale on the inner img to overflow the box
+     a little without getting clipped. */
+  overflow: visible;
+}
+
+/* Middle layer — plays the idle bob/sway loop forever. Each pet
+   slot reassigns animation-duration + animation-delay below so
+   the row reads as seven independent heartbeats rather than a
+   synchronised jiggle. */
+.v2-hero-pet-bob {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: v2-pet-bob 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* Inner layer — the actual sprite. Fills the wrapper and scales
+   up on hover with a soft overshoot spring. object-fit centers
+   the pixel-art inside the 170×220 box even though the sprite's
+   native aspect (128×160) doesn't quite match. */
+.v2-hero-pet-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  transition: transform 0.3s cubic-bezier(0.34, 1.4, 0.64, 1);
+  transform-origin: 50% 60%; /* pop from the feet, not center */
+}
+
+.v2-hero-pet:hover .v2-hero-pet-img,
+.v2-hero-pet:focus-within .v2-hero-pet-img {
+  transform: scale(1.12);
+}
+
+/* Continuous bob + gentle sway. Two transform values pinned at
+   0% / 100% keep the loop seamless; mid-points add lift and
+   rotation so the motion reads as "floating" rather than just
+   pumping up and down. */
+@keyframes v2-pet-bob {
+  0%   { transform: translateY(0)    rotate(0deg); }
+  25%  { transform: translateY(-8px) rotate(2deg); }
+  50%  { transform: translateY(-12px) rotate(0deg); }
+  75%  { transform: translateY(-6px) rotate(-2deg); }
+  100% { transform: translateY(0)    rotate(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-hero-pet-bob { animation: none; }
+  .v2-hero-pet-img { transition: none; }
+}
+
+/* V-shape formation — offsets pulled from Framer position panels.
+   Bottom-offset in Framer (higher = further from parent bottom):
+     Pink     161    Owl 111    Fox 66
+     Byte       1 (vertex)
+     Yellow    65    Red 106    Penguin 160
+   Normalised so Pink/Penguin sit flush with the container top
+   (translateY 0) and the middle drops by up to 160px at Byte. */
+.v2-hero-pet--pink    { transform: translateY(0); }
+.v2-hero-pet--owl     { transform: translateY(50px); }
+.v2-hero-pet--fox     { transform: translateY(95px); }
+.v2-hero-pet--byte    { transform: translateY(160px); }
+.v2-hero-pet--yellow  { transform: translateY(95px); }
+.v2-hero-pet--red     { transform: translateY(50px); }
+.v2-hero-pet--penguin { transform: translateY(0); }
+
+/* Per-pet bob timing — staggered durations + delays so the row
+   desynchronises into seven independent idles. Prime-ish numbers
+   keep cycles from re-aligning too quickly. */
+.v2-hero-pet--pink    .v2-hero-pet-bob { animation-duration: 3.0s; animation-delay: 0s;    }
+.v2-hero-pet--owl     .v2-hero-pet-bob { animation-duration: 3.4s; animation-delay: 0.4s;  }
+.v2-hero-pet--fox     .v2-hero-pet-bob { animation-duration: 2.8s; animation-delay: 0.8s;  }
+.v2-hero-pet--byte    .v2-hero-pet-bob { animation-duration: 3.2s; animation-delay: 1.2s;  }
+.v2-hero-pet--yellow  .v2-hero-pet-bob { animation-duration: 3.6s; animation-delay: 0.2s;  }
+.v2-hero-pet--red     .v2-hero-pet-bob { animation-duration: 2.9s; animation-delay: 0.6s;  }
+.v2-hero-pet--penguin .v2-hero-pet-bob { animation-duration: 3.1s; animation-delay: 1.0s;  }
+
+.v2-hero-subhead {
+  /* Matches the headline 1:1 — Framer treats all three lines as
+     one H1 block at the same 140px size, so subhead scales with
+     the headline and shares its line-height. */
+  font-family: 'Upheaval TT', 'Minecraft', monospace;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-weight: 400;
+  font-size: clamp(48px, min(9.5vw, 16vh), 140px);
+  line-height: 0.8;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: var(--v2-text-primary);
+  /* Fades in at 0.3s (Framer spec — no translate, just opacity) */
+  animation: v2-hero-fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+  margin: 0;
+}
+
+/* Pixel-pill CTA — Minecraft font, black bg, white border, white text.
+   Stepped-corner silhouette via clip-path keeps the 8-bit feel without
+   the extra violet glow. Matches Framer "Start your journey" button. */
+.v2-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Shrink to content width even though the parent hero is a flex
+     column (which would otherwise stretch the <a> to full bleed). */
+  align-self: center;
+  width: fit-content;
+  font-family: var(--font-pixel);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--v2-text-primary);
+  background: var(--v2-bg);
+  padding: 18px 40px;
+  border: 4px solid var(--v2-text-primary);
+  clip-path: polygon(
+    8px 0,              calc(100% - 8px) 0,
+    100% 8px,           100% calc(100% - 8px),
+    calc(100% - 8px) 100%, 8px 100%,
+    0 calc(100% - 8px), 0 8px
+  );
+  text-decoration: none;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  transition: transform 0.08s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.v2-hero-cta:hover {
+  background: var(--v2-text-primary);
+  color: var(--v2-bg);
+  transform: translateY(-2px);
+}
+
+.v2-hero-cta:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 720px) {
+  .v2-hero {
+    padding: clamp(16px, 4vh, 32px) 20px clamp(20px, 4vh, 40px);
+  }
+  .v2-hero-pets {
+    gap: 6px;
+    margin: clamp(12px, 3vh, 24px) 0 clamp(16px, 3.5vh, 28px);
+  }
+  .v2-hero-headline {
+    letter-spacing: -0.03em;
+  }
+}
+
+/* ── Product (Section 3) ──────────────────────────────────────
+   Two-column white band beneath the hero, matching the Framer
+   "Product" comp at 1440 Desktop.
+
+   Left column is the editorial stack:
+     • PRODUCT eyebrow (Minecraft, grey)
+     • codepet / agentic coding label pair
+     • "who we are" heading
+     • body paragraph with one italic-bold emphasis run
+     • "Integrates with:" + logo row (Cursor / VS code / Windsurf)
+     • email input + "Join the waitlist" pill
+
+   Right column is a purely decorative BIG Byte sprite with a
+   handful of pixel-art orange coins scattered around him.
+   ─────────────────────────────────────────────────────────── */
+.v2-product {
+  /* Brand green backdrop per brief. Matches the green used in the
+     Skill Trees "Context & Structure" card so the palette stays
+     internally consistent. */
+  background: #029902;
+  color: #000000;
+  /* Top padding reduced so the PRODUCT eyebrow sits close to the
+     section boundary — keeps bottom padding generous for breathing
+     room before the next section. */
+  padding: clamp(32px, 4vw, 56px) 48px clamp(80px, 11vw, 160px);
+  /* Fill at least the full viewport height so when the reader
+     scrolls onto this section it dominates the screen (per brief).
+     `min-height` instead of `height` so tall content (e.g. wrapped
+     copy on narrow viewports) can still grow the section rather
+     than overflow. Flex centring puts the content column neatly
+     in the middle of the tall section. */
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  /* Only the TOP corners are rounded (TL/TR 30px). The bottom edge
+     is flush so the green card butts cleanly into whatever sits
+     below (Stats). The wrapper's blue fills the top two corner
+     cutouts; the bottom edge has no cutouts to fill. */
+  border-radius: 30px 30px 0 0;
+}
+
+/* Blue backdrop for the Product section. Product is full-width
+   and has all four corners rounded (30px), so the wrapper's blue
+   shows through each corner cutout — continuing the Hero's blue
+   cleanly around the green card. */
+.v2-product-wrap {
+  background: #1C40CF;
+  padding: 0;
+}
+
+.v2-product-inner {
+  /* `width: 100%` so the grid fills the viewport-height flex parent;
+     max-width + auto margins keep the copy centred on wide screens. */
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(40px, 6vw, 96px);
+  align-items: center;
+
+  /* ─── Scroll-linked enter animation (Framer spec) ────────────
+     The Framer panel on this section's content stack specifies:
+       Enter/Exit : opacity 0, scale 0.5
+       Transition : Spring (stiffness 200, damping 35, mass 1)
+       Trigger    : Section in View, Replay: Yes
+     We drive it off the section's live `--enter-p` variable (0..1),
+     written by the JS scroll listener in Product.tsx. Opacity lerps
+     from 0→1 and scale lerps from 0.5→1 as the reader scrolls the
+     section into view. Because --enter-p is a live value, scrolling
+     back up reverses the reveal automatically (Replay: Yes).
+
+     Fallback is `1` (fully visible) so that if JS ever fails to
+     run or set the variable, content is still legible. Product.tsx
+     immediately writes 0 on mount for sections below the viewport,
+     so no flash of visible content in practice. */
+  opacity: var(--enter-p, 1);
+  transform: scale(calc(0.5 + 0.5 * var(--enter-p, 1)));
+  transform-origin: center center;
+  /* Small smoothing so per-frame jumps don't read as mechanical */
+  transition: transform 0.08s linear, opacity 0.08s linear;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-product-inner {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+.v2-product-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 620px;
+}
+
+/* Pixel-font eyebrow label. Small, grey, wide-tracking.
+   Framer uses a tiny filled-square glyph as a bullet before the
+   word — we render it via a ::before pseudo-element so the marker
+   stays in sync with the type color and can be recolored without
+   touching the copy. The big margin-bottom is what creates the
+   "editorial stack" gap seen in the Framer comp: the eyebrow sits
+   high on the section, with a large vertical run to the codepet
+   label pair below. */
+.v2-product-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-pixel);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  /* White per brief — reads clean on the green backdrop. */
+  color: #FFFFFF;
+  margin: 0 0 clamp(16px, 2vw, 32px);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-product-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: #FFFFFF;
+  flex-shrink: 0;
+}
+
+/* "codepet / agentic coding" label pair — sits above the
+   "who we are" heading. Stacked vertically per Framer: bold black
+   product name on top, grey subtitle directly beneath. Sizes bumped
+   up from the previous inline row so the pair has the editorial
+   weight it has in the comp. */
+.v2-product-labels {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* Tight gap between CODEPET and AGENTIC CODING — per brief. */
+  gap: 0;
+  margin: 0 0 clamp(28px, 3.5vw, 48px);
+}
+
+/* "codepet" / "agentic coding" labels — Upheaval TT pixel face.
+   Both white per brief so they read cleanly on the green field.
+   line-height 0.95 pulls the two lines together vertically. */
+.v2-product-label {
+  font-family: 'Upheaval TT', 'Minecraft', monospace;
+  font-weight: 400;
+  font-size: clamp(28px, 3.2vw, 44px);
+  letter-spacing: 0;
+  color: #FFFFFF;
+  line-height: 0.95;
+  text-transform: uppercase;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.v2-product-sublabel {
+  font-family: 'Upheaval TT', 'Minecraft', monospace;
+  font-weight: 400;
+  font-size: clamp(22px, 2.4vw, 32px);
+  letter-spacing: 0;
+  color: #FFFFFF;
+  line-height: 0.95;
+  text-transform: uppercase;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* "who we are" h4-level heading. Minecraft pixel font per Framer
+   update — same retro face the rest of the landing uses for body
+   copy. Scaled up slightly because Minecraft reads smaller at the
+   same px size than the PP Neue Montreal it replaces. */
+.v2-product-heading {
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  font-size: clamp(28px, 3vw, 40px);
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  line-height: 1.05;
+  margin: 0 0 clamp(20px, 2.4vw, 32px);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+/* Body paragraph. Minecraft pixel font, white on the green band,
+   with one italic-bold emphasis phrase ("ship products of their
+   own") echoing the hero's "with your crew" treatment. */
+.v2-product-body {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  font-size: clamp(16px, 1.55vw, 22px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+  margin: 0 0 clamp(28px, 3.5vw, 48px);
+  max-width: 560px;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-product-body em {
+  font-style: italic;
+  font-weight: 700;
+}
+
+/* "Integrates with:" caption + platform logos row. Minecraft font
+   to match the rest of the section's pixel type. */
+.v2-product-integrates {
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  font-size: clamp(14px, 1.35vw, 19px);
+  color: #FFFFFF;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-product-integrations {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(18px, 2.4vw, 32px);
+  list-style: none;
+  padding: 0;
+  margin: 0 0 clamp(32px, 4vw, 56px);
+}
+
+.v2-product-integrations li {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-pixel);
+  font-weight: 700;
+  font-size: clamp(16px, 1.55vw, 22px);
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-product-integrations li img {
+  width: clamp(18px, 1.6vw, 24px);
+  height: auto;
+  flex-shrink: 0;
+}
+
+/* Waitlist form — row layout with email input and submit pill.
+   Visually mirrors the FinalCta form but on a white surface, so
+   the input is outlined black (not inverted grey) and the submit
+   is black-on-white instead of white-on-black. */
+.v2-product-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 520px;
+}
+
+.v2-product-input {
+  flex: 1 1 260px;
+  min-width: 0;
+  height: 52px;
+  padding: 0 18px;
+  font-family: var(--font-pixel);
+  font-size: 16px;
+  font-weight: 400;
+  color: #000000;
+  background: #F2F2F2;
+  border: 2px solid #D9D9D9;
+  border-radius: 999px;
+  outline: none;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-product-input::placeholder {
+  color: #8A8A8A;
+}
+
+.v2-product-input:focus {
+  border-color: #000000;
+  background: #FFFFFF;
+}
+
+.v2-product-input--error {
+  border-color: #D94A4A;
+}
+
+.v2-product-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* "Join the waitlist" — pixel-art pill CTA. Two-layer structure
+   so filter (outline) and clip-path (pill silhouette) can live
+   on separate elements without the clip cropping the filter:
+     button.v2-product-submit       → drop-shadow outline
+     span.v2-product-submit-body    → clip-path + body + bevel
+   Button body is black on the green section, with Minecraft
+   text in white per brief. */
+.v2-product-submit {
+  display: inline-block;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  line-height: 0;
+  filter:
+    drop-shadow( 2px 0 0 #1E1848)
+    drop-shadow(-2px 0 0 #1E1848)
+    drop-shadow(0  2px 0 #1E1848)
+    drop-shadow(0 -2px 0 #1E1848);
+  transition: filter 0.15s ease;
+}
+
+.v2-product-submit-body {
+  display: inline-block;
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: 15px;
+  font-weight: 500;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.024em;
+  background: #000000;
+  /* 52px to match the email input's height exactly. */
+  height: 52px;
+  padding: 20px 28px 17px;          /* asymmetric so Minecraft glyphs sit optically centered */
+  box-sizing: border-box;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-font-smoothing: none;
+  /* Bevel: 4px highlight top, 4px shadow bottom. Clip-path
+     auto-crops both bands to the pill silhouette. */
+  box-shadow:
+    inset 0  4px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.35);
+  /* 5-step staircase per quarter (20px radius each end) with a
+     20px-tall flat apex at y=16–36 so the pill is 52px tall. */
+  clip-path: polygon(
+    20px 0, calc(100% - 20px) 0,
+    calc(100% - 16px) 0,  calc(100% - 16px) 4px,
+    calc(100% - 12px) 4px, calc(100% - 12px) 8px,
+    calc(100% - 8px)  8px, calc(100% - 8px)  12px,
+    calc(100% - 4px)  12px, calc(100% - 4px) 16px,
+    100% 16px,
+    100% 36px,
+    calc(100% - 4px)  36px, calc(100% - 4px)  40px,
+    calc(100% - 8px)  40px, calc(100% - 8px)  44px,
+    calc(100% - 12px) 44px, calc(100% - 12px) 48px,
+    calc(100% - 16px) 48px, calc(100% - 16px) 52px,
+    calc(100% - 20px) 52px,
+    20px 52px,
+    16px 52px, 16px 48px,
+    12px 48px, 12px 44px,
+    8px  44px, 8px  40px,
+    4px  40px, 4px  36px,
+    0 36px,
+    0 16px,
+    4px  16px, 4px  12px,
+    8px  12px, 8px  8px,
+    12px 8px,  12px 4px,
+    16px 4px,  16px 0
+  );
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.v2-product-submit:hover:not(:disabled) .v2-product-submit-body,
+.v2-product-submit:focus-visible:not(:disabled) .v2-product-submit-body {
+  background: #FFFFFF;
+  color: #000000;
+}
+
+.v2-product-submit:focus-visible { outline: none; }
+
+.v2-product-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.v2-product-msg {
+  flex: 1 0 100%;
+  margin: 4px 0 0;
+  font-family: var(--font-display);
+  font-size: 13px;
+}
+
+.v2-product-msg--error {
+  color: #C8371C;
+}
+
+/* ── Right column: decorative Byte + coin scatter ───────────── */
+.v2-product-right {
+  position: relative;
+  width: 100%;
+  min-height: clamp(320px, 38vw, 560px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* BIG purple Byte — the focal sprite on the right. We ship a
+   pre-rendered 960×1408 PNG (nearest-neighbour baked in) instead
+   of the SVG so the pixel edges stay crisp through Next's image
+   pipeline — the SVG version showed visible grid hairlines at
+   display size. No `image-rendering: pixelated` needed: the
+   pixels are already real pixels in the bitmap. */
+.v2-product-byte {
+  position: relative;
+  width: clamp(220px, 28vw, 400px);
+  height: auto;
+  z-index: 2;
+  animation: byte-storm-body 3.6s ease-in-out infinite;
+}
+
+/* Two pixel coins flanking Byte — matches the Framer comp:
+   • --1: large coin floating near Byte's top-right antenna
+   • --2: medium coin floating off Byte's left cheek
+   Each bobs on its own delay so they feel alive but un-synced. */
+.v2-product-coin {
+  position: absolute;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  z-index: 3;
+  animation: nova-float 4.2s ease-in-out infinite;
+  will-change: transform;
+}
+
+.v2-product-coin--1 {
+  width: clamp(60px, 6.8vw, 110px);
+  top: 12%;
+  right: 4%;
+  animation-delay: 0s;
+}
+
+.v2-product-coin--2 {
+  width: clamp(48px, 5.4vw, 88px);
+  top: 46%;
+  left: 2%;
+  animation-delay: 0.6s;
+}
+
+/* ── Responsive ───────────────────────────────────────────────
+   Under 980px the two columns collapse to a single stack: copy
+   first, decorative Byte row underneath at reduced height.
+   Under 720px tighten the left padding and lose the biggest
+   coins so the stack reads cleanly on phone. */
+@media (max-width: 980px) {
+  .v2-product-inner {
+    grid-template-columns: 1fr;
+    gap: clamp(32px, 6vw, 56px);
+  }
+  .v2-product-left {
+    max-width: none;
+  }
+  .v2-product-right {
+    min-height: clamp(240px, 56vw, 360px);
+  }
+}
+
+@media (max-width: 720px) {
+  .v2-product {
+    padding: 72px 20px;
+  }
+  .v2-product-form {
+    gap: 10px;
+  }
+  .v2-product-eyebrow {
+    margin-bottom: clamp(32px, 8vw, 80px);
+  }
+}
+
+/* ── Stats callout (Section 4) — Framer match ─────────────────
+   Section sits on the page's black background with a 30px border
+   radius. Three stats sit in a horizontal row in the lower half
+   of the container. Three large decorative shapes (red triangle,
+   yellow square, blue circle) bleed past the container edges and
+   intentionally overlap the stat numbers/labels per Framer.
+
+   Typography per Framer inspector:
+     Numbers → Minecraft pixel font, ~100px, white, -0.04em
+     Labels  → PP Neue Montreal Medium, lowercase, 45px, #C2C2C2
+     (lowercase as-typed, NO text-transform)
+
+   No dividers — composition relies on the shapes for rhythm.
+   ─────────────────────────────────────────────────────────── */
+.v2-stats {
+  /* White outer band per updated Framer reference — the section
+     used to be black, now reads as a light break between the
+     green Product band above and the purple Mindset below. */
+  background: #FFFFFF;
+  padding: clamp(40px, 6vw, 96px) clamp(16px, 3vw, 48px);
+  /* `position: relative` so the ::after below can anchor to this
+     section. */
+  position: relative;
+}
+
+/* The purple Mindset section directly below has rounded top
+   corners. Without this strip, the rounded corners would expose
+   the page's black background in their cutouts. Extending Stats'
+   white down 32px fills those cutouts with white (matching Stats'
+   own background), so the transition between the two sections
+   reads seamlessly. Hero uses the same trick over Product. */
+.v2-stats::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -32px;
+  height: 32px;
+  background: #FFFFFF;
+  pointer-events: none;
+}
+
+.v2-stats-wrap {
+  position: relative;
+  max-width: 1440px;
+  margin: 0 auto;
+  background: #FFFFFF;
+  border-radius: 30px;
+  /* Taller container per Framer's ~2:1 aspect — shapes fill the
+     upper two-thirds, stats row lands in the lower third. */
+  padding: clamp(200px, 24vw, 440px) clamp(24px, 4vw, 80px) clamp(90px, 10vw, 160px);
+  /* overflow visible on purpose — the decorative shapes bleed past
+     the card edges (matches the Framer comp where the yellow
+     square and triangle apex extend into neighbouring sections). */
+  isolation: isolate;
+}
+
+/* Decorative shapes — each slides in from a different direction as
+   the section scrolls into view. The parent .v2-stats-wrap writes
+   a live `--enter-p` (0..1) via the JS scroll listener in Stats.tsx;
+   each shape consumes it with its own per-axis offset so the three
+   pieces animate independently without more JS wiring.
+
+   Rotation (--rot) is kept as a static part of the transform so the
+   shapes don't un-rotate as they slide in — only the X/Y offset and
+   opacity animate, matching Framer's "Slide In" presets which only
+   touch opacity + offset. */
+.v2-stats-shape {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  z-index: 1;
+  /* Per-shape: --dx / --dy control the slide-in offset axis,
+     --rot is the static rotation applied in both states. */
+  --dx: 0px;
+  --dy: 0px;
+  --rot: 0deg;
+  opacity: var(--enter-p, 1);
+  transform:
+    translate3d(
+      calc((1 - var(--enter-p, 1)) * var(--dx)),
+      calc((1 - var(--enter-p, 1)) * var(--dy)),
+      0
+    )
+    rotate(var(--rot));
+  /* Bumped from `0.08s linear` → `0.5s cubic-bezier(0.22, 1, 0.36, 1)`.
+     The old short linear transition made the shapes stop instantly
+     when scroll stopped — reading as abrupt. A longer ease-out curve
+     adds a little trailing smoothing so the shapes decelerate into
+     place even after the user has stopped scrolling, which reads as
+     slower and smoother without disconnecting from scroll input. */
+  transition:
+    opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+/* Red triangle — slides in from the LEFT (X offset -150).
+   Apex points UP (matches the Framer reference where the triangle
+   reads as ▲). The tip of the triangle lands near the top of the
+   section, base at the bottom crossing the "1,504" number below. */
+.v2-stats-shape--triangle {
+  width: clamp(340px, 34vw, 520px);
+  height: clamp(320px, 32vw, 480px);
+  left: -4%;
+  top: 10%;
+  background: #F83C00;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  --dx: -150px;
+  --rot: -8deg;
+}
+
+/* Yellow square — slides in from the TOP (Y offset -150). Near-
+   square proportions with a gentle rotation, matching the Framer
+   comp where it reads as a tilted square (not a horizontal bar). */
+.v2-stats-shape--square {
+  width: clamp(260px, 26vw, 380px);
+  height: clamp(240px, 24vw, 360px);
+  left: 40%;
+  top: -6%;
+  background: #FCBE1D;
+  --dy: -150px;
+  --rot: 10deg;
+}
+
+/* Blue circle — slides in from the RIGHT (X offset +150).
+   Smaller than before so it doesn't swallow the "2x" number; sits
+   just below the row with "2x" crossing its top edge and "faster"
+   visible inside the lower half (matches the Framer composition). */
+.v2-stats-shape--circle {
+  /* Bumped up from clamp(260px, 26vw, 360px) so the "2x / faster"
+     text (particularly the tall "2" numeral at clamp max 108px)
+     fits comfortably inside the circle without the top edge of the
+     digit getting clipped by the circle's silhouette. */
+  width: clamp(320px, 32vw, 440px);
+  height: clamp(320px, 32vw, 440px);
+  /* `right` was `4%` — shifted the anchor to `-2%` so the circle
+     nudges a bit to the right of the container's right edge, per
+     the latest position adjustment. */
+  right: -2%;
+  bottom: -4%;
+  border-radius: 50%;
+  background: #1C40CF;
+  --dx: 150px;
+}
+
+/* Stats row — sits in the lower portion, above the shapes. */
+.v2-stats-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: end;
+  gap: clamp(16px, 3vw, 48px);
+}
+
+.v2-stat {
+  text-align: center;
+  padding: 0 clamp(8px, 2vw, 28px);
+}
+
+.v2-stat-number {
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  font-size: clamp(56px, 7.2vw, 108px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: #FFFFFF;
+  margin: 0 0 clamp(18px, 2.2vw, 34px);
+  display: block;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-stat-label {
+  font-family: var(--font-pixel);
+  font-size: clamp(22px, 3.2vw, 45px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-transform: none; /* lowercase as-typed per Framer */
+  /* Medium grey — readable on the new white background while still
+     reading as a subdued label below the big coloured numbers. The
+     old #C2C2C2 was for the black version of this section. */
+  color: #8C8C8C;
+  margin: 0;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+/* Stack on narrow screens — shapes become smaller background
+   accents that sit behind the stacked stat rows. */
+@media (max-width: 720px) {
+  .v2-stats {
+    padding: 32px 14px;
+  }
+  .v2-stats-wrap {
+    padding: 160px 20px 48px;
+    border-radius: 24px;
+  }
+  .v2-stats-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .v2-stats-shape--triangle {
+    width: 60%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    left: -10%;
+    top: -2%;
+  }
+  .v2-stats-shape--square {
+    width: 48%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    left: 28%;
+    top: -8%;
+  }
+  .v2-stats-shape--circle {
+    width: 54%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    right: -4%;
+    bottom: -10%;
+  }
+}
+
+/* ── Mindset CTA (Section 5) ──────────────────────────────────
+   White band with a tight centered text column and 4 pixel-art
+   orbs positioned at the corners as decorative elements. Orbs
+   use absolute positioning on a relatively-positioned section so
+   the text block stays centered regardless of orb placement.
+   ─────────────────────────────────────────────────────────── */
+.v2-mindset {
+  position: relative;
+  /* Deep-purple backdrop per updated Framer reference. Replaces
+     the earlier white band so the section now reads as a bold
+     coloured break between Stats (black) and Get Good (white). */
+  background: #9538CF;
+  color: #FFFFFF;
+  padding: clamp(96px, 14vw, 180px) 48px;
+  overflow: hidden; /* orb halos don't spill past section bounds */
+  /* Fill the viewport so the section dominates on scroll-in.
+     Flex centring keeps the text block vertically anchored in the
+     tall section. Add 30px extra height to compensate for the Get
+     Good section below, which pulls itself up 30px via
+     `margin-top: -30px` to fill its rounded-corner cutouts with
+     purple. Without this buffer, Get Good's yellow would bleed
+     into the bottom of the pink area when Mindset is snap-aligned
+     to the viewport. */
+  min-height: calc(100vh + 30px);
+  min-height: calc(100dvh + 30px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  /* Only the top corners are rounded (TL/TR 30px). The bottom edge
+     is flush so the purple card butts cleanly into whatever sits
+     below (Get Good). */
+  border-radius: 30px 30px 0 0;
+}
+
+.v2-mindset-inner {
+  position: relative;
+  z-index: 2; /* text sits above orbs if they overlap */
+  /* Widened to 1400px so the longest headline line (MINDSET BEFORE
+     YOU, 19 chars in Upheaval TT at the bumped font size) fits on
+     one line instead of wrapping "YOU" onto a 4th line. */
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+  /* ─── Scroll-linked reveal ──────────────────────────────────
+     The text block (eyebrow + headline + CTA) slides down from
+     Y=-150 and fades in as you scroll the section into view,
+     tied directly to scroll position — NOT a one-shot transition.
+
+     The parent section's JS writes a variable:
+       --enter-p = 0   → section top is still at viewport bottom
+       --enter-p = 1   → section top has risen to ~40% of viewport
+     The reveal is distributed across ~60% of a viewport of scroll
+     so the motion feels slow and deliberate, matching a scroll-
+     scrubbed Framer effect rather than a fire-and-forget spring.
+
+     Scrolling back up reverses the reveal naturally because
+     --enter-p is a live value. */
+  /* IMPORTANT: do NOT declare `--enter-p` on this selector —
+     a local declaration would shadow the value JS writes on the
+     parent `.v2-mindset` section, permanently pinning opacity at 0.
+     Instead, use the fallback-in-var() syntax so we only fall back
+     to 0 if the parent hasn't set it yet (before JS has run once). */
+  opacity: var(--enter-p, 0);
+  transform: translate3d(0, calc((1 - var(--enter-p, 0)) * -150px), 0);
+  /* Small smoothing so per-frame jumps don't read as mechanical */
+  transition: transform 0.08s linear, opacity 0.08s linear;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-mindset-inner {
+    --enter-p: 1 !important;
+    transform: none;
+    transition: none;
+  }
+}
+
+.v2-mindset-eyebrow {
+  /* Per Framer inspector: PP Neue Montreal Medium, 30px, -0.01em,
+     line-height 1.4. White on purple — reads as a soft eyebrow
+     above the big pixel headline. */
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: #FFFFFF;
+  margin: 0 0 clamp(16px, 2vw, 28px);
+}
+
+.v2-mindset-headline {
+  /* Upheaval TT (BRK) pixel display — same face as the Product
+     labels. Bumped one step up in size and tightened line-height
+     so the three all-caps lines form a tighter wordmark-style
+     block that fills the section. */
+  font-family: 'Upheaval TT', 'Minecraft', monospace;
+  font-weight: 400;
+  font-size: clamp(56px, 7.2vw, 112px);
+  line-height: 0.95;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin: 0 0 clamp(28px, 3.5vw, 48px);
+  /* Pixel fonts must render without anti-aliasing for crisp edges */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Keep the 3-line break the Framer comp uses. `white-space: nowrap`
+   prevents any line (especially the long middle "MINDSET BEFORE YOU")
+   from mid-phrase wrapping when the pixel font is near its max size.
+   On narrow viewports the `clamp()` minimum on font-size keeps things
+   within the container without needing a re-flow. */
+.v2-mindset-headline .line {
+  display: block;
+  white-space: nowrap;
+}
+
+/* Pixel-art pill CTA — same two-layer pattern as the Product
+   section's form submit:
+     outer <a.v2-mindset-cta>       → drop-shadow outline
+     inner <span.v2-mindset-cta-body> → clip-path + body fill + bevel
+   Splitting keeps Chrome from cropping the outline filter against
+   the pill's clip-path. Body is green (#029902) per brief so the
+   CTA echoes the Product section and reads clearly on purple. */
+.v2-mindset-cta {
+  display: inline-block;
+  padding: 0;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  line-height: 0;
+  filter:
+    drop-shadow( 2px 0 0 #1E1848)
+    drop-shadow(-2px 0 0 #1E1848)
+    drop-shadow(0  2px 0 #1E1848)
+    drop-shadow(0 -2px 0 #1E1848);
+  transition: filter 0.15s ease, transform 0.1s ease;
+}
+
+.v2-mindset-cta:hover {
+  transform: translateY(-1px);
+}
+
+.v2-mindset-cta-body {
+  display: inline-block;
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: clamp(14px, 1.3vw, 18px);
+  font-weight: 500;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.024em;
+  background: #029902;
+  height: 52px;
+  padding: 20px 36px 17px;          /* asymmetric — Minecraft glyphs sit optically centered */
+  box-sizing: border-box;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-font-smoothing: none;
+  /* Same 4px highlight / 4px inner shadow as the Product button
+     so the two pills share one visual language. */
+  box-shadow:
+    inset 0  4px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.35);
+  /* 5-step staircase per quarter (20px radius each end) with a
+     20px-tall flat apex at y=16–36 → pill is 52px tall. Identical
+     geometry to .v2-product-submit-body for visual consistency. */
+  clip-path: polygon(
+    20px 0, calc(100% - 20px) 0,
+    calc(100% - 16px) 0,  calc(100% - 16px) 4px,
+    calc(100% - 12px) 4px, calc(100% - 12px) 8px,
+    calc(100% - 8px)  8px, calc(100% - 8px)  12px,
+    calc(100% - 4px)  12px, calc(100% - 4px) 16px,
+    100% 16px,
+    100% 36px,
+    calc(100% - 4px)  36px, calc(100% - 4px)  40px,
+    calc(100% - 8px)  40px, calc(100% - 8px)  44px,
+    calc(100% - 12px) 44px, calc(100% - 12px) 48px,
+    calc(100% - 16px) 48px, calc(100% - 16px) 52px,
+    calc(100% - 20px) 52px,
+    20px 52px,
+    16px 52px, 16px 48px,
+    12px 48px, 12px 44px,
+    8px  44px, 8px  40px,
+    4px  40px, 4px  36px,
+    0 36px,
+    0 16px,
+    4px  16px, 4px  12px,
+    8px  12px, 8px  8px,
+    12px 8px,  12px 4px,
+    16px 4px,  16px 0
+  );
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.v2-mindset-cta:hover .v2-mindset-cta-body,
+.v2-mindset-cta:focus-visible .v2-mindset-cta-body {
+  background: #FFFFFF;
+  color: #029902;
+}
+
+.v2-mindset-cta:focus-visible { outline: none; }
+
+/* Orbs — each positioned per the Framer composition. Sizes are
+   fluid so they shrink proportionally with the viewport.
+
+   ─── Scroll-linked parallax (inkgames.com style) ─────────────
+   The section root carries a live CSS variable --p written by JS:
+       --p = -1  → section entering from below the viewport
+       --p =  0  → section centred
+       --p =  1  → section scrolled fully above
+   Each orb multiplies --p by its own:
+       --spd-x : px of horizontal drift per unit of progress
+       --spd-y : px of vertical drift per unit of progress
+   so the top-left orb drifts up-and-left while the bottom-right
+   drifts down-and-right, giving the "pulled-apart photo collage"
+   feel of the Inkgames hero. A per-orb static rotation (--rot)
+   keeps the grid from reading as mechanically symmetric. */
+.v2-mindset-orb {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  will-change: transform;
+  /* Per-orb speed + static rotation — --p is set on the parent
+     `.v2-mindset` section by JS and inherits here. We DON'T declare
+     `--p` locally, otherwise this value would shadow the parent's
+     and the parallax would freeze at 0. Fallback to 0 lives inside
+     `var()` so the orb renders in its rest position before JS runs. */
+  --spd-x: 0px;
+  --spd-y: 0px;
+  --rot: 0deg;
+  transform:
+    translate3d(
+      calc(var(--p, 0) * var(--spd-x)),
+      calc(var(--p, 0) * var(--spd-y)),
+      0
+    )
+    rotate(var(--rot));
+  /* Small smoothing transition so the per-frame jumps read as
+     continuous drift rather than mechanical snap. */
+  transition: transform 0.08s linear;
+}
+
+.v2-mindset-orb--tl { /* blue rocket, top-left — drifts up-left */
+  top: 6%;
+  left: 7%;
+  width: clamp(88px, 12vw, 180px);
+  --spd-x: -80px;
+  --spd-y: -140px;
+  --rot: -8deg;
+}
+
+.v2-mindset-orb--tr { /* green star, top-right — drifts up-right */
+  top: 10%;
+  right: 11%;
+  width: clamp(120px, 16vw, 240px);
+  --spd-x:  110px;
+  --spd-y: -160px;
+  --rot:  6deg;
+}
+
+.v2-mindset-orb--bl { /* red heart, bottom-left — drifts down-left */
+  bottom: 10%;
+  left: 16%;
+  width: clamp(100px, 13vw, 200px);
+  --spd-x: -130px;
+  --spd-y:  150px;
+  --rot: -4deg;
+}
+
+.v2-mindset-orb--br { /* orange pickaxe, bottom-right — drifts down-right */
+  bottom: 6%;
+  right: 6%;
+  width: clamp(110px, 14vw, 220px);
+  --spd-x:  90px;
+  --spd-y:  170px;
+  --rot:  5deg;
+}
+
+/* Honour reduced-motion: pin orbs so parallax doesn't cause jitter. */
+@media (prefers-reduced-motion: reduce) {
+  .v2-mindset-orb {
+    --spd-x: 0px !important;
+    --spd-y: 0px !important;
+    transition: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .v2-mindset {
+    padding: 96px 20px 120px;
+  }
+  /* Tuck the orbs in a bit so they don't crowd the headline */
+  .v2-mindset-orb--tl { top: 4%;   left: 3%;  width: 72px; }
+  .v2-mindset-orb--tr { top: 5%;   right: 4%; width: 88px; }
+  .v2-mindset-orb--bl { bottom: 6%; left: 4%; width: 72px; }
+  .v2-mindset-orb--br { bottom: 4%; right: 3%; width: 80px; }
+}
+
+/* ── Get Good / Code.Grow.Learn (Section 6) ───────────────────
+   Black band with 4 icon cards and a paragraph explaining the
+   learning loop. Mirrors the Framer comp: GET GOOD eyebrow at
+   top-left, centered display headline, 4-card grid, body copy,
+   white-pill CTA.
+   ─────────────────────────────────────────────────────────── */
+.v2-getgood {
+  position: relative;
+  /* Yellow band per updated Framer reference — matches the yellow
+     square used in the Stats section so the palette stays tight. */
+  background: #FCBE1D;
+  color: #000000;
+  /* Top padding trimmed from clamp(96px, 12vw, 160px) down to
+     clamp(48px, 5vw, 80px) so the "CODE.GROW.LEARN" headline sits
+     close to the top of the section with only ~48–80px of yellow
+     above it, instead of the previous ~96–160px. Bottom padding
+     stays larger to keep breathing room before the section flows
+     into Skill Trees below. */
+  padding: clamp(48px, 5vw, 80px) 48px clamp(96px, 12vw, 160px);
+  /* Override the shared sections' `justify-content: center` — this
+     section's content (headline + 4 cards + body + CTA) is tall
+     enough that flex centering distributed visible empty space to
+     the top, pushing the corner label / "CODE.GROW.LEARN" down
+     into the middle of the viewport. Top-aligning keeps the
+     content anchored near the section's top padding so the
+     headline lands where you'd expect when the section snaps into
+     view, and any surplus viewport height sits at the bottom
+     (where the cards' bottom breathing room masks it). */
+  justify-content: flex-start;
+  /* Rounded top corners only — TL 30, TR 30. Bottom stays square
+     so the yellow flows straight into the Skill Tree section
+     below, which is the section that carries the rounded bottom
+     lip into the pink Testimonials band. */
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  /* Pull the section up 30px so its rounded top corners overlap the
+     purple Mindset band above — without this overlap, the corner
+     cutouts reveal the page's black background through the radius.
+     Set the margin equal to the radius so the two effects cancel
+     out precisely at the corner curve. */
+  margin-top: -30px;
+}
+
+/* Get Good corner label reads black on yellow (not white on black
+   like the default). Scoped override keeps other sections intact.
+   Type size/weight/spacing are also bumped to match the "PRODUCT"
+   eyebrow (.v2-product-eyebrow) so the retro labels across sections
+   share the same chunky silhouette. */
+.v2-getgood .v2-corner-label,
+.v2-skilltrees .v2-corner-label {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  gap: 10px;
+  /* Collapse the flex line-box to the em height so align-items: center
+     measures against the same box the Minecraft glyphs actually live in. */
+  line-height: 1;
+}
+.v2-getgood .v2-corner-label::before,
+.v2-skilltrees .v2-corner-label::before {
+  /* Sized to match Minecraft's cap height at 20px font (~14px).
+     Matching the height of the actual visible caps — rather than
+     the full line-box — means `align-items: center` on the flex
+     parent lines the square up with the letters' optical center
+     by default, no transform nudge needed. */
+  width: 14px;
+  height: 14px;
+}
+
+.v2-getgood .v2-corner-label { color: #000000; }
+.v2-getgood .v2-corner-label::before { background: #000000; }
+
+/* Skill Tree sits on the yellow band too — label now matches Get
+   Good's black on yellow so both corner markers read identically. */
+.v2-skilltrees .v2-corner-label { color: #000000; }
+.v2-skilltrees .v2-corner-label::before { background: #000000; }
+
+/* Shared corner-label style — the small "■ GET GOOD" / "SKILL
+   TREES ■" markers Framer uses to announce each section. */
+.v2-corner-label {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--v2-text-secondary);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-corner-label::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: var(--v2-text-secondary);
+}
+
+.v2-corner-label--tl { top: 40px; left: 48px; }
+.v2-corner-label--tr { top: 40px; right: 48px; }
+.v2-corner-label--bl { bottom: 40px; left: 48px; }
+.v2-corner-label--br { bottom: 40px; right: 48px; }
+/* Right-side variants flip the square to sit after the label. */
+.v2-corner-label--tr::before,
+.v2-corner-label--br::before { order: 2; }
+
+.v2-getgood-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.v2-getgood-headline {
+  /* Framer: Upheaval TT (BRK), Regular 400, 80px, black, line-height
+     1.2em, letter-spacing 0. Same pixel display face as the Mindset
+     and Product labels so the retro type system stays consistent. */
+  font-family: 'Upheaval TT', 'Minecraft', monospace;
+  font-weight: 400;
+  font-size: clamp(44px, 5.6vw, 80px);
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #000000;
+  /* Bottom margin trimmed from clamp(56px, 6vw, 88px) → clamp(32px,
+     4vw, 56px). Combined with the section's smaller top padding,
+     this pulls the cards closer to the headline and removes the
+     excess empty band that appeared above the stack. */
+  margin: 0 0 clamp(32px, 4vw, 56px);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* ─── Enter animation (Framer spec) ─────────────────────────
+     Slide In Top: opacity 0 → 1, offset Y -150 → 0. Transition is
+     a Spring (stiffness 200, damping 35, mass 1) approximated with
+     a cubic-bezier over 1.0s. Longer duration than the other
+     sections so the cascade feels deliberate rather than snappy. */
+  opacity: 0;
+  transform: translate3d(0, -150px, 0);
+  transition:
+    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.v2-getgood.is-in-view .v2-getgood-headline {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* 4-card grid — equal columns on desktop, 2×2 on tablet, 1-col on phone. */
+.v2-getgood-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 2vw, 24px);
+  margin-bottom: clamp(56px, 6vw, 88px);
+}
+
+.v2-getgood-card {
+  /* Semi-transparent black over the yellow band per Framer: fill
+     #000000 at 60% opacity. The yellow reads through as a warm
+     olive, giving the cards weight without clashing with the
+     background. */
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 20px;
+  padding: clamp(28px, 3vw, 48px) clamp(16px, 2vw, 24px) clamp(28px, 3vw, 44px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  /* Portrait proportion per Framer inspector (323×440 → 0.735:1).
+     aspect-ratio locks width/height so all 4 tiles match regardless
+     of the native pixel-art aspect of each icon. */
+  aspect-ratio: 323 / 440;
+  text-align: center;
+
+  /* ─── Enter animation (Framer spec) ─────────────────────────
+     Each card slides in from the LEFT (offset X: -150, opacity 0)
+     with a staggered delay so they cascade across the row.
+     1.0s duration per card + 0.2s between starts → the whole
+     cascade settles in ~1.6s, deliberate without feeling slow.
+     background-color / filter use a quick 0.15s transition so
+     the light softly fades out when the cursor leaves a hovered
+     card. The hover-entry is made instant via `transition: 0s`
+     in the :hover rule below. `filter: drop-shadow` replaces an
+     earlier `box-shadow` because it's GPU-composited rather than
+     repainted, so the glow animates without the jank large blurred
+     shadows cause. */
+  opacity: 0;
+  transform: translate3d(-150px, 0, 0);
+  transition:
+    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.15s ease-out,
+    filter 0.15s ease-out;
+  will-change: transform, opacity;
+  cursor: pointer;
+}
+
+/* ─── Light-up on hover ─────────────────────────────────────
+   Two things happen the instant the cursor enters a card:
+     1. The black-overlay alpha drops from 0.6 → 0.25, letting
+        more of the warm yellow show through — card reads as lit.
+     2. A yellow drop-shadow radiates outward via `filter`, which
+        the GPU composites instead of repainting (box-shadow would
+        have repainted the blurred pixels every frame, causing
+        the choppiness the old version showed).
+   `transition: 0s` on both inside :hover means the change snaps
+   on instantly when the cursor crosses the card; on mouse-leave
+   the base rule's 0.15s transition takes over, fading smoothly. */
+.v2-getgood.is-in-view .v2-getgood-card:hover {
+  transition:
+    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0s,
+    filter 0s;
+  background: rgba(0, 0, 0, 0.25);
+  filter: drop-shadow(0 0 18px rgba(252, 190, 28, 0.75));
+}
+
+.v2-getgood.is-in-view .v2-getgood-card {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Cascading delays — stretched from the original 0/0.1/0.2/0.3 to
+   0/0.2/0.4/0.6 so each card is clearly a separate beat. */
+.v2-getgood.is-in-view .v2-getgood-card:nth-child(1) { transition-delay: 0s;   }
+.v2-getgood.is-in-view .v2-getgood-card:nth-child(2) { transition-delay: 0.2s; }
+.v2-getgood.is-in-view .v2-getgood-card:nth-child(3) { transition-delay: 0.4s; }
+.v2-getgood.is-in-view .v2-getgood-card:nth-child(4) { transition-delay: 0.6s; }
+
+/* Fixed-size icon box — square viewport that each icon is
+   object-fit:contained into, so tall or short icons all render
+   within the same visual area. Prevents the purple Byte (tall
+   sprite) from pushing its card taller than the PNG-based
+   siblings. */
+.v2-getgood-card-icon {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Cap the icon box so it never crowds the label below */
+  max-height: 68%;
+}
+
+.v2-getgood-card-icon img {
+  /* Contain within the icon box — preserves each sprite's aspect
+     without stretching or overflowing the card. */
+  max-width: 78%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.v2-getgood-card-label {
+  /* Framer: Upheaval TT (BRK), 34px, white, letter -0.02em, line 1em,
+     uppercase. The labels are already uppercase in the JSX data. */
+  font-family: 'Upheaval TT', 'Minecraft', monospace;
+  font-weight: 400;
+  font-size: clamp(18px, 2vw, 34px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  margin: 0;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.v2-getgood-body {
+  max-width: 940px;
+  margin: 0 auto clamp(40px, 4vw, 64px);
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  font-size: clamp(20px, 2.4vw, 36px);
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+  /* Black on yellow — swapped from the old white-on-dark palette. */
+  color: #000000;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+
+  /* ─── Enter animation (Framer spec) ─────────────────────────
+     Slide In Top, opacity 0 → 1, Y: -150 → 0, Spring. Delayed
+     until after the last card (0.6s card delay + some settling) so
+     the body arrives as the final beat of the cascade. */
+  opacity: 0;
+  transform: translate3d(0, -150px, 0);
+  transition:
+    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.v2-getgood.is-in-view .v2-getgood-body {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition-delay: 0.9s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-getgood-headline,
+  .v2-getgood-card,
+  .v2-getgood-body,
+  .v2-getgood-cta {
+    transition: opacity 0.2s linear;
+    transform: none !important;
+  }
+}
+
+/* Pixel-art pill CTA — same two-layer structure as the Product
+   and Mindset buttons:
+     outer <a.v2-getgood-cta>        → drop-shadow outline
+     inner <span.v2-getgood-cta-body> → clip-path + body + bevel
+   Body is brand blue (#1C40CF) per user brief so the CTA pops on
+   the yellow band and echoes the Hero's blue band at the top of
+   the page. */
+.v2-getgood-cta {
+  display: inline-block;
+  padding: 0;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  line-height: 0;
+  filter:
+    drop-shadow( 2px 0 0 #1E1848)
+    drop-shadow(-2px 0 0 #1E1848)
+    drop-shadow(0  2px 0 #1E1848)
+    drop-shadow(0 -2px 0 #1E1848);
+  /* ─── Enter animation (Slide In Top) ─────────────────────────
+     Matches the rest of the Get Good cascade — starts at
+     opacity 0 + Y: -150, slides down into place last. 1.1s delay
+     so it arrives just after the body paragraph's 0.9s. */
+  opacity: 0;
+  transform: translate3d(0, -150px, 0);
+  transition:
+    opacity 1s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.15s ease;
+  will-change: transform, opacity;
+}
+
+.v2-getgood.is-in-view .v2-getgood-cta {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition-delay: 1.1s;
+}
+
+/* Hover lift — uses the same element's transform, so override only
+   once the CTA has finished its enter cascade (transform no longer
+   pinned to its start state). */
+.v2-getgood.is-in-view .v2-getgood-cta:hover {
+  transform: translate3d(0, -1px, 0);
+}
+
+.v2-getgood-cta-body {
+  display: inline-block;
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: clamp(14px, 1.3vw, 18px);
+  font-weight: 500;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.024em;
+  background: #1C40CF;
+  height: 52px;
+  padding: 20px 36px 17px;          /* asymmetric — Minecraft glyphs sit optically centred */
+  box-sizing: border-box;
+  line-height: 1;
+  white-space: nowrap;
+  -webkit-font-smoothing: none;
+  /* Same 4px highlight / 4px inner shadow as the other pixel
+     pills for consistent bevel across the page. */
+  box-shadow:
+    inset 0  4px 0 rgba(255, 255, 255, 0.18),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.35);
+  /* 5-step staircase per quarter (20px radius each end) with a
+     20px-tall flat apex at y=16–36 → pill is 52px tall. Identical
+     geometry to the Product and Mindset pixel CTAs. */
+  clip-path: polygon(
+    20px 0, calc(100% - 20px) 0,
+    calc(100% - 16px) 0,  calc(100% - 16px) 4px,
+    calc(100% - 12px) 4px, calc(100% - 12px) 8px,
+    calc(100% - 8px)  8px, calc(100% - 8px)  12px,
+    calc(100% - 4px)  12px, calc(100% - 4px) 16px,
+    100% 16px,
+    100% 36px,
+    calc(100% - 4px)  36px, calc(100% - 4px)  40px,
+    calc(100% - 8px)  40px, calc(100% - 8px)  44px,
+    calc(100% - 12px) 44px, calc(100% - 12px) 48px,
+    calc(100% - 16px) 48px, calc(100% - 16px) 52px,
+    calc(100% - 20px) 52px,
+    20px 52px,
+    16px 52px, 16px 48px,
+    12px 48px, 12px 44px,
+    8px  44px, 8px  40px,
+    4px  40px, 4px  36px,
+    0 36px,
+    0 16px,
+    4px  16px, 4px  12px,
+    8px  12px, 8px  8px,
+    12px 8px,  12px 4px,
+    16px 4px,  16px 0
+  );
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.v2-getgood-cta:hover .v2-getgood-cta-body,
+.v2-getgood-cta:focus-visible .v2-getgood-cta-body {
+  background: #FFFFFF;
+  color: #1C40CF;
+}
+
+.v2-getgood-cta:focus-visible { outline: none; }
+
+@media (max-width: 960px) {
+  .v2-getgood-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .v2-getgood {
+    padding: 96px 20px;
+  }
+  .v2-getgood-cards {
+    grid-template-columns: 1fr;
+  }
+  .v2-corner-label--tl { top: 24px; left: 20px; }
+  .v2-corner-label--tr { top: 24px; right: 20px; }
+  .v2-corner-label--bl { bottom: 24px; left: 20px; }
+  .v2-corner-label--br { bottom: 24px; right: 20px; }
+}
+
+/* ── Skill Trees (Section 7) ──────────────────────────────────
+   Black section with a two-tone intro paragraph and a staggered
+   zigzag of 4 tier cards (red → green → purple → blue).
+
+   The stagger is done via an explicit 4-row × 2-col grid:
+     Row 1: [card 1] [ empty ]
+     Row 2: [ empty ] [card 2]
+     Row 3: [card 3] [ empty ]
+     Row 4: [ empty ] [card 4]
+
+   On mobile it collapses to a single column with cards stacked
+   in order so the tier numbering still reads top-to-bottom.
+   ─────────────────────────────────────────────────────────── */
+.v2-skilltrees {
+  position: relative;
+  background: #FCBE1C;
+  padding: clamp(96px, 12vw, 160px) 48px clamp(96px, 12vw, 160px);
+  /* Rounded bottom corners that create the visible yellow→pink
+     lip into the Testimonials band below. Top stays square so
+     the section flows into the yellow Get Good band above. */
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  /* Add 60px extra height to compensate for the Testimonials
+     section below, which pulls itself up 60px via
+     `margin-top: -60px` (2× its 30px radius) to create the clean
+     interlocking curve at the yellow→pink interface. Without this
+     buffer, the pink band would bleed into the bottom of the
+     yellow section when Skill Trees is snap-aligned to the
+     viewport. */
+  min-height: calc(100vh + 60px);
+  min-height: calc(100dvh + 60px);
+}
+
+.v2-skilltrees-intro {
+  /* Widen the container so the muted second sentence keeps on one
+     line at desktop widths (the earlier 1100px cap was wrapping
+     "efficiency." onto its own line). Falls back to full viewport
+     minus padding on narrower screens. */
+  max-width: min(1600px, calc(100vw - 96px));
+  margin: 0 auto clamp(64px, 7vw, 100px);
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  font-size: clamp(22px, 2.6vw, 36px);
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+  text-align: center;
+  color: #000;
+  /* Pixel font — keep rendering crisp, no antialiasing */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-skilltrees-intro .muted {
+  color: #000;
+}
+
+.v2-skilltrees-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(4, auto);
+  gap: clamp(20px, 3vw, 48px) clamp(40px, 6vw, 96px);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ─── Scroll-linked reveal (Framer Scroll Animation panel) ──
+   Applied to both the intro paragraph and each tier card.
+   SkillTrees.tsx computes a [0..1] progress for every element with
+   this class every frame and writes it to --scroll-progress. We
+   map that number directly to opacity + translateY:
+     • progress 0 → opacity 0, shifted 150px below final
+     • progress 1 → opacity 1, in place
+   The ramp up on entry and down on exit is shaped in JS so the
+   element naturally appears as it scrolls in from the bottom and
+   disappears as it scrolls off the top — no CSS transition needed
+   because the value is driven by scroll position itself. */
+.v2-skilltrees-reveal {
+  --scroll-progress: 0;
+  opacity: var(--scroll-progress);
+  transform: translate3d(
+    0,
+    calc((1 - var(--scroll-progress)) * 150px),
+    0
+  );
+  will-change: transform, opacity;
+}
+
+.v2-skilltrees-card {
+  padding: clamp(24px, 2.6vw, 40px);
+  border-radius: 0;
+  /* 2-step pixel corner — 8px CSS units per step, matching the
+     button sprite family (button-levelup, button-start, etc.).
+     This gives the card a stepped, 8-bit silhouette instead of
+     the prior smooth radius. */
+  clip-path: polygon(
+    0 16px,
+    8px 16px,
+    8px 8px,
+    16px 8px,
+    16px 0,
+    calc(100% - 16px) 0,
+    calc(100% - 16px) 8px,
+    calc(100% - 8px) 8px,
+    calc(100% - 8px) 16px,
+    100% 16px,
+    100% calc(100% - 16px),
+    calc(100% - 8px) calc(100% - 16px),
+    calc(100% - 8px) calc(100% - 8px),
+    calc(100% - 16px) calc(100% - 8px),
+    calc(100% - 16px) 100%,
+    16px 100%,
+    16px calc(100% - 8px),
+    8px calc(100% - 8px),
+    8px calc(100% - 16px),
+    0 calc(100% - 16px)
+  );
+  color: var(--v2-text-primary);
+  max-width: 540px;
+}
+
+/* Tier fills lifted verbatim from the Framer color panel.
+   Each card also carries a darker "pixel border" rendered via
+   filter: drop-shadow — we can't use a regular `border` because
+   clip-path clips it off at the stepped silhouette. The 4 cardinal
+   6px drop-shadows expand the card's alpha silhouette outward by
+   6px in each direction, producing a uniform darker outline that
+   hugs the stepped corners. The darker hex is ~60% brightness of
+   the tier fill, exposed as --tier-border so the inner number disc
+   can inherit it and carry a matching 4px outline. */
+.v2-skilltrees-card--1 {
+  grid-column: 1; grid-row: 1;
+  background: #E24B4A;
+  --tier-border: #872D2C;
+  filter:
+    drop-shadow(6px 0 0 var(--tier-border))
+    drop-shadow(-6px 0 0 var(--tier-border))
+    drop-shadow(0 6px 0 var(--tier-border))
+    drop-shadow(0 -6px 0 var(--tier-border));
+}
+.v2-skilltrees-card--2 {
+  grid-column: 2; grid-row: 2;
+  background: #029902;
+  --tier-border: #015C01;
+  filter:
+    drop-shadow(6px 0 0 var(--tier-border))
+    drop-shadow(-6px 0 0 var(--tier-border))
+    drop-shadow(0 6px 0 var(--tier-border))
+    drop-shadow(0 -6px 0 var(--tier-border));
+}
+.v2-skilltrees-card--3 {
+  grid-column: 1; grid-row: 3;
+  background: #9538CF;
+  --tier-border: #59227C;
+  filter:
+    drop-shadow(6px 0 0 var(--tier-border))
+    drop-shadow(-6px 0 0 var(--tier-border))
+    drop-shadow(0 6px 0 var(--tier-border))
+    drop-shadow(0 -6px 0 var(--tier-border));
+}
+.v2-skilltrees-card--4 {
+  grid-column: 2; grid-row: 4;
+  background: #1C40CF;
+  --tier-border: #11267C;
+  filter:
+    drop-shadow(6px 0 0 var(--tier-border))
+    drop-shadow(-6px 0 0 var(--tier-border))
+    drop-shadow(0 6px 0 var(--tier-border))
+    drop-shadow(0 -6px 0 var(--tier-border));
+}
+
+/* ─── Decorative orbs ──────────────────────────────────────────
+   One orb per tier row, placed in the opposite grid cell from
+   its card so the section reads as a balanced zigzag rather
+   than a single column of cards. Orbs are aria-hidden flourish —
+   they don't carry meaning, just rhythm. Each orb img carries a
+   small rotation (applied via a per-modifier rule further down)
+   so the four sprites read as scattered and playful rather than
+   rigidly aligned, matching the Framer composition. */
+.v2-skilltrees-orb {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* don't steal clicks from the cards */
+}
+
+.v2-skilltrees-orb img {
+  /* Scales roughly 160 → 260px across viewports. Bumped up from
+     the earlier 140–220 band so the orbs carry more visual weight
+     opposite the tier cards (the cards are large, and the orbs
+     were reading as too timid at the smaller size). */
+  width: clamp(160px, 18vw, 260px);
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  /* Each --N rule below sets --orb-rotate with a different angle;
+     this transform line actually applies it. Keeps the rotation
+     off the outer orb div so it doesn't fight the scroll-reveal
+     translate3d transform living there. */
+  transform: rotate(var(--orb-rotate, 0deg));
+  transition: transform 0.25s ease-out;
+}
+
+/* Each orb pins into the empty column of its paired tier row.
+   Card --1 is col 1 → orb --1 goes col 2, and so on. The
+   grid auto-sizes each row to the taller of (card, orb).
+   Each orb gets its own rotation angle (see --orb-rotate)
+   to create a loose, hand-placed feel. */
+.v2-skilltrees-orb--1 {
+  grid-column: 2;
+  grid-row: 1;
+  --orb-rotate: 12deg;
+}
+.v2-skilltrees-orb--2 {
+  grid-column: 1;
+  grid-row: 2;
+  --orb-rotate: -10deg;
+}
+.v2-skilltrees-orb--3 {
+  grid-column: 2;
+  grid-row: 3;
+  --orb-rotate: 15deg;
+}
+.v2-skilltrees-orb--4 {
+  grid-column: 1;
+  grid-row: 4;
+  --orb-rotate: -8deg;
+}
+
+.v2-skilltrees-card-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Bigger disc — scales 60→76px. border-box so any padding nudge
+     doesn't inflate the circle past these bounds. */
+  box-sizing: border-box;
+  width: clamp(60px, 5vw, 76px);
+  height: clamp(60px, 5vw, 76px);
+  border-radius: 0;
+  /* Stepped pixel "circle" — an octagon with two 8px corner cuts
+     per side reads as a chunky 8-bit disc. Replaces the previous
+     perfect circle (border-radius: 999px). */
+  clip-path: polygon(
+    25% 0, 75% 0,
+    75% 12.5%, 87.5% 12.5%,
+    87.5% 25%, 100% 25%,
+    100% 75%, 87.5% 75%,
+    87.5% 87.5%, 75% 87.5%,
+    75% 100%, 25% 100%,
+    25% 87.5%, 12.5% 87.5%,
+    12.5% 75%, 0 75%,
+    0 25%, 12.5% 25%,
+    12.5% 12.5%, 25% 12.5%
+  );
+  background: var(--v2-text-primary);
+  color: #000;
+  /* Matching pixel border on the disc, tier-colored so the disc
+     reads as part of the same pixel-art silhouette as its card.
+     4px on each cardinal direction keeps the outline proportional
+     to the disc size (60–76px). --tier-border cascades in from the
+     parent card modifier (.v2-skilltrees-card--1..--4). */
+  filter:
+    drop-shadow(4px 0 0 var(--tier-border))
+    drop-shadow(-4px 0 0 var(--tier-border))
+    drop-shadow(0 4px 0 var(--tier-border))
+    drop-shadow(0 -4px 0 var(--tier-border));
+  /* Minecraft, bumped up from Framer's 24px to fill the larger disc */
+  font-family: var(--font-pixel);
+  font-size: clamp(30px, 2.8vw, 38px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-align: center;
+  margin-bottom: clamp(20px, 2.2vw, 32px);
+  /* Minecraft is a pixel face — keep rendering crisp, no antialiasing */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  /* Minecraft glyphs carry asymmetric top padding in their metrics,
+     which makes the digit read as sitting above center. A small
+     padding-top on a border-box container nudges it back to optical
+     center without distorting the circle. */
+  padding-top: 0.15em;
+}
+
+.v2-skilltrees-card-title {
+  font-family: 'Upheaval TT', 'Minecraft', monospace;
+  font-weight: 400;
+  font-size: 35px;
+  line-height: 1.3;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin: 0 0 clamp(10px, 1.3vw, 18px);
+  /* Pixel display face — no antialiasing */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-skilltrees-card-body {
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.4;
+  letter-spacing: -0.03em;
+  margin: 0;
+  /* Minecraft is a pixel face — keep rendering crisp */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+/* Reduced-motion users — SkillTrees.tsx short-circuits to
+   progress=1 on mount, but belt-and-suspenders: also zero the
+   transform at the CSS level so every reveal target is locked in
+   place regardless of JS state. */
+@media (prefers-reduced-motion: reduce) {
+  .v2-skilltrees-reveal {
+    --scroll-progress: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .v2-skilltrees {
+    padding: 96px 20px;
+  }
+  .v2-skilltrees-cards {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+  .v2-skilltrees-card--1,
+  .v2-skilltrees-card--2,
+  .v2-skilltrees-card--3,
+  .v2-skilltrees-card--4,
+  .v2-skilltrees-orb--1,
+  .v2-skilltrees-orb--2,
+  .v2-skilltrees-orb--3,
+  .v2-skilltrees-orb--4 {
+    grid-column: 1;
+    grid-row: auto;
+    max-width: 100%;
+  }
+}
+
+/* ── Testimonials (Section 8) ─────────────────────────────────
+   White "social proof" band. Two-column layout on desktop:
+     - Left: two-line italic heading (bold black / medium grey)
+     - Right: 3 testimonial items side-by-side, each a large pet
+       sprite sitting ABOVE a light-grey rounded quote card.
+   Stacks to single column on mobile with heading on top.
+
+   Typography numbers are lifted from the Framer text panels:
+     - h2 "real results..."  : Bold Italic, #000, 40px, -0.03em
+     - p  "three stories..." : Medium Italic, #919191, 40px, -0.04em
+     - quote : Medium, #000, 15px, -0.01em, line 1.2, centered
+     - name  : #4A4A4A, 13px
+     - role  : #737373, 13px
+   ─────────────────────────────────────────────────────────── */
+.v2-testimonials {
+  position: relative;
+  background: #FF8CC9;
+  color: #000;
+  padding: clamp(96px, 12vw, 160px) 48px clamp(96px, 12vw, 160px);
+  /* Rounded top corners per Framer spec — TL 30, TR 30. The
+     pink band now curves upward at both ends into the yellow
+     Skill Tree section above. */
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  /* Overlap bumped from -30px to -60px (2× the radius). With both
+     sections now carrying a 30px radius at their interface, a 30px
+     overlap would cause pink's top cutouts and yellow's bottom
+     cutouts to occupy the SAME pixels — leaving the page's black
+     bg visible at each corner. At 60px overlap, the cutouts are
+     vertically separated: pink's cutout reveals yellow's body,
+     and pink's body fills yellow's cutout, producing a clean
+     interlocking-curve transition. */
+  margin-top: -60px;
+  /* Add 30px of extra height so when the Final CTA section below
+     covers the bottom 30px via its own `margin-top: -30px` overlap
+     (needed for its rounded top corners to reveal pink), the
+     visible pink area is still a full 100vh when snap-aligned to
+     the viewport. Without this, a purple strip from Final CTA was
+     bleeding through at the bottom of the pink section. */
+  min-height: calc(100vh + 30px);
+  min-height: calc(100dvh + 30px);
+}
+
+/* Scroll-linked reveal — mirrors the Skill Tree section.
+   Testimonials.tsx computes [0..1] progress for every element with
+   this class every frame and writes it to --scroll-progress. CSS
+   then maps that directly to opacity + transform. Two variants:
+     • default: slides up from 150px below (used on the heading,
+       matching the Framer preset's Y=150 offset)
+     • .v2-testimonials-reveal--h: slides in from 150px to the right
+       (used on the three testimonial items, matching the Framer
+       Enter & Exit panel's X=150 / Y=0 offset)
+   No CSS transition is needed because the value is driven by scroll
+   position itself. */
+.v2-testimonials-reveal {
+  --scroll-progress: 0;
+  opacity: var(--scroll-progress);
+  transform: translate3d(
+    0,
+    calc((1 - var(--scroll-progress)) * 150px),
+    0
+  );
+  will-change: transform, opacity;
+}
+
+/* Horizontal-slide variant — overrides only the transform so the
+   opacity + --scroll-progress plumbing above is reused. */
+.v2-testimonials-reveal--h {
+  transform: translate3d(
+    calc((1 - var(--scroll-progress)) * 150px),
+    0,
+    0
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-testimonials-reveal,
+  .v2-testimonials-reveal--h {
+    --scroll-progress: 1;
+    transform: none;
+  }
+}
+
+.v2-testimonials-inner {
+  /* Widen the outer grid so the left heading column can grow wide
+     enough to fit "real results from the beta" on a single line at
+     40px. 1440px accommodates a ~500px heading column plus the
+     3-card right column without crowding. */
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  /* Heading column grows up to 520px (enough for the 40px bold line),
+     then the testimonial cards take the remaining 1fr. */
+  grid-template-columns: minmax(360px, 520px) 1fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+
+.v2-testimonials-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: clamp(80px, 10vw, 140px); /* align baseline w/ cards */
+}
+
+/* Heading "real results from the beta": switched to Minecraft pixel
+   font at the brief's 39px. Kept black on the pink band. */
+.v2-testimonials-title {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  font-style: normal;
+  font-size: 39px;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #FFFFFF;
+  white-space: nowrap;
+  /* Minecraft is a pixel face — keep glyphs crisp, no antialiasing */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+/* Subtitle "three stories. real change.": same Minecraft 39px as
+   the title, muted to a darker pink so it reads as secondary copy
+   without clashing with the band color. */
+.v2-testimonials-subtitle {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  font-style: normal;
+  font-size: 39px;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+  color: rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-testimonials-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 3vw, 40px);
+}
+
+.v2-testimonials-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Inherit the full row height from the grid so every card in the
+     row has the same vertical canvas to fill. Without this the card
+     only grows as tall as its quote, producing the stagger seen
+     when quotes differ in length. */
+  height: 100%;
+}
+
+.v2-testimonials-pet {
+  margin-bottom: clamp(18px, 2vw, 28px);
+}
+
+.v2-testimonials-pet img {
+  width: clamp(110px, 11vw, 180px);
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  display: block;
+}
+
+.v2-testimonials-card {
+  margin: 0;
+  width: 100%;
+  /* Grow to fill the remaining column height below the pet image
+     so all three cards end up the same height regardless of quote
+     length. `flex: 1` = grow/shrink/basis-0, letting the card
+     expand to occupy whatever vertical space is left. */
+  flex: 1;
+  background: #F1F1F1;
+  border-radius: 20px;
+  padding: clamp(18px, 1.8vw, 24px) clamp(16px, 1.6vw, 22px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Anchor the name/role block to the bottom of the card (via
+     `justify-content: space-between`) so the attribution stays
+     aligned across all three cards even when the quote above is
+     shorter in one of them. */
+  justify-content: space-between;
+  gap: clamp(10px, 1.2vw, 16px);
+}
+
+.v2-testimonials-quote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #000;
+  text-align: center;
+}
+
+.v2-testimonials-attr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.v2-testimonials-name {
+  font-weight: 500;
+  color: #4A4A4A;
+}
+
+.v2-testimonials-role {
+  font-weight: 400;
+  color: #737373;
+}
+
+@media (max-width: 900px) {
+  .v2-testimonials-inner {
+    grid-template-columns: 1fr;
+    gap: clamp(32px, 5vw, 56px);
+  }
+  .v2-testimonials-heading {
+    padding-top: 0;
+  }
+  /* Allow the heading to wrap on narrow viewports — desktop nowrap
+     would overflow the column otherwise. */
+  .v2-testimonials-title,
+  .v2-testimonials-subtitle {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 720px) {
+  .v2-testimonials {
+    padding: 96px 20px;
+  }
+  .v2-testimonials-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Final CTA / Waitlist (Section 9) ─────────────────────────
+   Black band. Centered two-line display headline, email input
+   pill, solid white submit button, and an outlined "back to top"
+   pill underneath. Typography numbers lifted from Framer:
+     - h2 "let's talk..."  : Bold Italic, #FFF, 100px, -0.03em
+     - p  "stop guessing..." : Medium Italic, #B0B0B0, 100px, -0.04em
+     - input : #EEEEEE fill, 40px radius, 88px tall,
+               placeholder #616060, text #000
+   Headline scales down via clamp() on narrow viewports.
+   ─────────────────────────────────────────────────────────── */
+.v2-finalcta {
+  position: relative;
+  background: #9538CF;
+  color: var(--v2-text-primary);
+  /* Symmetric top/bottom padding so when flex centers the content
+     vertically, there's equal breathing room above and below. */
+  padding: clamp(80px, 10vw, 140px) 24px;
+  /* Rounded top corners per Framer spec — TL 30, TR 30. The pink
+     Testimonials band above has no bottom radius, so a 30px overlap
+     is enough here: in the corner cutouts the pink (which still
+     extends through the overlap region) shows through. No need to
+     double the overlap like at the yellow→pink interface. */
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  margin-top: -30px;
+  text-align: center;
+  /* Stack the heading block, form, and any decoration in a
+     vertical flex column and center everything in both axes —
+     this is what keeps the full two-line headline, email input,
+     and button perfectly centered inside the 100vh section
+     (min-height is inherited from the scroll-snap rule). */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* Contain any runaway width from the nowrap headlines so they
+     can never push the page into horizontal scroll. `clip` is
+     preferred over `hidden` because it doesn't create a scroll
+     container (and therefore doesn't interfere with things like
+     sticky positioning elsewhere on the page). */
+  overflow-x: clip;
+}
+
+/* Scroll-linked reveal — "Slide In Top" preset from the Framer
+   Scroll Animation panel. FinalCta.tsx computes [0..1] progress for
+   every element with this class every frame and writes it to
+   --scroll-progress. CSS maps that to opacity + translateY starting
+   at -150px (ABOVE the final position, matching the panel's
+   Offset Y: -150) and landing at 0. Each of the two headlines and
+   the form block wears this class. */
+.v2-finalcta-reveal {
+  --scroll-progress: 0;
+  opacity: var(--scroll-progress);
+  transform: translate3d(
+    0,
+    calc((1 - var(--scroll-progress)) * -150px),
+    0
+  );
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-finalcta-reveal {
+    --scroll-progress: 1;
+    transform: none;
+  }
+}
+
+/* Title "let's talk the future of coding.":
+   Upheaval TT pixel display face. Font-size capped lower than the
+   previous PP Neue layout because Upheaval's glyphs are ~1.5× wider
+   per character — 100px wrapped "of coding." onto its own line at
+   desktop width. Clamp top is now 64px plus `white-space: nowrap`
+   so the line holds together on a single row and shrinks naturally
+   on narrower viewports. */
+.v2-finalcta-title {
+  margin: 0 auto clamp(6px, 0.8vw, 12px);
+  /* No hard max-width — wider viewports (1600–2560px) should be
+     able to use their full horizontal room, since Upheaval TT at
+     our capped font size is still comfortably narrower than those
+     viewports. A fixed 1440px cap would clip the line at its old
+     overflow point on wider screens. */
+  max-width: none;
+  font-family: 'Upheaval TT', 'Minecraft', monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 80px;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #FFFFFF;
+  white-space: nowrap;
+  /* Upheaval TT is a pixel display face — keep glyphs crisp. */
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+/* Subtitle "stop guessing. start growing.":
+   Same Upheaval TT as the title — matched size + nowrap so both
+   lines sit as a single-row pair instead of wrapping. Muted color
+   kept so the subtitle still reads as secondary copy. */
+.v2-finalcta-subtitle {
+  margin: 0 auto clamp(48px, 6vw, 88px);
+  max-width: none;
+  font-family: 'Upheaval TT', 'Minecraft', monospace;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 80px;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #FFFFFF;
+  white-space: nowrap;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-finalcta-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(14px, 1.5vw, 20px);
+}
+
+.v2-finalcta-input {
+  width: min(440px, 90vw);
+  height: 88px;
+  border-radius: 40px;
+  padding: 12px 32px;
+  background: #EEEEEE;
+  color: #000;
+  border: none;
+  outline: none;
+  /* Switched from PP Neue Montreal to Minecraft pixel font per
+     brief so the input ties in with the submit button's
+     typography. Size bumped slightly since pixel fonts read
+     smaller at matched px. */
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  font-size: clamp(16px, 1.5vw, 20px);
+  letter-spacing: -0.01em;
+  text-align: center;
+  transition: box-shadow .15s ease;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-finalcta-input::placeholder {
+  color: #616060;
+}
+
+/* Hide the "name@gmail.com" placeholder the moment the field is
+   focused — avoids the ghost-text-behind-caret look when the
+   browser's email autofill dropdown opens over the pill. */
+.v2-finalcta-input:focus::placeholder {
+  color: transparent;
+}
+
+.v2-finalcta-input:focus {
+  box-shadow: 0 0 0 2px #7B6BD8;
+}
+
+.v2-finalcta-input--error,
+.v2-finalcta-input--error:focus {
+  box-shadow: 0 0 0 2px #E24B4A;
+}
+
+.v2-finalcta-msg {
+  margin: clamp(6px, 0.8vw, 10px) 0 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(12px, 1vw, 14px);
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.v2-finalcta-msg--error {
+  color: #F07A79;
+}
+
+.v2-finalcta-submit {
+  /* Top padding bumped a few px because Minecraft's glyphs sit high
+     in the em box — extra top breathing keeps the text optically
+     centered in the pixel pill. */
+  padding: 18px 32px 14px;
+  min-width: 220px;
+  border: none;
+  /* Three-band pixel button fill, matching the 3D style of the
+     button-levelup / button-start / button-victory sprites in
+     sprites-svg/ui:
+       • Top ~6px: lighter highlight (row-1 equivalent)
+       • Middle: main tier-1 red fill
+       • Bottom ~6px: darker shadow band (row-12 equivalent)
+     Hard color stops keep the transitions pixel-crisp — no
+     smoothing or anti-aliasing. */
+  background: linear-gradient(
+    to bottom,
+    #EE6664 0,
+    #EE6664 6px,
+    #E24B4A 6px,
+    #E24B4A calc(100% - 6px),
+    #B73635 calc(100% - 6px),
+    #B73635 100%
+  );
+  color: #FFFFFF;
+  /* Black pixel outline hugging the stepped clip-path — matches
+     the `K` (black outline) convention used across the project's
+     sprite art (see CLAUDE.md palette encoding) and the outer
+     line on the reference button-start / button-levelup sprites.
+     A regular `border` would be clipped off by clip-path, so we
+     use 4-cardinal drop-shadows to expand the button's alpha
+     silhouette outward by 6px in each direction, rendered in
+     solid black. */
+  filter:
+    drop-shadow(6px 0 0 #000)
+    drop-shadow(-6px 0 0 #000)
+    drop-shadow(0 6px 0 #000)
+    drop-shadow(0 -6px 0 #000);
+  /* Pixel button silhouette — same 2-step corner clip-path as the
+     Skill Tree cards (8px per step, 16px total). Replaces the
+     previous `border-radius: 999px` rounded pill. */
+  border-radius: 0;
+  clip-path: polygon(
+    0 16px,
+    8px 16px,
+    8px 8px,
+    16px 8px,
+    16px 0,
+    calc(100% - 16px) 0,
+    calc(100% - 16px) 8px,
+    calc(100% - 8px) 8px,
+    calc(100% - 8px) 16px,
+    100% 16px,
+    100% calc(100% - 16px),
+    calc(100% - 8px) calc(100% - 16px),
+    calc(100% - 8px) calc(100% - 8px),
+    calc(100% - 16px) calc(100% - 8px),
+    calc(100% - 16px) 100%,
+    16px 100%,
+    16px calc(100% - 8px),
+    8px calc(100% - 8px),
+    8px calc(100% - 16px),
+    0 calc(100% - 16px)
+  );
+  /* Minecraft pixel font per brief. Size bumped to match the chunky
+     pixel aesthetic — the old sans-serif 15px read as too small on
+     the stepped silhouette. */
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  font-size: clamp(14px, 1.3vw, 18px);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-finalcta-submit:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.v2-finalcta-submit:disabled {
+  background: #D9D9D9;
+  color: #555;
+  cursor: default;
+}
+
+.v2-finalcta-backtop {
+  display: inline-flex;
+  align-items: center;
+  margin-top: clamp(40px, 5vw, 72px);
+  padding: 10px 22px;
+  border: 1px solid #FFFFFF;
+  border-radius: 999px;
+  color: #FFFFFF;
+  background: transparent;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(10px, 0.9vw, 12px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+
+.v2-finalcta-backtop:hover {
+  background: #FFFFFF;
+  color: #000;
+}
+
+@media (max-width: 720px) {
+  .v2-finalcta {
+    padding: 96px 20px 72px;
+  }
+  .v2-finalcta-input {
+    height: 72px;
+  }
+}
+
+/* ── Footer (Section 10) ──────────────────────────────────────
+   Blue band (#1C40CF, Skill Tree tier-4 "Expert" color). Pixel-art
+   "C" on the left, single-row inline nav on the right mirroring
+   the primary nav. Copyright line sits under the C.
+   Links + copyright use Minecraft pixel font per brief.
+   ─────────────────────────────────────────────────────────── */
+.v2-footer {
+  position: relative;
+  background: #1C40CF;
+  color: var(--v2-text-primary);
+  padding: clamp(48px, 5vw, 80px) 48px clamp(32px, 3vw, 48px);
+}
+
+.v2-footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+}
+
+.v2-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(20px, 3vw, 48px);
+}
+
+.v2-footer-logo {
+  /* Keeps the C visually sized close to a single line of footer
+     nav text — adjusted earlier to avoid a 2× oversized logo. */
+  width: clamp(88px, 9vw, 128px);
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  display: block;
+}
+
+.v2-footer-copyright {
+  margin: 0;
+  font-family: var(--font-pixel);
+  font-weight: 400;
+  font-size: clamp(11px, 1vw, 13px);
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.6);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-footer-nav {
+  justify-self: end;
+  /* Anchor to the bottom of the footer grid row so the nav sits
+     closer to the copyright line vertically, rather than being
+     vertically centered against the tall C logo. This lets the
+     logo visually dominate the top of the footer while the links
+     sit near the baseline. */
+  align-self: end;
+  margin-bottom: clamp(8px, 1vw, 16px);
+}
+
+/* Single inline row — Home · Product · Get Good · Skill Tree. */
+.v2-footer-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(16px, 2vw, 32px);
+  justify-content: flex-end;
+}
+
+.v2-footer-link {
+  color: var(--v2-text-primary);
+  text-decoration: none;
+  font-family: var(--font-pixel);
+  font-weight: 500;
+  font-size: clamp(14px, 1.3vw, 17px);
+  letter-spacing: -0.01em;
+  transition: opacity .15s ease;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+}
+
+.v2-footer-link:hover {
+  opacity: 0.7;
+}
+
+@media (max-width: 720px) {
+  .v2-footer {
+    padding: 56px 20px 32px;
+  }
+  .v2-footer-inner {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .v2-footer-nav {
+    justify-self: start;
+  }
+  .v2-footer-links {
+    justify-content: flex-start;
+  }
+}

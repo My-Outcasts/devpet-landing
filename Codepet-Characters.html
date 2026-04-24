@@ -1,0 +1,682 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Codepet — Characters</title>
+
+<!-- Fallback web fonts that approximate the licensed brand fonts. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet" />
+
+<style>
+/* ─── Tokens ────────────────────────────────────────── */
+:root {
+  --ink:        #1E1848;
+  --purple:     #7B6BD8;
+  --purpleDk:   #534AB7;
+  --purpleLt:   #A89BF2;
+  --bg:         #F7F5FC;
+  --paper:      #FFFFFF;
+  --cream:      #F1ECE3;
+  --text:       #2D2B26;
+  --muted:      #6C6780;
+  --line:       #E4DEF1;
+
+  /* Character palette — one character, one color. */
+  --crash:      #E24B4A; /* the debugger   */
+  --sage:       #029902; /* the mentor     */
+  --byte:       #FCBE1D; /* the builder    */
+  --nova:       #1C40CF; /* the explorer   */
+  --glitch:     #9538CF; /* the rebel      */
+  --zero:       #F58345; /* the minimalist */
+  --luna:       #FF8CC9; /* the dreamer    */
+  --null:       #1E1848; /* the philosopher*/
+
+  --font-display: "Minecraft", "Minecraftia", "Press Start 2P", "VT323", monospace;
+  --font-body:    "PP Neue Montreal", "Neue Montreal", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--purpleLt); color: var(--ink); }
+
+img { image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+
+/* ─── Layout shell ──────────────────────────────────── */
+.shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 56px;
+}
+
+@media (max-width: 720px) {
+  .shell { padding: 0 24px; }
+  body { font-size: 16px; }
+}
+
+/* ─── Top bar ───────────────────────────────────────── */
+.topbar {
+  border-bottom: 1px solid var(--line);
+  padding: 20px 0;
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.topbar .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.topbar .brand { color: var(--ink); }
+.topbar .dot { color: var(--purple); margin: 0 12px; }
+
+/* ─── Hero ──────────────────────────────────────────── */
+.hero {
+  padding: 140px 0 120px;
+  border-bottom: 1px solid var(--line);
+}
+
+.hero .eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--purpleDk);
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+
+.hero h1 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(56px, 10vw, 140px);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0 0 28px;
+}
+
+.hero h1 em {
+  color: var(--purple);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.hero .lede {
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.5;
+  color: var(--text);
+  max-width: 640px;
+  margin: 0;
+}
+
+.hero .meta {
+  margin-top: 72px;
+  display: flex;
+  gap: 72px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--muted);
+}
+.hero .meta strong { color: var(--ink); font-weight: 600; display: block; font-size: 15px; margin-bottom: 4px; }
+
+/* ─── Section scaffold ─────────────────────────────── */
+section.block {
+  padding: 120px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 72px;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.section-head .tag {
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.section-head h2 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 12px 0 0;
+  max-width: 720px;
+}
+
+.section-head .aside {
+  max-width: 320px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ─── Roster grid (01) ─────────────────────────────── */
+.roster {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.pet {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  transition: transform 120ms ease;
+}
+.pet:hover { transform: translateY(-2px); }
+
+.pet .sprite {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0;
+}
+.pet .sprite img {
+  width: 72%;
+  max-width: 160px;
+  height: auto;
+}
+
+.pet .label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.pet .name {
+  font-family: var(--font-display);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  font-weight: 400;
+}
+
+/* Colored variants — one character, one color. */
+.pet.crash  { background: var(--crash);  border-color: var(--crash);  }
+.pet.sage   { background: var(--sage);   border-color: var(--sage);   }
+.pet.byte   { background: var(--byte);   border-color: var(--byte);   }
+.pet.nova   { background: var(--nova);   border-color: var(--nova);   }
+.pet.glitch { background: var(--glitch); border-color: var(--glitch); }
+.pet.zero   { background: var(--zero);   border-color: var(--zero);   }
+.pet.luna   { background: var(--luna);   border-color: var(--luna);   }
+.pet.null   { background: var(--null);   border-color: var(--null);   }
+
+.pet.crash .name,
+.pet.sage .name,
+.pet.byte .name,
+.pet.nova .name,
+.pet.glitch .name,
+.pet.zero .name,
+.pet.luna .name,
+.pet.null .name { color: #fff; }
+
+.pet.crash .label,
+.pet.sage .label,
+.pet.byte .label,
+.pet.nova .label,
+.pet.glitch .label,
+.pet.zero .label,
+.pet.luna .label,
+.pet.null .label { color: rgba(255,255,255,0.75); }
+
+.pet.byte .name,
+.pet.luna .name { color: var(--ink); }
+.pet.byte .label,
+.pet.luna .label { color: rgba(30,24,72,0.65); }
+
+@media (max-width: 900px) { .roster { grid-template-columns: repeat(2, 1fr); } }
+
+/* ─── Featured panel (02 Byte) ─────────────────────── */
+.feature {
+  border-radius: 28px;
+  overflow: hidden;
+  color: #fff;
+  background: var(--glitch); /* Byte sprite is purple-family; pairs on Glitch purple. */
+}
+
+.feature .top {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  align-items: center;
+  gap: 32px;
+  padding: 80px 64px;
+}
+
+.feature .name-block .eyebrow {
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 24px;
+}
+
+.feature .name-block h3 {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 12vw, 180px);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 0.9;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.feature .name-block .tagline {
+  margin-top: 24px;
+  font-size: 14px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.8);
+  font-weight: 600;
+}
+
+.feature .portrait {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.feature .portrait img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  filter: drop-shadow(0 12px 0 rgba(0,0,0,0.15));
+}
+
+.feature .body {
+  padding: 0 64px 80px;
+  max-width: 720px;
+  font-size: 19px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.92);
+}
+
+.feature .backgrounds {
+  background: var(--purpleDk);
+  padding: 56px 64px 64px;
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 28px;
+  align-items: center;
+}
+
+.feature .bg-card {
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.feature .bg-card.cream { background: var(--cream); }
+.feature .bg-card.paper { background: var(--paper); }
+.feature .bg-card img { width: 60%; max-width: 180px; height: auto; }
+
+.feature .bg-label h4 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: 0;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+.feature .bg-label p {
+  margin: 0;
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .feature .top { grid-template-columns: 1fr; padding: 56px 32px; }
+  .feature .body { padding: 0 32px 56px; }
+  .feature .backgrounds { grid-template-columns: 1fr; padding: 32px; }
+}
+
+/* ─── Stat strip ───────────────────────────────────── */
+.stats {
+  margin-top: 64px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  border-top: 1px solid var(--line);
+  padding-top: 48px;
+}
+.stats .stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--ink);
+  font-weight: 400;
+  letter-spacing: 0;
+  margin-bottom: 8px;
+}
+.stats .stat span {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 600;
+}
+@media (max-width: 720px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+
+/* ─── Rules (03) ───────────────────────────────────── */
+.rules {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.rule {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 36px;
+  background: var(--paper);
+}
+.rule .check {
+  font-family: var(--font-display);
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+.rule.do .check { background: rgba(2, 153, 2, 0.12); color: var(--sage); }
+.rule.dont .check { background: rgba(226, 75, 74, 0.12); color: var(--crash); }
+.rule h4 {
+  font-family: var(--font-body);
+  font-size: 22px;
+  margin: 0 0 10px;
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.rule p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+@media (max-width: 720px) { .rules { grid-template-columns: 1fr; } }
+
+/* ─── Footer ───────────────────────────────────────── */
+footer.foot {
+  background: var(--ink);
+  color: var(--purpleLt);
+  padding: 120px 0 80px;
+  margin-top: 0;
+}
+footer.foot .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+footer.foot .mark {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 72px);
+  color: #fff;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+footer.foot .small {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+  font-weight: 600;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ───────── Topbar ───────── -->
+<header class="topbar">
+  <div class="shell row">
+    <div><span class="brand">CODEPET</span> <span class="dot">·</span> CHARACTERS</div>
+    <div>TOPIC 05 &nbsp; / &nbsp; PAGE 24 — 26</div>
+  </div>
+</header>
+
+<!-- ───────── Hero ───────── -->
+<section class="hero">
+  <div class="shell">
+    <div class="eyebrow">00 · The cast</div>
+    <h1>Eight pets.<br/>One <em>journey</em>.</h1>
+    <p class="lede">
+      Every Codepet character is a mindset. A way of thinking about code, a way of
+      greeting a blank editor. Pick one and you pick a teacher — playful, patient,
+      or a little chaotic — who stays with you from first line to shipped product.
+    </p>
+
+    <div class="meta">
+      <div><strong>8</strong>AI companions</div>
+      <div><strong>1 : 1</strong>Character to color</div>
+      <div><strong>16×</strong>Pixel grid, no exceptions</div>
+      <div><strong>MURROR</strong>Designed in-house</div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 01 The roster ───────── -->
+<section class="block">
+  <div class="shell">
+
+    <div class="section-head">
+      <div>
+        <div class="tag">01 · The roster</div>
+        <h2>Meet the starters.</h2>
+      </div>
+      <p class="aside">
+        One character, one color. Seven wear a secondary tone from the brand palette;
+        Null, the philosopher, lives in Midnight Ink.
+      </p>
+    </div>
+
+    <div class="roster">
+      <div class="pet crash">
+        <div class="label"><span>01</span><span>#E24B4A</span></div>
+        <div class="sprite"><img src="public/characters/crash.svg" alt="Crash" /></div>
+        <div class="label"><span class="name">CRASH</span><span>The debugger</span></div>
+      </div>
+
+      <div class="pet zero">
+        <div class="label"><span>02</span><span>#F58345</span></div>
+        <div class="sprite"><img src="public/characters/zero.svg" alt="Zero" /></div>
+        <div class="label"><span class="name">ZERO</span><span>The minimalist</span></div>
+      </div>
+
+      <div class="pet byte">
+        <div class="label"><span>03</span><span>#FCBE1D</span></div>
+        <div class="sprite"><img src="public/characters/byte.svg" alt="Byte" /></div>
+        <div class="label"><span class="name">BYTE</span><span>The builder</span></div>
+      </div>
+
+      <div class="pet sage">
+        <div class="label"><span>04</span><span>#029902</span></div>
+        <div class="sprite"><img src="public/characters/sage.svg" alt="Sage" /></div>
+        <div class="label"><span class="name">SAGE</span><span>The mentor</span></div>
+      </div>
+
+      <div class="pet nova">
+        <div class="label"><span>05</span><span>#1C40CF</span></div>
+        <div class="sprite"><img src="public/characters/nova.svg" alt="Nova" /></div>
+        <div class="label"><span class="name">NOVA</span><span>The explorer</span></div>
+      </div>
+
+      <div class="pet luna">
+        <div class="label"><span>06</span><span>#FF8CC9</span></div>
+        <div class="sprite"><img src="public/characters/luna.svg" alt="Luna" /></div>
+        <div class="label"><span class="name">LUNA</span><span>The dreamer</span></div>
+      </div>
+
+      <div class="pet glitch">
+        <div class="label"><span>07</span><span>#9538CF</span></div>
+        <div class="sprite"><img src="public/characters/glitch.svg" alt="Glitch" /></div>
+        <div class="label"><span class="name">GLITCH</span><span>The rebel</span></div>
+      </div>
+
+      <div class="pet null">
+        <div class="label"><span>08</span><span>#1E1848</span></div>
+        <div class="sprite"><img src="public/characters/null.svg" alt="Null" /></div>
+        <div class="label"><span class="name">NULL</span><span>The philosopher</span></div>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><strong>16×16</strong><span>Base sprite</span></div>
+      <div class="stat"><strong>1px</strong><span>Outline, always</span></div>
+      <div class="stat"><strong>0</strong><span>Antialiasing</span></div>
+      <div class="stat"><strong>8</strong><span>Colors, max, per sprite</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 02 Byte feature ───────── -->
+<section class="block">
+  <div class="shell">
+    <div class="section-head">
+      <div>
+        <div class="tag">02 · On their own</div>
+        <h2>Byte, up close.</h2>
+      </div>
+      <p class="aside">
+        Each character gets a dedicated spread. The character's secondary color
+        carries the hero. The supporting palette carries the background card.
+      </p>
+    </div>
+
+    <div class="feature">
+      <div class="top">
+        <div class="name-block">
+          <div class="eyebrow">03 · THE BUILDER</div>
+          <h3>Byte</h3>
+          <div class="tagline">Ships first. Refactors later.</div>
+        </div>
+        <div class="portrait">
+          <img src="public/characters/byte.svg" alt="Byte, the Codepet builder" />
+        </div>
+      </div>
+
+      <p class="body">
+        Byte is a small, determined square with antennae and a will to ship.
+        Where other characters ask for a plan, Byte asks for a keyboard.
+        Pair Byte with first-project lessons, weekend builds, and any moment
+        the learner has stopped reading and started typing. Copy around Byte
+        is short, declarative, and ends in a verb.
+      </p>
+
+      <div class="backgrounds">
+        <div class="bg-card cream">
+          <img src="public/characters/byte.svg" alt="Byte on cream" />
+        </div>
+        <div class="bg-card paper">
+          <img src="public/characters/byte.svg" alt="Byte on paper" />
+        </div>
+        <div class="bg-label">
+          <h4>ON<br/>BACKGROUNDS</h4>
+          <p>Cream &amp; paper<br/>only. No gradients.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 03 Rules ───────── -->
+<section class="block">
+  <div class="shell">
+
+    <div class="section-head">
+      <div>
+        <div class="tag">03 · How to use them</div>
+        <h2>Characters have jobs.</h2>
+      </div>
+      <p class="aside">
+        The cast is a cast, not a sticker sheet. Treat each character like a role
+        in a story — pick the right one for the moment.
+      </p>
+    </div>
+
+    <div class="rules">
+      <div class="rule do">
+        <span class="check">DO</span>
+        <h4>One character per screen.</h4>
+        <p>Let the chosen companion own the frame. Crowds dilute the relationship;
+          the learner should feel met, not presented to.</p>
+      </div>
+      <div class="rule dont">
+        <span class="check">DON'T</span>
+        <h4>Mix the cast with third-party mascots.</h4>
+        <p>No Duolingo owl cameos, no mascots from other learning apps. The
+          Codepet cast stands alone, or beside real humans — not beside other brands.</p>
+      </div>
+      <div class="rule do">
+        <span class="check">DO</span>
+        <h4>Let the color do the work.</h4>
+        <p>Byte on yellow. Nova on blue. The background carries the mood so
+          the sprite can stay unretouched, flat, and crisp at every size.</p>
+      </div>
+      <div class="rule dont">
+        <span class="check">DON'T</span>
+        <h4>Recolor, rotate, or add effects.</h4>
+        <p>No drop shadows, no glows, no free-rotation. If a character needs a
+          new state, commission a new sprite on the 16-unit grid — don't edit
+          the existing one.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── Footer ───────── -->
+<footer class="foot">
+  <div class="shell row">
+    <div class="mark">CODEPET</div>
+    <div class="small">
+      BRAND GUIDELINES · CHARACTERS · 04 / 07<br/>
+      MURROR · 2026
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

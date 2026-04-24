@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DevPet — Minimal Pixel Crew</title>
+<style>
+  :root{
+    --bg:#587359;
+    --light:#DCEBC8;
+    --mid:#A1BD92;
+    --dark:#1F2D1C;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--bg);color:var(--light);
+    font-family:'Courier New',ui-monospace,monospace;
+    padding:48px 24px;min-height:100vh;
+  }
+  h1{
+    text-align:center;font-size:22px;letter-spacing:3px;margin:0 0 6px;
+    font-weight:bold;color:var(--light);
+  }
+  .sub{
+    text-align:center;color:var(--mid);font-size:11px;letter-spacing:1.5px;
+    margin-bottom:48px;text-transform:uppercase;
+  }
+  .grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+    max-width:900px;margin:0 auto;
+  }
+  .card{
+    display:flex;flex-direction:column;align-items:center;
+    padding:18px;
+  }
+  .stage{margin-bottom:14px;}
+  .name{
+    font-size:14px;font-weight:bold;letter-spacing:2px;
+    color:var(--light);margin-bottom:2px;
+  }
+  .species{
+    font-size:10px;color:var(--mid);letter-spacing:1px;
+    text-transform:lowercase;
+  }
+  svg{image-rendering:pixelated;shape-rendering:crispEdges;display:block;}
+  @media(max-width:780px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:420px){.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<h1>D E V P E T</h1>
+<p class="sub">8 pets · minimal pixel form</p>
+<div class="grid" id="grid"></div>
+
+<script>
+const CELL=10, COLS=16, ROWS=16;
+const PAL={'.':null,'L':'#DCEBC8','M':'#A1BD92','D':'#1F2D1C'};
+const BG='#587359';
+
+const BYTE=[
+  '................',
+  '....L....L......',
+  '....L....L......',
+  '..LLLLLLLLLL....',
+  '..LLLLLLLLLL....',
+  '..LDLLLLLLDL....',
+  '..LLLLLLLLLL....',
+  '..LLDLLLLDLL....',
+  '..LLLLLLLLLL....',
+  '..LLLDDDDLLL....',
+  '..LLLLLLLLLL....',
+  '..LLLLLLLLLL....',
+  '..LL......LL....',
+  '..LL......LL....',
+  '................',
+  '................',
+];
+
+const NOVA=[
+  '................',
+  '................',
+  '...L......L.....',
+  '...LL....LL.....',
+  '..LLLLLLLLLL....',
+  '..LMLLLLLLML....',
+  '..LLDLLLLDLL....',
+  '..LLLLLLLLLL....',
+  '..LLLLDDLLLL....',
+  '..LLLDLLDLLL....',
+  '..LLLLLLLLLL....',
+  '...LLLLLLLL.....',
+  '...LL....LL.....',
+  '..LL......LL....',
+  '................',
+  '................',
+];
+
+const GLITCH=[
+  '................',
+  '................',
+  '..L........L....',
+  '..LL......LL....',
+  '..LLLLLLLLLL....',
+  '..LLLLLLLLLL....',
+  '..LDDDLLLLDL....',
+  '..LDDDLLLLLL....',
+  '..LDDDLLLLLL....',
+  '..LLLLLLDLLL....',
+  '..LLLLLLLLLL....',
+  '..LLLLLLLLLL....',
+  '...LLLLLLLL.....',
+  '...LL....LL.....',
+  '................',
+  '................',
+];
+
+const SAGE=[
+  '................',
+  '................',
+  '...L......L.....',
+  '..LLL....LLL....',
+  '..LLLLLLLLLL....',
+  '..LLLLLLLLLL....',
+  '..LDDLLLLDDL....',
+  '..LDDLLLLDDL....',
+  '..LLLLDDLLLL....',
+  '..LLLLLLLLLL....',
+  '..LLLLLLLLLL....',
+  '...LLLLLLLL.....',
+  '....LLLLLL......',
+  '....L....L......',
+  '................',
+  '................',
+];
+
+const CRASH=[
+  '................',
+  '................',
+  '..LL......LL....',
+  '.LLLL....LLLL...',
+  '.LLLLLLLLLLLL...',
+  '.LLLLLLLLLLLL...',
+  '.LDDLLLLLLDDL...',
+  '.LLLLLLLLLLLL...',
+  '.LLLLLDDLLLLL...',
+  '.LLLLLDDLLLLL...',
+  '.LLLLDDDDLLLL...',
+  '.LLLLLLLLLLLL...',
+  '..LLLLLLLLLL....',
+  '..LL......LL....',
+  '................',
+  '................',
+];
+
+const ZERO=[
+  '................',
+  '................',
+  '....LLLLLL......',
+  '...LLLLLLLL.....',
+  '..LLLLLLLLLL....',
+  '..LLLLLLLLLL....',
+  '..LDDLLLLDDL....',
+  '..LDDLLLLDDL....',
+  '..LLLLLLLLLL....',
+  '..LLLLLLLLLL....',
+  '..LLLLLLLLLL....',
+  '..LLLLLLLLLL....',
+  '..LL.LL.LL.L....',
+  '..L..L..L...L...',
+  '................',
+  '................',
+];
+
+const LUNA=[
+  '................',
+  '................',
+  '...DDDDDDDD.....',
+  '..DDDDDDDDDD....',
+  '..DDLLLLLLDD....',
+  '..DLLLLLLLLD....',
+  '..DLDLLLLDLD....',
+  '..DLLLLLLLLD....',
+  '..DLLLDDLLLD....',
+  '..DLLLLLLLLD....',
+  '..LLLLLLLLLL....',
+  '..LLLLLLLLLL....',
+  '..LL......LL....',
+  '..LL......LL....',
+  '................',
+  '................',
+];
+
+const NULL_=[
+  '................',
+  '..D............D',
+  '..DD..........DD',
+  '..LDD........DDL',
+  '..DLLDDDDDDDDLLD',
+  '...DLLLLLLLLLLD.',
+  '...DLLLLLLLLLLD.',
+  '...DLDLLLLLLDLD.',
+  '...DLLLLLLLLLLD.',
+  '...DLLLLDDLLLLD.',
+  '...DLLLLLLLLLLD.',
+  '...DLLLLLLLLLLD.',
+  '...DDLLLLLLLLDD.',
+  '....DDLL..LLDD..',
+  '................',
+  '................',
+];
+
+const ns='http://www.w3.org/2000/svg';
+function render(grid){
+  const w=COLS*CELL, h=ROWS*CELL;
+  const parts=[`<svg xmlns="${ns}" viewBox="0 0 ${w} ${h}" width="${w*4}" height="${h*4}">`];
+  parts.push(`<rect width="${w}" height="${h}" fill="${BG}"/>`);
+  for(let y=0;y<grid.length;y++){
+    const row=grid[y];
+    for(let x=0;x<row.length && x<COLS;x++){
+      const c=PAL[row[x]];
+      if(c) parts.push(`<rect x="${x*CELL}" y="${y*CELL}" width="${CELL}" height="${CELL}" fill="${c}"/>`);
+    }
+  }
+  parts.push('</svg>');
+  return parts.join('');
+}
+
+const CHARS=[
+  ['BYTE','spirit blob',BYTE],
+  ['NOVA','fox',NOVA],
+  ['GLITCH','hacker cat',GLITCH],
+  ['SAGE','owl',SAGE],
+  ['CRASH','bear',CRASH],
+  ['ZERO','ghost wraith',ZERO],
+  ['LUNA','indie dreamer',LUNA],
+  ['NULL','jester slime',NULL_],
+];
+
+const host=document.getElementById('grid');
+CHARS.forEach(([name,species,grid])=>{
+  const card=document.createElement('div');
+  card.className='card';
+  card.innerHTML=`<div class="stage">${render(grid)}</div><div class="name">${name}</div><div class="species">${species}</div>`;
+  host.appendChild(card);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DevPet × Nintendo — 4 Archetypes (Super Mario)</title>
+<style>
+  :root{
+    --sky:#5C94FC;
+    --ink:#000;
+    --dark:#1A1A1A;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--sky);
+    font-family:'Press Start 2P','Courier New',monospace;
+    min-height:100vh;padding:48px 20px;color:var(--ink);
+  }
+  h1{
+    text-align:center;font-size:22px;letter-spacing:4px;margin:0 0 8px;
+    text-shadow:2px 2px 0 #fff;
+  }
+  .sub{
+    text-align:center;font-size:11px;letter-spacing:2px;
+    margin-bottom:40px;text-transform:uppercase;color:#000;opacity:0.7;
+  }
+  .grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+    max-width:1100px;margin:0 auto;
+  }
+  .card{
+    background:rgba(255,255,255,0.12);border:3px solid #000;
+    padding:18px 14px;display:flex;flex-direction:column;align-items:center;
+    box-shadow:4px 4px 0 #000;
+  }
+  .stage{margin-bottom:14px;}
+  .name{
+    font-size:13px;font-weight:bold;letter-spacing:2px;
+    margin-bottom:4px;
+  }
+  .role{
+    font-size:9px;letter-spacing:1px;text-transform:uppercase;
+    color:#333;text-align:center;margin-bottom:8px;
+  }
+  .desc{font-size:10px;line-height:1.5;text-align:center;color:#111;}
+  svg{image-rendering:pixelated;shape-rendering:crispEdges;display:block;}
+  @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:500px){.grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<h1>DEVPET × NINTENDO</h1>
+<p class="sub">4 archetypes · Super Mario style · 24×24 sprites</p>
+<div class="grid" id="grid"></div>
+
+<script>
+const CELL=6, COLS=24, ROWS=24, SKY='#5C94FC';
+
+const COLORS={
+  BLACK:'#000000',WHITE:'#FFFFFF',
+  PURPLE:'#9538CF',PURPLED:'#5A1F8A',
+  PEACH:'#FCBCB0',BROWN:'#9A3C00',DARKBR:'#5A1900',
+  YELLOW:'#FCBE1D',YELLOWD:'#B87B00',
+  GREEN:'#029902',GREEND:'#015C01',
+  BLUE:'#1C40CF',BLUED:'#0D2580',
+  ORANGE:'#F83C00',ORANGED:'#A82800',
+  RED:'#E45035',CYAN:'#66D8F0',
+  GRAY:'#505050',PINK:'#F87070',
+};
+
+const HERO_PAL={'.':null,'P':COLORS.PURPLE,'p':COLORS.PURPLED,'S':COLORS.PEACH,
+  'H':COLORS.BROWN,'h':COLORS.DARKBR,'B':COLORS.BLACK,'W':COLORS.WHITE,
+  'C':COLORS.CYAN,'Y':COLORS.YELLOW,'L':COLORS.BLUE};
+const MENTOR_PAL={'.':null,'G':COLORS.GREEN,'g':COLORS.GREEND,'W':COLORS.WHITE,
+  'S':COLORS.PEACH,'B':COLORS.BLACK,'Y':COLORS.YELLOW,'P':COLORS.PEACH};
+const POWERUP_PAL={'.':null,'Y':COLORS.YELLOW,'y':COLORS.YELLOWD,
+  'B':COLORS.BLACK,'W':COLORS.WHITE,'R':COLORS.RED};
+const VILLAIN_PAL={'.':null,'D':COLORS.ORANGE,'d':COLORS.ORANGED,
+  'B':COLORS.BLACK,'W':COLORS.WHITE,'R':COLORS.BLUE,'r':COLORS.BLUED,
+  'G':COLORS.GRAY,'P':COLORS.PINK};
+
+// 24x24 chibi Mario-style sprites
+const HERO=[
+  "........................",
+  ".........BBBBBBBB.......",
+  "........BPPPPPPPPB......",
+  ".......BPPPPPPPPPPB.....",
+  "......BPPPPPPPPPPPPB....",
+  "......BPPPPPPPPPPPPB....",
+  ".....BBHHHSSSSSSSSBB....",
+  "....BHHHSSSSSSSSSSSSB...",
+  "....BHSSSSBBSSSSBBSSSB..",
+  "....BHSSSSBBSSSSBBSSSB..",
+  "....BSSSSSSSSBBSSSSSSB..",
+  "....BSSSSHHHHHHHHSSSSB..",
+  ".....BBSSHHHHHHHHSSBB...",
+  "......BSSSSSSSSSSSSB....",
+  ".......BBSSSSSSSSBB.....",
+  "......BLLLLLLLLLLLLB....",
+  ".....BLLCWCWCWCWCWLLB...",
+  "....BWLLCWWWWWWWWWCLLWB.",
+  "....BWLLCWWWWWWWWWCLLWB.",
+  "....BWWLLCWWWWWWWCLLWWB.",
+  "....BWWLLLCWWWWWCLLLWWB.",
+  ".....BLLLLLCWWWCLLLLLB..",
+  ".....BHHHHBBCCCBBHHHHB..",
+  "....BHHHHHB...BHHHHHB...",
+];
+
+const MENTOR=[
+  "........................",
+  "........BBBBBBBBB.......",
+  "......BBGGGGGGGGGBB.....",
+  ".....BGGGGGGGGGGGGGB....",
+  "....BGGGWWWGGGGWWWGGB...",
+  "....BGGWWWWWGGWWWWWGB...",
+  "...BGGWWWWWGGGGWWWWWGB..",
+  "...BGGWWWWGGGGGGWWWWGGB.",
+  "...BGGGGGGGGWWGGGGGGGGB.",
+  "...BGGGWWWGGWWGGGWWWGGB.",
+  "...BgGGWWWGGGGGGGWWWGgB.",
+  "....BggGGGGGGGGGGGGGggB.",
+  ".....BBggggggggggggBBB..",
+  "......BSSSSSSSSSSSSB....",
+  ".....BSSSBBSSSSBBSSSSB..",
+  ".....BSSSBBSSSSBBSSSSB..",
+  ".....BSSSSSSSSSSSSSSSB..",
+  "......BSSSSBBBBSSSSSB...",
+  "......BBSSSSSSSSSSSBB...",
+  ".......BBBBBBBBBBBBB....",
+  "......BWWWWWWWWWWWWWB...",
+  "......BWWBBWWWWWWBBWB...",
+  "......BWWBBWWWWWWBBWB...",
+  ".....BBHHHHHBBBBHHHHBB..",
+];
+
+const POWERUP=[
+  '........................',
+  '........................',
+  '...........BB...........',
+  '..........BYYB..........',
+  '..........BYYB..........',
+  '.........BYYYB..........',
+  '.........BYYYYB.........',
+  '.........BYYYYB.........',
+  '.BBBBBBBBYYYYYYBBBBBBB..',
+  'BYYYYYYYYYYYYYYYYYYYYYB.',
+  '.BBYYYYYWWYYYYWWYYYYYB..',
+  '...BYYYYWWYYYYWWYYYYB...',
+  '....BYYYYYYYYYYYYYYB....',
+  '.....BYYYYYYYYYYYYB.....',
+  '......BYYYYYYYYYYB......',
+  '......BYYYYYYYYYYB......',
+  '......BYYYYYYYYYYB......',
+  '......BYYYYYYYYYYB......',
+  '.....BYYYYYBBYYYYYB.....',
+  '.....BYYYBB..BBYYYB.....',
+  '.....BYYB......BYYB.....',
+  '......BB........BB......',
+  '........................',
+  '........................',
+];
+
+const VILLAIN=[
+  "........................",
+  "..........BBBBB.........",
+  "........BBDDDDDBB.......",
+  "......BBDDDDDDDDDBB.....",
+  ".....BDDDDDDDDDDDDDB....",
+  "....BDDDDDDDDDDDDDDDB...",
+  "...BDDDDDDDDDDDDDDDDDB..",
+  "...BDDDWWWWDDDDDWWWWDB..",
+  "..BDDDWWWWWDDDDDWWWWWDB.",
+  "..BDDDWWRRWDDDDDWWRRWDB.",
+  "..BDDDWWRRWDDDDDWWRRWDB.",
+  "..BDDDWWWWWDDDDDWWWWWDB.",
+  "..BDDDDWWWDDDDDDDWWWDDB.",
+  "..BDDDDDDDDDDDDDDDDDDDB.",
+  "..BDDDDDDDDDDDDDDDDDDDB.",
+  "..BDDDDDDDDDDDDDDDDDDDB.",
+  "..BDDDDDDDDDDDDDDDDDDDB.",
+  "..BDDDDDDDDDDDDDDDDDDDB.",
+  "..BDDDDDDDDDDDDDDDDDDDB.",
+  "..BDDDDDDDDDDDDDDDDDDDB.",
+  "..BDDDDBBBDDDDDBBBDDDDB.",
+  "..BDDBB...BBDDB...BBDDB.",
+  ".BDDB......BBB......BDDB",
+  ".BB..........B........BB",
+];
+
+const ns='http://www.w3.org/2000/svg';
+function render(grid,pal){
+  const w=COLS*CELL,h=ROWS*CELL;
+  const parts=[`<svg xmlns="${ns}" viewBox="0 0 ${w} ${h}" width="${w*3}" height="${h*3}">`];
+  parts.push(`<rect width="${w}" height="${h}" fill="${SKY}"/>`);
+  for(let y=0;y<grid.length;y++){
+    const row=grid[y];
+    for(let x=0;x<row.length&&x<COLS;x++){
+      const c=pal[row[x]];
+      if(c)parts.push(`<rect x="${x*CELL}" y="${y*CELL}" width="${CELL}" height="${CELL}" fill="${c}"/>`);
+    }
+  }
+  parts.push('</svg>');
+  return parts.join('');
+}
+
+const CHARS=[
+  {name:'HERO',role:'Main Companion',desc:'Your coder-plumber. Shows up every day, reacts to your coding activity, levels up with each mission shipped.',grid:HERO,pal:HERO_PAL},
+  {name:'MENTOR',role:'Wise Guide',desc:'Appears during lessons with deep explanations. Hosts learning paths. Knows The Source.',grid:MENTOR,pal:MENTOR_PAL},
+  {name:'POWER-UP',role:'Celebration',desc:'Triggers every time you ship. Speed-build events. Sparkles on streaks and level-ups.',grid:POWERUP,pal:POWERUP_PAL},
+  {name:'VILLAIN',role:'Antagonist',desc:'Appears on errors and abandoned projects. Spreads the Null Cascade. Shipping is the cure.',grid:VILLAIN,pal:VILLAIN_PAL},
+];
+
+const host=document.getElementById('grid');
+CHARS.forEach(c=>{
+  const card=document.createElement('div');
+  card.className='card';
+  card.innerHTML=`
+    <div class="stage">${render(c.grid,c.pal)}</div>
+    <div class="name">${c.name}</div>
+    <div class="role">${c.role}</div>
+    <div class="desc">${c.desc}</div>
+  `;
+  host.appendChild(card);
+});
+</script>
+</body>
+</html>

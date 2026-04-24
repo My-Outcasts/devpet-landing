@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Codepet — Orbs & Coin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    min-height: 100vh;
+    padding: 64px 32px;
+    background: #0A0A18;
+    font-family: "Press Start 2P", monospace;
+    color: #fff;
+    text-align: center;
+  }
+  h1 { font-size: 24px; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .sub { font-size: 11px; letter-spacing: 0.22em; opacity: 0.55; margin-bottom: 56px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .cell {
+    background: #050510;
+    padding: 32px 18px 22px;
+    border-radius: 8px;
+    border: 2px solid rgba(255,255,255,0.06);
+  }
+  .cell img {
+    width: 160px;
+    height: 160px;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    margin: 0 auto 16px;
+    display: block;
+  }
+  .name {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    opacity: 0.8;
+    text-transform: uppercase;
+  }
+  @media (max-width: 720px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+    .cell img { width: 128px; height: 128px; }
+  }
+</style>
+</head>
+<body>
+  <h1>ELEMENT ORBS</h1>
+  <div class="sub">4 × 16 × 16</div>
+
+  <div class="grid">
+    <div class="cell">
+      <img src="sprites-svg/ui/orb-blue-fish.svg" alt="blue fish orb" />
+      <div class="name">FISH</div>
+    </div>
+    <div class="cell">
+      <img src="sprites-svg/ui/orb-green-star.svg" alt="green star orb" />
+      <div class="name">STAR</div>
+    </div>
+    <div class="cell">
+      <img src="sprites-svg/ui/orb-red-heart.svg" alt="red heart orb" />
+      <div class="name">HEART</div>
+    </div>
+    <div class="cell">
+      <img src="sprites-svg/ui/coin-gold-pickaxe.svg" alt="gold pickaxe coin" />
+      <div class="name">PICKAXE</div>
+    </div>
+  </div>
+</body>
+</html>

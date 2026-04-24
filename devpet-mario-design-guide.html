@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DevPet × Nintendo — Character Design Guideline</title>
+<style>
+  :root{
+    --sky:#5C94FC;
+    --ink:#1a1a1a;
+    --muted:#666;
+    --border:#e0e0e0;
+    --bg:#fafafa;
+    --card:#ffffff;
+    --accent:#7F1EDF;
+    --mono:'Courier New',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.65;
+    font-size:15px;
+  }
+  .hero{
+    background:var(--sky);
+    padding:48px 24px;text-align:center;
+    border-bottom:4px solid #000;
+  }
+  .hero h1{
+    font-family:var(--mono);font-size:30px;margin:0 0 8px;
+    letter-spacing:3px;text-transform:uppercase;
+    text-shadow:3px 3px 0 #fff;
+  }
+  .hero .meta{
+    font-size:12px;letter-spacing:2px;color:#000;
+    text-transform:uppercase;opacity:0.75;
+  }
+  .container{max-width:860px;margin:0 auto;padding:40px 24px 80px;}
+  section{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:8px;padding:28px 32px;margin-bottom:24px;
+    box-shadow:0 1px 2px rgba(0,0,0,0.04);
+  }
+  h2{
+    font-family:var(--mono);font-size:18px;margin:0 0 8px;
+    letter-spacing:1.5px;text-transform:uppercase;
+    border-bottom:2px solid var(--accent);padding-bottom:8px;
+    display:inline-block;
+  }
+  h3{
+    font-family:var(--mono);font-size:13px;margin:20px 0 8px;
+    letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);
+  }
+  h4{font-size:13px;margin:12px 0 4px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;}
+  p{margin:8px 0 12px;}
+  ul,ol{margin:8px 0 14px;padding-left:22px;}
+  li{margin:3px 0;}
+  .pullquote{
+    border-left:4px solid var(--accent);
+    padding:8px 16px;background:#f4ecff;
+    font-style:italic;color:#444;margin:14px 0;
+  }
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;vertical-align:top;}
+  th{background:#f5f5f5;font-size:12px;letter-spacing:0.5px;text-transform:uppercase;}
+  td code,p code,li code{
+    font-family:var(--mono);background:#f0f0f0;
+    padding:1px 5px;border-radius:3px;font-size:13px;
+  }
+  pre{
+    background:#1a1a1a;color:#eee;padding:16px 20px;
+    border-radius:6px;overflow-x:auto;font-family:var(--mono);
+    font-size:12px;line-height:1.5;
+  }
+  .swatch{
+    display:inline-block;width:18px;height:18px;
+    border:1px solid #000;vertical-align:middle;
+    margin-right:6px;border-radius:2px;
+  }
+  .palette-grid{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:10px;margin:12px 0;
+  }
+  .pal-cell{
+    background:#f5f5f5;padding:8px;border-radius:4px;
+    display:flex;align-items:center;font-size:12px;
+  }
+  .pal-cell .hex{font-family:var(--mono);color:var(--muted);font-size:11px;margin-left:4px;}
+  .do{color:#1a7a4a;font-weight:bold;}
+  .dont{color:#c62828;font-weight:bold;}
+  .archetype-head{
+    display:flex;align-items:center;gap:16px;
+    padding:12px 0 8px;border-bottom:1px solid var(--border);
+    margin-bottom:12px;
+  }
+  .archetype-head .num{
+    font-family:var(--mono);font-size:24px;color:var(--accent);font-weight:bold;
+  }
+  .archetype-head .title{font-family:var(--mono);font-size:17px;letter-spacing:1.5px;text-transform:uppercase;}
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:24px 20px;}
+  .tag{
+    display:inline-block;background:#000;color:#fff;
+    padding:2px 8px;border-radius:3px;font-size:11px;
+    font-family:var(--mono);letter-spacing:1px;margin-right:4px;
+  }
+  .check-pass{color:#1a7a4a;font-weight:bold;}
+  .check-warn{color:#c98a00;font-weight:bold;}
+  .check-fail{color:#c62828;font-weight:bold;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>DevPet × Nintendo</h1>
+  <div class="meta">Character Design Guideline · v0.1 · 2026-04-20</div>
+</header>
+
+<div class="container">
+
+<section>
+  <h2>1 · Design Philosophy</h2>
+  <p>DevPet's visual identity borrows from <strong>Super Mario Bros. (SMB1, NES 1985)</strong>: hardware-constrained, icon-first pixel art where silhouette does most of the work. Every design decision flows from one principle:</p>
+  <div class="pullquote">If a player can't identify the character from its silhouette alone at 16×16, it's not done.</div>
+  <p>The NES's technical limits are not restrictions we work around — they <em>are</em> the style. Embrace them.</p>
+</section>
+
+<section>
+  <h2>2 · Canvas & Grid</h2>
+  <h3>2.1 Sprite Size</h3>
+  <table>
+    <tr><th>Property</th><th>Value</th><th>Note</th></tr>
+    <tr><td>Canvas</td><td><code>16 × 16 px</code></td><td>Matches NES small-Mario, Goomba, Super Star</td></tr>
+    <tr><td>Pixel aspect</td><td>1:1 square</td><td>No rectangular pixels</td></tr>
+    <tr><td>Render scale</td><td>2× / 3× / 4× nearest-neighbor</td><td>Integer multiples only</td></tr>
+    <tr><td>Grid origin</td><td>Top-left <code>(0, 0)</code></td><td>Column 0 = leftmost, row 0 = top</td></tr>
+  </table>
+
+  <h3>2.2 Figure Proportions</h3>
+  <p>Characters occupy roughly <strong>10–12 columns wide</strong> × <strong>12–14 rows tall</strong> within the 16×16 canvas, with at least 2 px of margin on the sides and 1–2 px top/bottom.</p>
+
+  <h3>2.3 Symmetry Rule</h3>
+  <p>Default to <strong>vertical symmetry</strong> (axis at column 7.5 / 8). Break symmetry only when personality demands it — never for decoration.</p>
+</section>
+
+<section>
+  <h2>3 · Color System</h2>
+  <h3>3.1 Master Palette</h3>
+  <div class="palette-grid">
+    <div class="pal-cell"><span class="swatch" style="background:#5C94FC"></span>sky <span class="hex">#5C94FC</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#000000"></span>black <span class="hex">#000000</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#FFFFFF"></span>white <span class="hex">#FFFFFF</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#FCBCB0"></span>peach <span class="hex">#FCBCB0</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#9A3C00"></span>brown <span class="hex">#9A3C00</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#5A1900"></span>brown-dark <span class="hex">#5A1900</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#E45035"></span>red <span class="hex">#E45035</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#7F1EDF"></span>purple <span class="hex">#7F1EDF</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#4B0F8A"></span>purple-dark <span class="hex">#4B0F8A</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#2A0853"></span>purple-deep <span class="hex">#2A0853</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#FCD000"></span>yellow <span class="hex">#FCD000</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#C98A00"></span>yellow-dark <span class="hex">#C98A00</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#1D9E75"></span>teal <span class="hex">#1D9E75</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#0A5A44"></span>teal-dark <span class="hex">#0A5A44</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#66D8F0"></span>cyan <span class="hex">#66D8F0</span></div>
+    <div class="pal-cell"><span class="swatch" style="background:#505050"></span>gray <span class="hex">#505050</span></div>
+  </div>
+
+  <h3>3.2 Per-Sprite Color Budget</h3>
+  <ul>
+    <li><strong>Max 4 colors per sprite</strong> (transparent counts as color 0), mirroring NES PPU constraints</li>
+    <li>One should be a <strong>darker shade</strong> of the dominant color for depth</li>
+    <li>One may be a <strong>contrast accent</strong> (white or black)</li>
+  </ul>
+
+  <h3>3.3 Forbidden</h3>
+  <ul>
+    <li>Gradients or anti-aliased edges</li>
+    <li>Pure mid-gray <code>#808080</code> (muddies the palette)</li>
+    <li>Any color not in the master palette above</li>
+  </ul>
+</section>
+
+<section>
+  <h2>4 · Silhouette Rules</h2>
+  <p>A silhouette should tell you <strong>what kind of thing</strong> the character is before you see any face.</p>
+  <table>
+    <tr><th>Shape Language</th><th>Reads As</th></tr>
+    <tr><td>Wider than tall, rounded ears on top</td><td>Bear / mushroom helper</td></tr>
+    <tr><td>Two triangular peaks on top</td><td>Cat / fox / animal</td></tr>
+    <tr><td>Dome top with hat brim line</td><td>Human / plumber</td></tr>
+    <tr><td>Wavy / rounded blob</td><td>Ghost / slime</td></tr>
+    <tr><td>Radial points</td><td>Star / sparkle / item</td></tr>
+    <tr><td>Arched body with small feet</td><td>Goomba / villain</td></tr>
+  </table>
+  <p>Always draw the silhouette first as <strong>solid black on sky blue</strong>. If it doesn't read, adjust before adding color.</p>
+</section>
+
+<section>
+  <h2>5 · Face & Expression System</h2>
+  <h3>5.1 Eye Conventions</h3>
+  <table>
+    <tr><th>Style</th><th>Footprint</th><th>Used By</th><th>Reads As</th></tr>
+    <tr><td>Vertical bar</td><td><code>1 × 2</code></td><td>Hero</td><td>Focused, determined</td></tr>
+    <tr><td>Solid block</td><td><code>2 × 2</code></td><td>Mentor, Villain</td><td>Standard expressive</td></tr>
+    <tr><td>Block + white bg</td><td><code>2 × 3</code></td><td>Power-Up, Villain</td><td>Cartoon, emotional</td></tr>
+  </table>
+
+  <h3>5.2 Mouth Conventions</h3>
+  <ul>
+    <li>Line of 2–4 dark pixels = neutral / determined</li>
+    <li>Downward curve of 3 pixels = worried</li>
+    <li>Upward curve of 3 pixels = happy</li>
+    <li>Open square with fangs inside = angry (Villain)</li>
+  </ul>
+
+  <h3>5.3 Expression Principle</h3>
+  <p>At 16×16 a single pixel changes the entire mood. Budget <strong>one</strong> expression slot per sprite — eyes OR mouth, rarely both.</p>
+</section>
+
+<section>
+  <h2>6 · The Four Archetypes</h2>
+
+  <div class="archetype-head"><div class="num">01</div><div class="title">HERO — Coder Plumber</div></div>
+  <p><span class="tag">Mario</span> Main companion. Your constant presence in the app.</p>
+  <table>
+    <tr><th>Silhouette</th><td>Hat dome → face → torso → separated legs</td></tr>
+    <tr><th>Color budget</th><td>Purple, purple-dark, peach, brown + cyan accent</td></tr>
+    <tr><th>Key features</th><td>Purple hat, brown hair peek, mustache, cyan code-glow chest patch, brown boots</td></tr>
+    <tr><th>Eye style</th><td>Single visible eye (NES-authentic asymmetry)</td></tr>
+    <tr><th>Expression slot</th><td>Determined / focused</td></tr>
+  </table>
+  <p><span class="do">DO:</span> Keep the hat + mustache recognizable even stripped of color.<br>
+  <span class="dont">DON'T:</span> Give the hero a modern logo on the hat — one cyan dot at most.</p>
+
+  <div class="archetype-head"><div class="num">02</div><div class="title">MENTOR — Mushroom Helper</div></div>
+  <p><span class="tag">Toad</span> Wise guide. Appears during lessons and deep dives.</p>
+  <table>
+    <tr><th>Silhouette</th><td>Wide mushroom dome → narrow neck → small body with arm stubs</td></tr>
+    <tr><th>Color budget</th><td>Teal, teal-dark, white, peach + black</td></tr>
+    <tr><th>Key features</th><td>Teal cap with 4 white spots, big 2×2 eyes, tiny mouth, small white body</td></tr>
+    <tr><th>Eye style</th><td>2×2 solid black blocks</td></tr>
+    <tr><th>Expression slot</th><td>Neutral warmth</td></tr>
+  </table>
+  <p><span class="do">DO:</span> Keep the cap-to-body width ratio at least 2:1 — Toad's readability depends on it.<br>
+  <span class="dont">DON'T:</span> Give the Mentor a human face. The charm is the "mushroom with eyes" illusion.</p>
+
+  <div class="archetype-head"><div class="num">03</div><div class="title">POWER-UP — Ship-It Star</div></div>
+  <p><span class="tag">Super Star</span> Celebration. Triggers on every ship, streak, level-up.</p>
+  <table>
+    <tr><th>Silhouette</th><td>5-pointed star, radial</td></tr>
+    <tr><th>Color budget</th><td>Yellow, yellow-dark, black + white</td></tr>
+    <tr><th>Key features</th><td>Two eyes, mouth, shadow on lower points for depth</td></tr>
+    <tr><th>Eye style</th><td>2×2 black on yellow</td></tr>
+    <tr><th>Expression slot</th><td>Happy / invincible</td></tr>
+  </table>
+  <p><span class="do">DO:</span> Use yellow-dark on the lower three points — gives the star its "chunky" NES feel.<br>
+  <span class="dont">DON'T:</span> Add sparkle pixels inside the sprite. Sparkles are animation, not geometry.</p>
+
+  <div class="archetype-head"><div class="num">04</div><div class="title">VILLAIN — Glitch Goomba</div></div>
+  <p><span class="tag">Goomba</span> Antagonist. Appears on errors, abandoned streaks, Null Cascade events.</p>
+  <table>
+    <tr><th>Silhouette</th><td>Rounded dome body with narrow feet</td></tr>
+    <tr><th>Color budget</th><td>Purple-dark, purple-deep, white, black + gray feet</td></tr>
+    <tr><th>Key features</th><td>V eyebrows, angry sideways-looking pupils, open fanged mouth</td></tr>
+    <tr><th>Eye style</th><td>2×3 white with 1×1 black pupil offset outward</td></tr>
+    <tr><th>Expression slot</th><td>Angry / threatening</td></tr>
+  </table>
+  <p><span class="do">DO:</span> Keep feet visually separate from body (1 px gap) — reads as "walking enemy" instantly.<br>
+  <span class="dont">DON'T:</span> Make the Villain use primary purple. Deep dark variant signals "not a friend."</p>
+</section>
+
+<section>
+  <h2>7 · Composition & Environment</h2>
+  <h3>7.1 Background</h3>
+  <ul>
+    <li>Default: <code>sky</code> (<code>#5C94FC</code>)</li>
+    <li>No gradients</li>
+    <li>Ground line (when needed): 2 px horizontal band of <code>#663C00</code> at the bottom</li>
+  </ul>
+
+  <h3>7.2 Cast Line-Up</h3>
+  <ul>
+    <li>Shared baseline at row 15</li>
+    <li>4 pixels of sky between sprites horizontally</li>
+    <li>Sprites never overlap (NES couldn't, we don't)</li>
+  </ul>
+
+  <h3>7.3 Scale Variants</h3>
+  <table>
+    <tr><th>Use case</th><th>Render scale</th></tr>
+    <tr><td>Inline icon in text</td><td>2× (32×32)</td></tr>
+    <tr><td>Roster card</td><td>3× (48×48)</td></tr>
+    <tr><td>Hero stage / onboarding</td><td>4× (64×64)</td></tr>
+    <tr><td>Animated showcase</td><td>6–8× (96–128)</td></tr>
+  </table>
+  <p>Always <code>image-rendering: pixelated</code> in CSS or <code>shape-rendering: crispEdges</code> in SVG.</p>
+</section>
+
+<section>
+  <h2>8 · Animation</h2>
+  <h3>8.1 Frame Budget</h3>
+  <p>Each character: <strong>2–3 frames max</strong>. Matches SMB1 walk cycles.</p>
+
+  <h3>8.2 Per-Character Idle Motion</h3>
+  <table>
+    <tr><th>Character</th><th>Idle</th><th>Frames</th><th>Timing</th></tr>
+    <tr><td>Hero</td><td>Shallow breath bob</td><td>2</td><td>500 ms/frame</td></tr>
+    <tr><td>Mentor</td><td>Slight head tilt</td><td>2</td><td>700 ms/frame</td></tr>
+    <tr><td>Power-Up</td><td>Spin wobble</td><td>3</td><td>150 ms/frame</td></tr>
+    <tr><td>Villain</td><td>Angry twitch</td><td>2</td><td>600 ms/frame</td></tr>
+  </table>
+
+  <h3>8.3 Motion Rules</h3>
+  <ul>
+    <li>Integer pixel translation only — no sub-pixel easing</li>
+    <li>Vertical bob: 1 px max</li>
+    <li>Rotation: forbidden (draw a new frame instead)</li>
+    <li>Scale: forbidden (same reason)</li>
+  </ul>
+
+  <h3>8.4 Event Animations</h3>
+  <ul>
+    <li><strong>Ship-it:</strong> Power-Up pops from screen center, 3 sparkle frames, exits up</li>
+    <li><strong>Error:</strong> Villain slides in from right, stays 1 s, slides out left</li>
+    <li><strong>Level-up:</strong> Hero 4-frame jump (up 2, up 4, down 2, down 0)</li>
+  </ul>
+</section>
+
+<section>
+  <h2>9 · Typography Pairing</h2>
+  <ul>
+    <li><strong>Headlines:</strong> <code>Press Start 2P</code> (Google Fonts) — closest to NES nameplate lettering</li>
+    <li><strong>Letter spacing:</strong> <code>2px</code></li>
+    <li><strong>Color on sky:</strong> <code>#000</code>, with <code>2px 2px 0 #FFF</code> drop shadow for readability</li>
+    <li><strong>Body text:</strong> standard monospace (<code>Courier New</code>, <code>ui-monospace</code>)</li>
+  </ul>
+</section>
+
+<section>
+  <h2>10 · Accessibility</h2>
+  <h3>10.1 Contrast vs. Sky Background</h3>
+  <table>
+    <tr><th>Character</th><th>Dominant fill</th><th>Ratio</th><th>Passes AA</th></tr>
+    <tr><td>Hero</td><td><span class="swatch" style="background:#7F1EDF"></span>#7F1EDF</td><td>5.2 : 1</td><td><span class="check-pass">✓</span></td></tr>
+    <tr><td>Mentor</td><td><span class="swatch" style="background:#1D9E75"></span>#1D9E75</td><td>3.1 : 1</td><td><span class="check-warn">⚠ borderline</span></td></tr>
+    <tr><td>Power-Up</td><td><span class="swatch" style="background:#FCD000"></span>#FCD000</td><td>1.4 : 1</td><td><span class="check-fail">✗ needs black outline</span></td></tr>
+    <tr><td>Villain</td><td><span class="swatch" style="background:#4B0F8A"></span>#4B0F8A</td><td>8.4 : 1</td><td><span class="check-pass">✓</span></td></tr>
+  </table>
+
+  <h3>10.2 Motion</h3>
+  <p>All idle animations must be pausable. Respect <code>prefers-reduced-motion: reduce</code> by showing a single static frame.</p>
+
+  <h3>10.3 Alt Text</h3>
+  <ul>
+    <li>Hero: "DevPet hero — purple coder in plumber outfit"</li>
+    <li>Mentor: "Mentor mushroom — teal cap with white spots"</li>
+    <li>Power-Up: "Ship-It Star — yellow star with happy face"</li>
+    <li>Villain: "Glitch Goomba — dark purple enemy"</li>
+  </ul>
+</section>
+
+<section>
+  <h2>11 · Asset Data Format</h2>
+  <p>Sprites authored as string grids for easy editing:</p>
+  <pre>const CHAR = {
+  grid: [
+    '................',
+    '....PPPPPP......',
+    // ... 16 rows total, 16 chars per row
+  ],
+  palette: {
+    '.': null,           // transparent
+    'P': '#7F1EDF',      // purple
+    'p': '#4B0F8A',      // purple-dark
+    // ...
+  },
+  meta: {
+    name: 'HERO',
+    baselineRow: 15,
+    symmetric: false,
+    eyeStyle: '1x2 vertical',
+  }
+}</pre>
+  <p>Renderer reads grid + palette and emits SVG <code>&lt;rect&gt;</code> elements at target scale.</p>
+</section>
+
+<section>
+  <h2>12 · Dos & Don'ts Summary</h2>
+  <h3 style="color:#1a7a4a;">DO</h3>
+  <ul>
+    <li>Keep sprites at 16×16</li>
+    <li>Use ≤4 colors per sprite</li>
+    <li>Default to vertical symmetry</li>
+    <li>Test silhouettes in solid black first</li>
+    <li>Animate with integer pixels only</li>
+    <li>Pair with Press Start 2P at UI</li>
+  </ul>
+  <h3 style="color:#c62828;">DON'T</h3>
+  <ul>
+    <li>Use gradients, anti-aliasing, or sub-pixel rendering</li>
+    <li>Add modern flourishes (soft shadows, glows)</li>
+    <li>Exceed 4 colors or break the master palette</li>
+    <li>Rotate or scale sprites in motion</li>
+    <li>Overlap sprites in composition</li>
+  </ul>
+</section>
+
+<section>
+  <h2>13 · Roadmap</h2>
+  <p>Not in this pass — tracked for follow-up:</p>
+  <ul>
+    <li>Remaining 4 roster members (Nova, Glitch, Zero, Luna) as sidekicks/NPCs</li>
+    <li>Big Hero form (32×32, mirrors Super Mario scale-up)</li>
+    <li>Environment tileset (pipes, bricks, question blocks, flag pole)</li>
+    <li>UI chrome (HUD, dialog, mission panel) in NES style</li>
+    <li>Sound design guidelines</li>
+    <li>Localization considerations</li>
+  </ul>
+</section>
+
+<footer>
+  Reference implementations live in <code>devpet-mario-archetypes.html</code> and <code>render_mario.py</code>.<br>
+  Revise freely — this is living documentation.
+</footer>
+
+</div>
+</body>
+</html>
