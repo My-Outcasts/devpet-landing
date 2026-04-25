@@ -1100,7 +1100,7 @@ html {
 .v2-product-body {
   font-family: var(--font-pixel);
   font-weight: 400;
-  font-size: clamp(16px, 1.55vw, 22px);
+  font-size: clamp(22px, 2.4vw, 32px);
   line-height: 1.2;
   letter-spacing: -0.01em;
   color: #FFFFFF;
@@ -1233,7 +1233,7 @@ html {
   display: inline-block;
   text-align: center;
   font-family: var(--font-pixel);
-  font-size: 15px;
+  font-size: 25px;
   font-weight: 500;
   color: #FFFFFF;
   text-transform: uppercase;
@@ -1763,7 +1763,7 @@ html {
   display: inline-block;
   text-align: center;
   font-family: var(--font-pixel);
-  font-size: clamp(14px, 1.3vw, 18px);
+  font-size: clamp(18px, 1.85vw, 25px);
   font-weight: 500;
   color: #FFFFFF;
   text-transform: uppercase;
@@ -2286,7 +2286,7 @@ html {
   display: inline-block;
   text-align: center;
   font-family: var(--font-pixel);
-  font-size: clamp(14px, 1.3vw, 18px);
+  font-size: clamp(18px, 1.85vw, 25px);
   font-weight: 500;
   color: #FFFFFF;
   text-transform: uppercase;
@@ -2403,7 +2403,7 @@ html {
   margin: 0 auto clamp(64px, 7vw, 100px);
   font-family: var(--font-pixel);
   font-weight: 500;
-  font-size: clamp(22px, 2.6vw, 36px);
+  font-size: clamp(24px, 2.95vw, 40px);
   line-height: 1.2;
   letter-spacing: -0.04em;
   text-align: center;
@@ -2661,7 +2661,7 @@ html {
 .v2-skilltrees-card-body {
   font-family: var(--font-pixel);
   font-weight: 400;
-  font-size: 22px;
+  font-size: 30px;
   line-height: 1.4;
   letter-spacing: -0.03em;
   margin: 0;
@@ -2901,7 +2901,7 @@ html {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: 25px;
+  font-size: 30px;
   line-height: 1.2;
   letter-spacing: -0.01em;
   color: #000;
@@ -3202,7 +3202,7 @@ html {
      the stepped silhouette. */
   font-family: var(--font-pixel);
   font-weight: 500;
-  font-size: clamp(14px, 1.3vw, 18px);
+  font-size: clamp(20px, 2.1vw, 28px);
   letter-spacing: -0.02em;
   text-transform: uppercase;
   cursor: pointer;
