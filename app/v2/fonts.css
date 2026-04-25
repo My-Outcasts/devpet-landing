@@ -186,15 +186,29 @@
    when the viewport snaps to the top of the next section, it actually
    lands N pixels above the visible band, revealing part of the
    previous section's color through the gap.
-   `scroll-margin-top: Npx` adds N to the snap-area top offset,
-   pushing it back down to the border-box top. Values match each
-   section's own negative `margin-top`. */
+
+   On top of that overlap correction, every snap target also has to
+   clear the sticky nav (`.v2-nav`, position: sticky, ~136px tall) —
+   otherwise clicking PRODUCT / GET GOOD / SKILL TREE in the nav scrolls
+   the section's top to viewport y=0 and the nav covers the section's
+   eyebrow + title for the first 136px. The `--v2-nav-clearance` token
+   below collects the nav height + a small breathing buffer so every
+   anchored section lands cleanly below the nav. Per-section values
+   = nav clearance + that section's negative margin compensation. */
+:root {
+  --v2-nav-clearance: 140px;
+}
+.v2-product,
+.v2-mindset,
+.v2-skilltrees {
+  scroll-margin-top: var(--v2-nav-clearance);
+}
 .v2-getgood,
 .v2-finalcta {
-  scroll-margin-top: 30px;
+  scroll-margin-top: calc(var(--v2-nav-clearance) + 30px);
 }
 .v2-testimonials {
-  scroll-margin-top: 60px;
+  scroll-margin-top: calc(var(--v2-nav-clearance) + 60px);
 }
 
 /* Enable smooth scroll-snap at the document level. `proximity`
