@@ -568,19 +568,18 @@ html {
   /* Brand blue (Framer Hero fill) — matches the nav above so the
      top of the page reads as a single blue band. */
   background: #1C40CF;
-  /* Fit the whole composition inside ONE viewport so the pets row
-     at the bottom of the hero is never clipped by the viewport
-     bottom edge. The nav is sticky (.v2-nav, ~136px tall on desktop:
-     32 top padding + clamp(40,5vw,72) wordmark image + 32 bottom
-     padding), so the hero's available height is `100vh - nav`. The
-     previous value subtracted only 88px which was tuned for an
-     earlier shorter nav — when the nav grew to 136px, the hero
-     overflowed by ~48px and pushed the pet sprite row below the
-     visible viewport. Subtracting the same 136px keeps nav + hero
-     pegged to exactly one viewport. */
-  min-height: calc(100vh - 136px);
-  min-height: calc(100dvh - 136px);
-  padding: clamp(16px, 4vh, 48px) 48px clamp(20px, 4.5vh, 56px);
+  /* Full-bleed hero — takes the entire viewport so it reads as
+     one immersive splash on first load. The sticky nav (.v2-nav,
+     ~136px tall) shares the same brand blue and overlays the top
+     of the hero, so visually the nav blends seamlessly with the
+     hero band — no horizontal seam, no shorter blue strip below
+     the nav. Padding-top is bumped by the nav height so the
+     centred content (headline + sparkle/heart + pets row) lays
+     out within the *visible* area below the nav rather than
+     including the 136px the nav covers. */
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: calc(136px + clamp(16px, 4vh, 48px)) 48px clamp(20px, 4.5vh, 56px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -912,7 +911,10 @@ html {
 
 @media (max-width: 720px) {
   .v2-hero {
-    padding: clamp(16px, 4vh, 32px) 20px clamp(20px, 4vh, 40px);
+    /* Mobile nav is shorter (clamp(40,5vw,72) wordmark caps near 40px,
+       so total nav ≈ 32 + 40 + 32 = 104px). Padding-top here matches
+       that smaller clearance. */
+    padding: calc(104px + clamp(16px, 4vh, 32px)) 20px clamp(20px, 4vh, 40px);
   }
   .v2-hero-pets {
     gap: 6px;
