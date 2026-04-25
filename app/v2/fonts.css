@@ -568,18 +568,17 @@ html {
   /* Brand blue (Framer Hero fill) — matches the nav above so the
      top of the page reads as a single blue band. */
   background: #1C40CF;
-  /* Full-bleed hero — takes the entire viewport so it reads as
-     one immersive splash on first load. The sticky nav (.v2-nav,
-     ~136px tall) shares the same brand blue and overlays the top
-     of the hero, so visually the nav blends seamlessly with the
-     hero band — no horizontal seam, no shorter blue strip below
-     the nav. Padding-top is bumped by the nav height so the
-     centred content (headline + sparkle/heart + pets row) lays
-     out within the *visible* area below the nav rather than
-     including the 136px the nav covers. */
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding: calc(136px + clamp(16px, 4vh, 48px)) 48px clamp(20px, 4.5vh, 56px);
+  /* Hero fits in the viewport BELOW the sticky nav. Subtract the
+     nav's 136px from the min-height so nav + hero = exactly 100vh
+     and the pets row at the bottom is never clipped off the
+     screen. (Earlier this padded the hero by an additional 136px
+     on top of the nav's own flow space, which double-counted the
+     nav and pushed the pets ~100px below the viewport bottom.)
+     Top padding now just gives the headline a small breathing
+     buffer below the nav. */
+  min-height: calc(100vh - 136px);
+  min-height: calc(100dvh - 136px);
+  padding: clamp(16px, 4vh, 48px) 48px clamp(20px, 4.5vh, 56px);
   display: flex;
   flex-direction: column;
   /* Anchor headline + subhead to the TOP (just below the padding
@@ -923,10 +922,10 @@ html {
 
 @media (max-width: 720px) {
   .v2-hero {
-    /* Mobile nav is shorter (clamp(40,5vw,72) wordmark caps near 40px,
-       so total nav ≈ 32 + 40 + 32 = 104px). Padding-top here matches
-       that smaller clearance. */
-    padding: calc(104px + clamp(16px, 4vh, 32px)) 20px clamp(20px, 4vh, 40px);
+    /* Mobile padding — small breathing buffer above the headline.
+       Nav already reserves its own ~104px in flow space above the
+       hero so we don't add it here again. */
+    padding: clamp(16px, 4vh, 32px) 20px clamp(20px, 4vh, 40px);
   }
   .v2-hero-pets {
     gap: 6px;
