@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /**
  * Top nav for /v2 landing.
@@ -29,6 +29,17 @@ import { useEffect, useState } from 'react'
 export default function Nav() {
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  // When the user clicks an in-page nav link the browser kicks off a
+  // programmatic scroll that fires the same scroll events as a user
+  // dragging the wheel — which the Headroom logic below would interpret
+  // as "scrolling down, hide the bar." That flicker leaves the reader
+  // landing at the target section with the nav slid off-screen and a
+  // ~140px empty gap (the scroll-margin-top clearance) at the top of
+  // the viewport. We park a timestamp on this ref when a nav click
+  // happens; while it's still in the future, the scroll handler skips
+  // the hide branch and pins the nav visible. Cleared automatically
+  // after the smooth-scroll settles. */
+  const suppressHideUntilRef = useRef(0)
 
   useEffect(() => {
     let lastY = typeof window === 'undefined' ? 0 : window.scrollY
@@ -39,6 +50,15 @@ export default function Nav() {
     const update = () => {
       const currentY = window.scrollY
       const delta = currentY - lastY
+
+      // While a nav click is still smooth-scrolling the page, force
+      // the bar to stay visible regardless of scroll direction.
+      if (Date.now() < suppressHideUntilRef.current) {
+        setHidden(false)
+        lastY = currentY
+        setScrolled(currentY > window.innerHeight * 0.4)
+        return
+      }
 
       // Headroom hide/show
       if (currentY <= NAV_HEIGHT) {
@@ -105,6 +125,15 @@ export default function Nav() {
     }
   }, [])
 
+  // Pin the nav visible across the smooth-scroll triggered by an
+  // in-nav anchor click. 1.2s covers the longest snap distance
+  // comfortably without leaving the bar pinned for a noticeable
+  // window after the user starts manually scrolling again.
+  const handleAnchorClick = () => {
+    suppressHideUntilRef.current = Date.now() + 1200
+    setHidden(false)
+  }
+
   return (
     <nav
       className={`v2-nav${scrolled ? ' v2-nav--scrolled' : ''}${hidden ? ' v2-nav--hidden' : ''}`}
@@ -115,19 +144,19 @@ export default function Nav() {
             fades in around each label via ::after pseudo-element. */}
         <ul className="v2-nav-links">
           <li>
-            <a href="#product" className="v2-nav-link">Product</a>
+            <a href="#product" className="v2-nav-link" onClick={handleAnchorClick}>Product</a>
           </li>
           <li>
-            <a href="#get-good" className="v2-nav-link">Get Good</a>
+            <a href="#get-good" className="v2-nav-link" onClick={handleAnchorClick}>Get Good</a>
           </li>
           <li>
-            <a href="#skill-trees" className="v2-nav-link">Skill Tree</a>
+            <a href="#skill-trees" className="v2-nav-link" onClick={handleAnchorClick}>Skill Tree</a>
           </li>
         </ul>
 
         {/* CENTER — Codepet wordmark, scaled up so it reads as the
             primary mark of the bar. */}
-        <a href="#top" className="v2-nav-wordmark" aria-label="Codepet home">
+        <a href="#top" className="v2-nav-wordmark" aria-label="Codepet home" onClick={handleAnchorClick}>
           <Image
             src="/v2/codepet-wordmark.png"
             alt="Codepet"
@@ -158,7 +187,7 @@ export default function Nav() {
         {scrolled ? (
           <span className="v2-nav-cta-placeholder" aria-hidden="true" />
         ) : (
-          <a href="#waitlist" className="v2-nav-cta">
+          <a href="#waitlist" className="v2-nav-cta" onClick={handleAnchorClick}>
             <span className="v2-nav-cta-body">Start Your Journey</span>
           </a>
         )}
