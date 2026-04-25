@@ -568,13 +568,18 @@ html {
   /* Brand blue (Framer Hero fill) — matches the nav above so the
      top of the page reads as a single blue band. */
   background: #1C40CF;
-  /* Fit the whole composition inside one viewport. Nav is 104px
-     (32 top + 40 wordmark line-height + 32 bottom) — subtract a
-     slightly smaller number so the hero always overlaps the full
-     remaining viewport and the white Product section below never
-     peeks through as a lighter strip at the bottom. */
-  min-height: calc(100vh - 88px);
-  min-height: calc(100dvh - 88px);
+  /* Fit the whole composition inside ONE viewport so the pets row
+     at the bottom of the hero is never clipped by the viewport
+     bottom edge. The nav is sticky (.v2-nav, ~136px tall on desktop:
+     32 top padding + clamp(40,5vw,72) wordmark image + 32 bottom
+     padding), so the hero's available height is `100vh - nav`. The
+     previous value subtracted only 88px which was tuned for an
+     earlier shorter nav — when the nav grew to 136px, the hero
+     overflowed by ~48px and pushed the pet sprite row below the
+     visible viewport. Subtracting the same 136px keeps nav + hero
+     pegged to exactly one viewport. */
+  min-height: calc(100vh - 136px);
+  min-height: calc(100dvh - 136px);
   padding: clamp(16px, 4vh, 48px) 48px clamp(20px, 4.5vh, 56px);
   display: flex;
   flex-direction: column;
