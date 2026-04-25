@@ -1230,7 +1230,15 @@ html {
 }
 
 .v2-product-submit-body {
-  display: inline-block;
+  /* Flex centering so the label sits vertically dead-centre at any
+     font-size. Previously inline-block + asymmetric `padding: 20px X 17px`
+     with line-height 1 — that was hand-tuned for the old 15px Minecraft
+     label. After switching to VT323 at 25px the asymmetric padding
+     pushed the glyphs off-centre, so we now let flexbox handle the
+     vertical alignment and only keep horizontal padding. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   font-family: var(--font-pixel);
   font-size: 25px;
@@ -1241,7 +1249,7 @@ html {
   background: #000000;
   /* 52px to match the email input's height exactly. */
   height: 52px;
-  padding: 20px 28px 17px;          /* asymmetric so Minecraft glyphs sit optically centered */
+  padding: 0 28px;
   box-sizing: border-box;
   line-height: 1;
   white-space: nowrap;
@@ -1760,7 +1768,10 @@ html {
 }
 
 .v2-mindset-cta-body {
-  display: inline-block;
+  /* Flex centering — see .v2-product-submit-body for the rationale. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   font-family: var(--font-pixel);
   font-size: clamp(18px, 1.85vw, 25px);
@@ -1770,7 +1781,7 @@ html {
   letter-spacing: 0.024em;
   background: #029902;
   height: 52px;
-  padding: 20px 36px 17px;          /* asymmetric — Minecraft glyphs sit optically centered */
+  padding: 0 36px;
   box-sizing: border-box;
   line-height: 1;
   white-space: nowrap;
@@ -2283,7 +2294,10 @@ html {
 }
 
 .v2-getgood-cta-body {
-  display: inline-block;
+  /* Flex centering — see .v2-product-submit-body for the rationale. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   font-family: var(--font-pixel);
   font-size: clamp(18px, 1.85vw, 25px);
@@ -2293,7 +2307,7 @@ html {
   letter-spacing: 0.024em;
   background: #1C40CF;
   height: 52px;
-  padding: 20px 36px 17px;          /* asymmetric — Minecraft glyphs sit optically centred */
+  padding: 0 36px;
   box-sizing: border-box;
   line-height: 1;
   white-space: nowrap;
@@ -2901,7 +2915,7 @@ html {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: 30px;
+  font-size: 25px;
   line-height: 1.2;
   letter-spacing: -0.01em;
   color: #000;
