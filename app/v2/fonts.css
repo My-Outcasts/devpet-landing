@@ -1503,10 +1503,22 @@ html {
    reads as ▲). The tip of the triangle lands near the top of the
    section, base at the bottom crossing the "1,504" number below. */
 .v2-stats-shape--triangle {
-  width: clamp(340px, 34vw, 520px);
-  height: clamp(320px, 32vw, 480px);
+  /* Shrunk and lifted from the previous (340..520 wide × 320..480
+     tall, top: 10%) so the base of the triangle clears the
+     "builders" label below the "1,504" numeral. After the stat
+     numbers + labels grew (clamp 56..108 → 72..180 / 22..45 → 28..64)
+     the old triangle's bottom edge cut right through the label,
+     leaving "builders" almost invisible (grey-on-red on its left
+     half, grey-on-white on its right half).
+
+     New geometry pulls the triangle UP about 110px and shrinks
+     ~80px off its height — base now sits well above the label
+     row, and the apex still bleeds above the wrap as the comp
+     wants. Width reduced in step so it doesn't get stretched. */
+  width: clamp(280px, 28vw, 420px);
+  height: clamp(240px, 22vw, 360px);
   left: -4%;
-  top: 10%;
+  top: -2%;
   background: #F83C00;
   clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   --dx: -150px;
