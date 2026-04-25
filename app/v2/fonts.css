@@ -1445,7 +1445,10 @@ html {
   max-width: 1440px;
   margin: 0 auto;
   background: #FFFFFF;
-  border-radius: 30px;
+  /* Top corners rounded only — the section sits flush against the
+     purple Mindset band below, so a flat bottom edge keeps the seam
+     clean without the ::after mask having to hide a curve. */
+  border-radius: 30px 30px 0 0;
   /* Taller container per Framer's ~2:1 aspect — shapes fill the
      upper two-thirds, stats row lands in the lower third. */
   padding: clamp(200px, 24vw, 440px) clamp(24px, 4vw, 80px) clamp(90px, 10vw, 160px);
@@ -1560,9 +1563,16 @@ html {
 }
 
 .v2-stat-number {
-  font-family: var(--font-pixel);
+  /* Heavy pixel display face — same stack as the hero headline so
+     the big numerals (1,504 / 70% / 2x) read in the brand's "game
+     title" voice rather than the lighter VT323 body type. */
+  font-family: 'Upheaval TT', 'Minecraft', monospace;
   font-weight: 500;
-  font-size: clamp(56px, 7.2vw, 108px);
+  /* Cap raised from 108px so the numerals continue scaling on
+     wide / full-screen displays — the previous max was hitting
+     well below 1.5K-width screens, leaving the digits looking
+     small relative to the decorative shapes around them. */
+  font-size: clamp(72px, 9vw, 180px);
   line-height: 1;
   letter-spacing: -0.04em;
   color: #FFFFFF;
@@ -1574,7 +1584,9 @@ html {
 
 .v2-stat-label {
   font-family: var(--font-pixel);
-  font-size: clamp(22px, 3.2vw, 45px);
+  /* Scaled in step with the number above (max ~1/3 of the numeral)
+     so the proportion stays balanced across viewport widths. */
+  font-size: clamp(28px, 4vw, 64px);
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1;
