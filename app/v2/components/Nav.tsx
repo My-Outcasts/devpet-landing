@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 /**
  * Top nav for /v2 landing.
@@ -9,19 +9,24 @@ import { useEffect, useState } from 'react'
  * Layout (per "pixels" reference):
  *   [ Nav links — LEFT ] [ Codepet wordmark — CENTER, enlarged ] [ CTA — RIGHT ]
  *
- * ─── Scroll behaviour ─────────────────────────────────────────
- * Always sticky at the top — the bar stays visible at every
- * scroll position so the section links + wordmark are reachable
- * from anywhere on the page. (The previous Headroom-style hide-
- * on-scroll-down was disabled per design pass: it slid the bar
- * out of view as readers naturally scrolled into Mindset / Get
- * Good / etc., which felt jarring.)
+ * ─── Scroll behaviour (Headroom pattern, snap-aware) ──────────
+ * Sticky at the top with a solid white background. While the
+ * reader scrolls DOWN past the nav's own height the bar slides
+ * up out of view (`transform: translateY(-100%)`); on UP it
+ * slides back. Near the top of the page (scrollY ≤ NAV_HEIGHT)
+ * the nav is always shown so the hero opens with it in place.
  *
- * The scroll listener still runs to drive the .v2-nav--scrolled
- * class that fades the START YOUR JOURNEY CTA pill once the
- * reader has scrolled past the fold (every section below the
- * hero has its own waitlist CTA, so the nav one becomes
- * redundant).
+ * SHOW threshold is much higher than HIDE threshold (40px vs
+ * 8px) because the page's scroll-snap-type fires small upward
+ * scroll-corrections at section boundaries that would otherwise
+ * read as 'user scrolled up' and pop the nav back into view in
+ * the middle of e.g. the Testimonials section. Only a deliberate
+ * upward gesture (>40px) re-shows the bar; snap-induced
+ * micro-scrolls leave the nav hidden.
+ *
+ * The scroll listener is rAF-throttled and ignores deltas under
+ * a small threshold so micro-jitter from trackpads doesn't
+ * flicker the bar.
  *
  * ─── Appear effect (on mount) ─────────────────────────────────
  * Framer spec: Enter { opacity: 0, y: -150 }, Spring physics
@@ -30,13 +35,48 @@ import { useEffect, useState } from 'react'
  * child (see v2-nav-drop-in keyframes in fonts.css).
  */
 export default function Nav() {
+  const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  // Suppresses the show branch immediately after a nav anchor
+  // click so the destination section gets a clean view without
+  // the bar sliding down into it.
+  const suppressShowUntilRef = useRef(0)
 
   useEffect(() => {
+    let lastY = typeof window === 'undefined' ? 0 : window.scrollY
     let ticking = false
+    const HIDE_THRESHOLD = 8     // px of downward scroll to hide
+    const SHOW_THRESHOLD = 40    // px of upward scroll to show — high
+                                  // enough to ignore scroll-snap
+                                  // micro-corrections that would
+                                  // otherwise pop the bar back down
+                                  // into the middle of a section
+    const NAV_HEIGHT = 124       // approx bar height (32 top padding
+                                  // + 60 wordmark cap + 32 bottom)
 
     const update = () => {
       const currentY = window.scrollY
+      const delta = currentY - lastY
+
+      // Headroom hide/show
+      if (currentY <= NAV_HEIGHT) {
+        // Always show the nav near the very top of the page so the
+        // hero opens with it in place.
+        setHidden(false)
+        lastY = currentY
+      } else if (delta > HIDE_THRESHOLD) {
+        // Scrolled down meaningfully — hide the bar.
+        setHidden(true)
+        lastY = currentY
+      } else if (delta < -SHOW_THRESHOLD &&
+                 Date.now() >= suppressShowUntilRef.current) {
+        // Scrolled UP meaningfully (>40px) — show the bar, unless
+        // we're in the brief suppression window after a nav-anchor
+        // click (which would otherwise re-show the bar at the
+        // destination section).
+        setHidden(false)
+        lastY = currentY
+      }
 
       // CTA fade trigger: hide the "Start Your Journey" pill as
       // soon as the reader has scrolled meaningfully past the
@@ -91,19 +131,24 @@ export default function Nav() {
     }
   }, [])
 
-  // Anchor-click handler is now a no-op shim — kept as a hook
-  // point in case we re-introduce per-click behaviour later (e.g.
-  // analytics, scroll-margin tweaks) without changing every
-  // <a onClick={...}> below.
+  // When the user clicks a nav anchor (PRODUCT / GET GOOD / etc.)
+  // and the browser smooth-scrolls down to the target, we want the
+  // bar to slide AWAY (Headroom hide branch handles that, since
+  // the browser's programmatic scroll counts as scroll-down) and
+  // STAY hidden at the destination so the section gets a clean
+  // viewport. Without this suppression window the smooth-scroll's
+  // tail would hit the show-threshold's upward branch (because
+  // scroll-snap settles by reversing slightly) and pop the bar
+  // back down into the section. 1.5s comfortably covers the
+  // smooth-scroll + snap-correction tail.
   const handleAnchorClick = () => {
-    // intentionally empty — nav stays visible at every scroll
-    // position, so we no longer need to suppress hide logic on
-    // anchor jumps.
+    suppressShowUntilRef.current = Date.now() + 1500
+    setHidden(true)
   }
 
   return (
     <nav
-      className={`v2-nav${scrolled ? ' v2-nav--scrolled' : ''}`}
+      className={`v2-nav${scrolled ? ' v2-nav--scrolled' : ''}${hidden ? ' v2-nav--hidden' : ''}`}
       aria-label="Primary"
     >
       <div className="v2-nav-inner v2-nav-inner--enter">
