@@ -554,6 +554,11 @@ html {
   padding: 9px 10px 3px;
   -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: none;
+  /* Smooth swap into the hover fill — bg + text both transition
+     so the link reads as a single colour change rather than two
+     independent ones. */
+  transition: background-color 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              color 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Hover: thin rectangular outline fades in around the link (INK
@@ -572,6 +577,18 @@ html {
 .v2-nav-link:hover::after,
 .v2-nav-link:focus-visible::after {
   opacity: 1;
+}
+
+/* Hover fill — Codepet Purple background + white text on top of
+   the existing rectangular outline. Same brand purple as the
+   wordmark next to these links, so the hover reads as a "the
+   brand has stepped onto this label" colour shift. The
+   ::after border becomes white via currentColor inheritance,
+   keeping the outline visible against the new purple fill. */
+.v2-nav-link:hover,
+.v2-nav-link:focus-visible {
+  background-color: #7B6BD8;
+  color: #FFFFFF;
 }
 
 .v2-nav-link:focus { outline: none; }  /* suppress default focus ring; ::after handles it */
