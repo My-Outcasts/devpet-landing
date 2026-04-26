@@ -1220,7 +1220,8 @@ html {
 /* "Integrates with:" caption + platform logos row. Minecraft font
    to match the rest of the section's pixel type. */
 .v2-product-integrates {
-  font-family: var(--font-pixel);
+  /* Open Sans — see .v2-product-body for rationale. */
+  font-family: 'Open Sans', 'VT323', system-ui, -apple-system, sans-serif;
   font-weight: 500;
   font-size: clamp(18px, 1.8vw, 25px);
   color: #FFFFFF;
@@ -1244,7 +1245,8 @@ html {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-pixel);
+  /* Open Sans — see .v2-product-body for rationale. */
+  font-family: 'Open Sans', 'VT323', system-ui, -apple-system, sans-serif;
   font-weight: 700;
   font-size: clamp(16px, 1.55vw, 22px);
   letter-spacing: -0.01em;
@@ -3437,7 +3439,8 @@ html {
 
 .v2-footer-copyright {
   margin: 0;
-  font-family: var(--font-pixel);
+  /* Open Sans — see .v2-product-body for rationale. */
+  font-family: 'Open Sans', 'VT323', system-ui, -apple-system, sans-serif;
   font-weight: 400;
   font-size: clamp(11px, 1vw, 13px);
   letter-spacing: -0.01em;
@@ -3471,7 +3474,8 @@ html {
 .v2-footer-link {
   color: var(--v2-text-primary);
   text-decoration: none;
-  font-family: var(--font-pixel);
+  /* Open Sans — see .v2-product-body for rationale. */
+  font-family: 'Open Sans', 'VT323', system-ui, -apple-system, sans-serif;
   font-weight: 500;
   font-size: clamp(14px, 1.3vw, 17px);
   letter-spacing: -0.01em;
