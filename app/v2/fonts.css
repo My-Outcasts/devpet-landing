@@ -250,12 +250,12 @@ html {
      `.v2-nav--hidden` for hide-on-scroll-down; a separate
      `.v2-nav--scrolled` class fires once the reader scrolls past
      the hero, which is used ONLY to fade out the CTA pill below —
-     the nav itself keeps its dark fill and white text throughout. */
+     the nav itself keeps its white fill and dark text throughout. */
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #D6F02D;
-  color: #FFFFFF;
+  background: #FFFFFF;
+  color: #1E1848;
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
@@ -571,7 +571,7 @@ html {
      stronger contrast against a darker, richer ground. Matches the
      nav (.v2-nav, also #1E1848) so the top of the page still reads
      as a single continuous band. */
-  background: #D6F02D;
+  background: #FFFFFF;
   /* Hero fits in the viewport BELOW the sticky nav. Subtract the
      nav's 136px from the min-height so nav + hero = exactly 100vh
      and the pets row at the bottom is never clipped off the
@@ -712,14 +712,18 @@ html {
   line-height: 0.8;
   letter-spacing: 0;
   text-transform: uppercase;
-  color: var(--v2-text-primary);
+  /* Codepet Purple — same brand purple as the wordmark body
+     (#8B7BE8 in the wordmark PNG, #7B6BD8 brand-canonical). The
+     headline now reads as "in the same voice" as the logo: one
+     purple silhouette with a navy cast shadow, sitting on the
+     white ground. */
+  color: #7B6BD8;
   max-width: 1350px;
   margin: 0 auto;
-  /* Single down-right Midnight Ink shadow gives the white pixel
-     headline a 3D layered look on the lighter Codepet Purple
-     ground — the offset is asymmetric on purpose so the type
-     reads as a "stickered" pixel-game title with a chunky cast
-     shadow below-right rather than a flat glow. */
+  /* Single down-right Midnight Ink shadow gives the purple pixel
+     headline a 3D layered look on the white ground — the navy
+     stamp matches the wordmark's own dark outline so the
+     headline + logo read as one stylistic family. */
   text-shadow: 6px 8px 0 #1E1848;
 }
 
@@ -893,7 +897,10 @@ html {
   line-height: 0.8;
   letter-spacing: 0;
   text-transform: uppercase;
-  color: var(--v2-text-primary);
+  /* Matches the headline's Codepet Purple so the three lines
+     (LEARN TO BUILD / AGENTIC CODE / WITH YOUR CREW) read as one
+     contiguous title block in the same voice as the wordmark. */
+  color: #7B6BD8;
   /* Fades in at 0.3s (Framer spec — no translate, just opacity) */
   animation: v2-hero-fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
   margin: 0;
@@ -1011,7 +1018,7 @@ html {
    dark fill shows through each corner cutout — continuing the
    Hero's #1E1848 ground cleanly around the green card. */
 .v2-product-wrap {
-  background: #D6F02D;
+  background: #FFFFFF;
   padding: 0;
 }
 
@@ -1592,7 +1599,7 @@ html {
   height: clamp(240px, 24vw, 360px);
   left: 40%;
   top: -6%;
-  background: #D6F02D;
+  background: #FFFFFF;
   --dy: -150px;
   --rot: 10deg;
 }
@@ -2026,7 +2033,7 @@ html {
   position: relative;
   /* Yellow band per updated Framer reference — matches the yellow
      square used in the Stats section so the palette stays tight. */
-  background: #D6F02D;
+  background: #FFFFFF;
   color: #000000;
   /* Top padding trimmed from clamp(96px, 12vw, 160px) down to
      clamp(48px, 5vw, 80px) so the "CODE.GROW.LEARN" headline sits
