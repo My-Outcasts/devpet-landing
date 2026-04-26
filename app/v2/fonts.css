@@ -381,10 +381,11 @@ html {
 
 .v2-nav-wordmark img {
   display: block;
-  /* Centered and scaled up per the new brief — wordmark is now
-     the primary anchor of the bar, not a subdued corner logo.
-     Responsive clamp so it shrinks gracefully on narrow widths. */
-  height: clamp(40px, 5vw, 72px);
+  /* Centered and scaled per the design pass — wordmark is the
+     primary anchor of the bar. Cap stepped down from 72px to 60px
+     (and min/vw scaled proportionally) so the mark sits more
+     comfortably alongside the section nav links. */
+  height: clamp(36px, 4.4vw, 60px);
   width: auto;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
