@@ -103,6 +103,22 @@
   src: url('/fonts/vt323/VT323-Regular.ttf') format('truetype');
 }
 
+/* Open Sans — variable font from Google Fonts (Apache 2.0). Used
+   as the BODY-COPY face on .v2-product-body / .v2-skilltrees-intro
+   / .v2-skilltrees-card-body so prose paragraphs read in a clean
+   contemporary sans instead of the retro VT323 terminal face used
+   for headlines, eyebrows, and labels. The variable font carries
+   both weight (300–800) and width (75%–100%) axes so we can dial
+   in any combination without loading multiple files. */
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 300 800;
+  font-stretch: 75% 100%;
+  font-display: swap;
+  src: url('/fonts/open-sans/OpenSans-Variable.ttf') format('truetype-variations');
+}
+
 /* Scoped typography tokens — only apply under .v2-root so the existing
    landing at / keeps its Varela Round setup. */
 .v2-root {
@@ -1179,7 +1195,12 @@ html {
    with one italic-bold emphasis phrase ("ship products of their
    own") echoing the hero's "with your crew" treatment. */
 .v2-product-body {
-  font-family: var(--font-pixel);
+  /* Open Sans for prose — clean contemporary sans replaces the
+     retro VT323 terminal face used elsewhere for labels and
+     headlines. VT323 stays in the cascade as a fallback during
+     the brief swap window so the paragraph never reflows from
+     a wider system fallback. */
+  font-family: 'Open Sans', 'VT323', system-ui, -apple-system, sans-serif;
   font-weight: 400;
   font-size: clamp(22px, 2.4vw, 32px);
   line-height: 1.2;
@@ -2520,7 +2541,8 @@ html {
      minus padding on narrower screens. */
   max-width: min(1600px, calc(100vw - 96px));
   margin: 0 auto clamp(64px, 7vw, 100px);
-  font-family: var(--font-pixel);
+  /* Open Sans body face — see .v2-product-body for the rationale. */
+  font-family: 'Open Sans', 'VT323', system-ui, -apple-system, sans-serif;
   font-weight: 500;
   font-size: clamp(24px, 2.95vw, 40px);
   line-height: 1.2;
@@ -2778,7 +2800,8 @@ html {
 }
 
 .v2-skilltrees-card-body {
-  font-family: var(--font-pixel);
+  /* Open Sans body face — see .v2-product-body for the rationale. */
+  font-family: 'Open Sans', 'VT323', system-ui, -apple-system, sans-serif;
   font-weight: 400;
   font-size: 30px;
   line-height: 1.4;
