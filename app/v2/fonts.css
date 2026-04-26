@@ -797,7 +797,7 @@ html {
      headline now reads as "in the same voice" as the logo: one
      purple silhouette with a navy cast shadow, sitting on the
      white ground. */
-  color: #7B6BD8;
+  color: #000000;
   max-width: 1350px;
   margin: 0 auto;
   /* Single down-right Midnight Ink shadow gives the purple pixel
@@ -980,7 +980,7 @@ html {
   /* Matches the headline's Codepet Purple so the three lines
      (LEARN TO BUILD / AGENTIC CODE / WITH YOUR CREW) read as one
      contiguous title block in the same voice as the wordmark. */
-  color: #7B6BD8;
+  color: #000000;
   /* Fades in at 0.3s (Framer spec — no translate, just opacity) */
   animation: v2-hero-fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
   margin: 0;
