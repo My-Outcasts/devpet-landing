@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 /**
  * Top nav for /v2 landing.
@@ -9,16 +9,19 @@ import { useEffect, useRef, useState } from 'react'
  * Layout (per "pixels" reference):
  *   [ Nav links — LEFT ] [ Codepet wordmark — CENTER, enlarged ] [ CTA — RIGHT ]
  *
- * ─── Scroll behaviour (Headroom pattern) ──────────────────────
- * Sticky at the top with a solid blue background. While the
- * reader scrolls DOWN past the nav's own height the bar slides
- * up out of view (`transform: translateY(-100%)`); on UP it
- * slides back. Near the top of the page (scrollY ≤ NAV_HEIGHT)
- * the nav is always shown so the hero opens with it in place.
+ * ─── Scroll behaviour ─────────────────────────────────────────
+ * Always sticky at the top — the bar stays visible at every
+ * scroll position so the section links + wordmark are reachable
+ * from anywhere on the page. (The previous Headroom-style hide-
+ * on-scroll-down was disabled per design pass: it slid the bar
+ * out of view as readers naturally scrolled into Mindset / Get
+ * Good / etc., which felt jarring.)
  *
- * The scroll listener is rAF-throttled and ignores deltas under
- * a small threshold so micro-jitter from trackpads doesn't
- * flicker the bar.
+ * The scroll listener still runs to drive the .v2-nav--scrolled
+ * class that fades the START YOUR JOURNEY CTA pill once the
+ * reader has scrolled past the fold (every section below the
+ * hero has its own waitlist CTA, so the nav one becomes
+ * redundant).
  *
  * ─── Appear effect (on mount) ─────────────────────────────────
  * Framer spec: Enter { opacity: 0, y: -150 }, Spring physics
@@ -27,50 +30,13 @@ import { useEffect, useRef, useState } from 'react'
  * child (see v2-nav-drop-in keyframes in fonts.css).
  */
 export default function Nav() {
-  const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  // When the user clicks an in-page nav link the browser kicks off a
-  // programmatic scroll that fires the same scroll events as a user
-  // dragging the wheel — which the Headroom logic below would interpret
-  // as "scrolling down, hide the bar." That flicker leaves the reader
-  // landing at the target section with the nav slid off-screen and a
-  // ~140px empty gap (the scroll-margin-top clearance) at the top of
-  // the viewport. We park a timestamp on this ref when a nav click
-  // happens; while it's still in the future, the scroll handler skips
-  // the hide branch and pins the nav visible. Cleared automatically
-  // after the smooth-scroll settles. */
-  const suppressHideUntilRef = useRef(0)
 
   useEffect(() => {
-    let lastY = typeof window === 'undefined' ? 0 : window.scrollY
     let ticking = false
-    const THRESHOLD = 8            // px of scroll needed to flip state
-    const NAV_HEIGHT = 104         // approx bar height (32 + 40 + 32 padding)
 
     const update = () => {
       const currentY = window.scrollY
-      const delta = currentY - lastY
-
-      // While a nav click is still smooth-scrolling the page, force
-      // the bar to stay visible regardless of scroll direction.
-      if (Date.now() < suppressHideUntilRef.current) {
-        setHidden(false)
-        lastY = currentY
-        setScrolled(currentY > window.innerHeight * 0.4)
-        return
-      }
-
-      // Headroom hide/show
-      if (currentY <= NAV_HEIGHT) {
-        setHidden(false)
-        lastY = currentY
-      } else if (delta > THRESHOLD) {
-        setHidden(true)
-        lastY = currentY
-      } else if (delta < -THRESHOLD) {
-        setHidden(false)
-        lastY = currentY
-      }
 
       // CTA fade trigger: hide the "Start Your Journey" pill as
       // soon as the reader has scrolled meaningfully past the
@@ -125,18 +91,19 @@ export default function Nav() {
     }
   }, [])
 
-  // Pin the nav visible across the smooth-scroll triggered by an
-  // in-nav anchor click. 1.2s covers the longest snap distance
-  // comfortably without leaving the bar pinned for a noticeable
-  // window after the user starts manually scrolling again.
+  // Anchor-click handler is now a no-op shim — kept as a hook
+  // point in case we re-introduce per-click behaviour later (e.g.
+  // analytics, scroll-margin tweaks) without changing every
+  // <a onClick={...}> below.
   const handleAnchorClick = () => {
-    suppressHideUntilRef.current = Date.now() + 1200
-    setHidden(false)
+    // intentionally empty — nav stays visible at every scroll
+    // position, so we no longer need to suppress hide logic on
+    // anchor jumps.
   }
 
   return (
     <nav
-      className={`v2-nav${scrolled ? ' v2-nav--scrolled' : ''}${hidden ? ' v2-nav--hidden' : ''}`}
+      className={`v2-nav${scrolled ? ' v2-nav--scrolled' : ''}`}
       aria-label="Primary"
     >
       <div className="v2-nav-inner v2-nav-inner--enter">
