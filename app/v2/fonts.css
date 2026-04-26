@@ -1633,7 +1633,11 @@ html {
   height: clamp(240px, 24vw, 360px);
   left: 40%;
   top: -6%;
-  background: #FFFFFF;
+  /* Warm yellow per Framer reference — same #FCBE1D as the GET
+     GOOD section ground so the palette stays tight. Briefly went
+     to white during the hero-band recolour pass; this restores
+     the original yellow fill. */
+  background: #FCBE1D;
   --dy: -150px;
   --rot: 10deg;
 }
