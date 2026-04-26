@@ -116,7 +116,15 @@
   font-weight: 300 800;
   font-stretch: 75% 100%;
   font-display: swap;
-  src: url('/fonts/open-sans/OpenSans-Variable.ttf') format('truetype-variations');
+  /* `format('truetype')` instead of the more strictly correct
+     `truetype-variations` because browser support for the latter
+     is uneven — some engines skip the @font-face entirely when
+     they don't recognise the format keyword, then the cascade
+     falls all the way through to VT323 and the prose renders in
+     the wrong typeface. Plain `truetype` is universally accepted
+     and the variable axes (weight 300–800, stretch 75–100%) are
+     still picked up from the file's metadata. */
+  src: url('/fonts/open-sans/OpenSans-Variable.ttf') format('truetype');
 }
 
 /* Scoped typography tokens — only apply under .v2-root so the existing
