@@ -254,7 +254,7 @@ html {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #1E1848;
+  background: #7B6BD8;
   color: #FFFFFF;
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
@@ -571,7 +571,7 @@ html {
      stronger contrast against a darker, richer ground. Matches the
      nav (.v2-nav, also #1E1848) so the top of the page still reads
      as a single continuous band. */
-  background: #1E1848;
+  background: #7B6BD8;
   /* Hero fits in the viewport BELOW the sticky nav. Subtract the
      nav's 136px from the min-height so nav + hero = exactly 100vh
      and the pets row at the bottom is never clipped off the
@@ -715,6 +715,12 @@ html {
   color: var(--v2-text-primary);
   max-width: 1350px;
   margin: 0 auto;
+  /* Single down-right Midnight Ink shadow gives the white pixel
+     headline a 3D layered look on the lighter Codepet Purple
+     ground — the offset is asymmetric on purpose so the type
+     reads as a "stickered" pixel-game title with a chunky cast
+     shadow below-right rather than a flat glow. */
+  text-shadow: 6px 8px 0 #1E1848;
 }
 
 .v2-hero-headline .line {
@@ -892,6 +898,11 @@ html {
   /* Fades in at 0.3s (Framer spec — no translate, just opacity) */
   animation: v2-hero-fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
   margin: 0;
+  /* Same down-right Midnight Ink cast shadow as the headline so
+     the three lines (LEARN TO BUILD / AGENTIC CODE / WITH YOUR
+     CREW) share one visual silhouette and read as a single
+     stickered title block. */
+  text-shadow: 6px 8px 0 #1E1848;
 }
 
 /* Pixel-pill CTA — Minecraft font, black bg, white border, white text.
@@ -1001,7 +1012,7 @@ html {
    dark fill shows through each corner cutout — continuing the
    Hero's #1E1848 ground cleanly around the green card. */
 .v2-product-wrap {
-  background: #1E1848;
+  background: #7B6BD8;
   padding: 0;
 }
 
