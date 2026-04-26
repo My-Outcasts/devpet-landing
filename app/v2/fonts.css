@@ -254,7 +254,7 @@ html {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #FCBE1D;
+  background: #D6F02D;
   color: #FFFFFF;
   transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
@@ -571,7 +571,7 @@ html {
      stronger contrast against a darker, richer ground. Matches the
      nav (.v2-nav, also #1E1848) so the top of the page still reads
      as a single continuous band. */
-  background: #FCBE1D;
+  background: #D6F02D;
   /* Hero fits in the viewport BELOW the sticky nav. Subtract the
      nav's 136px from the min-height so nav + hero = exactly 100vh
      and the pets row at the bottom is never clipped off the
@@ -1011,7 +1011,7 @@ html {
    dark fill shows through each corner cutout — continuing the
    Hero's #1E1848 ground cleanly around the green card. */
 .v2-product-wrap {
-  background: #FCBE1D;
+  background: #D6F02D;
   padding: 0;
 }
 
@@ -1592,7 +1592,7 @@ html {
   height: clamp(240px, 24vw, 360px);
   left: 40%;
   top: -6%;
-  background: #FCBE1D;
+  background: #D6F02D;
   --dy: -150px;
   --rot: 10deg;
 }
@@ -2026,7 +2026,7 @@ html {
   position: relative;
   /* Yellow band per updated Framer reference — matches the yellow
      square used in the Stats section so the palette stays tight. */
-  background: #FCBE1D;
+  background: #D6F02D;
   color: #000000;
   /* Top padding trimmed from clamp(96px, 12vw, 160px) down to
      clamp(48px, 5vw, 80px) so the "CODE.GROW.LEARN" headline sits
