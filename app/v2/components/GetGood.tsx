@@ -85,10 +85,10 @@ export default function GetGood() {
 
         <p className="v2-getgood-body">
           Everything you need to actually get good. A skill map across four
-          tiers tells you exactly what to learn next. Your companion — Crash,
-          Nova, Glitch, and more — keeps you building. Every challenge happens
-          in Cursor, VS Code, or Claude Code, and honest insights surface your
-          weak spots so you know what to practice next.
+          tiers tells you exactly what to learn next. Your companion will keep
+          you building. Every challenge happens in Cursor, VS Code, or Claude
+          Code, and honest insights surface your weak spots so you know what
+          to practice next.
         </p>
 
         {/* Pixel-art pill CTA — same two-layer pattern as Product
