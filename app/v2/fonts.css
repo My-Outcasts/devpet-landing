@@ -3378,13 +3378,15 @@ html {
      line on the reference button-start / button-levelup sprites.
      A regular `border` would be clipped off by clip-path, so we
      use 4-cardinal drop-shadows to expand the button's alpha
-     silhouette outward by 6px in each direction, rendered in
-     solid black. */
+     silhouette outward, rendered in solid black. Thickness bumped
+     from 6px to 8px so the border reads clearly on the purple
+     band — the previous 6px was getting visually swallowed at
+     larger viewport sizes. */
   filter:
-    drop-shadow(6px 0 0 #000)
-    drop-shadow(-6px 0 0 #000)
-    drop-shadow(0 6px 0 #000)
-    drop-shadow(0 -6px 0 #000);
+    drop-shadow(8px 0 0 #000)
+    drop-shadow(-8px 0 0 #000)
+    drop-shadow(0 8px 0 #000)
+    drop-shadow(0 -8px 0 #000);
   /* Pixel button silhouette — same 2-step corner clip-path as the
      Skill Tree cards (8px per step, 16px total). Replaces the
      previous `border-radius: 999px` rounded pill. */
