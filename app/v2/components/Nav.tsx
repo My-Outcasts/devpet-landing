@@ -158,7 +158,12 @@ export default function Nav() {
             primary mark of the bar. */}
         <a href="#top" className="v2-nav-wordmark" aria-label="Codepet home" onClick={handleAnchorClick}>
           <Image
-            src="/v2/codepet-wordmark.png"
+            // Yellow re-skin of the wordmark — warm yellow #FCBE1D
+            // body + Midnight Ink #1E1848 outline reads with much
+            // higher contrast on the blue hero band than the previous
+            // Luna Lilac mark, which sat in the same cool-color family
+            // as the background and got visually lost.
+            src="/v2/codepet-wordmark-yellow.png"
             alt="Codepet"
             width={1215}
             height={240}

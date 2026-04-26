@@ -578,7 +578,12 @@ html {
      buffer below the nav. */
   min-height: calc(100vh - 136px);
   min-height: calc(100dvh - 136px);
-  padding: clamp(16px, 4vh, 48px) 48px clamp(20px, 4.5vh, 56px);
+  /* Top padding bumped vs. bottom so the centred flex content
+     visually reads dropped a touch — the nav band has its own
+     vertical weight above the hero, so an even split between
+     top + bottom padding looks slightly nav-heavy. The asymmetric
+     padding rebalances the optical centre to feel mid-band. */
+  padding: clamp(48px, 8vh, 96px) 48px clamp(20px, 4.5vh, 56px);
   display: flex;
   flex-direction: column;
   /* Center the whole hero composition (headline + subhead + pets)
@@ -706,6 +711,15 @@ html {
   color: var(--v2-text-primary);
   max-width: 1350px;
   margin: 0 auto;
+  /* Midnight Ink outline — four cardinal drop-shadows give the
+     white pixel headline a chunky game-title silhouette against
+     the brand-blue hero band. Same technique the pixel CTA pills
+     use, scaled up to ~3px since the type is much bigger. */
+  filter:
+    drop-shadow( 3px 0 0 #1E1848)
+    drop-shadow(-3px 0 0 #1E1848)
+    drop-shadow(0  3px 0 #1E1848)
+    drop-shadow(0 -3px 0 #1E1848);
 }
 
 .v2-hero-headline .line {
@@ -883,6 +897,13 @@ html {
   /* Fades in at 0.3s (Framer spec — no translate, just opacity) */
   animation: v2-hero-fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
   margin: 0;
+  /* Same Midnight Ink outline as .v2-hero-headline so the three
+     lines share one visual silhouette. */
+  filter:
+    drop-shadow( 3px 0 0 #1E1848)
+    drop-shadow(-3px 0 0 #1E1848)
+    drop-shadow(0  3px 0 #1E1848)
+    drop-shadow(0 -3px 0 #1E1848);
 }
 
 /* Pixel-pill CTA — Minecraft font, black bg, white border, white text.
