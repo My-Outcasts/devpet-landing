@@ -1699,11 +1699,11 @@ html {
 }
 
 .v2-stat-label {
-  /* Open Sans — see .v2-product-body for rationale. The big numerals
-     above stay in pixel display type (Upheaval TT) for the game-art
-     hit; the labels switch to clean sans so the contrast between
-     'spectacle' and 'caption' is sharper. */
-  font-family: 'Open Sans', 'VT323', system-ui, -apple-system, sans-serif;
+  /* VT323 retro-terminal face per design pass — keeps the labels
+     in the same pixel voice as the rest of the page's eyebrows
+     and small captions, instead of the Open Sans sans used for
+     longer prose. */
+  font-family: var(--font-pixel);
   /* Scaled in step with the number above (max ~1/3 of the numeral)
      so the proportion stays balanced across viewport widths. */
   font-size: clamp(28px, 4vw, 64px);
