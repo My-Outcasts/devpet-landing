@@ -646,15 +646,15 @@ html {
      as a single continuous band. */
   background: #FFFFFF;
   /* Hero fits in the viewport BELOW the sticky nav. Subtract the
-     nav's 136px from the min-height so nav + hero = exactly 100vh
-     and the pets row at the bottom is never clipped off the
-     screen. (Earlier this padded the hero by an additional 136px
-     on top of the nav's own flow space, which double-counted the
-     nav and pushed the pets ~100px below the viewport bottom.)
-     Top padding now just gives the headline a small breathing
-     buffer below the nav. */
-  min-height: calc(100vh - 136px);
-  min-height: calc(100dvh - 136px);
+     nav's full flow height (~124px on desktop: 32 top padding +
+     60 wordmark cap + 32 bottom padding) so nav + hero = exactly
+     100vh and the green Product band below never peeks through
+     under the hero. The previous 136px offset was tuned for the
+     older 72px wordmark cap; after the wordmark dropped to 60px
+     the nav got 12px shorter and the hero left a thin strip
+     where Product showed through. */
+  min-height: calc(100vh - 124px);
+  min-height: calc(100dvh - 124px);
   /* Top padding bumped vs. bottom so the centred flex content
      visually reads dropped a touch — the nav band has its own
      vertical weight above the hero, so an even split between
