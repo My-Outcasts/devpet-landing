@@ -4417,6 +4417,24 @@ html {
   .v2-getgood {
     padding: clamp(64px, 12vw, 120px) 20px clamp(80px, 16vw, 140px);
   }
+  /* "GET GOOD" eyebrow matched to the Product section's PRODUCT
+     eyebrow: centred horizontally at the top of the section,
+     same 16px font, same regular letter-spacing. The corner-
+     label class is absolutely positioned at top-left by default;
+     overriding `left: 50%` + `transform: translateX(-50%)`
+     centres the inline-flex element across the section. */
+  .v2-getgood .v2-corner-label--tl {
+    left: 50%;
+    right: auto;
+    top: 24px;
+    transform: translateX(-50%);
+    font-size: 16px;
+    letter-spacing: 0;
+  }
+  .v2-getgood .v2-corner-label--tl::before {
+    width: 10px;
+    height: 10px;
+  }
   /* Headline matched to the Product section's "who we are"
      heading: clamp(36px, 9vw, 56px). Was clamp(42, 11vw, 64) which
      was noticeably larger than Product's heading on the same
