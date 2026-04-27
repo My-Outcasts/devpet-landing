@@ -3981,19 +3981,17 @@ html {
     text-align: center;
     width: 100%;
   }
-  /* Sparkle now sits in the GAP between the subhead's last line
-     ("CREW") and the pets row — anchored from the bottom so it
-     stays in that gap regardless of the hero's intrinsic height.
-     `bottom` value targets just above the pets row: pets are
-     ~84px tall + 60px V-translate ≈ 144px from the hero bottom,
-     so a 150–180px bottom offset places the sparkle just above
-     the tallest pet and just below CREW. left: 12% biases it
-     slightly left-of-centre so it accents CREW without sitting
-     dead-on-top of the centred glyphs. */
+  /* Sparkle pinned to the LEFT EDGE, vertically aligned with the
+     subhead's "WITH YOUR" / "CREW" lines (the lower half of the
+     headline block). Anchored from the bottom so the position
+     tracks the hero's intrinsic height: the pets row claims
+     ~144px at the bottom, leaving CREW around 170px-from-bottom
+     and WITH YOUR around 210px-from-bottom — `bottom` clamped
+     into that band lands the sparkle in the area circled. */
   .v2-hero-deco--sparkle-tl {
-    left: 12%;
+    left: 4%;
     top: auto;
-    bottom: clamp(140px, 32vw, 180px);
+    bottom: clamp(180px, 44vw, 230px);
     width: clamp(28px, 7vw, 44px);
   }
   /* Heart pinned to the top-right corner of the hero. Bumped from
@@ -4060,15 +4058,36 @@ html {
        the green band collapses to its intrinsic content height,
        and tighten the vertical padding so the section reads as a
        tidy card rather than a viewport-eating slab. The corner
-       radius stays via the desktop rule. */
+       radius stays via the desktop rule.
+       align-items: flex-start (overrides desktop's `center`) so
+       the inner sits at the top of the section instead of being
+       vertically centered — flex centering on a content-height
+       parent reads correctly on desktop where min-height: 100vh
+       creates the empty band, but on mobile (no min-height) it
+       still pulls the content downward when paired with the
+       scale-reveal transform's reserved layout box. */
     min-height: 0;
     padding: clamp(40px, 8vw, 64px) 20px clamp(48px, 10vw, 80px);
+    align-items: flex-start;
   }
   .v2-product-inner {
     /* Two-column desktop grid collapses into a single stack — copy
-       on top, the byte sprite + coin scene below. */
+       on top, the byte sprite + coin scene below.
+       The desktop scale-reveal animation (transform: scale(0.5→1)
+       driven by --enter-p as the section enters view) was the real
+       culprit behind the giant empty green band on mobile: scale
+       doesn't affect layout, so the section reserved the FULL
+       natural height of the inner while visually rendering the
+       content at half-size, leaving ~half the section's height
+       as empty green padding. On phones the slow reveal is more
+       distracting than effective, so neutralise it: opacity stays
+       at 1, no scale, no transition. The section now collapses
+       cleanly to its content height. */
     grid-template-columns: 1fr;
     gap: clamp(24px, 6vw, 48px);
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
   .v2-product-eyebrow {
     font-size: 28px;
