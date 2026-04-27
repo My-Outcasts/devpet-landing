@@ -4252,16 +4252,84 @@ html {
     );
   }
 
-  /* ── Stats ────────────────────────────────────────────────── */
+  /* ── Stats ──────────────────────────────────────────────────
+     Mobile-only overhaul: each shape now frames its corresponding
+     stat (triangle → 1,504, square → 70%, circle → 2x) so the
+     numerals are readable inside their decorative backdrops, and
+     the slide-in directions are re-mapped per the new design pass:
+       • Triangle  → still slides in from the LEFT
+       • Square    → slides in from the RIGHT (was from the TOP)
+       • Circle    → slides in from the BOTTOM (was from the RIGHT)
+     Wrap padding is also tightened: previously reserved 160px of
+     top padding so the shapes could stack above the stats; the new
+     per-stat layout doesn't need that buffer. */
+  .v2-stats-wrap {
+    padding: 32px 20px 40px;
+    border-radius: 24px;
+  }
   .v2-stats-inner {
     grid-template-columns: 1fr;
-    gap: clamp(40px, 10vw, 64px);
+    /* Larger gap so each stat sits in its own vertical "zone"
+       wide enough for the shape behind it to read as a frame
+       rather than a bleed across multiple stats. */
+    gap: clamp(80px, 22vw, 140px);
+  }
+  .v2-stat {
+    /* Lift each stat into its own stacking context above the
+       shapes — without an explicit z-index here the absolutely
+       positioned shapes (z-index: 1) can paint OVER the stat's
+       white-on-coloured numeral, which is what was hiding 1,504
+       and 2x/faster. */
+    position: relative;
+    z-index: 2;
   }
   .v2-stat-number {
     font-size: clamp(64px, 18vw, 120px);
   }
   .v2-stat-label {
     font-size: clamp(24px, 6vw, 40px);
+  }
+  /* Triangle frames the FIRST stat (1,504/builders). Apex up so
+     the white "1,504" reads against the red. Centred horizontally
+     and pinned to the top of the wrap so it sits behind stat 1. */
+  .v2-stats-shape--triangle {
+    width: 240px;
+    height: 240px;
+    aspect-ratio: auto;
+    left: calc(50% - 120px);
+    top: 8px;
+    --dx: -150px;
+    --dy: 0;
+    --rot: -6deg;
+  }
+  /* Square frames the MIDDLE stat (70%/success rate) — sits at the
+     vertical centre of the wrap. Slide-in axis flipped from --dy
+     (was Slide In Top) to --dx: 150 (Slide In Right). */
+  .v2-stats-shape--square {
+    width: 200px;
+    height: 200px;
+    aspect-ratio: auto;
+    left: calc(50% - 100px);
+    top: calc(50% - 100px);
+    --dx: 150px;
+    --dy: 0;
+    --rot: 8deg;
+  }
+  /* Circle frames the LAST stat (2x/faster). Pinned to the bottom
+     of the wrap so the "2x" white numeral sits inside the blue
+     ground. Slide-in axis flipped from --dx: 150 (was Slide In
+     Right) to --dy: 150 (Slide In Bottom). */
+  .v2-stats-shape--circle {
+    width: 220px;
+    height: 220px;
+    aspect-ratio: auto;
+    left: calc(50% - 110px);
+    right: auto;
+    top: auto;
+    bottom: 8px;
+    --dx: 0;
+    --dy: 150px;
+    --rot: 0deg;
   }
 
   /* ── Mindset ──────────────────────────────────────────────── */
