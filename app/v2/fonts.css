@@ -4586,16 +4586,31 @@ html {
     max-width: 100%;
     margin-bottom: clamp(40px, 8vw, 64px);
   }
+  /* Skill Tree cards on mobile sized to match the Get Good cards.
+     Get Good uses grid `padding: 0 28px` so each card is ~28px
+     inset from the section column on each side; mirror that here
+     for matching width. Card padding tightened to 18×16 (was
+     clamp(24,2.6vw,40)) so internal content has room in the
+     smaller footprint. Internal element sizes reduced
+     proportionally so the long body paragraphs fit comfortably. */
+  .v2-skilltrees-cards {
+    padding: 0 28px;
+    gap: 18px;
+  }
+  .v2-skilltrees-card {
+    padding: 18px 16px;
+  }
   .v2-skilltrees-card-title {
-    font-size: clamp(20px, 5vw, 28px);
+    font-size: clamp(18px, 4.5vw, 22px);
   }
   .v2-skilltrees-card-body {
-    font-size: clamp(15px, 4vw, 20px);
+    font-size: clamp(13px, 3.4vw, 16px);
+    line-height: 1.35;
   }
   .v2-skilltrees-card-number {
-    width: clamp(48px, 12vw, 60px);
-    height: clamp(48px, 12vw, 60px);
-    font-size: clamp(24px, 6vw, 32px);
+    width: clamp(36px, 9vw, 44px);
+    height: clamp(36px, 9vw, 44px);
+    font-size: clamp(18px, 4.5vw, 22px);
   }
   /* Interleave cards and orbs on mobile: card1 → orb1 → card2 →
      orb2 → card3 → orb3 → card4 → orb4. Default DOM order from
