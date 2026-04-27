@@ -4546,11 +4546,36 @@ html {
   .v2-skilltrees {
     padding: 96px 20px;
   }
+  /* SKILL TREE eyebrow matches PRODUCT and GET GOOD on mobile:
+     centred horizontally, 16px, weight 500, letter-spacing
+     -0.03em, 10×10px bullet square. The .v2-corner-label--tl
+     desktop default is top-left corner with weight 700 and 13px
+     font; this override aligns the three eyebrows visually. */
+  .v2-skilltrees .v2-corner-label--tl {
+    left: 50%;
+    right: auto;
+    top: 24px;
+    transform: translateX(-50%);
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+  }
+  .v2-skilltrees .v2-corner-label--tl::before {
+    width: 10px;
+    height: 10px;
+  }
   .v2-skilltrees-headline {
     font-size: clamp(42px, 11vw, 64px);
   }
+  /* Intro paragraph sized DOWN on mobile (~16px → ~14px) so the
+     sentence "From the first call to final delivery, every step
+     is designed for clarity and efficiency." rewraps without
+     orphaning "efficiency." onto its own last line. max-width
+     also widened from the desktop calc(100vw - 96px) to 100% so
+     the column uses the full mobile gutter. */
   .v2-skilltrees-intro {
-    font-size: clamp(16px, 4vw, 22px);
+    font-size: clamp(13px, 3.6vw, 16px);
+    max-width: 100%;
     margin-bottom: clamp(40px, 8vw, 64px);
   }
   .v2-skilltrees-card-title {
@@ -4563,6 +4588,31 @@ html {
     width: clamp(48px, 12vw, 60px);
     height: clamp(48px, 12vw, 60px);
     font-size: clamp(24px, 6vw, 32px);
+  }
+  /* Interleave cards and orbs on mobile: card1 → orb1 → card2 →
+     orb2 → card3 → orb3 → card4 → orb4. Default DOM order from
+     SkillTrees.tsx is all 4 cards, then all 4 orbs (so on mobile
+     they'd render as 4 cards stacked, then 4 orbs below). Pin
+     each item to an explicit grid-row so the grid auto-flow
+     interleaves them in the desired sequence. */
+  .v2-skilltrees-card--1   { grid-row: 1 !important; }
+  .v2-skilltrees-orb--1    { grid-row: 2 !important; }
+  .v2-skilltrees-card--2   { grid-row: 3 !important; }
+  .v2-skilltrees-orb--2    { grid-row: 4 !important; }
+  .v2-skilltrees-card--3   { grid-row: 5 !important; }
+  .v2-skilltrees-orb--3    { grid-row: 6 !important; }
+  .v2-skilltrees-card--4   { grid-row: 7 !important; }
+  .v2-skilltrees-orb--4    { grid-row: 8 !important; }
+  /* Orbs sized down on mobile (was 160–260px desktop) so they
+     read as accents between the tier cards rather than dominating
+     the column. justify-content: center centres each orb in its
+     row, since the orbs are a single child of a grid cell that
+     spans the full column. */
+  .v2-skilltrees-orb {
+    justify-content: center;
+  }
+  .v2-skilltrees-orb img {
+    width: clamp(100px, 28vw, 140px);
   }
 
   /* ── Testimonials ─────────────────────────────────────────── */
