@@ -3785,3 +3785,299 @@ html {
      highlights) keep working — only the drag handle is disabled. */
   pointer-events: auto;
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Mobile pass — comprehensive overrides for small viewports.
+   Sits at the END of the file on purpose so it wins the cascade
+   without needing !important on every property.
+
+   Two breakpoints:
+     • <= 768px   — phones in landscape, narrow tablets. Stacks
+                    multi-column grids, shrinks paddings, tightens
+                    type, simplifies the hero V.
+     • <= 480px   — phones in portrait. Further compactness on
+                    type, paddings, decorative elements.
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+
+  /* ── Nav ──────────────────────────────────────────────────── */
+  .v2-nav-inner {
+    /* Tighter horizontal padding so the three columns fit on a
+       narrow phone. Also reduce vertical padding to claw back
+       viewport for the hero. */
+    padding: 18px 16px;
+    grid-template-columns: 1fr auto 1fr;
+  }
+  .v2-nav-links {
+    gap: 14px;
+  }
+  .v2-nav-links a {
+    /* Smaller link size at mobile — less aggressive 19px brick
+       so PRODUCT / GET GOOD / SKILL TREE all fit on one line. */
+    font-size: 14px;
+    padding: 6px 8px;
+  }
+  .v2-nav-wordmark img {
+    /* Wordmark caps at 40px on mobile (vs 60 desktop) — keeps
+       the bar slim while still readable. */
+    height: clamp(32px, 6.4vw, 40px);
+  }
+  .v2-nav-cta-body {
+    font-size: 12px;
+    padding: 0 14px;
+    height: 36px;
+  }
+
+  /* ── Hero ─────────────────────────────────────────────────── */
+  .v2-hero {
+    /* Mobile hero gets a shorter min-height (smaller nav) and
+       tighter top padding so the pets row stays visible above
+       the fold. */
+    min-height: calc(100vh - 80px);
+    min-height: calc(100dvh - 80px);
+  }
+  .v2-hero-headline,
+  .v2-hero-subhead {
+    /* Cap at 56px on mobile so 'AGENTIC CODE' stays one line. */
+    font-size: clamp(36px, 11vw, 56px);
+  }
+  .v2-hero-deco--sparkle-tl {
+    left: 6%;
+    top: 14%;
+    width: clamp(48px, 12vw, 80px);
+  }
+  .v2-hero-deco--heart-tr {
+    right: 6%;
+    top: 12%;
+    width: clamp(28px, 7vw, 44px);
+  }
+  .v2-hero-pets {
+    /* Tighter V (depth halved) and shorter container so seven
+       pets fit inside a narrow viewport without overflowing. */
+    min-height: 220px;
+    gap: clamp(4px, 1.4vw, 12px);
+    margin: clamp(24px, 4vh, 40px) 0 clamp(8px, 2vh, 16px);
+  }
+  /* Halve the V depth on mobile so the lowest pet doesn't sit
+     pixel-perfect at the viewport bottom edge. */
+  .v2-hero-pet--pink    { transform: translateY(0); }
+  .v2-hero-pet--owl     { transform: translateY(20px); }
+  .v2-hero-pet--fox     { transform: translateY(40px); }
+  .v2-hero-pet--byte    { transform: translateY(60px); }
+  .v2-hero-pet--yellow  { transform: translateY(40px); }
+  .v2-hero-pet--red     { transform: translateY(20px); }
+  .v2-hero-pet--penguin { transform: translateY(0); }
+  .v2-hero-pet-img {
+    width: clamp(40px, 11vw, 84px) !important;
+    height: auto !important;
+  }
+
+  /* ── Product (Section 3) ──────────────────────────────────── */
+  .v2-product {
+    padding: 64px 20px;
+  }
+  .v2-product-inner {
+    /* Two-column desktop grid collapses into a single stack — copy
+       on top, the byte sprite + coin scene below. */
+    grid-template-columns: 1fr;
+    gap: clamp(32px, 8vw, 56px);
+  }
+  .v2-product-eyebrow {
+    font-size: 28px;
+  }
+  .v2-product-heading {
+    font-size: clamp(36px, 9vw, 56px);
+  }
+  .v2-product-body {
+    font-size: clamp(16px, 4vw, 22px);
+    max-width: 100%;
+    margin-bottom: clamp(24px, 5vw, 36px);
+  }
+  .v2-product-integrates {
+    font-size: 16px;
+  }
+  .v2-product-integrations li {
+    font-size: clamp(14px, 3.6vw, 18px);
+  }
+
+  /* ── Stats ────────────────────────────────────────────────── */
+  .v2-stats-inner {
+    grid-template-columns: 1fr;
+    gap: clamp(40px, 10vw, 64px);
+  }
+  .v2-stat-number {
+    font-size: clamp(64px, 18vw, 120px);
+  }
+  .v2-stat-label {
+    font-size: clamp(24px, 6vw, 40px);
+  }
+
+  /* ── Mindset ──────────────────────────────────────────────── */
+  .v2-mindset {
+    padding: 96px 20px;
+  }
+  .v2-mindset-headline {
+    font-size: clamp(42px, 11vw, 64px);
+    line-height: 1.05;
+  }
+  .v2-mindset-headline .line {
+    /* Allow wrapping on narrow viewports — desktop nowrap would
+       overflow the column. */
+    white-space: normal;
+  }
+  .v2-mindset-eyebrow {
+    font-size: 18px;
+  }
+
+  /* ── Get Good ─────────────────────────────────────────────── */
+  .v2-getgood {
+    padding: clamp(64px, 12vw, 120px) 20px clamp(80px, 16vw, 140px);
+  }
+  .v2-getgood-headline {
+    font-size: clamp(42px, 11vw, 64px);
+  }
+  .v2-getgood-cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .v2-getgood-card-label {
+    font-size: clamp(16px, 4vw, 22px);
+  }
+  .v2-getgood-body {
+    font-size: clamp(16px, 4vw, 22px);
+  }
+
+  /* ── Skill Trees ──────────────────────────────────────────── */
+  .v2-skilltrees {
+    padding: 96px 20px;
+  }
+  .v2-skilltrees-headline {
+    font-size: clamp(42px, 11vw, 64px);
+  }
+  .v2-skilltrees-intro {
+    font-size: clamp(16px, 4vw, 22px);
+    margin-bottom: clamp(40px, 8vw, 64px);
+  }
+  .v2-skilltrees-card-title {
+    font-size: clamp(20px, 5vw, 28px);
+  }
+  .v2-skilltrees-card-body {
+    font-size: clamp(15px, 4vw, 20px);
+  }
+  .v2-skilltrees-card-number {
+    width: clamp(48px, 12vw, 60px);
+    height: clamp(48px, 12vw, 60px);
+    font-size: clamp(24px, 6vw, 32px);
+  }
+
+  /* ── Testimonials ─────────────────────────────────────────── */
+  .v2-testimonials {
+    padding: 96px 20px;
+  }
+  .v2-testimonials-title,
+  .v2-testimonials-subtitle {
+    font-size: clamp(32px, 8vw, 44px);
+  }
+  .v2-testimonials-quote {
+    font-size: 15px;
+  }
+  .v2-testimonials-attr {
+    font-size: 15px;
+  }
+  .v2-testimonials-pet img {
+    width: clamp(80px, 22vw, 120px) !important;
+    height: auto !important;
+  }
+
+  /* ── Final CTA ────────────────────────────────────────────── */
+  .v2-finalcta {
+    padding: 96px 20px;
+  }
+  .v2-finalcta-headline {
+    font-size: clamp(36px, 9vw, 56px);
+  }
+  .v2-finalcta-input {
+    width: 100%;
+    height: 64px;
+    font-size: 16px;
+  }
+  .v2-finalcta-submit {
+    font-size: 16px;
+    padding: 14px 24px;
+  }
+
+  /* ── Footer ───────────────────────────────────────────────── */
+  .v2-footer {
+    padding: 56px 20px 32px;
+  }
+  .v2-footer-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .v2-footer-nav {
+    justify-self: start;
+    margin-bottom: 0;
+  }
+  .v2-footer-links {
+    justify-content: flex-start;
+    gap: 16px;
+  }
+  .v2-footer-link {
+    font-size: 14px;
+  }
+
+  /* ── Install pill ─────────────────────────────────────────── */
+  .v2-install-pill {
+    right: 12px;
+    bottom: 12px;
+  }
+  .v2-install-pill-cta {
+    font-size: 13px;
+    padding: 0 14px;
+    height: 40px;
+  }
+  .v2-install-pill-dismiss {
+    width: 32px;
+    height: 40px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra compactness for phones in portrait. */
+  .v2-nav-links {
+    gap: 8px;
+  }
+  .v2-nav-links a {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+  .v2-nav-cta-body {
+    display: none;  /* CTA hides at narrow widths to free space */
+  }
+  .v2-hero-headline,
+  .v2-hero-subhead {
+    font-size: clamp(32px, 12vw, 48px);
+  }
+  .v2-hero-pets {
+    gap: 2px;
+    min-height: 160px;
+  }
+  .v2-hero-pet--owl     { transform: translateY(14px); }
+  .v2-hero-pet--fox     { transform: translateY(28px); }
+  .v2-hero-pet--byte    { transform: translateY(40px); }
+  .v2-hero-pet--yellow  { transform: translateY(28px); }
+  .v2-hero-pet--red     { transform: translateY(14px); }
+  .v2-hero-pet-img {
+    width: clamp(28px, 11.5vw, 56px) !important;
+  }
+  .v2-mindset-headline,
+  .v2-getgood-headline,
+  .v2-skilltrees-headline,
+  .v2-finalcta-headline {
+    font-size: clamp(32px, 10vw, 44px);
+  }
+  .v2-getgood-cards {
+    grid-template-columns: 1fr;
+  }
+}
