@@ -4149,21 +4149,32 @@ html {
     max-width: 100%;
     margin: 0;
   }
+  /* "Integrates with:" caption + platform list — sized down on
+     mobile per design pass: caption 16 → 13px, item label 14–18
+     → 12px, logo 18–24 → 14px, row gap 24–44 → 14px. The whole
+     row reads as a quiet supporting line under the body copy
+     instead of competing with the headline + button for weight. */
   .v2-product-integrates {
     order: 5;
     align-self: stretch;
     text-align: center;
-    font-size: 16px;
+    font-size: 13px;
     margin: 0;
   }
   .v2-product-integrations {
     order: 6;
     align-self: stretch;
     justify-content: center;
+    gap: 14px;
     margin: 0;
   }
   .v2-product-integrations li {
-    font-size: clamp(14px, 3.6vw, 18px);
+    font-size: 12px;
+    gap: 6px;
+  }
+  .v2-product-integrations li img {
+    width: 14px;
+    height: 14px;
   }
   /* Email + waitlist button — stacked vertically and centred on
      mobile. margin-top adds extra breathing room above the form
