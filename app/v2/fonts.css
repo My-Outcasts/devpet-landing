@@ -4497,7 +4497,13 @@ html {
     width: 100%;
   }
   .v2-getgood-body {
+    /* Match Product body exactly: same Open Sans, same size, but
+       also weight 400 (was 500) and letter-spacing -0.01em (was
+       -0.04em) so the prose voice reads identically across the
+       green and yellow sections. */
     font-size: clamp(16px, 4vw, 22px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
   }
   /* Get Good CTA matched to the Product section's mobile button
      so all three pixel-pill CTAs (Product / Mindset / Get Good)
@@ -4567,12 +4573,16 @@ html {
   .v2-skilltrees-headline {
     font-size: clamp(42px, 11vw, 64px);
   }
-  /* Intro paragraph matched to the Get Good body text on mobile
-     (clamp 16,4vw,22) so the two yellow-band sections share the
-     same body-copy scale. max-width: 100% keeps the column
-     using the full mobile gutter so longer lines fit. */
+  /* Intro paragraph matched to the Product body text on mobile —
+     same Open Sans, same clamp(16,4vw,22) size, same weight 400
+     and letter-spacing -0.01em so the prose voice reads
+     identically across all three sections (Product / Get Good /
+     Skill Trees). max-width: 100% keeps the column using the
+     full mobile gutter so longer lines fit. */
   .v2-skilltrees-intro {
     font-size: clamp(16px, 4vw, 22px);
+    font-weight: 400;
+    letter-spacing: -0.01em;
     max-width: 100%;
     margin-bottom: clamp(40px, 8vw, 64px);
   }
