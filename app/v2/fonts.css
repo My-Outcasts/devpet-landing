@@ -4260,19 +4260,28 @@ html {
      all switch to solid black so they sit cleanly under each
      coloured numeral on the white ground. */
   .v2-stats-wrap {
-    /* No shapes to clear → tighter padding all round. */
+    /* No shapes to clear → tighter padding all round.
+       Border radius dropped from a uniform 24px to 30px TL +
+       30px TR + 0 BL + 0 BR per design pass — the bottom edge
+       sits flush against the next section so a flat bottom keeps
+       the seam clean (matches the desktop rule). */
     padding: 32px 20px 40px;
-    border-radius: 24px;
+    border-radius: 30px 30px 0 0;
   }
   .v2-stats-inner {
     grid-template-columns: 1fr;
     gap: clamp(40px, 10vw, 64px);
   }
+  /* Numerals + labels each bumped by 2px on mobile per design
+     pass. Number: was clamp(64,18vw,120) → clamp(66,18.5vw,122)
+     so the rendered size goes from ~70px to ~72px on a 390px
+     phone. Label: was clamp(24,6vw,40) → clamp(26,6.7vw,42)
+     so it renders ~26px (was ~24px). */
   .v2-stat-number {
-    font-size: clamp(64px, 18vw, 120px);
+    font-size: clamp(66px, 18.5vw, 122px);
   }
   .v2-stat-label {
-    font-size: clamp(24px, 6vw, 40px);
+    font-size: clamp(26px, 6.7vw, 42px);
   }
   /* Hide every decorative shape on mobile — the per-stat colour
      does the work the shapes used to do. */
