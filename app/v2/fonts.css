@@ -1541,13 +1541,45 @@ html {
 
 @media (max-width: 720px) {
   .v2-product {
-    padding: 72px 20px;
+    /* Tighter padding all round so the green band reads as a
+       compact card rather than a full-screen empty slab. */
+    padding: 40px 20px 56px;
   }
   .v2-product-form {
     gap: 10px;
   }
   .v2-product-eyebrow {
-    margin-bottom: clamp(32px, 8vw, 80px);
+    /* Was clamp(32px, 8vw, 80px) — at 8vw on a 390px phone that
+       resolved to ~31px (clamp's lower bound). The real waste was
+       upstream of this anyway; cap it at a tight 24px so the
+       editorial stack reads without an exaggerated gap on phones. */
+    margin-bottom: 24px;
+  }
+  .v2-product-body {
+    /* Body→integrations gap was clamp(40px, 4.5vw, 64px), max ~64px.
+       Tighten to ~24px on mobile so the prose and the platform list
+       sit in one rhythm instead of feeling like two separate beats. */
+    margin-bottom: 24px;
+  }
+  .v2-product-integrations {
+    /* Integrations→form gap was clamp(48px, 5.5vw, 80px) — pull it
+       in so the whole left column collapses to a tighter stack. */
+    margin-bottom: 32px;
+  }
+  .v2-product-right {
+    /* The biggest source of empty green: this column was reserving
+       clamp(240px, 56vw, 360px) of vertical space for the byte
+       sprite, but the sprite itself only renders at ~220px wide.
+       Drop the reservation so the column collapses to the byte's
+       intrinsic height (plus the floating coins) and the section
+       stops carrying ~120–240px of unused green band above the
+       eyebrow. */
+    min-height: 0;
+  }
+  .v2-product-byte {
+    /* Slightly smaller byte on phone — the desktop clamp was tuned
+       for the wide right column. */
+    width: clamp(180px, 56vw, 260px);
   }
 }
 
@@ -3912,11 +3944,18 @@ html {
        align-items: center keeps every direct child (headline,
        subhead, pets row) horizontally centred regardless of its
        own width — without this, child widths < 100% would hug
-       the flex-start edge and the column would lean left. */
+       the flex-start edge and the column would lean left.
+       overflow: visible (overrides desktop's `hidden`) so the
+       heart deco's bob animation — which translates -12px
+       upward — doesn't clip against the top edge during scroll
+       on iOS Safari. The hero's children use absolute/intrinsic
+       sizing on mobile, nothing actually overflows the section
+       laterally, so dropping the clip is safe here. */
     min-height: 0;
     padding: clamp(20px, 4vh, 40px) 16px 0;
     justify-content: flex-start;
     align-items: center;
+    overflow: visible;
   }
   .v2-hero-headline,
   .v2-hero-subhead {
@@ -3942,27 +3981,32 @@ html {
     text-align: center;
     width: 100%;
   }
-  /* Sparkle as a TOP-LEFT corner ornament — symmetric mirror of
-     the heart on the right. Previously pinned at left:3% / top:18%
-     it overlapped the AGENTIC CODE glyphs and pulled the visual
-     centre of the hero leftward. Moving it to the top-left corner
-     (top: 4px / left: 4%) and shrinking it to match the heart's
-     scale lets the headline column read as cleanly centred between
-     two small corner ornaments. */
+  /* Sparkle now sits in the GAP between the subhead's last line
+     ("CREW") and the pets row — anchored from the bottom so it
+     stays in that gap regardless of the hero's intrinsic height.
+     `bottom` value targets just above the pets row: pets are
+     ~84px tall + 60px V-translate ≈ 144px from the hero bottom,
+     so a 150–180px bottom offset places the sparkle just above
+     the tallest pet and just below CREW. left: 12% biases it
+     slightly left-of-centre so it accents CREW without sitting
+     dead-on-top of the centred glyphs. */
   .v2-hero-deco--sparkle-tl {
-    left: 4%;
-    top: 4px;
-    bottom: auto;
-    width: clamp(24px, 6vw, 36px);
+    left: 12%;
+    top: auto;
+    bottom: clamp(140px, 32vw, 180px);
+    width: clamp(28px, 7vw, 44px);
   }
-  /* Heart pinned to the very top-right corner of the hero, ABOVE
-     the headline, so it stops colliding with the right end of
-     'LEARN TO BUILD'. top: 0 + a small px offset + a slightly
-     smaller width keeps it as a corner ornament rather than
-     overlapping headline glyphs. */
+  /* Heart pinned to the top-right corner of the hero. Bumped from
+     top: 4px to top: 20px so the deco's -12px bob translate stays
+     comfortably inside the hero bounds — at the previous 4px the
+     bob peak rendered at -8px and was clipped (more obviously on
+     iOS during scroll, where the layer is reflowed mid-animation
+     and the clip became a full disappear). 20px gives the bob
+     enough headroom even if a parent ever re-enables overflow:
+     hidden. */
   .v2-hero-deco--heart-tr {
     right: 4%;
-    top: 4px;
+    top: 20px;
     width: clamp(24px, 6vw, 36px);
   }
   .v2-hero-pets {
