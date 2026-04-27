@@ -4709,15 +4709,48 @@ html {
   .v2-testimonials {
     padding: 96px 20px;
   }
+  /* Heading column centred horizontally on mobile (was left-
+     aligned in the heading flex column). text-align: center +
+     align-items: center so both the title and subtitle line up
+     under each other on the page's centre axis. */
+  .v2-testimonials-heading {
+    align-items: center;
+    text-align: center;
+  }
   .v2-testimonials-title,
   .v2-testimonials-subtitle {
-    font-size: clamp(32px, 8vw, 44px);
+    font-size: clamp(28px, 7vw, 38px);
+    text-align: center;
+    /* Allow wrapping at any size so long lines never overflow
+       the viewport on narrow phones. */
+    white-space: normal;
   }
+  /* Cards inset from the section edges by 28px on each side,
+     matching the Get Good and Skill Trees card widths exactly. */
+  .v2-testimonials-list {
+    padding: 0 28px;
+    gap: 24px;
+  }
+  /* Card padding tightened so internal text has room in the
+     narrower mobile width. Card grows naturally to its content
+     instead of stretching with `flex: 1` (which on a single-
+     column layout has no siblings to balance against). */
+  .v2-testimonials-card {
+    flex: 0 1 auto;
+    padding: 18px 16px;
+    gap: 10px;
+  }
+  /* Quote / attribution / name / role sized down to fit the
+     narrower card. Quote bumps slightly (16 → 14) for a more
+     compact feel; attribution drops to 12 so the two-line
+     name + role pair sits tidily under the quote. */
   .v2-testimonials-quote {
-    font-size: 15px;
+    font-size: 14px;
+    line-height: 1.35;
   }
   .v2-testimonials-attr {
-    font-size: 15px;
+    font-size: 12px;
+    line-height: 1.3;
   }
   .v2-testimonials-pet img {
     width: clamp(80px, 22vw, 120px) !important;
