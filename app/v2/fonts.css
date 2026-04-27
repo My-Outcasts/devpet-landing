@@ -4316,18 +4316,41 @@ html {
   .v2-mindset {
     padding: 96px 20px;
   }
+  /* Headline shrunk so the longest line "mindset before you"
+     (18 chars incl. spaces) fits on a single row at 390px width
+     instead of overflowing and dropping "you" to its own line.
+     Was clamp(42px, 11vw, 64px) (~43px on a phone, way too wide
+     for a 350px usable column at this pixel font); now
+     clamp(26px, 7vw, 40px) renders ~27px which fits "mindset
+     before you" comfortably. white-space: nowrap re-enabled per
+     line so each .line span stays on its own row, matching the
+     desktop composition. */
   .v2-mindset-headline {
-    font-size: clamp(42px, 11vw, 64px);
+    font-size: clamp(26px, 7vw, 40px);
     line-height: 1.05;
   }
   .v2-mindset-headline .line {
-    /* Allow wrapping on narrow viewports — desktop nowrap would
-       overflow the column. */
-    white-space: normal;
+    white-space: nowrap;
   }
   .v2-mindset-eyebrow {
     font-size: 18px;
   }
+  /* Orbs repositioned and resized on mobile per design pass:
+       1. All four pulled IN from the corners so they sit closer
+          to the headline column (was at 3–6% edge offsets, now
+          at 12–14% so the corners read as inhabited rather than
+          stretched-thin)
+       2. Top pair share the same `top: 12%` and bottom pair
+          share `bottom: 12%` so they read as horizontal pairs
+          framing the headline
+       3. All four pinned to a uniform 76px width (was 72/88/72/80
+          — a deliberately varied scatter on desktop, but the
+          uneven mix reads as inconsistent at the smaller mobile
+          sizes, so unify them) */
+  .v2-mindset-orb--tl { top: 12%;    left: 12%;  width: 76px; }
+  .v2-mindset-orb--tr { top: 12%;    right: 12%; width: 76px; }
+  .v2-mindset-orb--bl { bottom: 12%; left: 12%;  width: 76px; }
+  .v2-mindset-orb--br { bottom: 12%; right: 12%; width: 76px; }
 
   /* ── Get Good ─────────────────────────────────────────────── */
   .v2-getgood {
