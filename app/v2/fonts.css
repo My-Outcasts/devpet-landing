@@ -4425,39 +4425,42 @@ html {
   .v2-getgood-headline {
     font-size: clamp(36px, 9vw, 56px);
   }
-  /* Cards on mobile match the pixels.xyz reference: portrait
-     tile (~3:4) with generous internal padding, the icon
-     centred in the upper-middle band, and the title centred
-     at the bottom. Both icon AND label are horizontally
-     centred per design pass. */
+  /* Cards: portrait tiles, both icon and label centred. Sized
+     down from the previous pass — aspect-ratio 3:4 was too tall
+     and left a big dark band between the icon and the title.
+     Now closer to square (4:5) so the card reads as compact and
+     everything fits inside without huge empty space. Side
+     padding tightened on mobile so the card itself is also a
+     touch narrower than the section column. */
   .v2-getgood-cards {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 20px;
+    /* Inset the whole grid from the section's edges so each card
+       reads as narrower than the full viewport — gives the
+       yellow band breathing room around the cards. */
+    padding: 0 8px;
   }
   .v2-getgood-card {
-    aspect-ratio: 3 / 4;
-    padding: 32px 28px;
-    /* Centre everything horizontally — text-align: center for
-       inline content and align-items: center for flex children.
-       justify-content: space-between still pushes icon to top
-       and label to bottom, with the dark band between them. */
+    aspect-ratio: 4 / 5;
+    padding: 24px 22px;
     align-items: center;
     justify-content: space-between;
     text-align: center;
   }
   .v2-getgood-card-icon {
-    /* Icon centred horizontally inside the card's padding box
-       and capped at 55% height so the lower half stays clear
-       for the title. Width: 100% lets the icon fill the inner
-       width; object-fit on the <img> keeps its aspect intact. */
+    /* Icon capped at 60% height so it reads larger inside the
+       shorter card — was 55% on the taller 3:4 layout. */
     width: 100%;
-    max-height: 55%;
+    max-height: 60%;
     align-self: center;
   }
   .v2-getgood-card-label {
-    /* Big pixel title centred horizontally at the bottom of
-       the card. clamp(32,9vw,44) → ~35px on a 390px phone. */
-    font-size: clamp(32px, 9vw, 44px);
+    /* Title shrunk to clamp(22,6vw,30) — at ~23px on a 390px
+       phone it sits comfortably below the icon without
+       crowding the bottom of the now-shorter card. Was
+       clamp(32,9vw,44) which read oversized once the card got
+       smaller. */
+    font-size: clamp(22px, 6vw, 30px);
     line-height: 1;
     align-self: center;
     text-align: center;
