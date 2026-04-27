@@ -4316,28 +4316,34 @@ html {
   .v2-mindset {
     padding: 96px 20px;
   }
-  /* Headline shrunk further from clamp(26,7vw,40) → clamp(22,6vw,36)
-     so the longest line "mindset before you" actually fits within
-     350px of usable width (Upheaval TT's caps are wider per em
-     than I estimated last pass, which is why the previous 27px
-     still spilled "YOU" off the right edge). At 390px viewport
-     this resolves to ~23px which leaves clear margin on both
-     sides for the longest line. */
+  /* Headline shrunk again (clamp 22→18 / 6vw→4.8vw / 36→28).
+     Upheaval TT's caps are wider per em than expected — at the
+     previous ~23px setting, "MINDSET BEFORE YOU" was rendering
+     ~390px wide on a 350px usable column, so "U" still spilled
+     past the right edge. At ~19px (4.8vw on a 390px phone) the
+     line clears the column with comfortable margin on both
+     sides. */
   .v2-mindset-headline {
-    font-size: clamp(22px, 6vw, 36px);
-    line-height: 1.05;
-    /* Belt-and-braces — `.v2-mindset-inner` already sets
-       text-align: center, but explicit alignment here guards
-       against any cascade or inline override that might leak in. */
+    font-size: clamp(18px, 4.8vw, 28px);
+    line-height: 1.1;
     text-align: center;
+    /* Auto margins guarantee block-level centring even if any
+       parent ever drops text-align: center or sets the block to
+       a non-stretching width. */
+    margin-left: auto;
+    margin-right: auto;
   }
   .v2-mindset-headline .line {
     white-space: nowrap;
   }
   .v2-mindset-eyebrow {
     font-size: 18px;
-    /* Same belt-and-braces — Codepet eyebrow centered explicitly. */
     text-align: center;
+    /* Same belt-and-braces auto margins as the headline so the
+       "Codepet" eyebrow is guaranteed to centre regardless of
+       how its containing block computes width. */
+    margin-left: auto;
+    margin-right: auto;
   }
   /* Orbs uniform across all four slots on mobile. Important:
      setting only `width: 76px` (as the previous edit did) made
