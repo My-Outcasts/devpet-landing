@@ -4316,25 +4316,20 @@ html {
   .v2-mindset {
     padding: 96px 20px;
   }
-  /* Headline shrunk again (clamp 22→18 / 6vw→4.8vw / 36→28).
-     Upheaval TT's caps are wider per em than expected — at the
-     previous ~23px setting, "MINDSET BEFORE YOU" was rendering
-     ~390px wide on a 350px usable column, so "U" still spilled
-     past the right edge. At ~19px (4.8vw on a 390px phone) the
-     line clears the column with comfortable margin on both
-     sides. */
+  /* Headline pinned to a flat 40px on mobile per design pass.
+     white-space: normal (overrides the default `nowrap` on the
+     desktop `.line` rule) so the longest line "mindset before
+     you" can wrap onto multiple visual rows at this larger size
+     instead of overflowing the viewport on narrow phones. */
   .v2-mindset-headline {
-    font-size: clamp(18px, 4.8vw, 28px);
-    line-height: 1.1;
+    font-size: 40px;
+    line-height: 1.05;
     text-align: center;
-    /* Auto margins guarantee block-level centring even if any
-       parent ever drops text-align: center or sets the block to
-       a non-stretching width. */
     margin-left: auto;
     margin-right: auto;
   }
   .v2-mindset-headline .line {
-    white-space: nowrap;
+    white-space: normal;
   }
   .v2-mindset-eyebrow {
     font-size: 18px;
