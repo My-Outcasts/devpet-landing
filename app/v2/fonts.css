@@ -4456,8 +4456,14 @@ html {
     align-self: center;
   }
   .v2-getgood-card-label {
-    font-size: clamp(20px, 5.4vw, 26px);
+    /* Bumped one step (clamp 20→22 / 5.4vw→5.8vw / 26→30) so the
+       title reads a touch bigger inside the smaller card. */
+    font-size: clamp(22px, 5.8vw, 30px);
     line-height: 1;
+    /* Pixel/retro fonts like Upheaval TT pack letters tight by
+       default — 0.06em adds a small breathing buffer between
+       glyphs without breaking the pixel rhythm. */
+    letter-spacing: 0.06em;
     align-self: center;
     text-align: center;
     width: 100%;
