@@ -4187,13 +4187,16 @@ html {
     font-size: 14px;
     padding: 0 16px;
   }
-  /* Pixel-art waitlist button — chunky frame retained but the
-     body itself shrinks per latest design pass: 48px → 40px
-     tall, 28px → 20px horizontal padding, 18px → 15px label so
-     the button reads as a tidy pixel-pill rather than dominating
-     the form. Outer outline drops 4px → 3px to scale with the
-     smaller body, and the inner bevel narrows 6px → 4px so the
-     highlight/shadow bands stay proportional to the new height. */
+  /* Pixel-art waitlist button — smaller than desktop but the
+     stepped pill silhouette is preserved by replacing the
+     desktop's 52px-tall clip-path with a proportional 40px-tall
+     version (12px top corners + 16px flat middle + 12px bottom
+     corners, three 4px step-transitions per corner instead of
+     four). The desktop path's hard-coded y=16 / y=36 / y=52
+     coordinates assumed a 52px element height, so just shrinking
+     the body to 40px before chopped the bottom of the path off
+     and made the pill look distorted — the new path matches the
+     new body height exactly. */
   .v2-product-submit {
     filter:
       drop-shadow( 3px 0 0 #1E1848)
@@ -4205,9 +4208,37 @@ html {
     height: 40px;
     font-size: 15px;
     padding: 0 20px;
+    /* Bevel narrowed to 3px each side so the highlight + shadow
+       bands stay proportional to the smaller 40px body. */
     box-shadow:
-      inset 0  4px 0 rgba(255, 255, 255, 0.22),
-      inset 0 -4px 0 rgba(0, 0, 0, 0.4);
+      inset 0  3px 0 rgba(255, 255, 255, 0.22),
+      inset 0 -3px 0 rgba(0, 0, 0, 0.4);
+    /* Re-cut clip-path for a 40px-tall pill — top corner stairs
+       from y=0 to y=12, flat right edge y=12→28, bottom corner
+       stairs y=28→40. Mirrored on the left. The 3-step ladder
+       per corner (4px × 3 = 12px) keeps the same pixel grid as
+       the desktop path, just tuned to the shorter body. */
+    clip-path: polygon(
+      16px 0,             calc(100% - 16px) 0,
+      calc(100% - 12px) 0,  calc(100% - 12px) 4px,
+      calc(100% - 8px)  4px, calc(100% - 8px)  8px,
+      calc(100% - 4px)  8px, calc(100% - 4px) 12px,
+      100% 12px,
+      100% 28px,
+      calc(100% - 4px)  28px, calc(100% - 4px)  32px,
+      calc(100% - 8px)  32px, calc(100% - 8px)  36px,
+      calc(100% - 12px) 36px, calc(100% - 12px) 40px,
+      calc(100% - 16px) 40px,
+      16px 40px,
+      12px 40px, 12px 36px,
+      8px  36px, 8px  32px,
+      4px  32px, 4px  28px,
+      0 28px,
+      0 12px,
+      4px  12px, 4px  8px,
+      8px  8px,  8px  4px,
+      12px 4px,  12px 0
+    );
   }
 
   /* ── Stats ────────────────────────────────────────────────── */
