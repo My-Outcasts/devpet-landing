@@ -3906,11 +3906,11 @@ html {
     /* Mobile hero collapses to its content height — no more
        100vh min-height that left big empty bands above and below
        the headline + pets cluster. The section now sits at
-       intrinsic height with small padding on either end, and
-       justify-content: flex-start anchors the headline near the
-       nav so there's no centring gap above it. */
+       intrinsic height with small padding on top, ZERO padding-
+       bottom so the pets row sits flush against the next section
+       (no empty white band between hero and Product). */
     min-height: 0;
-    padding: clamp(20px, 4vh, 40px) 16px clamp(24px, 4vh, 40px);
+    padding: clamp(20px, 4vh, 40px) 16px 0;
     justify-content: flex-start;
   }
   .v2-hero-headline,
@@ -3933,30 +3933,37 @@ html {
     text-align: center;
     width: 100%;
   }
-  /* Sparkle pinned to the LEFT of the headline — moved up one
-     notch from the previous top: 38% (which sat next to CREW)
-     to top: 28% so it now lines up with the WITH YOUR / AGENTIC
-     CODE rows instead of dropping toward the pets. left: 3%
-     hugs the edge so it doesn't collide with the centred
-     headline glyphs. */
+  /* Sparkle pinned to the LEFT of the headline — moved up another
+     notch (28% -> 18%) so it lines up with the AGENTIC CODE row
+     instead of dropping further down. left: 3% hugs the edge so
+     it doesn't collide with the centred headline glyphs. */
   .v2-hero-deco--sparkle-tl {
     left: 3%;
-    top: 28%;
+    top: 18%;
     bottom: auto;
     width: clamp(40px, 10vw, 64px);
   }
-  /* Heart stays top-right but tucked tighter to the corner. */
+  /* Heart pinned to the very top-right corner of the hero, ABOVE
+     the headline, so it stops colliding with the right end of
+     'LEARN TO BUILD'. top: 0 + a small px offset + a slightly
+     smaller width keeps it as a corner ornament rather than
+     overlapping headline glyphs. */
   .v2-hero-deco--heart-tr {
-    right: 6%;
-    top: 8%;
-    width: clamp(28px, 7vw, 44px);
+    right: 4%;
+    top: 4px;
+    width: clamp(24px, 6vw, 36px);
   }
   .v2-hero-pets {
-    /* Tighter V (depth halved) and shorter container so seven
-       pets fit inside a narrow viewport without overflowing. */
-    min-height: 220px;
+    /* Tighter V (depth halved) and container collapses to its
+       intrinsic content height instead of a fixed 220px box —
+       the previous fixed min-height left ~100px of empty space
+       below the deepest pet (byte at the V dip), which read as
+       a white band before the next section. */
+    min-height: auto;
     gap: clamp(4px, 1.4vw, 12px);
-    margin: clamp(24px, 4vh, 40px) 0 clamp(8px, 2vh, 16px);
+    /* Margin-bottom dropped to 0 so the pets row sits flush
+       against the section boundary below. */
+    margin: clamp(24px, 4vh, 40px) 0 0;
   }
   /* Halve the V depth on mobile so the lowest pet doesn't sit
      pixel-perfect at the viewport bottom edge. */
