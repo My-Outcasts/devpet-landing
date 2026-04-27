@@ -4567,14 +4567,12 @@ html {
   .v2-skilltrees-headline {
     font-size: clamp(42px, 11vw, 64px);
   }
-  /* Intro paragraph sized DOWN on mobile (~16px → ~14px) so the
-     sentence "From the first call to final delivery, every step
-     is designed for clarity and efficiency." rewraps without
-     orphaning "efficiency." onto its own last line. max-width
-     also widened from the desktop calc(100vw - 96px) to 100% so
-     the column uses the full mobile gutter. */
+  /* Intro paragraph matched to the Get Good body text on mobile
+     (clamp 16,4vw,22) so the two yellow-band sections share the
+     same body-copy scale. max-width: 100% keeps the column
+     using the full mobile gutter so longer lines fit. */
   .v2-skilltrees-intro {
-    font-size: clamp(13px, 3.6vw, 16px);
+    font-size: clamp(16px, 4vw, 22px);
     max-width: 100%;
     margin-bottom: clamp(40px, 8vw, 64px);
   }
