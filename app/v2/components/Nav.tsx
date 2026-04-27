@@ -37,6 +37,10 @@ import { useEffect, useRef, useState } from 'react'
 export default function Nav() {
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  // Mobile menu state — toggled by the hamburger button at <=768px.
+  // On desktop the .v2-nav-links are always visible (CSS handles
+  // it) and this state has no effect.
+  const [menuOpen, setMenuOpen] = useState(false)
   // Suppresses the show branch immediately after a nav anchor
   // click so the destination section gets a clean view without
   // the bar sliding down into it.
@@ -144,17 +148,40 @@ export default function Nav() {
   const handleAnchorClick = () => {
     suppressShowUntilRef.current = Date.now() + 1500
     setHidden(true)
+    // Close the mobile menu on any link tap so the user lands at
+    // the destination section without the dropdown still covering
+    // it.
+    setMenuOpen(false)
   }
 
   return (
     <nav
-      className={`v2-nav${scrolled ? ' v2-nav--scrolled' : ''}${hidden ? ' v2-nav--hidden' : ''}`}
+      className={`v2-nav${scrolled ? ' v2-nav--scrolled' : ''}${hidden ? ' v2-nav--hidden' : ''}${menuOpen ? ' v2-nav--menu-open' : ''}`}
       aria-label="Primary"
     >
       <div className="v2-nav-inner v2-nav-inner--enter">
+        {/* LEFT — at desktop: section links inline. On mobile
+            (<=768px) the links collapse into a dropdown revealed
+            by tapping the hamburger button below; the link list
+            below this button is hidden by default and shown
+            (still in the LEFT grid cell) only when .v2-nav--menu-open
+            is on the parent <nav>. */}
+        <button
+          type="button"
+          className="v2-nav-hamburger"
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={menuOpen}
+          aria-controls="v2-nav-menu"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+          <span aria-hidden="true" />
+        </button>
+
         {/* LEFT — section links. Hover: thin rectangular outline
             fades in around each label via ::after pseudo-element. */}
-        <ul className="v2-nav-links">
+        <ul id="v2-nav-menu" className="v2-nav-links">
           <li>
             <a href="#product" className="v2-nav-link" onClick={handleAnchorClick}>Product</a>
           </li>

@@ -3798,29 +3798,102 @@ html {
      • <= 480px   — phones in portrait. Further compactness on
                     type, paddings, decorative elements.
    ───────────────────────────────────────────────────────────── */
+/* Hamburger button — hidden on desktop, revealed at <=768px.
+   Three stacked bars rendered as <span> children. */
+.v2-nav-hamburger {
+  display: none;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  /* Sits in the LEFT grid cell on mobile (replaces the inline
+     nav links). justify-self handled by the grid layout. */
+  justify-self: start;
+}
+.v2-nav-hamburger span {
+  display: block;
+  height: 3px;
+  background: #000000;
+  width: 100%;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.v2-nav-hamburger:focus-visible {
+  outline: 2px solid #7B6BD8;
+  outline-offset: 2px;
+}
+/* Open-state animation: top bar rotates into a /, middle fades,
+   bottom rotates into a \ — together they read as an X. */
+.v2-nav--menu-open .v2-nav-hamburger span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.v2-nav--menu-open .v2-nav-hamburger span:nth-child(2) {
+  opacity: 0;
+}
+.v2-nav--menu-open .v2-nav-hamburger span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 @media (max-width: 768px) {
 
   /* ── Nav ──────────────────────────────────────────────────── */
+  .v2-nav-hamburger {
+    display: flex;  /* shown on mobile only */
+  }
   .v2-nav-inner {
-    /* Tighter horizontal padding so the three columns fit on a
-       narrow phone. Also reduce vertical padding to claw back
-       viewport for the hero. */
-    padding: 18px 16px;
+    /* Two-column mobile grid: hamburger on the left, wordmark
+       centred. The right CTA column drops to width: 0 so the
+       wordmark visually centres. */
+    padding: 14px 16px;
     grid-template-columns: 1fr auto 1fr;
   }
-  .v2-nav-links {
-    gap: 14px;
-  }
-  .v2-nav-links a {
-    /* Smaller link size at mobile — less aggressive 19px brick
-       so PRODUCT / GET GOOD / SKILL TREE all fit on one line. */
-    font-size: 14px;
-    padding: 6px 8px;
+  .v2-nav-wordmark {
+    /* Wordmark stays in the centre column even when the right CTA
+       cell is empty. */
+    justify-self: center;
   }
   .v2-nav-wordmark img {
-    /* Wordmark caps at 40px on mobile (vs 60 desktop) — keeps
-       the bar slim while still readable. */
+    /* Wordmark caps at 40px on mobile. */
     height: clamp(32px, 6.4vw, 40px);
+  }
+  /* Nav links — hidden by default on mobile, slide down as a
+     dropdown when the hamburger toggles .v2-nav--menu-open. */
+  .v2-nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background: #FFFFFF;
+    padding: 12px 20px 20px;
+    gap: 4px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+    /* Hidden by default; toggled visible by the menu-open class. */
+    display: none;
+  }
+  .v2-nav--menu-open .v2-nav-links {
+    display: flex;
+  }
+  .v2-nav-links a {
+    font-size: 16px;
+    padding: 12px 8px;
+    width: 100%;
+    text-align: left;
+  }
+  /* The static nav grid puts the hamburger in column 1, the
+     wordmark in column 2, and an empty column 3 for symmetry.
+     The links UL is absolutely positioned outside the grid so
+     it doesn't take a column. */
+  .v2-nav-cta {
+    /* CTA still visible on the larger phones in landscape — see
+       the 480px override below for portrait, where it hides. */
+    justify-self: end;
   }
   .v2-nav-cta-body {
     font-size: 12px;
@@ -3833,22 +3906,32 @@ html {
     /* Mobile hero gets a shorter min-height (smaller nav) and
        tighter top padding so the pets row stays visible above
        the fold. */
-    min-height: calc(100vh - 80px);
-    min-height: calc(100dvh - 80px);
+    min-height: calc(100vh - 70px);
+    min-height: calc(100dvh - 70px);
+    padding: clamp(8px, 2vh, 16px) 16px clamp(12px, 2vh, 20px);
+    /* Centre the column tighter so the headline + pets sit as
+       one balanced block on portrait screens. */
+    justify-content: center;
   }
   .v2-hero-headline,
   .v2-hero-subhead {
-    /* Cap at 56px on mobile so 'AGENTIC CODE' stays one line. */
-    font-size: clamp(36px, 11vw, 56px);
+    /* Smaller cap on mobile — 44px so the lines feel readable
+       without dominating the viewport. */
+    font-size: clamp(28px, 9vw, 44px);
   }
+  /* Sparkle moved to BOTTOM-LEFT on mobile — sits just above /
+     beside the 'CREW' line of the headline instead of pinned to
+     the top-left corner of the hero. */
   .v2-hero-deco--sparkle-tl {
     left: 6%;
-    top: 14%;
-    width: clamp(48px, 12vw, 80px);
+    top: auto;
+    bottom: 28%;
+    width: clamp(40px, 10vw, 64px);
   }
+  /* Heart stays top-right but tucked tighter to the corner. */
   .v2-hero-deco--heart-tr {
     right: 6%;
-    top: 12%;
+    top: 8%;
     width: clamp(28px, 7vw, 44px);
   }
   .v2-hero-pets {
