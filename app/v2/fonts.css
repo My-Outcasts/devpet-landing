@@ -4068,8 +4068,15 @@ html {
     /* Top padding tightened from clamp(40px, 8vw, 64px) to
        clamp(16px, 3vw, 24px) so the PRODUCT eyebrow sits close
        to the section's top border (the rounded green corner)
-       instead of carrying ~40px of empty space above it. */
-    padding: clamp(16px, 3vw, 24px) 20px clamp(48px, 10vw, 80px);
+       instead of carrying ~40px of empty space above it.
+       Bottom padding bumped from clamp(48px, 10vw, 80px) to
+       clamp(88px, 18vw, 120px) — Stats below overlaps Product
+       by 30px (negative margin-top), so the visible green band
+       between the waitlist button and the rounded Stats top
+       was only 48 - 30 = 18px. The bumped bottom now leaves
+       ~58px of breathing room (88 - 30) so the button doesn't
+       crowd the Stats section. */
+    padding: clamp(16px, 3vw, 24px) 20px clamp(88px, 18vw, 120px);
     align-items: flex-start;
   }
   .v2-product-inner {
