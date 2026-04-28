@@ -40,14 +40,24 @@ export default function GetGood() {
     const section = sectionRef.current
     if (!section) return
 
+    // rootMargin shrinks the bottom of the viewport by 35% so the
+    // section is only considered "in view" once its top has moved
+    // up past 65% of the viewport — i.e. the user has actually
+    // scrolled to where the headline / cards are, not when the
+    // very top edge is just peeking in from below. This stops the
+    // entrance animations from firing prematurely while the user
+    // is still on the previous section.
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.intersectionRatio >= 0.15) setInView(true)
-          else if (entry.intersectionRatio === 0) setInView(false)
+          if (entry.isIntersecting) setInView(true)
+          else setInView(false)
         }
       },
-      { threshold: [0, 0.15] }
+      {
+        rootMargin: '0px 0px -35% 0px',
+        threshold: 0,
+      }
     )
 
     observer.observe(section)
