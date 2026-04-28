@@ -67,13 +67,19 @@ export async function POST(req: Request) {
   )
 
   if (!sheetId || !clientEmail || !privateKey) {
-    console.error('Missing Google Sheets env vars', {
+    const diag = {
       hasSheetId: Boolean(sheetId),
       hasClientEmail: Boolean(clientEmail),
       hasPrivateKey: Boolean(privateKey),
-    })
+      privateKeyLen: privateKey?.length ?? 0,
+      privateKeyStartsWithBegin:
+        privateKey?.startsWith('-----BEGIN') ?? false,
+    }
+    console.error('Missing Google Sheets env vars', diag)
+    // TEMPORARY: include diag in response body so we can diagnose without
+    // log access. Remove this `detail` field once the env vars are working.
     return NextResponse.json(
-      { error: 'Server misconfigured' },
+      { error: 'Server misconfigured', detail: diag },
       { status: 500 }
     )
   }
