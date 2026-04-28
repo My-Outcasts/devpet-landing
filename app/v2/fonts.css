@@ -4799,6 +4799,92 @@ html {
     contain: layout;
   }
 
+  /* ── Mobile-wide negative space pass ─────────────────────────
+     Adds breathing room between sections + within content stacks
+     so the overall composition feels less crowded on phone. */
+  .v2-product-inner {
+    gap: clamp(20px, 5vw, 32px);
+  }
+  .v2-getgood-headline {
+    margin-bottom: clamp(40px, 9vw, 64px);
+  }
+  .v2-getgood-body {
+    margin-top: clamp(28px, 7vw, 44px);
+  }
+  .v2-skilltrees-cards {
+    gap: 24px;
+  }
+  .v2-mindset {
+    padding: clamp(112px, 18vw, 160px) 18px;
+  }
+  .v2-testimonials {
+    padding: clamp(112px, 18vw, 160px) 18px;
+  }
+  .v2-testimonials-heading {
+    margin-bottom: clamp(40px, 8vw, 56px);
+  }
+  .v2-finalcta {
+    padding: clamp(112px, 16vw, 160px) 18px;
+  }
+  .v2-finalcta-form {
+    margin-top: clamp(36px, 8vw, 56px);
+  }
+  .v2-footer {
+    padding: clamp(72px, 12vw, 96px) 18px clamp(48px, 8vw, 64px);
+  }
+
+  /* ── Mobile-wide animation perf pass ─────────────────────────
+     Promote every scroll-linked element to its own GPU layer and
+     pin will-change so reverse-scroll repaints don't re-promote
+     mid-animation (the main source of the "lag when scrolling
+     up" the user reported). All four elements that drive the
+     scroll-linked reveals on this page get the same treatment. */
+  .v2-product-inner,
+  .v2-mindset-inner,
+  .v2-stats-shape,
+  .v2-stat,
+  .v2-skilltrees-reveal,
+  .v2-testimonials-reveal,
+  .v2-testimonials-reveal--h,
+  .v2-finalcta-reveal,
+  .v2-product-integrates,
+  .v2-product-integrations,
+  .v2-product-form,
+  .v2-mindset-orb,
+  .v2-hero-pet-bob,
+  .v2-hero-deco-img {
+    /* translateZ(0) forces a stacking context + GPU layer
+       upfront, so the scroll-driven transform updates each
+       frame are GPU composites instead of CPU repaints.
+       backface-visibility: hidden + perspective: 1000 hints
+       to WebKit/Blink that this layer should be 3D-composited,
+       which in practice avoids the layer-recreation jitter
+       seen on iOS Safari when scrolling back up past elements
+       that are mid-reveal. */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform-style: preserve-3d;
+  }
+  /* Cards in scroll-linked sections: same GPU promotion. They
+     already carry transform/opacity transitions, so the
+     promotion just means those transitions are cheap. */
+  .v2-skilltrees-card,
+  .v2-getgood-card,
+  .v2-testimonials-card {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  /* Trim transition durations on scroll-driven properties so
+     they don't lag behind scroll on mobile. The Mindset orbs
+     had `transition: transform 0.08s linear` — keep that
+     (already snappy). The product/mindset inner had 0.08s.
+     Testimonials reveal and SkillTrees reveal don't use
+     transitions (they animate via direct CSS-var → transform);
+     no change needed there. The integrates+form group still
+     uses 0.6s for the smooth Slide In Bottom feel — that one
+     is intentionally slower because it's a one-shot reveal,
+     not a frame-by-frame scroll scrub. */
+
   /* ── Testimonials ─────────────────────────────────────────── */
   .v2-testimonials {
     padding: 96px 20px;
