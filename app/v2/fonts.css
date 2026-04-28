@@ -4639,30 +4639,19 @@ html {
   }
 
   /* ── Mobile performance optimizations ───────────────────────
-     The prior pass piled up several continuous animations and
-     long scroll-linked transitions that read fine on a desktop
-     GPU but stutter on mobile during scroll. The block below
-     trims the most expensive items on phone — the visual impact
-     is small but the frame-rate gain is significant. */
+     Lighter touch than the prior pass. We learned that:
+       • Disabling pet / deco bobs entirely killed the hero's
+         feel of being "alive" — restored.
+       • `contain: layout paint` on sections that host scroll-
+         linked reveals (Testimonials, SkillTrees) seemed to
+         dampen the reveal's visibility. Switched to `contain:
+         layout` only — keeps a layout-thrash benefit without the
+         paint clip.
+     Net of this pass: keep the cheaper wins (long transition
+     shortened, hover filter dropped on touch) and drop the
+     aggressive ones that hurt the visible motion. */
 
-  /* 1. Disable the continuous bob keyframe on every pet / deco /
-        orb. 7 hero pets + 2 hero decos + 4 mindset orbs running
-        their own keyframes constantly was the single biggest
-        scroll-time cost. Static positions on mobile.
-        Hover scale on pets is also removed since touch devices
-        don't really hover. */
-  .v2-hero-pet-bob,
-  .v2-hero-deco-img,
-  .v2-product-byte,
-  .v2-product-coin {
-    animation: none !important;
-  }
-  .v2-hero-pet:hover .v2-hero-pet-img,
-  .v2-hero-pet:focus-within .v2-hero-pet-img {
-    transform: none;
-  }
-
-  /* 2. Stats decorative shapes had a 0.5s ease-out transition
+  /* 1. Stats decorative shapes had a 0.5s ease-out transition
         on transform/opacity. On scroll-driven --enter-p that
         creates a 500ms rubber-band lag behind the actual scroll
         position, reading as choppy "follow-the-finger" motion.
@@ -4675,7 +4664,7 @@ html {
       transform 0.12s linear;
   }
 
-  /* 3. Get Good cards: drop the drop-shadow filter on hover
+  /* 2. Get Good cards: drop the drop-shadow filter on hover
         (expensive repaint, and there's no hover on touch
         devices anyway). The light-up alpha change still
         animates so taps feel responsive. */
@@ -4683,32 +4672,16 @@ html {
     filter: none;
   }
 
-  /* 4. Mindset orb parallax: zero out the per-orb drift speeds
-        so the four orbs sit static instead of being repainted
-        on every scroll frame. The drop-in entrance is preserved;
-        only the continuous parallax is muted. */
-  .v2-mindset-orb {
-    --spd-x: 0px !important;
-    --spd-y: 0px !important;
-  }
-
-  /* 5. Mark scroll-linked containers as paint-contained so any
-        per-frame style writes inside them don't invalidate the
-        rest of the page. `contain: layout paint` lets the
-        browser scope re-layout/repaint to the section bounds.
-        IMPORTANT: .v2-stats is intentionally excluded because it
-        has a `::after` pseudo-element pinned at `bottom: -32px`
-        that paints a white strip BELOW its bounds to fill the
-        Mindset section's rounded-corner cutouts. `contain: paint`
-        would clip that pseudo to the section box, exposing the
-        page's black bg-black through the cutouts (the two black
-        triangles at the seam between Stats and Mindset). */
+  /* 3. Mark scroll-linked containers as layout-contained so the
+        per-frame style writes inside them don't trigger full-page
+        layout recalcs. `contain: layout` (no `paint`) is enough —
+        adding `paint` was clipping pseudo-elements (.v2-stats's
+        white extension strip) and dampening the visual reveal of
+        scroll-linked elements (Testimonials, SkillTrees). */
   .v2-product,
   .v2-mindset,
-  .v2-skilltrees,
-  .v2-testimonials,
   .v2-getgood {
-    contain: layout paint;
+    contain: layout;
   }
 
   /* ── Testimonials ─────────────────────────────────────────── */
