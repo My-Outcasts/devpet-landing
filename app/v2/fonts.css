@@ -4160,6 +4160,44 @@ html {
      → 12px, logo 18–24 → 14px, row gap 24–44 → 14px. The whole
      row reads as a quiet supporting line under the body copy
      instead of competing with the headline + button for weight. */
+  /* "Integrates with:" + integrations row + form share a single
+     scroll-linked Slide-In-Bottom reveal per the Framer spec on
+     mobile:
+        Trigger     : Section in View
+        Preset      : Slide In Bottom
+        Offset Y    : +150 (starts 150px below final, slides up)
+        Opacity     : 0 → 1
+        Transition  : Spring (Stiffness 200, Damping 35, Mass 1)
+     The animation is driven by `--enter-p` (0..1) which Product.tsx
+     already writes on the .v2-product section as it scrolls into
+     view. As --enter-p ramps from 0 to 1, the group's opacity
+     follows directly and the translateY collapses from +150px to
+     0. The 0.6s cubic-bezier transition smooths per-frame jumps
+     and approximates the spring's overdamped settle. Reduced
+     motion users get a static appear via the @media block below. */
+  .v2-product-integrates,
+  .v2-product-integrations,
+  .v2-product-form {
+    opacity: var(--enter-p, 1);
+    transform: translate3d(
+      0,
+      calc((1 - var(--enter-p, 1)) * 150px),
+      0
+    );
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .v2-product-integrates,
+    .v2-product-integrations,
+    .v2-product-form {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
   .v2-product-integrates {
     order: 5;
     align-self: stretch;
