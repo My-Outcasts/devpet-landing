@@ -4261,14 +4261,32 @@ html {
      overlapping silhouettes to manage at narrow widths. Labels
      all switch to solid black so they sit cleanly under each
      coloured numeral on the white ground. */
-  .v2-stats-wrap {
-    /* No shapes to clear → tighter padding all round.
-       Border radius dropped from a uniform 24px to 30px TL +
-       30px TR + 0 BL + 0 BR per design pass — the bottom edge
-       sits flush against the next section so a flat bottom keeps
-       the seam clean (matches the desktop rule). */
-    padding: 32px 20px 40px;
+  /* The OUTER white .v2-stats section gets the rounded top
+     corners (TL: 30, TR: 30) per design pass, so the data band
+     visually ties into the Product section above it. The 30px
+     negative margin-top overlaps Stats into Product's bottom
+     padding (which is empty green); the rounded corner cutouts
+     then reveal that green behind Stats, producing a clean
+     interlocking-curve transition between the green Product band
+     and the white Stats band — same trick the Mindset and
+     Testimonials sections use at their seams. */
+  .v2-stats {
     border-radius: 30px 30px 0 0;
+    margin-top: -30px;
+    /* Tighter padding-top so the rounded corner area itself
+       doesn't waste vertical space above the inner wrap. */
+    padding-top: 32px;
+    /* Lift Stats above Product visually so the rounded corners
+       and any inside content paint over Product's bottom. */
+    position: relative;
+    z-index: 1;
+  }
+  .v2-stats-wrap {
+    /* Inner wrap loses the radius now that the outer section
+       carries it — keeping it on both stacked rounded shapes
+       on top of each other and reads as visually noisy. */
+    padding: 32px 20px 40px;
+    border-radius: 0;
   }
   .v2-stats-inner {
     grid-template-columns: 1fr;
