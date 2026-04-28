@@ -4812,7 +4812,10 @@ html {
     margin-top: clamp(28px, 7vw, 44px);
   }
   .v2-skilltrees-cards {
-    gap: 24px;
+    /* Wider gap between rows so the pet orbs sitting between
+       interleaved cards have visible breathing room above and
+       below — was 24px, now 40px (~16px more around each orb). */
+    gap: 40px;
   }
   .v2-mindset {
     padding: clamp(112px, 18vw, 160px) 18px;
