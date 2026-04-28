@@ -4311,6 +4311,42 @@ html {
   .v2-stat-label {
     color: #000000 !important;
   }
+  /* Per-stat scroll-linked slide-in matching the Framer spec on
+     mobile (where the decorative shapes are hidden):
+        Stat 1 (1,504)        → Slide In Left, offset X = -150
+        Stat 2 (70%)          → Slide In Right, offset X = +150
+        Stat 3 (2x)           → Slide In Left, offset X = -150
+     Driven by `--enter-p` (0..1), the same scroll variable
+     Stats.tsx already writes on .v2-stats-wrap as the section
+     enters view. Each .v2-stat carries its own `--dx` so the
+     direction differs per slot, while opacity ramps in unison.
+     The 0.5s cubic-bezier(0.22, 1, 0.36, 1) approximates the
+     spring's overdamped settle without time-based bounce. */
+  .v2-stat {
+    --dx: 0px;
+    opacity: var(--enter-p, 1);
+    transform: translate3d(
+      calc((1 - var(--enter-p, 1)) * var(--dx)),
+      0,
+      0
+    );
+    transition:
+      opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+  }
+  .v2-stat:nth-child(1) { --dx: -150px; }
+  .v2-stat:nth-child(2) { --dx:  150px; }
+  .v2-stat:nth-child(3) { --dx: -150px; }
+  /* Reduced motion users: pin progress to 1 and skip the
+     transition so the stats appear in place. */
+  @media (prefers-reduced-motion: reduce) {
+    .v2-stat {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
 
   /* ── Mindset ──────────────────────────────────────────────── */
   .v2-mindset {
