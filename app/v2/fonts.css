@@ -3935,25 +3935,27 @@ html {
 
   /* ── Hero ─────────────────────────────────────────────────── */
   .v2-hero {
-    /* Mobile hero collapses to its content height — no more
-       100vh min-height that left big empty bands above and below
-       the headline + pets cluster. The section now sits at
-       intrinsic height with small padding on top, ZERO padding-
-       bottom so the pets row sits flush against the next section
-       (no empty white band between hero and Product).
+    /* Mobile hero centres its content vertically within the
+       available viewport (below the sticky nav) instead of
+       hugging the top. min-height: calc(100vh - 124px) gives
+       the section room to centre against; justify-content:
+       center anchors the headline + pets cluster to the
+       vertical middle of that band. padding-bottom stays at 0
+       so the pets row remains flush against the Product
+       section below — the centring happens by adding space
+       ABOVE the content, not below.
        align-items: center keeps every direct child (headline,
-       subhead, pets row) horizontally centred regardless of its
-       own width — without this, child widths < 100% would hug
-       the flex-start edge and the column would lean left.
+       subhead, pets row) horizontally centred regardless of
+       its own width — without this, child widths < 100% would
+       hug the flex-start edge and the column would lean left.
        overflow: visible (overrides desktop's `hidden`) so the
        heart deco's bob animation — which translates -12px
        upward — doesn't clip against the top edge during scroll
-       on iOS Safari. The hero's children use absolute/intrinsic
-       sizing on mobile, nothing actually overflows the section
-       laterally, so dropping the clip is safe here. */
-    min-height: 0;
-    padding: clamp(20px, 4vh, 40px) 16px 0;
-    justify-content: flex-start;
+       on iOS Safari. */
+    min-height: calc(100vh - 124px);
+    min-height: calc(100dvh - 124px);
+    padding: 0 16px 0;
+    justify-content: center;
     align-items: center;
     overflow: visible;
   }
