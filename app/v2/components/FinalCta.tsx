@@ -137,7 +137,9 @@ export default function FinalCta() {
   return (
     <section id="final-cta" ref={sectionRef} className="v2-finalcta">
       <h2 className="v2-finalcta-title v2-finalcta-reveal">
-        let&rsquo;s talk the future of coding.
+        let&rsquo;s talk the
+        <br />
+        future of coding.
       </h2>
       <p className="v2-finalcta-subtitle v2-finalcta-reveal">
         stop guessing.

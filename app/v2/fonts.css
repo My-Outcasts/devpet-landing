@@ -4796,17 +4796,21 @@ html {
   .v2-finalcta {
     padding: 96px 20px;
   }
-  /* Title + subtitle: dropped from 40px to 28px on mobile so
-     longer lines like "let's talk the future of coding." don't
-     wrap to 3 cramped rows that visually overlap. white-space:
-     normal so long lines wrap inside the viewport instead of
-     overflowing. */
+  /* Title + subtitle: 28px on mobile, white-space: normal so
+     long lines wrap inside the viewport. Horizontal padding of
+     28px gives the text block the same effective margin as the
+     Skill Tree cards above it (which use grid `padding: 0 28px`
+     on top of the section's 20px side padding) — total ~48px
+     inset from viewport edges, matching visually. */
   .v2-finalcta-title,
   .v2-finalcta-subtitle {
     font-size: 28px;
     line-height: 1.1;
     white-space: normal;
     max-width: 100%;
+    padding-left: 28px;
+    padding-right: 28px;
+    box-sizing: border-box;
   }
   /* Email input matched to the Product section's mobile input:
      44px tall, 14px font, 16px horizontal padding, full width
