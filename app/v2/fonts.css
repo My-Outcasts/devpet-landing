@@ -4560,10 +4560,17 @@ html {
     /* Match Product body exactly: same Open Sans, same size, but
        also weight 400 (was 500) and letter-spacing -0.01em (was
        -0.04em) so the prose voice reads identically across the
-       green and yellow sections. */
+       green and yellow sections. Horizontal padding 0 28px gives
+       the body text the SAME effective inset as the card grid
+       above (which uses `padding: 0 28px` on top of the section's
+       20px sides), so the left/right margins of the prose align
+       with the card edges. */
     font-size: clamp(16px, 4vw, 22px);
     font-weight: 400;
     letter-spacing: -0.01em;
+    padding-left: 28px;
+    padding-right: 28px;
+    box-sizing: border-box;
   }
   /* Get Good CTA matched to the Product section's mobile button
      so all three pixel-pill CTAs (Product / Mindset / Get Good)
