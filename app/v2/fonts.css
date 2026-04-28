@@ -4637,13 +4637,19 @@ html {
      same Open Sans, same clamp(16,4vw,22) size, same weight 400
      and letter-spacing -0.01em so the prose voice reads
      identically across all three sections (Product / Get Good /
-     Skill Trees). max-width: 100% keeps the column using the
-     full mobile gutter so longer lines fit. */
+     Skill Trees). Horizontal padding 0 28px gives the intro the
+     SAME effective inset as the card grid below (which uses
+     `padding: 0 28px` on top of the section's 20px sides), so
+     the left/right margins of the text align with the card
+     edges. */
   .v2-skilltrees-intro {
     font-size: clamp(16px, 4vw, 22px);
     font-weight: 400;
     letter-spacing: -0.01em;
     max-width: 100%;
+    padding-left: 28px;
+    padding-right: 28px;
+    box-sizing: border-box;
     margin-bottom: clamp(40px, 8vw, 64px);
   }
   /* Skill Tree cards on mobile sized to match the Get Good cards.
