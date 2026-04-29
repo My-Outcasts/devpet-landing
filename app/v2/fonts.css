@@ -5008,6 +5008,15 @@ html {
     padding-right: 28px;
     box-sizing: border-box;
   }
+
+  /* Mobile-only: force the second half of each headline onto its own
+     line. The same span renders inline on desktop (its only style is
+     here, scoped to the mobile media query), so desktop keeps the
+     "Let's talk the future of coding." / "Stop guessing. Start
+     growing." one-line layout while mobile gets the two-line break. */
+  .v2-finalcta-mobile-break {
+    display: block;
+  }
   /* Email input matched to the Product section's mobile input:
      44px tall, 14px font, 16px horizontal padding, full width
      within the form's 296px max-width container. */

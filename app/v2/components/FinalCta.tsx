@@ -136,15 +136,18 @@ export default function FinalCta() {
 
   return (
     <section id="final-cta" ref={sectionRef} className="v2-finalcta">
+      {/* Title + subtitle each render as ONE line on desktop and TWO
+          lines on mobile. The wrapping span gets `display: block` only
+          inside the mobile media query (see fonts.css), so the second
+          half drops to a new line on small viewports without affecting
+          the desktop layout. */}
       <h2 className="v2-finalcta-title v2-finalcta-reveal">
-        let&rsquo;s talk the
-        <br />
-        future of coding.
+        let&rsquo;s talk the{' '}
+        <span className="v2-finalcta-mobile-break">future of coding.</span>
       </h2>
       <p className="v2-finalcta-subtitle v2-finalcta-reveal">
-        stop guessing.
-        <br />
-        start growing.
+        stop guessing.{' '}
+        <span className="v2-finalcta-mobile-break">start growing.</span>
       </p>
 
       <form
