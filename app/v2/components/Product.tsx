@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { FormEvent, useEffect, useRef, useState } from 'react'
+import { useLocale } from '@/lib/LocaleProvider'
 
 /**
  * Product — Section 3 of the /v2 landing.
@@ -42,6 +43,7 @@ type FormState = 'idle' | 'loading' | 'success' | 'duplicate' | 'error'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export default function Product() {
+  const { t } = useLocale()
   const [email, setEmail] = useState('')
   const [state, setState] = useState<FormState>('idle')
   const [validationError, setValidationError] = useState(false)
@@ -126,29 +128,27 @@ export default function Product() {
   const done = state === 'success' || state === 'duplicate'
   const loading = state === 'loading'
 
-  let buttonLabel = 'Join the waitlist'
-  if (loading) buttonLabel = 'Joining\u2026'
-  else if (state === 'success') buttonLabel = 'Thanks \u2014 you\u2019re in!'
-  else if (state === 'duplicate') buttonLabel = 'You\u2019re already in!'
+  let buttonLabel = t.v2.form.submit
+  if (loading) buttonLabel = t.v2.form.loading
+  else if (state === 'success') buttonLabel = t.v2.form.success
+  else if (state === 'duplicate') buttonLabel = t.v2.form.duplicate
 
   return (
     <section id="product" ref={sectionRef} className="v2-product">
       <div className="v2-product-inner">
         {/* ── Left column: copy + waitlist input ── */}
         <div className="v2-product-left">
-          <p className="v2-product-eyebrow">PRODUCT</p>
+          <p className="v2-product-eyebrow">{t.v2.product.eyebrow}</p>
 
-          <h3 className="v2-product-heading">who we are</h3>
+          <h3 className="v2-product-heading">{t.v2.product.heading}</h3>
 
           <p className="v2-product-body">
-            Codepet is a macOS application that helps people develop their
-            thinking and <em>ship products of their own</em>. Guided agentic
-            coding, adaptive feedback, and a daily-practice loop turn early
-            exposure to programming into durable skill.
+            {t.v2.product.bodyLead} <em>{t.v2.product.bodyEm}</em>
+            {t.v2.product.bodyTrail}
           </p>
 
-          <p className="v2-product-integrates">Integrates with:</p>
-          <ul className="v2-product-integrations" aria-label="Integrations">
+          <p className="v2-product-integrates">{t.v2.product.integratesWith}</p>
+          <ul className="v2-product-integrations" aria-label={t.v2.product.integrationsAria}>
             <li>
               <Image
                 src="/v2/integrations/cursor.svg"
@@ -157,7 +157,7 @@ export default function Product() {
                 height={24}
                 aria-hidden="true"
               />
-              <span>Cursor</span>
+              <span>{t.v2.product.integrationCursor}</span>
             </li>
             <li>
               <Image
@@ -167,7 +167,7 @@ export default function Product() {
                 height={24}
                 aria-hidden="true"
               />
-              <span>VS code</span>
+              <span>{t.v2.product.integrationVscode}</span>
             </li>
             <li>
               <Image
@@ -177,7 +177,7 @@ export default function Product() {
                 height={24}
                 aria-hidden="true"
               />
-              <span>Windsurf</span>
+              <span>{t.v2.product.integrationWindsurf}</span>
             </li>
           </ul>
 
@@ -187,7 +187,7 @@ export default function Product() {
             }
             onSubmit={handleSubmit}
             noValidate
-            aria-label="Join the waitlist"
+            aria-label={t.v2.form.waitlistAria}
           >
             {/* Hide the email input once the user has successfully joined
                 (success or duplicate). The pixel-pill button below carries
@@ -199,12 +199,12 @@ export default function Product() {
                 name="email"
                 required
                 autoComplete="email"
-                placeholder="name@gmail.com"
+                placeholder={t.v2.form.placeholder}
                 className={
                   'v2-product-input' +
                   (validationError ? ' v2-product-input--error' : '')
                 }
-                aria-label="Email address"
+                aria-label={t.v2.form.emailAria}
                 aria-invalid={validationError || state === 'error'}
                 value={email}
                 onChange={(e) => {
@@ -238,7 +238,7 @@ export default function Product() {
                 announce it on success. */}
             {done && (
               <p className="v2-product-msg v2-product-msg--success" aria-live="polite">
-                We&rsquo;ll email you when Codepet launches.
+                {t.v2.form.successSubtitle}
               </p>
             )}
 
@@ -247,7 +247,7 @@ export default function Product() {
                 className="v2-product-msg v2-product-msg--error"
                 role="alert"
               >
-                Please enter a valid email address.
+                {t.v2.form.errorValidation}
               </p>
             )}
             {state === 'error' && !validationError && (
@@ -255,7 +255,7 @@ export default function Product() {
                 className="v2-product-msg v2-product-msg--error"
                 role="alert"
               >
-                Something went wrong. Try again in a moment?
+                {t.v2.form.errorServer}
               </p>
             )}
           </form>

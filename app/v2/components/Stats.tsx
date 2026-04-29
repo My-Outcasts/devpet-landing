@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { useLocale } from '@/lib/LocaleProvider'
 
 /**
  * Stats — Section 4 of the /v2 landing.
@@ -37,13 +38,17 @@ import { useEffect, useRef } from 'react'
 // behind them: "1,504 / builders" sits over the red triangle (white
 // reads), "70% / success rate" sits on white ground (dark grey reads),
 // "2x / faster" sits inside the blue circle (white reads).
+// Numeric values stay hardcoded (universal across locales); only the
+// label text comes from translations. The `labelKey` indexes into
+// t.v2.stats so each row can swap its localized label at render.
 const stats = [
-  { value: '1,504', label: 'builders',     color: '#FFFFFF', labelColor: '#FFFFFF' },
-  { value: '70%',   label: 'success rate', color: '#000000', labelColor: '#8C8C8C' },
-  { value: '2x',    label: 'faster',       color: '#FFFFFF', labelColor: '#FFFFFF' },
+  { value: '1,504', labelKey: 'builders' as const,    color: '#FFFFFF', labelColor: '#FFFFFF' },
+  { value: '70%',   labelKey: 'successRate' as const, color: '#000000', labelColor: '#8C8C8C' },
+  { value: '2x',    labelKey: 'faster' as const,      color: '#FFFFFF', labelColor: '#FFFFFF' },
 ] as const
 
 export default function Stats() {
+  const { t } = useLocale()
   const sectionRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
@@ -100,7 +105,7 @@ export default function Stats() {
 
         <div className="v2-stats-inner">
           {stats.map((stat) => (
-            <div className="v2-stat" key={stat.label}>
+            <div className="v2-stat" key={stat.labelKey}>
               <span
                 className="v2-stat-number"
                 style={{ color: stat.color }}
@@ -111,7 +116,7 @@ export default function Stats() {
                 className="v2-stat-label"
                 style={{ color: stat.labelColor }}
               >
-                {stat.label}
+                {t.v2.stats[stat.labelKey]}
               </p>
             </div>
           ))}

@@ -1,6 +1,7 @@
 'use client'
 
 import { FormEvent, useEffect, useRef, useState } from 'react'
+import { useLocale } from '@/lib/LocaleProvider'
 
 /**
  * Final CTA — Section 9 of the /v2 landing.
@@ -27,6 +28,7 @@ type FormState = 'idle' | 'loading' | 'success' | 'duplicate' | 'error'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
 export default function FinalCta() {
+  const { t } = useLocale()
   const sectionRef = useRef<HTMLElement | null>(null)
   const [email, setEmail] = useState('')
   const [state, setState] = useState<FormState>('idle')
@@ -129,10 +131,10 @@ export default function FinalCta() {
   const done = state === 'success' || state === 'duplicate'
   const loading = state === 'loading'
 
-  let buttonLabel = 'Join the waitlist'
-  if (loading) buttonLabel = 'Joining\u2026'
-  else if (state === 'success') buttonLabel = 'Thanks \u2014 you\u2019re in!'
-  else if (state === 'duplicate') buttonLabel = 'You\u2019re already in!'
+  let buttonLabel = t.v2.form.submit
+  if (loading) buttonLabel = t.v2.form.loading
+  else if (state === 'success') buttonLabel = t.v2.form.success
+  else if (state === 'duplicate') buttonLabel = t.v2.form.duplicate
 
   return (
     <section id="final-cta" ref={sectionRef} className="v2-finalcta">
@@ -142,12 +144,12 @@ export default function FinalCta() {
           half drops to a new line on small viewports without affecting
           the desktop layout. */}
       <h2 className="v2-finalcta-title v2-finalcta-reveal">
-        let&rsquo;s talk the{' '}
-        <span className="v2-finalcta-mobile-break">future of coding.</span>
+        {t.v2.finalCta.titleLine1}{' '}
+        <span className="v2-finalcta-mobile-break">{t.v2.finalCta.titleLine2}</span>
       </h2>
       <p className="v2-finalcta-subtitle v2-finalcta-reveal">
-        stop guessing.{' '}
-        <span className="v2-finalcta-mobile-break">start growing.</span>
+        {t.v2.finalCta.subtitleLine1}{' '}
+        <span className="v2-finalcta-mobile-break">{t.v2.finalCta.subtitleLine2}</span>
       </p>
 
       <form
@@ -167,12 +169,12 @@ export default function FinalCta() {
             name="email"
             required
             autoComplete="email"
-            placeholder="name@gmail.com"
+            placeholder={t.v2.form.placeholder}
             className={
               'v2-finalcta-input' +
               (validationError ? ' v2-finalcta-input--error' : '')
             }
-            aria-label="Email address"
+            aria-label={t.v2.form.emailAria}
             aria-invalid={validationError || state === 'error'}
             value={email}
             onChange={(e) => {
@@ -199,18 +201,18 @@ export default function FinalCta() {
             className="v2-finalcta-msg v2-finalcta-msg--success"
             aria-live="polite"
           >
-            We&rsquo;ll email you when Codepet launches.
+            {t.v2.form.successSubtitle}
           </p>
         )}
 
         {validationError && (
           <p className="v2-finalcta-msg v2-finalcta-msg--error" role="alert">
-            Please enter a valid email address.
+            {t.v2.form.errorValidation}
           </p>
         )}
         {state === 'error' && !validationError && (
           <p className="v2-finalcta-msg v2-finalcta-msg--error" role="alert">
-            Something went wrong. Try again in a moment?
+            {t.v2.form.errorServer}
           </p>
         )}
       </form>

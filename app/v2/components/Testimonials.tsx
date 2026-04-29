@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
+import { useLocale } from '@/lib/LocaleProvider'
 
 /**
  * Testimonials — Section 8 of the /v2 landing.
@@ -27,34 +28,16 @@ import { useEffect, useRef } from 'react'
  * NOTE: quote #1 and #2 are identical in the Framer comp. Leaving
  * them as-is pending unique copy from the user.
  */
+// Pet sprites stay constant; quote/name/role come from t.v2.testimonials
+// at render. itemKey lets us look them up via `${itemKey}Quote`, etc.
 const testimonials = [
-  {
-    // Character #1 — yellow bear PNG at /public/v2/pets/5-yellow-bear.png
-    pet: '/v2/pets/5-yellow-bear.png',
-    alt: 'Yellow bear companion',
-    quote: '“40% broken prompts to just 12%. the pet makes me persistent.”',
-    name: 'sarah k.',
-    role: 'designer who codes',
-  },
-  {
-    // Character #2 — swapped to PNG (drop file at /public/v2/pets/2-green-owl.png)
-    pet: '/v2/pets/2-green-owl.png',
-    alt: 'Green owl companion',
-    quote: '“shipped my first saas in 6 weeks. 0 to $200 mrr.”',
-    name: 'wei c.',
-    role: 'indie dev',
-  },
-  {
-    // Character #3 — swapped to PNG (drop file at /public/v2/pets/7-blue-penguin.png)
-    pet: '/v2/pets/7-blue-penguin.png',
-    alt: 'Blue penguin companion',
-    quote: '“6 prompts for auth → 1. hours saved, more shipped.”',
-    name: 'alex r.',
-    role: 'solo founder',
-  },
+  { pet: '/v2/pets/5-yellow-bear.png', alt: 'Yellow bear companion', itemKey: 'item1' as const },
+  { pet: '/v2/pets/2-green-owl.png',   alt: 'Green owl companion',   itemKey: 'item2' as const },
+  { pet: '/v2/pets/7-blue-penguin.png', alt: 'Blue penguin companion', itemKey: 'item3' as const },
 ] as const
 
 export default function Testimonials() {
+  const { t } = useLocale()
   const sectionRef = useRef<HTMLElement | null>(null)
 
   // Scroll-linked reveal — same pattern as SkillTrees. Every element
@@ -145,34 +128,23 @@ export default function Testimonials() {
     >
       <div className="v2-testimonials-inner">
         <header className="v2-testimonials-heading v2-testimonials-reveal">
-          <h2 className="v2-testimonials-title">real results from the beta</h2>
-          <p className="v2-testimonials-subtitle">three stories. real change.</p>
+          <h2 className="v2-testimonials-title">{t.v2.testimonials.title}</h2>
+          <p className="v2-testimonials-subtitle">{t.v2.testimonials.subtitle}</p>
         </header>
 
         <ul className="v2-testimonials-list">
-          {testimonials.map((t, i) => (
+          {/* Loop variable renamed to `item` to avoid colliding with
+              the `t` translation alias from useLocale(). */}
+          {testimonials.map((item, i) => (
             <li
               key={i}
               className="v2-testimonials-item v2-testimonials-reveal v2-testimonials-reveal--h"
-              /* Per-card stagger in CSS pixels — 40px per "beat"
-                 so each character clearly appears after its neighbor
-                 while still finishing its reveal once the section
-                 snap-aligns at the top. Previously 160px, but the
-                 page uses `scroll-snap-type: y` on <html> with
-                 `scroll-snap-align: start` on this section, so snap
-                 pins rect.top before cards 2 and 3 can reach
-                 progress=1 — they froze at ~0.91 and ~0.625 opacity
-                 (with a matching 12.9px / 56.25px horizontal offset),
-                 which read as a washed-out, shifted penguin against
-                 the pink band. Cap max stagger (i=2 → 80px) comfortably
-                 below vh - entryRamp so all three cards complete
-                 reveal at the snapped position. */
               data-stagger={i * 40}
             >
               <div className="v2-testimonials-pet">
                 <Image
-                  src={t.pet}
-                  alt={t.alt}
+                  src={item.pet}
+                  alt={item.alt}
                   width={180}
                   height={180}
                   unoptimized
@@ -180,11 +152,15 @@ export default function Testimonials() {
               </div>
               <figure className="v2-testimonials-card">
                 <blockquote className="v2-testimonials-quote">
-                  {t.quote}
+                  {t.v2.testimonials[`${item.itemKey}Quote` as const]}
                 </blockquote>
                 <figcaption className="v2-testimonials-attr">
-                  <span className="v2-testimonials-name">{t.name}</span>
-                  <span className="v2-testimonials-role">{t.role}</span>
+                  <span className="v2-testimonials-name">
+                    {t.v2.testimonials[`${item.itemKey}Name` as const]}
+                  </span>
+                  <span className="v2-testimonials-role">
+                    {t.v2.testimonials[`${item.itemKey}Role` as const]}
+                  </span>
                 </figcaption>
               </figure>
             </li>

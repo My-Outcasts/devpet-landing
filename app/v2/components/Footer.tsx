@@ -1,4 +1,7 @@
+'use client'
+
 import Image from 'next/image'
+import { useLocale } from '@/lib/LocaleProvider'
 
 /**
  * Footer — Section 10 of the /v2 landing.
@@ -13,15 +16,23 @@ import Image from 'next/image'
  * Previous layout had a second column of social-media links (X,
  * Youtube, Instagram, Contra) plus /works /about /contact routes.
  * Both groups are removed — footer mirrors the top nav only.
+ *
+ * Strings come from `t.v2.footer` and `t.v2.nav` so the labels track
+ * whichever locale LocaleProvider has selected.
  */
-const navLinks = [
-  { label: 'Home', href: '#top' },
-  { label: 'Product', href: '#product' },
-  { label: 'Get Good', href: '#get-good' },
-  { label: 'Skill Tree', href: '#skill-trees' },
-] as const
 
 export default function Footer() {
+  const { t } = useLocale()
+
+  // Labels come from the same v2.nav namespace the top Nav reads from
+  // — keeps the footer link text in lockstep with the header.
+  const navLinks = [
+    { label: t.v2.nav.home, href: '#top' },
+    { label: t.v2.nav.product, href: '#product' },
+    { label: t.v2.nav.getGood, href: '#get-good' },
+    { label: t.v2.nav.skillTree, href: '#skill-trees' },
+  ]
+
   return (
     <footer id="footer" className="v2-footer">
       <div className="v2-footer-inner">
@@ -31,16 +42,16 @@ export default function Footer() {
               ratio; displayed size is handled by .v2-footer-logo. */}
           <Image
             src="/v2/logo/codepet-c.png"
-            alt="Codepet"
+            alt={t.v2.footer.wordmarkAlt}
             width={192}
             height={240}
             unoptimized
             className="v2-footer-logo"
           />
-          <p className="v2-footer-copyright">&copy; 2026 All right reserved</p>
+          <p className="v2-footer-copyright">{t.v2.footer.copyright}</p>
         </div>
 
-        <nav className="v2-footer-nav" aria-label="Footer">
+        <nav className="v2-footer-nav" aria-label={t.v2.footer.navAria}>
           <ul className="v2-footer-links">
             {navLinks.map((link) => (
               <li key={link.label}>

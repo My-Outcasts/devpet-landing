@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useLocale } from '@/lib/LocaleProvider'
 
 /**
  * Floating "Install Codepet" pill — Progressive Web App install prompt.
@@ -33,6 +34,7 @@ type BeforeInstallPromptEvent = Event & {
 const DISMISS_KEY = 'codepet-pwa-install-dismissed'
 
 export default function InstallPrompt() {
+  const { t } = useLocale()
   const [deferredEvent, setDeferredEvent] =
     useState<BeforeInstallPromptEvent | null>(null)
   const [hidden, setHidden] = useState(false)
@@ -102,19 +104,19 @@ export default function InstallPrompt() {
   }
 
   return (
-    <div className="v2-install-pill" role="region" aria-label="Install Codepet">
+    <div className="v2-install-pill" role="region" aria-label={t.v2.installPrompt.regionAria}>
       <button
         type="button"
         className="v2-install-pill-cta"
         onClick={handleInstall}
       >
-        Install Codepet
+        {t.v2.installPrompt.cta}
       </button>
       <button
         type="button"
         className="v2-install-pill-dismiss"
         onClick={handleDismiss}
-        aria-label="Dismiss install prompt"
+        aria-label={t.v2.installPrompt.dismissAria}
       >
         ×
       </button>

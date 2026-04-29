@@ -1,4 +1,7 @@
+'use client'
+
 import Image from 'next/image'
+import { useLocale } from '@/lib/LocaleProvider'
 
 /**
  * Hero — Section 2 of the /v2 landing.
@@ -36,6 +39,7 @@ const pets = [
 ] as const
 
 export default function Hero() {
+  const { t } = useLocale()
   return (
     <section id="hero" className="v2-hero">
       {/* Flanking pixel-art decorations — sparkle on the left,
@@ -65,11 +69,11 @@ export default function Hero() {
       </div>
 
       <h1 className="v2-hero-headline">
-        <span className="line">Learn to build</span>
-        <span className="line">agentic code</span>
+        <span className="line">{t.v2.hero.titleLine1}</span>
+        <span className="line">{t.v2.hero.titleLine2}</span>
       </h1>
 
-      <p className="v2-hero-subhead">with your crew</p>
+      <p className="v2-hero-subhead">{t.v2.hero.subhead}</p>
 
       <div className="v2-hero-pets" role="presentation">
         {/* Three nested layers per pet so the V-offset, the idle

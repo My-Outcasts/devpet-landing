@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { useLocale } from '@/lib/LocaleProvider'
 
 /**
  * Get Good / Code.Grow.Learn — Section 6.
@@ -21,14 +22,18 @@ import { useEffect, useRef, useState } from 'react'
  *
  * The nav "Get Good" link points to this section's id=`get-good`.
  */
+// Card icons stay constant; labels come from t.v2.getGood at render
+// time. labelKey indexes into the namespace so we can localize without
+// duplicating an English-only label here.
 const cards = [
-  { icon: '/v2/get-good/icon-skill-map.png',        label: 'SKILL MAP' },
-  { icon: '/v2/get-good/icon-your-companion.svg',   label: 'YOUR COMPANION' },
-  { icon: '/v2/get-good/icon-real-practice.png',    label: 'REAL PRACTICE' },
-  { icon: '/v2/get-good/icon-honest-insights.png',  label: 'HONEST INSIGHTS' },
+  { icon: '/v2/get-good/icon-skill-map.png',        labelKey: 'cardSkillMap' as const },
+  { icon: '/v2/get-good/icon-your-companion.svg',   labelKey: 'cardYourCompanion' as const },
+  { icon: '/v2/get-good/icon-real-practice.png',    labelKey: 'cardRealPractice' as const },
+  { icon: '/v2/get-good/icon-honest-insights.png',  labelKey: 'cardHonestInsights' as const },
 ] as const
 
 export default function GetGood() {
+  const { t } = useLocale()
   const sectionRef = useRef<HTMLElement | null>(null)
   // IntersectionObserver fires once when ~15% of the section is in
   // view, adding `.is-in-view` to the root. CSS handles the stagger
@@ -70,14 +75,16 @@ export default function GetGood() {
       ref={sectionRef}
       className={`v2-getgood${inView ? ' is-in-view' : ''}`}
     >
-      <span className="v2-corner-label v2-corner-label--tl">Get Good</span>
+      <span className="v2-corner-label v2-corner-label--tl">
+        {t.v2.getGood.cornerLabel}
+      </span>
 
       <div className="v2-getgood-inner">
-        <h2 className="v2-getgood-headline">CODE.GROW.LEARN</h2>
+        <h2 className="v2-getgood-headline">{t.v2.getGood.headline}</h2>
 
         <div className="v2-getgood-cards">
           {cards.map((card) => (
-            <div key={card.label} className="v2-getgood-card">
+            <div key={card.labelKey} className="v2-getgood-card">
               <div className="v2-getgood-card-icon">
                 <Image
                   src={card.icon}
@@ -88,18 +95,14 @@ export default function GetGood() {
                   aria-hidden="true"
                 />
               </div>
-              <p className="v2-getgood-card-label">{card.label}</p>
+              <p className="v2-getgood-card-label">
+                {t.v2.getGood[card.labelKey]}
+              </p>
             </div>
           ))}
         </div>
 
-        <p className="v2-getgood-body">
-          Everything you need to actually get good. A skill map across four
-          tiers tells you exactly what to learn next. Your companion will keep
-          you building. Every challenge happens in Cursor, VS Code, or Claude
-          Code, and honest insights surface your weak spots so you know what
-          to practice next.
-        </p>
+        <p className="v2-getgood-body">{t.v2.getGood.body}</p>
 
         {/* Pixel-art pill CTA — same two-layer pattern as Product
             and Mindset buttons. Outer <a> owns the drop-shadow
@@ -108,9 +111,9 @@ export default function GetGood() {
         <a
           href="#waitlist"
           className="v2-getgood-cta"
-          aria-label="Join the Codepet waitlist"
+          aria-label={t.v2.getGood.ctaAria}
         >
-          <span className="v2-getgood-cta-body">Join the waitlist</span>
+          <span className="v2-getgood-cta-body">{t.v2.getGood.cta}</span>
         </a>
       </div>
     </section>

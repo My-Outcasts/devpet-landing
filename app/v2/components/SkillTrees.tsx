@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
+import { useLocale } from '@/lib/LocaleProvider'
 
 /**
  * Skill Trees — Section 7 of the /v2 landing.
@@ -31,45 +32,14 @@ import { useEffect, useRef } from 'react'
  * Card fills match the Framer Fill values exactly: #E24B4A,
  * #029902, #9538CF, #1C40CF.
  */
+// Tier titles + bodies live in t.v2.skillTrees and are looked up by
+// the per-tier `tierKey`. Numeric labels (1..4) and modifier classes
+// stay constant.
 const tiers = [
-  {
-    num: 1,
-    title: 'Foundations',
-    body:
-      "Every builder starts here. You'll learn to ask AI for what you " +
-      "actually want, read errors without panic, find your way around " +
-      "your editor, and start spotting sharp code from sloppy — one " +
-      "small win at a time.",
-    modifier: 'v2-skilltrees-card--1',
-  },
-  {
-    num: 2,
-    title: 'Context & Structure',
-    body:
-      "Now you're feeding AI the right fuel. Set up context that sticks, " +
-      "write rules files your pet actually follows, document as you " +
-      "build, and lay out projects that scale instead of collapsing on you.",
-    modifier: 'v2-skilltrees-card--2',
-  },
-  {
-    num: 3,
-    title: 'Develop',
-    body:
-      "This is where your reps start paying off. Move fluently between " +
-      "Cursor, Claude Code, and VS Code, keep scope from sprawling, " +
-      "reuse a design system instead of redrawing it, and iterate on " +
-      "prompts until they sing.",
-    modifier: 'v2-skilltrees-card--3',
-  },
-  {
-    num: 4,
-    title: 'Expert',
-    body:
-      "The tier you earn. Think in user personas, stretch context " +
-      "windows without losing the plot, architect AI into your product, " +
-      "and build a second brain that compounds every project you ship.",
-    modifier: 'v2-skilltrees-card--4',
-  },
+  { num: 1, tierKey: 'tier1' as const, modifier: 'v2-skilltrees-card--1' },
+  { num: 2, tierKey: 'tier2' as const, modifier: 'v2-skilltrees-card--2' },
+  { num: 3, tierKey: 'tier3' as const, modifier: 'v2-skilltrees-card--3' },
+  { num: 4, tierKey: 'tier4' as const, modifier: 'v2-skilltrees-card--4' },
 ] as const
 
 /**
@@ -113,6 +83,7 @@ const orbs = [
 ] as const
 
 export default function SkillTrees() {
+  const { t } = useLocale()
   const sectionRef = useRef<HTMLElement | null>(null)
 
   // Per-element IntersectionObserver-driven reveal.
@@ -186,15 +157,14 @@ export default function SkillTrees() {
       ref={sectionRef}
       className="v2-skilltrees"
     >
-      <span className="v2-corner-label v2-corner-label--tl">Skill Tree</span>
+      <span className="v2-corner-label v2-corner-label--tl">
+        {t.v2.skillTrees.cornerLabel}
+      </span>
 
       <p className="v2-skilltrees-intro v2-skilltrees-reveal">
-        A simple and efficient workflow to bring your vision to life.
+        {t.v2.skillTrees.introLead}
         <br />
-        <span className="muted">
-          From the first call to final delivery, every step is designed for
-          clarity and efficiency.
-        </span>
+        <span className="muted">{t.v2.skillTrees.introMuted}</span>
       </p>
 
       <div className="v2-skilltrees-cards">
@@ -206,8 +176,12 @@ export default function SkillTrees() {
             <span className="v2-skilltrees-card-number" aria-hidden="true">
               {tier.num}
             </span>
-            <h3 className="v2-skilltrees-card-title">{tier.title}</h3>
-            <p className="v2-skilltrees-card-body">{tier.body}</p>
+            <h3 className="v2-skilltrees-card-title">
+              {t.v2.skillTrees[`${tier.tierKey}Title` as const]}
+            </h3>
+            <p className="v2-skilltrees-card-body">
+              {t.v2.skillTrees[`${tier.tierKey}Body` as const]}
+            </p>
           </article>
         ))}
 

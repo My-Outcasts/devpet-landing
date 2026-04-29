@@ -19,9 +19,18 @@
     "subtitle": "16 skills. 4 tiers. A companion that grows as you do. Practice in the editor you already use — and finally know what you're doing.",
     "trustMeta": "Cursor · VS Code · Claude Code",
     "proofStats": [
-      { "value": "1,504", "label": "builders" },
-      { "value": "70%", "label": "success rate" },
-      { "value": "2×", "label": "faster" }
+      {
+        "value": "1,504",
+        "label": "builders"
+      },
+      {
+        "value": "70%",
+        "label": "success rate"
+      },
+      {
+        "value": "2×",
+        "label": "faster"
+      }
     ]
   },
   "form": {
@@ -37,10 +46,22 @@
     "title": "Sound familiar?",
     "titleAccent": "",
     "pains": [
-      { "icon": "copy", "text": "You copy-paste the error and hope the AI figures it out" },
-      { "icon": "repeat", "text": "Your prompts work sometimes — you have no idea why" },
-      { "icon": "eye-off", "text": "Every new project feels like starting from zero" },
-      { "icon": "alert-triangle", "text": "You've shipped code you couldn't explain if someone asked" }
+      {
+        "icon": "copy",
+        "text": "You copy-paste the error and hope the AI figures it out"
+      },
+      {
+        "icon": "repeat",
+        "text": "Your prompts work sometimes — you have no idea why"
+      },
+      {
+        "icon": "eye-off",
+        "text": "Every new project feels like starting from zero"
+      },
+      {
+        "icon": "alert-triangle",
+        "text": "You've shipped code you couldn't explain if someone asked"
+      }
     ],
     "cta": "You're not bad at coding. You just never learned how to work with AI. Codepet teaches you the skills that make the difference."
   },
@@ -139,10 +160,46 @@
     "title": "16 skills. 4 tiers.",
     "subtitle": "Know exactly what to learn next.",
     "tiers": [
-      { "name": "Foundations", "color": "#6BCB77", "skills": ["Prompt Clarity", "Error Reading", "Tool Basics", "Code Judgment"] },
-      { "name": "Context & Structure", "color": "#D89840", "skills": ["Context Setting", "AI Rules Files", "Documentation", "Project Structure"] },
-      { "name": "Advanced", "color": "#7B8CE0", "skills": ["Tool Switching", "Scope Mgmt", "Design System", "Prompt Iteration"] },
-      { "name": "Expert", "color": "#C07AB8", "skills": ["User Personas", "Context Windows", "AI Architecture", "Second Brain"] }
+      {
+        "name": "Foundations",
+        "color": "#6BCB77",
+        "skills": [
+          "Prompt Clarity",
+          "Error Reading",
+          "Tool Basics",
+          "Code Judgment"
+        ]
+      },
+      {
+        "name": "Context & Structure",
+        "color": "#D89840",
+        "skills": [
+          "Context Setting",
+          "AI Rules Files",
+          "Documentation",
+          "Project Structure"
+        ]
+      },
+      {
+        "name": "Advanced",
+        "color": "#7B8CE0",
+        "skills": [
+          "Tool Switching",
+          "Scope Mgmt",
+          "Design System",
+          "Prompt Iteration"
+        ]
+      },
+      {
+        "name": "Expert",
+        "color": "#C07AB8",
+        "skills": [
+          "User Personas",
+          "Context Windows",
+          "AI Architecture",
+          "Second Brain"
+        ]
+      }
     ]
   },
   "meetYourPet": {
@@ -151,14 +208,70 @@
     "body": "Tap to discover.",
     "growthNote": "Evolves with your skills",
     "characters": [
-      { "name": "Byte", "species": "Spirit blob", "badge": "Chaotic Core", "color": "#534AB7", "quote": "I've been here longer than the logs remember.", "role": "Main companion" },
-      { "name": "Nova", "species": "Fire fox", "badge": "Genius Mentor", "color": "#BA7517", "quote": "I know 17 ways. Let's start with the weirdest.", "role": "Primary tutor" },
-      { "name": "Sage", "species": "Teal owl", "badge": "Wise Guide", "color": "#085041", "quote": "There is no shortcut. Only the path.", "role": "Deep lessons" },
-      { "name": "Glitch", "species": "Pink cat", "badge": "Hacker Rebel", "color": "#993556", "quote": "Rules are suggestions.", "role": "Error companion" },
-      { "name": "Crash", "species": "Red bear", "badge": "Brute Force", "color": "#A32D2D", "quote": "Ship it. Fix it. Ship it again.", "role": "Speed builder" },
-      { "name": "Zero", "species": "Code wraith", "badge": "Silent Optimiser", "color": "#444441", "quote": "The fastest code is code that doesn't run.", "role": "Refactor nudges" },
-      { "name": "Luna", "species": "Indie dreamer", "badge": "Creative Builder", "color": "#534AB7", "quote": "No idea what I'm doing. Shipped 7 things.", "role": "Peer companion" },
-      { "name": "Null", "species": "Slime", "badge": "Wild Card", "color": "#3B6D11", "quote": "???", "role": "Unexpected secrets" }
+      {
+        "name": "Byte",
+        "species": "Spirit blob",
+        "badge": "Chaotic Core",
+        "color": "#534AB7",
+        "quote": "I've been here longer than the logs remember.",
+        "role": "Main companion"
+      },
+      {
+        "name": "Nova",
+        "species": "Fire fox",
+        "badge": "Genius Mentor",
+        "color": "#BA7517",
+        "quote": "I know 17 ways. Let's start with the weirdest.",
+        "role": "Primary tutor"
+      },
+      {
+        "name": "Sage",
+        "species": "Teal owl",
+        "badge": "Wise Guide",
+        "color": "#085041",
+        "quote": "There is no shortcut. Only the path.",
+        "role": "Deep lessons"
+      },
+      {
+        "name": "Glitch",
+        "species": "Pink cat",
+        "badge": "Hacker Rebel",
+        "color": "#993556",
+        "quote": "Rules are suggestions.",
+        "role": "Error companion"
+      },
+      {
+        "name": "Crash",
+        "species": "Red bear",
+        "badge": "Brute Force",
+        "color": "#A32D2D",
+        "quote": "Ship it. Fix it. Ship it again.",
+        "role": "Speed builder"
+      },
+      {
+        "name": "Zero",
+        "species": "Code wraith",
+        "badge": "Silent Optimiser",
+        "color": "#444441",
+        "quote": "The fastest code is code that doesn't run.",
+        "role": "Refactor nudges"
+      },
+      {
+        "name": "Luna",
+        "species": "Indie dreamer",
+        "badge": "Creative Builder",
+        "color": "#534AB7",
+        "quote": "No idea what I'm doing. Shipped 7 things.",
+        "role": "Peer companion"
+      },
+      {
+        "name": "Null",
+        "species": "Slime",
+        "badge": "Wild Card",
+        "color": "#3B6D11",
+        "quote": "???",
+        "role": "Unexpected secrets"
+      }
     ]
   },
   "finalCTA": {
@@ -191,84 +304,372 @@
     "lessonText": "Tell AI your tools before asking for code"
   },
   "funQuotes": [
-    "Hehe!", "Code more!", "Bug-free!", "Ship it!", "Nice!",
-    "You got this!", "Let's go!", "Woohoo!", "Keep going!", "Epic!"
+    "Hehe!",
+    "Code more!",
+    "Bug-free!",
+    "Ship it!",
+    "Nice!",
+    "You got this!",
+    "Let's go!",
+    "Woohoo!",
+    "Keep going!",
+    "Epic!"
   ],
   "companionQuotes": {
     "Byte": {
-      "hero": ["Analyzing you.", "You retry prompts a lot.", "Interesting cursor pattern."],
-      "howItWorks": ["3 steps. Relax.", "Even I get this.", "Step 1: breathe."],
-      "features": ["These features slap.", "Session tracker? Chef's kiss.", "I helped build these. Kinda."],
-      "skillTree": ["I know your weak spots.", "Stuck at Tier 2?", "XP doesn't lie."],
-      "testimonials": ["Real people. Not bots.", "11 retries to 2. Just saying.", "You're welcome."],
-      "finalCTA": ["Sign up. I'll wait.", "Still scrolling?", "I'm a good coach. Promise."]
+      "hero": [
+        "Analyzing you.",
+        "You retry prompts a lot.",
+        "Interesting cursor pattern."
+      ],
+      "howItWorks": [
+        "3 steps. Relax.",
+        "Even I get this.",
+        "Step 1: breathe."
+      ],
+      "features": [
+        "These features slap.",
+        "Session tracker? Chef's kiss.",
+        "I helped build these. Kinda."
+      ],
+      "skillTree": [
+        "I know your weak spots.",
+        "Stuck at Tier 2?",
+        "XP doesn't lie."
+      ],
+      "testimonials": [
+        "Real people. Not bots.",
+        "11 retries to 2. Just saying.",
+        "You're welcome."
+      ],
+      "finalCTA": [
+        "Sign up. I'll wait.",
+        "Still scrolling?",
+        "I'm a good coach. Promise."
+      ]
     },
     "Nova": {
-      "hero": ["17 ways to start.", "Welcome! Let me show you.", "I prepared a plan."],
-      "howItWorks": ["Let me explain.", "Pay attention here.", "Three steps. Follow me."],
-      "features": ["Tested every one.", "Skill tree is my favorite.", "Each one teaches."],
-      "skillTree": ["Start with Foundations!", "16 skills to master.", "Prompt Clarity first."],
-      "testimonials": ["These results are real.", "Learning is a journey.", "They're proof it works."],
-      "finalCTA": ["Ready to learn?", "Your potential awaits.", "Every expert started here."]
+      "hero": [
+        "17 ways to start.",
+        "Welcome! Let me show you.",
+        "I prepared a plan."
+      ],
+      "howItWorks": [
+        "Let me explain.",
+        "Pay attention here.",
+        "Three steps. Follow me."
+      ],
+      "features": [
+        "Tested every one.",
+        "Skill tree is my favorite.",
+        "Each one teaches."
+      ],
+      "skillTree": [
+        "Start with Foundations!",
+        "16 skills to master.",
+        "Prompt Clarity first."
+      ],
+      "testimonials": [
+        "These results are real.",
+        "Learning is a journey.",
+        "They're proof it works."
+      ],
+      "finalCTA": [
+        "Ready to learn?",
+        "Your potential awaits.",
+        "Every expert started here."
+      ]
     },
     "Sage": {
-      "hero": ["Every path starts here.", "Patience. We begin.", "One commit at a time."],
-      "howItWorks": ["Understand first.", "Wisdom from structure.", "Read carefully."],
-      "features": ["Each tool has purpose.", "Patience rewarded.", "Know your instruments."],
-      "skillTree": ["No shortcuts.", "Tier by tier.", "Depth, not speed."],
-      "testimonials": ["Listen to experience.", "Their path lights yours.", "Truth in results."],
-      "finalCTA": ["The path awaits.", "When ready, begin.", "Next step is yours."]
+      "hero": [
+        "Every path starts here.",
+        "Patience. We begin.",
+        "One commit at a time."
+      ],
+      "howItWorks": [
+        "Understand first.",
+        "Wisdom from structure.",
+        "Read carefully."
+      ],
+      "features": [
+        "Each tool has purpose.",
+        "Patience rewarded.",
+        "Know your instruments."
+      ],
+      "skillTree": [
+        "No shortcuts.",
+        "Tier by tier.",
+        "Depth, not speed."
+      ],
+      "testimonials": [
+        "Listen to experience.",
+        "Their path lights yours.",
+        "Truth in results."
+      ],
+      "finalCTA": [
+        "The path awaits.",
+        "When ready, begin.",
+        "Next step is yours."
+      ]
     },
     "Glitch": {
-      "hero": ["Let's hack!", "Rules? What rules?", "Found 3 bugs already."],
-      "howItWorks": ["Skip to step 3.", "Break everything first.", "Rules are suggestions."],
-      "features": ["Love the error catcher.", "Bug tracker = playground.", "Creative errors welcome!"],
-      "skillTree": ["Break it, fix it, learn.", "Error Reading is underrated.", "Maxed by accident."],
-      "testimonials": ["Bugs are friends.", "40% fail? Rookie numbers.", "I taught them all."],
-      "finalCTA": ["Fear nothing!", "Worst case?", "Let's break things together!"]
+      "hero": [
+        "Let's hack!",
+        "Rules? What rules?",
+        "Found 3 bugs already."
+      ],
+      "howItWorks": [
+        "Skip to step 3.",
+        "Break everything first.",
+        "Rules are suggestions."
+      ],
+      "features": [
+        "Love the error catcher.",
+        "Bug tracker = playground.",
+        "Creative errors welcome!"
+      ],
+      "skillTree": [
+        "Break it, fix it, learn.",
+        "Error Reading is underrated.",
+        "Maxed by accident."
+      ],
+      "testimonials": [
+        "Bugs are friends.",
+        "40% fail? Rookie numbers.",
+        "I taught them all."
+      ],
+      "finalCTA": [
+        "Fear nothing!",
+        "Worst case?",
+        "Let's break things together!"
+      ]
     },
     "Crash": {
-      "hero": ["Ship first!", "LESS READING.", "SCROLL FASTER."],
-      "howItWorks": ["Done reading? BUILD.", "3 steps? I do 1.", "Go go go!"],
-      "features": ["Cool. Use them!", "Stop reading. USE THEM.", "Best feature = ship button."],
-      "skillTree": ["More XP = more skill!", "GRIND. LEVEL. REPEAT.", "Already Tier 4."],
-      "testimonials": ["Anyone can ship.", "40% to 12%. SPEED.", "Less thinking. More shipping."],
-      "finalCTA": ["SHIP IT.", "SIGN UP.", "Every second = unshipped feature."]
+      "hero": [
+        "Ship first!",
+        "LESS READING.",
+        "SCROLL FASTER."
+      ],
+      "howItWorks": [
+        "Done reading? BUILD.",
+        "3 steps? I do 1.",
+        "Go go go!"
+      ],
+      "features": [
+        "Cool. Use them!",
+        "Stop reading. USE THEM.",
+        "Best feature = ship button."
+      ],
+      "skillTree": [
+        "More XP = more skill!",
+        "GRIND. LEVEL. REPEAT.",
+        "Already Tier 4."
+      ],
+      "testimonials": [
+        "Anyone can ship.",
+        "40% to 12%. SPEED.",
+        "Less thinking. More shipping."
+      ],
+      "finalCTA": [
+        "SHIP IT.",
+        "SIGN UP.",
+        "Every second = unshipped feature."
+      ]
     },
     "Zero": {
-      "hero": ["...", ".", "…optimal."],
-      "howItWorks": ["Efficient.", "Three steps. Done.", "…"],
-      "features": ["Less code. Faster.", "Minimal. Perfect.", "Removes complexity."],
-      "skillTree": ["Refactoring is art.", "Empty = potential.", "…"],
-      "testimonials": ["Results speak.", "Numbers.", "…"],
-      "finalCTA": ["...", "One click.", "…"]
+      "hero": [
+        "...",
+        ".",
+        "…optimal."
+      ],
+      "howItWorks": [
+        "Efficient.",
+        "Three steps. Done.",
+        "…"
+      ],
+      "features": [
+        "Less code. Faster.",
+        "Minimal. Perfect.",
+        "Removes complexity."
+      ],
+      "skillTree": [
+        "Refactoring is art.",
+        "Empty = potential.",
+        "…"
+      ],
+      "testimonials": [
+        "Results speak.",
+        "Numbers.",
+        "…"
+      ],
+      "finalCTA": [
+        "...",
+        "One click.",
+        "…"
+      ]
     },
     "Luna": {
-      "hero": ["This is fun!", "Hiiii!", "First time? Let's go together!"],
-      "howItWorks": ["So easy!", "I get it!", "Step 2 is so cool!"],
-      "features": ["Wanna try everything!", "Cat coach is cute!", "All features please!"],
-      "skillTree": ["Let's climb together!", "Working on Prompt Clarity!", "So exciting!"],
-      "testimonials": ["So wholesome!", "Minh is 13 and shipping?!", "Goals!"],
-      "finalCTA": ["Together!", "Join! It's fun!", "Signed up twice. Oops."]
+      "hero": [
+        "This is fun!",
+        "Hiiii!",
+        "First time? Let's go together!"
+      ],
+      "howItWorks": [
+        "So easy!",
+        "I get it!",
+        "Step 2 is so cool!"
+      ],
+      "features": [
+        "Wanna try everything!",
+        "Cat coach is cute!",
+        "All features please!"
+      ],
+      "skillTree": [
+        "Let's climb together!",
+        "Working on Prompt Clarity!",
+        "So exciting!"
+      ],
+      "testimonials": [
+        "So wholesome!",
+        "Minh is 13 and shipping?!",
+        "Goals!"
+      ],
+      "finalCTA": [
+        "Together!",
+        "Join! It's fun!",
+        "Signed up twice. Oops."
+      ]
     },
     "Null": {
-      "hero": ["???", "▓▓▓", "I shouldn't be here."],
-      "howItWorks": ["…hear something?", "Step 4: [REDACTED]", "Hidden process."],
-      "features": ["Hidden feature.", "Look closer.", "Feature #5 exists."],
-      "skillTree": ["???", "There's a Tier 5.", "Locked = interesting."],
-      "testimonials": ["Not my friends.", "4th testimonial. Hidden.", "…they know too much."],
-      "finalCTA": ["…", "You'll find out.", "▓▓▓"]
+      "hero": [
+        "???",
+        "▓▓▓",
+        "I shouldn't be here."
+      ],
+      "howItWorks": [
+        "…hear something?",
+        "Step 4: [REDACTED]",
+        "Hidden process."
+      ],
+      "features": [
+        "Hidden feature.",
+        "Look closer.",
+        "Feature #5 exists."
+      ],
+      "skillTree": [
+        "???",
+        "There's a Tier 5.",
+        "Locked = interesting."
+      ],
+      "testimonials": [
+        "Not my friends.",
+        "4th testimonial. Hidden.",
+        "…they know too much."
+      ],
+      "finalCTA": [
+        "…",
+        "You'll find out.",
+        "▓▓▓"
+      ]
     }
   },
   "idleChatter": {
-    "Byte": ["Still there?", "Bored…", "Scroll somewhere.", "*yawns*", "Asleep?", "I see your pattern.", "Procrastinating?", "Tick tock.", "4.2 seconds staring.", "Suspicious."],
-    "Nova": ["Take your time!", "Questions?", "I'm here.", "Patience.", "Want me to explain?", "Docs first.", "Understanding > speed.", "Quiz time?", "You're doing great.", "I believe in you."],
-    "Sage": ["…", "Breathe.", "No rush.", "Stillness.", "Patience.", "Clarity emerges.", "The path waits.", "Be water.", "Even cursor rests.", "In silence, wisdom."],
-    "Glitch": ["*fidgets*", "Let me click!", "Too slow.", "BRB hacking.", "Found a bug. JK.", "What if I delete a div?", "Your cookies? Rewritten.", "3px off.", "*inspect element*", "Error 418."],
-    "Crash": ["GO!", "SCROLL!", "SHIP!", "TIME WASTING!", "*runs*", "EVERY SECOND!", "BUILD!", "FASTER!", "LET'S GO!", "LESS READ MORE DO!"],
-    "Zero": ["…", ".", "…", "…", " ", "...", "…optimal.", "Less.", "…", "Silence compiles faster."],
-    "Luna": ["La la~", "Nice :)", "You ok?", "*waves*", "Love this!", "Thinking?", "Had an idea! Forgot.", "Fun!", "*happy wiggle*", "Best day!"],
-    "Null": ["▓▓▓", "…", "???", "See that?", "[EXPUNGED]", "Behind you.", "Pixels watching.", "Between scrolls.", "Personality not found.", "I am everything."]
+    "Byte": [
+      "Still there?",
+      "Bored…",
+      "Scroll somewhere.",
+      "*yawns*",
+      "Asleep?",
+      "I see your pattern.",
+      "Procrastinating?",
+      "Tick tock.",
+      "4.2 seconds staring.",
+      "Suspicious."
+    ],
+    "Nova": [
+      "Take your time!",
+      "Questions?",
+      "I'm here.",
+      "Patience.",
+      "Want me to explain?",
+      "Docs first.",
+      "Understanding > speed.",
+      "Quiz time?",
+      "You're doing great.",
+      "I believe in you."
+    ],
+    "Sage": [
+      "…",
+      "Breathe.",
+      "No rush.",
+      "Stillness.",
+      "Patience.",
+      "Clarity emerges.",
+      "The path waits.",
+      "Be water.",
+      "Even cursor rests.",
+      "In silence, wisdom."
+    ],
+    "Glitch": [
+      "*fidgets*",
+      "Let me click!",
+      "Too slow.",
+      "BRB hacking.",
+      "Found a bug. JK.",
+      "What if I delete a div?",
+      "Your cookies? Rewritten.",
+      "3px off.",
+      "*inspect element*",
+      "Error 418."
+    ],
+    "Crash": [
+      "GO!",
+      "SCROLL!",
+      "SHIP!",
+      "TIME WASTING!",
+      "*runs*",
+      "EVERY SECOND!",
+      "BUILD!",
+      "FASTER!",
+      "LET'S GO!",
+      "LESS READ MORE DO!"
+    ],
+    "Zero": [
+      "…",
+      ".",
+      "…",
+      "…",
+      " ",
+      "...",
+      "…optimal.",
+      "Less.",
+      "…",
+      "Silence compiles faster."
+    ],
+    "Luna": [
+      "La la~",
+      "Nice :)",
+      "You ok?",
+      "*waves*",
+      "Love this!",
+      "Thinking?",
+      "Had an idea! Forgot.",
+      "Fun!",
+      "*happy wiggle*",
+      "Best day!"
+    ],
+    "Null": [
+      "▓▓▓",
+      "…",
+      "???",
+      "See that?",
+      "[EXPUNGED]",
+      "Behind you.",
+      "Pixels watching.",
+      "Between scrolls.",
+      "Personality not found.",
+      "I am everything."
+    ]
   },
   "footer": {
     "tagline": "Codepet",
@@ -278,5 +679,114 @@
       "privacy": "Privacy"
     },
     "copyright": "© 2026 Codepet"
+  },
+  "v2": {
+    "nav": {
+      "product": "Product",
+      "getGood": "Get Good",
+      "skillTree": "Skill Tree",
+      "startJourney": "Start Your Journey",
+      "homeAria": "Codepet home",
+      "primaryAria": "Primary",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "wordmarkAlt": "Codepet",
+      "home": "Home"
+    },
+    "hero": {
+      "titleLine1": "Learn to build",
+      "titleLine2": "agentic code",
+      "subhead": "with your crew"
+    },
+    "product": {
+      "eyebrow": "PRODUCT",
+      "heading": "who we are",
+      "bodyLead": "Codepet is a macOS application that helps people develop their thinking and",
+      "bodyEm": "ship products of their own",
+      "bodyTrail": ". Guided agentic coding, adaptive feedback, and a daily-practice loop turn early exposure to programming into durable skill.",
+      "integratesWith": "Integrates with:",
+      "integrationsAria": "Integrations",
+      "integrationCursor": "Cursor",
+      "integrationVscode": "VS code",
+      "integrationWindsurf": "Windsurf"
+    },
+    "stats": {
+      "builders": "builders",
+      "successRate": "success rate",
+      "faster": "faster"
+    },
+    "mindset": {
+      "eyebrow": "Codepet",
+      "titleLine1": "Shape the",
+      "titleLine2": "mindset before you",
+      "titleLine3": "build product",
+      "cta": "Join the waitlist",
+      "ctaAria": "Join the Codepet waitlist"
+    },
+    "getGood": {
+      "cornerLabel": "Get Good",
+      "headline": "CODE.GROW.LEARN",
+      "cardSkillMap": "SKILL MAP",
+      "cardYourCompanion": "YOUR COMPANION",
+      "cardRealPractice": "REAL PRACTICE",
+      "cardHonestInsights": "HONEST INSIGHTS",
+      "body": "Everything you need to actually get good. A skill map across four tiers tells you exactly what to learn next. Your companion will keep you building. Every challenge happens in Cursor, VS Code, or Claude Code, and honest insights surface your weak spots so you know what to practice next.",
+      "cta": "Join the waitlist",
+      "ctaAria": "Join the Codepet waitlist"
+    },
+    "skillTrees": {
+      "cornerLabel": "Skill Tree",
+      "introLead": "A simple and efficient workflow to bring your vision to life.",
+      "introMuted": "From the first call to final delivery, every step is designed for clarity and efficiency.",
+      "tier1Title": "Foundations",
+      "tier1Body": "Every builder starts here. You will learn to ask AI for what you actually want, read errors without panic, find your way around your editor, and start spotting sharp code from sloppy — one small win at a time.",
+      "tier2Title": "Context & Structure",
+      "tier2Body": "Now you are feeding AI the right fuel. Set up context that sticks, write rules files your pet actually follows, document as you build, and lay out projects that scale instead of collapsing on you.",
+      "tier3Title": "Develop",
+      "tier3Body": "This is where your reps start paying off. Move fluently between Cursor, Claude Code, and VS Code, keep scope from sprawling, reuse a design system instead of redrawing it, and iterate on prompts until they sing.",
+      "tier4Title": "Expert",
+      "tier4Body": "The tier you earn. Think in user personas, stretch context windows without losing the plot, architect AI into your product, and build a second brain that compounds every project you ship."
+    },
+    "testimonials": {
+      "title": "real results from the beta",
+      "subtitle": "three stories. real change.",
+      "item1Quote": "“40% broken prompts to just 12%. the pet makes me persistent.”",
+      "item1Name": "sarah k.",
+      "item1Role": "designer who codes",
+      "item2Quote": "“shipped my first saas in 6 weeks. 0 to $200 mrr.”",
+      "item2Name": "wei c.",
+      "item2Role": "indie dev",
+      "item3Quote": "“6 prompts for auth → 1. hours saved, more shipped.”",
+      "item3Name": "alex r.",
+      "item3Role": "solo founder"
+    },
+    "finalCta": {
+      "titleLine1": "let’s talk the",
+      "titleLine2": "future of coding.",
+      "subtitleLine1": "stop guessing.",
+      "subtitleLine2": "start growing."
+    },
+    "form": {
+      "placeholder": "name@gmail.com",
+      "emailAria": "Email address",
+      "waitlistAria": "Join the waitlist",
+      "submit": "Join the waitlist",
+      "loading": "Joining…",
+      "success": "Thanks — you’re in!",
+      "duplicate": "You’re already in!",
+      "successSubtitle": "We’ll email you when Codepet launches.",
+      "errorValidation": "Please enter a valid email address.",
+      "errorServer": "Something went wrong. Try again in a moment?"
+    },
+    "footer": {
+      "copyright": "© 2026 All right reserved",
+      "wordmarkAlt": "Codepet",
+      "navAria": "Footer"
+    },
+    "installPrompt": {
+      "cta": "Install Codepet",
+      "regionAria": "Install Codepet",
+      "dismissAria": "Dismiss install prompt"
+    }
   }
 }

@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { useLocale } from '@/lib/LocaleProvider'
 
 /**
  * Top nav for /v2 landing.
@@ -35,6 +36,7 @@ import { useEffect, useRef, useState } from 'react'
  * child (see v2-nav-drop-in keyframes in fonts.css).
  */
 export default function Nav() {
+  const { t, locale, toggleLocale } = useLocale()
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   // Mobile menu state — toggled by the hamburger button at <=768px.
@@ -157,19 +159,13 @@ export default function Nav() {
   return (
     <nav
       className={`v2-nav${scrolled ? ' v2-nav--scrolled' : ''}${hidden ? ' v2-nav--hidden' : ''}${menuOpen ? ' v2-nav--menu-open' : ''}`}
-      aria-label="Primary"
+      aria-label={t.v2.nav.primaryAria}
     >
       <div className="v2-nav-inner v2-nav-inner--enter">
-        {/* LEFT — at desktop: section links inline. On mobile
-            (<=768px) the links collapse into a dropdown revealed
-            by tapping the hamburger button below; the link list
-            below this button is hidden by default and shown
-            (still in the LEFT grid cell) only when .v2-nav--menu-open
-            is on the parent <nav>. */}
         <button
           type="button"
           className="v2-nav-hamburger"
-          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+          aria-label={menuOpen ? t.v2.nav.closeMenu : t.v2.nav.openMenu}
           aria-expanded={menuOpen}
           aria-controls="v2-nav-menu"
           onClick={() => setMenuOpen((open) => !open)}
@@ -179,26 +175,35 @@ export default function Nav() {
           <span aria-hidden="true" />
         </button>
 
-        {/* LEFT — section links. Hover: thin rectangular outline
-            fades in around each label via ::after pseudo-element. */}
         <ul id="v2-nav-menu" className="v2-nav-links">
           <li>
-            <a href="#product" className="v2-nav-link" onClick={handleAnchorClick}>Product</a>
+            <a href="#product" className="v2-nav-link" onClick={handleAnchorClick}>{t.v2.nav.product}</a>
           </li>
           <li>
-            <a href="#get-good" className="v2-nav-link" onClick={handleAnchorClick}>Get Good</a>
+            <a href="#get-good" className="v2-nav-link" onClick={handleAnchorClick}>{t.v2.nav.getGood}</a>
           </li>
           <li>
-            <a href="#skill-trees" className="v2-nav-link" onClick={handleAnchorClick}>Skill Tree</a>
+            <a href="#skill-trees" className="v2-nav-link" onClick={handleAnchorClick}>{t.v2.nav.skillTree}</a>
+          </li>
+          {/* EN/VI language toggle. Auto-detection runs on first visit
+              (Vietnam IP → vi, otherwise → en); this button lets the
+              user override and persists their choice in localStorage. */}
+          <li>
+            <button
+              type="button"
+              className="v2-nav-link v2-nav-lang-toggle"
+              onClick={toggleLocale}
+              aria-label={`Switch language (currently ${locale.toUpperCase()})`}
+            >
+              {locale === 'en' ? 'VI' : 'EN'}
+            </button>
           </li>
         </ul>
 
-        {/* CENTER — Codepet wordmark, scaled up so it reads as the
-            primary mark of the bar. */}
-        <a href="#top" className="v2-nav-wordmark" aria-label="Codepet home" onClick={handleAnchorClick}>
+        <a href="#top" className="v2-nav-wordmark" aria-label={t.v2.nav.homeAria} onClick={handleAnchorClick}>
           <Image
             src="/v2/codepet-wordmark.png"
-            alt="Codepet"
+            alt={t.v2.nav.wordmarkAlt}
             width={1215}
             height={240}
             priority
@@ -227,7 +232,7 @@ export default function Nav() {
           <span className="v2-nav-cta-placeholder" aria-hidden="true" />
         ) : (
           <a href="#waitlist" className="v2-nav-cta" onClick={handleAnchorClick}>
-            <span className="v2-nav-cta-body">Start Your Journey</span>
+            <span className="v2-nav-cta-body">{t.v2.nav.startJourney}</span>
           </a>
         )}
       </div>

@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
+import { useLocale } from '@/lib/LocaleProvider'
 
 /**
  * Mindset — Section 5 of the /v2 landing.
@@ -40,6 +41,7 @@ const orbs = [
 ] as const
 
 export default function Mindset() {
+  const { t } = useLocale()
   const sectionRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
@@ -108,12 +110,12 @@ export default function Mindset() {
       ))}
 
       <div className="v2-mindset-inner">
-        <p className="v2-mindset-eyebrow">Codepet</p>
+        <p className="v2-mindset-eyebrow">{t.v2.mindset.eyebrow}</p>
 
         <h2 className="v2-mindset-headline">
-          <span className="line">Shape the</span>
-          <span className="line">mindset before you</span>
-          <span className="line">build product</span>
+          <span className="line">{t.v2.mindset.titleLine1}</span>
+          <span className="line">{t.v2.mindset.titleLine2}</span>
+          <span className="line">{t.v2.mindset.titleLine3}</span>
         </h2>
 
         {/* Pixel-art pill CTA — same two-layer pattern as the
@@ -125,9 +127,9 @@ export default function Mindset() {
         <a
           href="#waitlist"
           className="v2-mindset-cta"
-          aria-label="Join the Codepet waitlist"
+          aria-label={t.v2.mindset.ctaAria}
         >
-          <span className="v2-mindset-cta-body">Join the waitlist</span>
+          <span className="v2-mindset-cta-body">{t.v2.mindset.cta}</span>
         </a>
       </div>
     </section>

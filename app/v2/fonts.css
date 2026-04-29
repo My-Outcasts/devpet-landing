@@ -349,7 +349,23 @@ html {
 .v2-nav-inner--enter .v2-nav-wordmark                { animation-delay: 0s;   }
 .v2-nav-inner--enter .v2-nav-links > li:nth-child(2) { animation-delay: 0.1s; } /* Get Good   */
 .v2-nav-inner--enter .v2-nav-links > li:nth-child(3) { animation-delay: 0.2s; } /* Skill Tree */
+.v2-nav-inner--enter .v2-nav-links > li:nth-child(4) { animation-delay: 0.25s; } /* Language toggle */
 .v2-nav-inner--enter .v2-nav-cta                     { animation-delay: 0.3s; }
+
+/* Language toggle — uses the same .v2-nav-link family as the section
+   anchors, but it's a <button> so reset browser defaults that would
+   otherwise add padding, background, or focus rings that don't match
+   the surrounding text links. */
+.v2-nav-lang-toggle {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
 
 @media (prefers-reduced-motion: reduce) {
   .v2-nav-inner--enter .v2-nav-wordmark,
