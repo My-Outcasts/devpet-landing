@@ -50,9 +50,43 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const country = headersList.get('x-vercel-ip-country') ?? ''
   const initialLocale = country === 'VN' ? 'vi' : 'en'
 
+  // Preload the critical pixel fonts so they're ready before the
+  // browser parses CSS. Without these, the hero headline renders
+  // in a system fallback (looks like Arial) for ~200–800ms while
+  // the @font-face files download — what users were seeing as a
+  // "wrong font" flash on first visit.
+  //
+  // We pick which display font to preload based on the resolved
+  // initial locale so we never waste bytes on the unused one:
+  //   • EN visits → preload Upheaval TT (English hero headline)
+  //   • VI visits → preload DearPix (Vietnamese hero headline)
+  // VT323 is preloaded for both since the body text uses it everywhere.
+  //
+  // `crossOrigin="anonymous"` is required for `as="font"` preloads
+  // even when the font is same-origin (per the spec). Without it
+  // browsers ignore the preload.
+  const displayFontHref =
+    initialLocale === 'vi' ? '/fonts/dearpix/dearpix.otf' : '/fonts/upheaval/upheavtt.ttf'
+  const displayFontType =
+    initialLocale === 'vi' ? 'font/otf' : 'font/ttf'
+
   return (
     <html lang={initialLocale}>
       <head>
+        <link
+          rel="preload"
+          href={displayFontHref}
+          as="font"
+          type={displayFontType}
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/vt323/VT323-Regular.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
         {process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN && (
           <script
             defer
