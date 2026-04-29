@@ -231,14 +231,27 @@ export default function Nav() {
               aria-label={`Switch language (currently ${locale.toUpperCase()})`}
               title={locale === 'en' ? 'Tiếng Việt' : 'English'}
             >
-              <Image
-                src="/v2/icon-globe.svg"
-                alt=""
-                width={24}
-                height={24}
+              {/* Inline SVG so the stroke can pick up `currentColor`
+                  from the nav (so the icon flips between dark on the
+                  white nav and white on dark sections without us
+                  shipping two PNGs). Geometry mirrors the standalone
+                  /v2/icon-globe.svg file. */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 aria-hidden="true"
-                unoptimized
-              />
+                width="24"
+                height="24"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <ellipse cx="12" cy="12" rx="4" ry="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+              </svg>
             </button>
             <a href="#waitlist" className="v2-nav-cta" onClick={handleAnchorClick}>
               <span className="v2-nav-cta-body">{t.v2.nav.startJourney}</span>

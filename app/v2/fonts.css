@@ -441,9 +441,11 @@ html {
   justify-self: end;
 }
 
-/* Pixel-art globe button. No text — just the SVG. Reset browser
-   button defaults so it sits cleanly next to the CTA, then size it
-   visually equivalent to a single nav link. Hover scales the icon
+/* Globe icon button — line-art SVG inlined in the JSX uses
+   `stroke="currentColor"`, so the icon picks up whatever colour
+   the surrounding nav text has. Reset browser button defaults so
+   it sits cleanly next to the CTA, then size it visually
+   equivalent to a single nav link. Hover scales the icon
    slightly so it reads as interactive. */
 .v2-nav-lang-globe {
   appearance: none;
@@ -457,6 +459,10 @@ html {
   justify-content: center;
   line-height: 0;
   border-radius: 4px;
+  /* Set the icon's resolved colour. The nav itself has dark text on
+     a white background by default; this matches that. The SVG's
+     `currentColor` will inherit from here. */
+  color: #1E1848;
   transition: transform 0.12s ease;
 }
 
@@ -466,12 +472,10 @@ html {
   outline: none;
 }
 
-.v2-nav-lang-globe img {
+.v2-nav-lang-globe svg {
   display: block;
   width: 24px;
   height: 24px;
-  /* Keep pixel-art crispness when the browser scales the SVG. */
-  image-rendering: pixelated;
 }
 
 @media (prefers-reduced-motion: reduce) {
