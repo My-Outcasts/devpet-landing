@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { headers } from 'next/headers'
 import { Varela_Round } from 'next/font/google'
 import { LocaleProvider } from '@/lib/LocaleProvider'
 import './globals.css'
@@ -33,9 +34,24 @@ export const metadata: Metadata = {
 }
 // Note: title & description are updated client-side by LocaleProvider based on detected locale
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Server-side locale detection. Vercel injects `x-vercel-ip-country`
+  // on every incoming request based on the visitor's IP — we read it
+  // here so the very first HTML the browser renders is already in the
+  // right language. No flash of English for Vietnamese visitors.
+  //
+  // Falls through to 'en' on any of the failure modes:
+  //   • request not from Vercel (local dev / preview without geo)
+  //   • header missing / unknown country code
+  //
+  // Client-side `localStorage` overrides still win (user's manual
+  // toggle persists across visits regardless of IP); see LocaleProvider.
+  const headersList = await headers()
+  const country = headersList.get('x-vercel-ip-country') ?? ''
+  const initialLocale = country === 'VN' ? 'vi' : 'en'
+
   return (
-    <html lang="en">
+    <html lang={initialLocale}>
       <head>
         {process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN && (
           <script
@@ -46,7 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         )}
       </head>
       <body className={varelaRound.variable}>
-        <LocaleProvider>
+        <LocaleProvider initialLocale={initialLocale}>
           {children}
         </LocaleProvider>
       </body>

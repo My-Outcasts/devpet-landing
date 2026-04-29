@@ -730,7 +730,7 @@
       "cardYourCompanion": "YOUR COMPANION",
       "cardRealPractice": "REAL PRACTICE",
       "cardHonestInsights": "HONEST INSIGHTS",
-      "body": "Everything you need to actually get good. A skill map across four tiers tells you exactly what to learn next. Your companion will keep you building. Every challenge happens in Cursor, VS Code, or Claude Code, and honest insights surface your weak spots so you know what to practice next.",
+      "body": "Everything you need to actually get good: a skill map shows exactly what to tackle next, your companion stays with you across every session, and every project is captured live as you work in Cursor, VS Code, or Claude Code — paired with deep feedback that surfaces the gaps so you can fix them in your own project.",
       "cta": "Join the waitlist",
       "ctaAria": "Join the Codepet waitlist"
     },
@@ -739,13 +739,13 @@
       "introLead": "A simple and efficient workflow to bring your vision to life.",
       "introMuted": "From the first call to final delivery, every step is designed for clarity and efficiency.",
       "tier1Title": "Foundations",
-      "tier1Body": "Every builder starts here. You will learn to ask AI for what you actually want, read errors without panic, find your way around your editor, and start spotting sharp code from sloppy — one small win at a time.",
+      "tier1Body": "Anyone can start here. You will learn how to ask AI for exactly what you need, read errors without panic, get fluent with your editor, and start telling apart what to tackle next in your project — one step at a time.",
       "tier2Title": "Context & Structure",
-      "tier2Body": "Now you are feeding AI the right fuel. Set up context that sticks, write rules files your pet actually follows, document as you build, and lay out projects that scale instead of collapsing on you.",
+      "tier2Body": "You will set up the project basics that Codepet works from. Define context, write the rules files Codepet should follow, document as you build, and lay out a project that scales instead of stopping at one point.",
       "tier3Title": "Develop",
-      "tier3Body": "This is where your reps start paying off. Move fluently between Cursor, Claude Code, and VS Code, keep scope from sprawling, reuse a design system instead of redrawing it, and iterate on prompts until they sing.",
+      "tier3Body": "This is when you go live. Move fluently between Cursor, Claude Code, and VS Code, manage your own scope, reuse the systems you have already designed, and keep leveling up until your product runs as well as it can.",
       "tier4Title": "Expert",
-      "tier4Body": "The tier you earn. Think in user personas, stretch context windows without losing the plot, architect AI into your product, and build a second brain that compounds every project you ship."
+      "tier4Body": "What you have earned: thinking in user personas, making the most of context windows without losing the plot, architecting AI into your product, and building a second brain that compounds with every product you ship."
     },
     "testimonials": {
       "title": "real results from the beta",
