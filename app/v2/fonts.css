@@ -89,6 +89,20 @@
   src: url('/fonts/upheaval/upheavtt.ttf') format('truetype');
 }
 
+/* DearPix — pixel-art display face used ONLY when locale=vi.
+   Activated via the .v2-root--vi class (LocaleClassWrapper applies
+   it whenever the user is on Vietnamese). Has full Vietnamese
+   diacritics, which Upheaval TT and Minecraft don't render
+   correctly. English visits never load this file because no .v2-root
+   rule references DearPix unless --vi is set. */
+@font-face {
+  font-family: 'DearPix';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/dearpix/dearpix.otf') format('opentype');
+}
+
 /* VT323 — monospaced terminal/CRT face from Google Fonts (SIL OFL,
    see /public/fonts/vt323/OFL.txt). Used as the primary body face
    site-wide via --font-display so prose, captions, and quotes pick
@@ -173,6 +187,40 @@
      horizontally and fixed/top content like the nav appears
      shifted or clipped on the left edge. */
   overflow-x: clip;
+}
+
+/* ── Vietnamese-locale typography ────────────────────────────
+   When LocaleClassWrapper detects locale='vi', it adds the
+   .v2-root--vi modifier to the wrapper. That swaps every pixel
+   font on the v2 landing to DearPix, which has the diacritics
+   (â, ă, ơ, ư, đ, etc.) that VT323 / Upheaval TT / Minecraft
+   render as boxes. English visits never get this class and
+   keep VT323 / Upheaval TT exactly as before.
+
+   We override the cascade in two places:
+   1. The CSS variables (--font-display, --font-pixel) for any
+      element that uses them.
+   2. A specificity-bumped selector for elements that hardcode
+      'Upheaval TT' inline (hero headline, section headlines,
+      buttons, corner labels — see the dozen+ rules below in
+      this file). One v2-class match plus the .v2-root--vi
+      parent gives us 0,2,0 specificity, beating the original
+      0,1,0 rules without needing !important. */
+.v2-root--vi {
+  --font-display: 'DearPix', 'VT323', monospace;
+  --font-pixel: 'DearPix', 'Minecraft', monospace;
+}
+
+.v2-root--vi [class^="v2-"],
+.v2-root--vi [class*=" v2-"] {
+  font-family: 'DearPix', 'Upheaval TT', 'Minecraft', monospace;
+}
+
+/* Form inputs in Vietnamese — keep the same DearPix face for
+   visual consistency. */
+.v2-root--vi input,
+.v2-root--vi textarea {
+  font-family: 'DearPix', 'VT323', monospace;
 }
 
 /* ── Full-viewport sections ──────────────────────────────────

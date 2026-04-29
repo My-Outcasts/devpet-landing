@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './fonts.css'
+import LocaleClassWrapper from './components/LocaleClassWrapper'
 
 export const metadata: Metadata = {
   title: 'Codepet — Learn to build agentic code with your crew',
@@ -8,5 +9,9 @@ export const metadata: Metadata = {
 }
 
 export default function V2Layout({ children }: { children: React.ReactNode }) {
-  return <div className="v2-root min-h-screen">{children}</div>
+  // LocaleClassWrapper is a tiny client component that reads the
+  // current locale from LocaleProvider and adds `.v2-root--vi` to
+  // the wrapper when Vietnamese is active. Keeping it as a child of
+  // this server-rendered layout lets us still export `metadata`.
+  return <LocaleClassWrapper>{children}</LocaleClassWrapper>
 }
