@@ -4,27 +4,31 @@
 import { POST } from '@/app/api/waitlist/route'
 import { NextRequest } from 'next/server'
 
-// Mock googleapis. Each test sets up jest.fn return values via the
-// shared mocks below. The default implementation simulates an empty
-// sheet (no dedup hit) and a successful append.
-const valuesGet = jest.fn().mockResolvedValue({ data: { values: [] } })
-const valuesAppend = jest.fn().mockResolvedValue({ data: {} })
+// Mock fetch — the route forwards to GOOGLE_SHEET_WEBHOOK_URL and follows
+// a 302 redirect to a script.googleusercontent.com URL. Tests stub both
+// hops via a sequenced mock.
+const fetchMock = jest.fn() as jest.Mock
+global.fetch = fetchMock as unknown as typeof fetch
 
-jest.mock('googleapis', () => ({
-  google: {
-    auth: {
-      JWT: jest.fn().mockImplementation(() => ({})),
+function mockAppsScriptResponse(payload: unknown) {
+  // First hop: 302 redirect with a Location header
+  fetchMock.mockResolvedValueOnce({
+    status: 302,
+    headers: {
+      get: (name: string) =>
+        name.toLowerCase() === 'location'
+          ? 'https://script.googleusercontent.com/echo'
+          : null,
     },
-    sheets: jest.fn().mockReturnValue({
-      spreadsheets: {
-        values: {
-          get: (...args: unknown[]) => valuesGet(...args),
-          append: (...args: unknown[]) => valuesAppend(...args),
-        },
-      },
-    }),
-  },
-}))
+    text: async () => '',
+  } as unknown as Response)
+  // Second hop: 200 with JSON body
+  fetchMock.mockResolvedValueOnce({
+    status: 200,
+    headers: { get: () => null },
+    text: async () => JSON.stringify(payload),
+  } as unknown as Response)
+}
 
 function makeRequest(body: unknown) {
   return new NextRequest('http://localhost/api/waitlist', {
@@ -35,19 +39,13 @@ function makeRequest(body: unknown) {
 }
 
 beforeEach(() => {
-  valuesGet.mockReset().mockResolvedValue({ data: { values: [] } })
-  valuesAppend.mockReset().mockResolvedValue({ data: {} })
-  process.env.GOOGLE_SHEET_ID = 'sheet-id'
-  process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL = 'svc@iam.gserviceaccount.com'
-  process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY =
-    '-----BEGIN PRIVATE KEY-----\\nfake\\n-----END PRIVATE KEY-----\\n'
+  fetchMock.mockReset()
+  process.env.GOOGLE_SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/test/exec'
 })
 
 test('returns 400 for missing email', async () => {
   const res = await POST(makeRequest({}))
   expect(res.status).toBe(400)
-  const json = await res.json()
-  expect(json.error).toMatch(/invalid email/i)
 })
 
 test('returns 400 for invalid email format', async () => {
@@ -55,29 +53,34 @@ test('returns 400 for invalid email format', async () => {
   expect(res.status).toBe(400)
 })
 
-test('returns status:ok and appends row for fresh email', async () => {
+test('returns 200 status:ok when Apps Script returns result:ok', async () => {
+  mockAppsScriptResponse({ result: 'ok' })
   const res = await POST(
     makeRequest({ email: 'user@example.com', locale: 'en' })
   )
   expect(res.status).toBe(200)
   expect(await res.json()).toEqual({ status: 'ok' })
-  expect(valuesAppend).toHaveBeenCalledTimes(1)
 })
 
-test('returns status:duplicate when email already in sheet', async () => {
-  valuesGet.mockResolvedValueOnce({
-    data: { values: [['User@Example.com', 'other@example.com']] },
-  })
+test('returns 200 status:duplicate when Apps Script reports duplicate', async () => {
+  mockAppsScriptResponse({ result: 'duplicate' })
   const res = await POST(
     makeRequest({ email: 'user@example.com', locale: 'en' })
   )
   expect(res.status).toBe(200)
   expect(await res.json()).toEqual({ status: 'duplicate' })
-  expect(valuesAppend).not.toHaveBeenCalled()
 })
 
-test('returns 500 when env vars are missing', async () => {
-  delete process.env.GOOGLE_SHEET_ID
+test('returns 502 when Apps Script reports an error', async () => {
+  mockAppsScriptResponse({ result: 'error', message: 'permission denied' })
+  const res = await POST(
+    makeRequest({ email: 'user@example.com', locale: 'en' })
+  )
+  expect(res.status).toBe(502)
+})
+
+test('returns 500 when env var is missing', async () => {
+  delete process.env.GOOGLE_SHEET_WEBHOOK_URL
   const res = await POST(
     makeRequest({ email: 'user@example.com', locale: 'en' })
   )

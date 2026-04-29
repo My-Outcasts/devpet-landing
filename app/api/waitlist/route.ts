@@ -1,46 +1,23 @@
 import { NextResponse } from 'next/server'
-import { google } from 'googleapis'
 
 /**
- * Codepet waitlist endpoint — direct Google Sheets API write.
+ * Codepet waitlist endpoint — Google Apps Script webhook forwarder.
  *
- * Replaces the old Apps Script webhook architecture. Instead of POSTing to
- * a Google Apps Script `/exec` URL (which adds 1–2s of latency on each
- * request because Apps Script is slow), this route authenticates as a
- * service account and writes to the bound Google Sheet via the Sheets v4
- * API directly. Round-trip drops from ~1.5s → ~250ms.
+ * Forwards JSON to the Apps Script web-app set in
+ * GOOGLE_SHEET_WEBHOOK_URL, which appends the email to the bound
+ * "Codepet Signup Email" Google Sheet. The script responds with
+ * `{ result: "ok" }` on insert, `{ result: "duplicate" }` if the
+ * email is already present, or `{ result: "error", message: "..." }`
+ * on failure (we surface that as a 502 so the front end shows
+ * "Something went wrong" instead of fake-succeeding).
  *
- * Required environment variables (all set in Vercel → Project Settings →
- * Environment Variables):
- *
- *   GOOGLE_SHEET_ID                     — the spreadsheet ID from its URL
- *   GOOGLE_SERVICE_ACCOUNT_EMAIL        — the service account's client_email
- *   GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY  — the service account's private_key
- *
- * Setup:
- *   1. In Google Cloud Console, create (or pick) a project.
- *   2. Enable the Google Sheets API for that project.
- *   3. Create a service account and download its JSON key.
- *   4. Share the waitlist Google Sheet with the service account's email
- *      address (give "Editor" access).
- *   5. Paste `client_email` and `private_key` from the JSON, plus the
- *      spreadsheet ID, into Vercel env vars.
- *
- * The bound sheet's first sheet (Sheet1) should still have these headers
- * in row 1:
- *   A: Timestamp   B: Email   C: Locale   D: UserAgent
- *
- * Response shape stays the same as the old Apps Script wrapper so the
- * front-end forms (FinalCta.tsx, Product.tsx) need no changes:
- *   200 { status: 'ok' }         — appended successfully
- *   200 { status: 'duplicate' }  — email already in sheet
- *   400 { error: 'Invalid email' }
- *   500 { error: 'Server misconfigured' | 'Save failed' }
+ * Apps Script web apps return a 302 redirect to a
+ * script.googleusercontent.com URL where the actual JSON body lives,
+ * so we set `redirect: 'manual'` and follow the Location header
+ * with a GET ourselves.
  */
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-export const runtime = 'nodejs'
 
 export async function POST(req: Request) {
   let body: { email?: string; locale?: string }
@@ -57,116 +34,60 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
   }
 
-  const sheetId = process.env.GOOGLE_SHEET_ID
-  const clientEmail = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL
-  // Vercel stores multi-line env vars with literal "\n" sequences; convert
-  // those back to real newlines so the PEM parser is happy.
-  const privateKey = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.replace(
-    /\\n/g,
-    '\n'
-  )
-
-  if (!sheetId || !clientEmail || !privateKey) {
-    const diag = {
-      hasSheetId: Boolean(sheetId),
-      hasClientEmail: Boolean(clientEmail),
-      hasPrivateKey: Boolean(privateKey),
-      privateKeyLen: privateKey?.length ?? 0,
-      privateKeyStartsWithBegin:
-        privateKey?.startsWith('-----BEGIN') ?? false,
-      // Vercel auto-sets these so we can tell whether the function
-      // has access to ANY env vars or just specifically can't see ours
-      vercelEnv: process.env.VERCEL_ENV ?? null,
-      nodeEnv: process.env.NODE_ENV ?? null,
-      // Names of GOOGLE_* env vars actually visible to the function
-      googleEnvKeys: Object.keys(process.env).filter((k) =>
-        k.startsWith('GOOGLE_')
-      ),
-      // ALL non-Vercel-internal env var names visible at runtime, sorted.
-      // Useful for verifying which vars are actually set vs which the
-      // dashboard claims are set.
-      allCustomEnvKeys: Object.keys(process.env)
-        .filter(
-          (k) =>
-            !k.startsWith('VERCEL_') &&
-            !k.startsWith('AWS_') &&
-            !k.startsWith('NEXT_') &&
-            ![
-              'PATH',
-              'PWD',
-              'HOME',
-              'NODE_ENV',
-              'TZ',
-              'LANG',
-              'HOSTNAME',
-              'TERM',
-              '_',
-              'SHLVL',
-              'OLDPWD',
-              'NOW_REGION',
-              'TURBO_REMOTE_ONLY',
-              'TURBO_RUN_SUMMARY',
-              'EDGE_RUNTIME',
-            ].includes(k)
-        )
-        .sort(),
-    }
-    console.error('Missing Google Sheets env vars', diag)
-    // TEMPORARY: include diag in response body so we can diagnose without
-    // log access. Remove this `detail` field once the env vars are working.
+  const webhookUrl = process.env.GOOGLE_SHEET_WEBHOOK_URL
+  if (!webhookUrl) {
+    console.error('GOOGLE_SHEET_WEBHOOK_URL is not set')
     return NextResponse.json(
-      { error: 'Server misconfigured', detail: diag },
+      { error: 'Server misconfigured' },
       { status: 500 }
     )
   }
 
+  const res = await fetch(webhookUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, locale }),
+    redirect: 'manual',
+  })
+
+  // Apps Script returns 302; follow once via GET to fetch the JSON body.
+  let finalRes = res
+  if (res.status === 302 || res.status === 301) {
+    const location = res.headers.get('location')
+    if (location) {
+      finalRes = await fetch(location)
+    }
+  }
+
+  const text = await finalRes.text()
+  let data: { result?: string; message?: string }
   try {
-    const auth = new google.auth.JWT({
-      email: clientEmail,
-      key: privateKey,
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    })
+    data = JSON.parse(text)
+  } catch {
+    return NextResponse.json({ error: 'Failed to save' }, { status: 502 })
+  }
 
-    const sheets = google.sheets({ version: 'v4', auth })
+  if (data.result === 'duplicate') {
+    return NextResponse.json({ status: 'duplicate' })
+  }
 
-    // Dedupe pass — read column B (Email) and look for a case-insensitive
-    // match. One round trip; ~80–120ms even with thousands of rows.
-    const existing = await sheets.spreadsheets.values.get({
-      spreadsheetId: sheetId,
-      range: 'Sheet1!B2:B',
-      majorDimension: 'COLUMNS',
-    })
-
-    const emails = (existing.data.values?.[0] ?? []).map((cell) =>
-      (cell ?? '').toString().trim().toLowerCase()
-    )
-
-    if (emails.includes(email)) {
-      return NextResponse.json({ status: 'duplicate' })
-    }
-
-    // Append. RAW vs USER_ENTERED affects how Sheets parses the timestamp;
-    // we use USER_ENTERED so the date stays a real date rather than a
-    // string, which keeps existing column-A formatting intact.
-    await sheets.spreadsheets.values.append({
-      spreadsheetId: sheetId,
-      range: 'Sheet1!A:D',
-      valueInputOption: 'USER_ENTERED',
-      insertDataOption: 'INSERT_ROWS',
-      requestBody: {
-        values: [[new Date().toISOString(), email, locale, '']],
-      },
-    })
-
-    return NextResponse.json({ status: 'ok' })
-  } catch (err) {
-    console.error('Sheets API write failed:', err)
+  // Surface Apps Script errors so the front end can show a real
+  // error state instead of fake-succeeding.
+  if (data.result === 'error') {
+    console.error('Apps Script returned error:', data)
     return NextResponse.json(
-      {
-        error: 'Save failed',
-        detail: err instanceof Error ? err.message : 'unknown',
-      },
-      { status: 500 }
+      { error: 'Save failed', detail: data.message },
+      { status: 502 }
     )
   }
+
+  if (data.result !== 'ok') {
+    console.error('Apps Script returned unexpected payload:', data)
+    return NextResponse.json(
+      { error: 'Unexpected response from save endpoint' },
+      { status: 502 }
+    )
+  }
+
+  return NextResponse.json({ status: 'ok' })
 }
