@@ -185,19 +185,6 @@ export default function Nav() {
           <li>
             <a href="#skill-trees" className="v2-nav-link" onClick={handleAnchorClick}>{t.v2.nav.skillTree}</a>
           </li>
-          {/* EN/VI language toggle. Auto-detection runs on first visit
-              (Vietnam IP → vi, otherwise → en); this button lets the
-              user override and persists their choice in localStorage. */}
-          <li>
-            <button
-              type="button"
-              className="v2-nav-link v2-nav-lang-toggle"
-              onClick={toggleLocale}
-              aria-label={`Switch language (currently ${locale.toUpperCase()})`}
-            >
-              {locale === 'en' ? 'VI' : 'EN'}
-            </button>
-          </li>
         </ul>
 
         <a href="#top" className="v2-nav-wordmark" aria-label={t.v2.nav.homeAria} onClick={handleAnchorClick}>
@@ -231,9 +218,32 @@ export default function Nav() {
         {scrolled ? (
           <span className="v2-nav-cta-placeholder" aria-hidden="true" />
         ) : (
-          <a href="#waitlist" className="v2-nav-cta" onClick={handleAnchorClick}>
-            <span className="v2-nav-cta-body">{t.v2.nav.startJourney}</span>
-          </a>
+          <div className="v2-nav-right">
+            {/* Pixel-art globe toggles between EN and VI. Auto-detection
+                runs on first visit (Vietnam IP → vi, otherwise → en);
+                this button lets the user override and persists their
+                choice in localStorage. Sits to the LEFT of the CTA so
+                it never overlaps the primary action. */}
+            <button
+              type="button"
+              className="v2-nav-lang-globe"
+              onClick={toggleLocale}
+              aria-label={`Switch language (currently ${locale.toUpperCase()})`}
+              title={locale === 'en' ? 'Tiếng Việt' : 'English'}
+            >
+              <Image
+                src="/v2/icon-globe.svg"
+                alt=""
+                width={24}
+                height={24}
+                aria-hidden="true"
+                unoptimized
+              />
+            </button>
+            <a href="#waitlist" className="v2-nav-cta" onClick={handleAnchorClick}>
+              <span className="v2-nav-cta-body">{t.v2.nav.startJourney}</span>
+            </a>
+          </div>
         )}
       </div>
     </nav>

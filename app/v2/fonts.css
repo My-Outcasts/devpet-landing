@@ -349,22 +349,50 @@ html {
 .v2-nav-inner--enter .v2-nav-wordmark                { animation-delay: 0s;   }
 .v2-nav-inner--enter .v2-nav-links > li:nth-child(2) { animation-delay: 0.1s; } /* Get Good   */
 .v2-nav-inner--enter .v2-nav-links > li:nth-child(3) { animation-delay: 0.2s; } /* Skill Tree */
-.v2-nav-inner--enter .v2-nav-links > li:nth-child(4) { animation-delay: 0.25s; } /* Language toggle */
 .v2-nav-inner--enter .v2-nav-cta                     { animation-delay: 0.3s; }
 
-/* Language toggle — uses the same .v2-nav-link family as the section
-   anchors, but it's a <button> so reset browser defaults that would
-   otherwise add padding, background, or focus rings that don't match
-   the surrounding text links. */
-.v2-nav-lang-toggle {
+/* Right-side cluster: pixel-art globe toggle next to the primary CTA.
+   The cluster lives in the third grid column (was just the CTA) and
+   sits flush right; gap keeps the globe a clean tap-target distance
+   from the pill button. */
+.v2-nav-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  justify-self: end;
+}
+
+/* Pixel-art globe button. No text — just the SVG. Reset browser
+   button defaults so it sits cleanly next to the CTA, then size it
+   visually equivalent to a single nav link. Hover scales the icon
+   slightly so it reads as interactive. */
+.v2-nav-lang-globe {
   appearance: none;
   background: transparent;
   border: 0;
-  padding: 0;
+  padding: 4px;
   margin: 0;
-  font: inherit;
-  color: inherit;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  border-radius: 4px;
+  transition: transform 0.12s ease;
+}
+
+.v2-nav-lang-globe:hover,
+.v2-nav-lang-globe:focus-visible {
+  transform: scale(1.1);
+  outline: none;
+}
+
+.v2-nav-lang-globe img {
+  display: block;
+  width: 24px;
+  height: 24px;
+  /* Keep pixel-art crispness when the browser scales the SVG. */
+  image-rendering: pixelated;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -376,7 +404,8 @@ html {
 /* Layout alignment inside the 3-column nav grid */
 .v2-nav-inner > .v2-nav-links { justify-self: start; }
 .v2-nav-inner > .v2-nav-wordmark { justify-self: center; }
-.v2-nav-inner > .v2-nav-cta     { justify-self: end; }
+.v2-nav-inner > .v2-nav-cta     { justify-self: end; } /* (legacy) */
+.v2-nav-inner > .v2-nav-right   { justify-self: end; }
 
 /* Empty right-column placeholder rendered in place of the CTA once
    the reader scrolls past the fold. Same column width footprint as
