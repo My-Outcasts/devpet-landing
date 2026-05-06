@@ -2550,15 +2550,19 @@ html {
      1.2em. Same pixel display face as the Mindset and Product labels
      so the retro type system stays consistent.
 
-     Letter-spacing was 0 — bumped to 0.025em (was 0.05) so the
-     periods in "CODE.PHÁT TRIỂN.HỌC HỎI" have a small amount of
-     breathing room from the surrounding glyphs without opening
-     a wide gap between PHÁT TRIỂN and HỌC HỎI. */
+     Letter-spacing reset to 0 (the pixel font's natural advance) so
+     every char-to-char gap is the same. Earlier passes tried 0.05em
+     and 0.025em to give the period more breathing room, but
+     letter-spacing applies uniformly to every glyph pair, so adding
+     it widens the gaps between letters AND around the period
+     unevenly relative to the actual space character — producing the
+     visible inconsistency. With 0, all gaps come straight from the
+     font metrics. */
   font-family: 'Upheaval TT', 'Minecraft', monospace;
   font-weight: 400;
   font-size: clamp(44px, 5.6vw, 80px);
   line-height: 1.2;
-  letter-spacing: 0.025em;
+  letter-spacing: 0;
   text-transform: uppercase;
   color: #000000;
   /* Bottom margin trimmed from clamp(56px, 6vw, 88px) → clamp(32px,
