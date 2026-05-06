@@ -5789,4 +5789,17 @@ html {
     padding-left: clamp(24px, 4vw, 48px);
     padding-right: clamp(24px, 4vw, 48px);
   }
+
+  /* FinalCta form — bump the inter-row gap so the email pill and
+     the red submit pill have visible breathing room (the desktop
+     20-32 felt cramped against the larger iPad input). */
+  .v2-finalcta-form {
+    gap: clamp(28px, 3vw, 44px);
+  }
+  /* Email input — desktop uses letter-spacing: -0.01em which makes
+     "name@gmail.com" cluster tight in the pixel font. Open it up to
+     0.06em at the tablet tier so each glyph reads cleanly. */
+  .v2-finalcta-input {
+    letter-spacing: 0.06em;
+  }
 }
