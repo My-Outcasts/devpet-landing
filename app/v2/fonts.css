@@ -5498,10 +5498,10 @@ html {
 
   /* SkillTrees — 4-row × 2-col zigzag, cards on alternating sides
      with orbs paired in the opposite column on the same row.
-     `align-items: center` on the grid keeps each orb vertically
-     aligned with the centre of its paired card so the pair reads
-     as "next to" each other rather than the orb floating loose
-     in tall empty space when the Vietnamese card body wraps. */
+     `align-items: start` so the orb's top sits at the same Y as
+     the card's top instead of floating to the row's vertical
+     centre (which puts it below the card on iPad where rows are
+     tall due to long Vietnamese body wrapping). */
   .v2-skilltrees-cards {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(4, auto);
@@ -5509,7 +5509,7 @@ html {
     max-width: 720px;
     margin-left: auto;
     margin-right: auto;
-    align-items: center;
+    align-items: start;
   }
   .v2-skilltrees-card--1 { grid-column: 1; grid-row: 1; }
   .v2-skilltrees-orb--1  { grid-column: 2; grid-row: 1; }
@@ -5519,10 +5519,13 @@ html {
   .v2-skilltrees-orb--3  { grid-column: 2; grid-row: 3; }
   .v2-skilltrees-card--4 { grid-column: 2; grid-row: 4; }
   .v2-skilltrees-orb--4  { grid-column: 1; grid-row: 4; }
-  /* Each orb sits in the row centre, beside its card, instead of
-     stretching to the row height. */
+  /* Orb shrinks to its content height and sits at the top of the
+     row, alongside the card's top edge. A small top padding gives
+     it a little visual lift so it doesn't bump the card's top
+     border line. */
   .v2-skilltrees-orb {
-    align-self: center;
+    align-self: start;
+    padding-top: clamp(20px, 3vw, 56px);
   }
   /* Bump the orb sprite up at iPad so it reads at parity with
      the card opposite it. Desktop default clamp(160,18vw,260)
