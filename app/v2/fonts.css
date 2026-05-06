@@ -5619,8 +5619,12 @@ html {
   .v2-hero-pet--penguin { transform: translateY(0); }
 
   /* Pets row — slight bottom margin so the lowest pet (byte) has
-     visible white space before the green band starts. */
+     visible white space before the green band starts. Wider gap
+     between pets at iPad so the seven sprites read as separate
+     companions rather than a tight crowd (mobile rule clamped
+     gap to 4-12px which packed them together at tablet width). */
   .v2-hero-pets {
+    gap: clamp(16px, 3vw, 40px);
     margin-bottom: clamp(8px, 1.5vw, 20px);
   }
 
