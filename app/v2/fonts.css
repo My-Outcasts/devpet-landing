@@ -5400,7 +5400,12 @@ html {
   }
   .v2-hero-pets {
     gap: 2px;
-    min-height: 160px;
+    /* Was min-height: 160px which left ~50-100px of empty space
+       below the pets (whose natural height is ~50-60px) and
+       pushed the in-flow CTA pill far below the pets row. Drop
+       to auto so the row hugs the pets and the CTA sits right
+       beneath them as the user expects. */
+    min-height: auto;
   }
   .v2-hero-pet--owl     { transform: translateY(14px); }
   .v2-hero-pet--fox     { transform: translateY(28px); }
