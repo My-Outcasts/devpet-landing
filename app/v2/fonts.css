@@ -5544,9 +5544,15 @@ html {
 
   /* ── Product section iPad polish ────────────────────────────
      Body paragraph: add side padding so the prose doesn't touch
-     the section edges, and let the measure breathe a bit wider
-     than the desktop 560px cap. */
+     the section edges, cap the measure at 640px, and explicitly
+     center the block inside the flex column. The mobile rule
+     above sets `align-self: stretch` + `margin: 0` which, combined
+     with the new max-width, would otherwise pin the block to the
+     left edge of the column instead of centering it. */
   .v2-product-body {
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
     padding-left: clamp(24px, 4vw, 64px);
     padding-right: clamp(24px, 4vw, 64px);
     max-width: 640px;
@@ -5579,18 +5585,17 @@ html {
     gap: clamp(20px, 3vw, 32px);
   }
 
-  /* Coin decorations flanking byte — slightly larger and pulled
-     in toward the centre so they read as orbiting byte instead
-     of hugging the section edges. The desktop rule used 6.8vw /
-     5.4vw widths and 4% / 2% offsets; iPad needs a bigger
-     baseline plus tighter inset because the byte itself is
-     capped at 220px here. */
+  /* Coin decorations flanking byte — bigger + pulled tighter
+     toward the centre so they read as orbiting byte instead of
+     drifting near the section edges. With byte capped at 220px
+     and the section ~768px wide on iPad portrait, a 26% inset
+     puts each coin's centre roughly 90px from byte's edge. */
   .v2-product-coin--1 {
-    width: clamp(80px, 11vw, 120px);
-    right: 14%;
+    width: clamp(96px, 13vw, 140px);
+    right: 26%;
   }
   .v2-product-coin--2 {
-    width: clamp(64px, 9vw, 96px);
-    left: 14%;
+    width: clamp(80px, 11vw, 116px);
+    left: 26%;
   }
 }
