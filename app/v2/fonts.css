@@ -4662,18 +4662,18 @@ html {
        three separate screens. */
     gap: clamp(16px, 4vw, 32px);
   }
-  /* Mobile number + label sizing tuned so each stat fits in roughly
-     a third of the iPhone viewport instead of consuming a whole
-     screen. Number was clamp(66,18.5vw,122) — too large at any
-     phone width, the comma in 1,584 alone took ~60% of the screen.
-     New ramp tops out at 88px, with the actual rendered size on a
-     390px iPhone landing near 56px (well within the cap). Label
-     scales in step (max ~1/3 of the numeral). */
+  /* Mobile number + label sizing — the original 66/18.5vw/122
+     was too large (one stat per viewport), the first cut at
+     48/14vw/88 was a touch too small for the iPad column width
+     this rule also covers. The middle ramp below puts the
+     numerals near 62px on a 390px iPhone and near 100px on a
+     768px iPad — readable on both without dominating the screen.
+     Label scales in step at roughly 1/3 of the numeral. */
   .v2-stat-number {
-    font-size: clamp(48px, 14vw, 88px);
+    font-size: clamp(56px, 16vw, 104px);
   }
   .v2-stat-label {
-    font-size: clamp(20px, 5.4vw, 32px);
+    font-size: clamp(22px, 6vw, 36px);
   }
   /* Hide every decorative shape on mobile — the per-stat colour
      does the work the shapes used to do. */
