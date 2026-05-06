@@ -5786,6 +5786,39 @@ html {
   .v2-corner-label {
     font-size: clamp(18px, 2.2vw, 24px);
   }
+
+  /* Stats — hide the large decorative shapes (triangle/square/
+     circle) at tablet tier and mirror the mobile color treatment
+     where the numerals carry the shape palette directly (red /
+     yellow / blue). The shapes were sized for desktop (~280-340px
+     wide on a 1440 viewport) which on a narrow tablet (800-900)
+     overlap each other and dominate the section. */
+  .v2-stats-shape {
+    display: none !important;
+  }
+  .v2-stat:nth-child(1) .v2-stat-number {
+    color: #F83C00 !important;
+  }
+  .v2-stat:nth-child(2) .v2-stat-number {
+    color: #FCBE1D !important;
+  }
+  .v2-stat:nth-child(3) .v2-stat-number {
+    color: #1C40CF !important;
+  }
+  .v2-stat-label {
+    color: #000000 !important;
+  }
+  /* Stats container — shrink the desktop's tall padding (was
+     clamp(200,24vw,440) top) so the section reads as a compact
+     stat band with the three colored numerals rather than a
+     viewport-tall canvas with hidden shapes. */
+  .v2-stats-wrap {
+    padding: clamp(40px, 6vw, 72px) clamp(24px, 4vw, 64px) clamp(40px, 6vw, 72px);
+  }
+  .v2-stats-inner {
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(16px, 3vw, 40px);
+  }
   .v2-corner-label::before {
     width: 16px;
     height: 16px;
