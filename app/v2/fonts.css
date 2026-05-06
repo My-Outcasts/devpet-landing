@@ -5441,6 +5441,34 @@ html {
        row fit comfortably without each taking 90% of the viewport
        height. 4/5 keeps the card readable but more compact. */
     aspect-ratio: 4 / 5;
+    /* Loosen the inside padding compared to the mobile rule
+       (which uses 20/18) so icon + label have room to breathe
+       at iPad scale rather than feeling cramped. */
+    padding: clamp(28px, 3vw, 44px) clamp(20px, 2.5vw, 32px);
+    gap: clamp(20px, 2.5vw, 32px);
+  }
+  /* Icon container — let the image take more of the card height
+     (was capped at 60% in the mobile rule). At iPad scale 70-75%
+     reads as a deliberate hero image instead of a small inset
+     thumbnail. */
+  .v2-getgood-card-icon {
+    max-height: 72%;
+  }
+  /* Image inside — bump the max-width so the sprite reaches
+     toward the card edges. The mobile/desktop default of 78%
+     leaves a wide margin on each side that makes the icon look
+     small inside the larger iPad card. */
+  .v2-getgood-card-icon img {
+    max-width: 92%;
+  }
+  /* Card label (BẢN ĐỒ KỸ NĂNG, BẠN ĐỒNG HÀNH, ...) — the
+     mobile override caps at clamp(22,5.8vw,30) which on iPad
+     stops at 30px and reads small under the now-larger sprite.
+     Bump to clamp(28,3.6vw,40) so the label scales with the
+     card without overshooting. */
+  .v2-getgood-card-label {
+    font-size: clamp(28px, 3.6vw, 40px);
+    letter-spacing: 0;
   }
 
   /* SkillTrees — restore the 4-row × 2-col zigzag (was 1-col on
