@@ -5399,4 +5399,13 @@ html {
   .v2-product-byte {
     width: clamp(160px, 22vw, 220px);
   }
+
+  /* Hero in-flow CTA — hidden at tablet+ because the nav already
+     shows its own "Start your journey" pill at top right (visible
+     starting at 481px wide). The 768 mobile block above sets this
+     to display: inline-block, which would otherwise leak through
+     into the tablet tier and give iPad two visible CTAs. */
+  .v2-hero-mobile-cta {
+    display: none;
+  }
 }
