@@ -5775,19 +5775,28 @@ html {
     margin-right: auto;
   }
 
-  /* FinalCta title + subtitle — mobile-block pins both at 28px
-     which reads small on iPad's 768-wide canvas. Bump to a fluid
-     ramp that scales from ~44 (768) up to ~56 (1199), still
-     leaving each line space to fit on its own row inside the
-     section's horizontal padding. The mobile-break span keeps
-     forcing line2 to its own row at this tier so the four
-     phrases stack as one-line-each. */
+  /* FinalCta title + subtitle — render each as a single line on
+     iPad. The mobile rule sets white-space: normal AND the
+     mobile-break span goes display: block (forcing line2 onto a
+     new row), which produced an awkward mid-sentence break in
+     "Cùng nói về / tương lai của lập trình." At tablet, restore
+     nowrap and inline the mobile-break so the full title and
+     subtitle each render as a single uninterrupted line. Font
+     size dropped from the 44-56 ramp to clamp(26,3.4vw,36) so
+     the longest line ("Đừng suy nghĩ nữa. hãy bắt đầu phát
+     triển.") fits inside the section padding without overflow. */
   .v2-finalcta-title,
   .v2-finalcta-subtitle {
-    font-size: clamp(44px, 5.5vw, 56px);
+    font-size: clamp(26px, 3.4vw, 36px);
     line-height: 1.15;
-    padding-left: clamp(24px, 4vw, 48px);
-    padding-right: clamp(24px, 4vw, 48px);
+    white-space: nowrap;
+    padding-left: clamp(16px, 2.5vw, 32px);
+    padding-right: clamp(16px, 2.5vw, 32px);
+  }
+  /* Inline the mobile-break span so the second half stays on the
+     same line as the first half. */
+  .v2-finalcta-mobile-break {
+    display: inline;
   }
 
   /* FinalCta form — bump the inter-row gap so the email pill and
