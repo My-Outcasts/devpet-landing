@@ -5458,7 +5458,7 @@ html {
     max-width: 88%;
   }
   .v2-getgood-card-label {
-    font-size: clamp(22px, 2.9vw, 32px);
+    font-size: clamp(18px, 2.4vw, 26px);
   }
   /* Icon container — let the image take more of the card height
      (was capped at 60% in the mobile rule). At iPad scale 70-75%
