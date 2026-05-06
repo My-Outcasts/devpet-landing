@@ -4335,7 +4335,13 @@ html {
     min-height: auto;
     width: 100%;
     align-self: stretch;
-    gap: clamp(4px, 1.4vw, 12px);
+    /* Wider gap so the 7 sprites don't crowd each other on phones.
+       Was clamp(4,1.4vw,12) which on a 390 iPhone landed near 5px,
+       packing the pets shoulder-to-shoulder. New ramp lands ~10px
+       on iPhone SE (375), ~13px on iPhone 12 Pro (390), ~16px on
+       iPhone Pro Max (430). Pet width clamps to ~43px so 7 pets
+       + 6 gaps still fit inside the 390 viewport. */
+    gap: clamp(8px, 3vw, 18px);
     /* Margin-bottom dropped to 0 so the pets row sits flush
        against the section boundary below. */
     margin: clamp(24px, 4vh, 40px) 0 0;
@@ -4351,10 +4357,11 @@ html {
   .v2-hero-pet--penguin { transform: translateY(0); }
   /* Outer wrapper shrinks on mobile too — the desktop 170×220
      box was the actual culprit behind the row overflowing the
-     viewport on phones. Match the wrapper to the image clamp so
-     all 7 pets fit comfortably across a ~390px screen. */
+     viewport on phones. Trimmed slightly (was 40-84 / 11vw) so
+     the wider gap above can breathe — 7 pets + 6 gaps still fit
+     inside a 390 iPhone with horizontal padding. */
   .v2-hero-pet {
-    width: clamp(40px, 11vw, 84px);
+    width: clamp(36px, 9.8vw, 76px);
     height: auto;
   }
   .v2-hero-pet-img {
@@ -5398,7 +5405,10 @@ html {
     font-size: 40px;
   }
   .v2-hero-pets {
-    gap: 2px;
+    /* Was gap: 2px which packed the pets edge-to-edge on small
+       phones. Bumped to 6-12px so each sprite reads as its own
+       companion even at 375 (iPhone SE) width. */
+    gap: clamp(6px, 2.4vw, 12px);
     /* Was min-height: 160px which left ~50-100px of empty space
        below the pets (whose natural height is ~50-60px) and
        pushed the in-flow CTA pill far below the pets row. Drop
