@@ -5511,14 +5511,21 @@ html {
     margin-right: auto;
     align-items: start;
   }
-  .v2-skilltrees-card--1 { grid-column: 1; grid-row: 1; }
-  .v2-skilltrees-orb--1  { grid-column: 2; grid-row: 1; }
-  .v2-skilltrees-card--2 { grid-column: 2; grid-row: 2; }
-  .v2-skilltrees-orb--2  { grid-column: 1; grid-row: 2; }
-  .v2-skilltrees-card--3 { grid-column: 1; grid-row: 3; }
-  .v2-skilltrees-orb--3  { grid-column: 2; grid-row: 3; }
-  .v2-skilltrees-card--4 { grid-column: 2; grid-row: 4; }
-  .v2-skilltrees-orb--4  { grid-column: 1; grid-row: 4; }
+  /* !important required because the mobile @media block above this
+     one uses !important on each grid-row to stack everything in a
+     single column. At exactly 768px BOTH media queries fire, and
+     without matching !important here the mobile rule wins and the
+     orb lands in row 2 (below the card) instead of row 1 (beside
+     it). The grid-column overrides also use !important to stay
+     consistent. */
+  .v2-skilltrees-card--1 { grid-column: 1 !important; grid-row: 1 !important; }
+  .v2-skilltrees-orb--1  { grid-column: 2 !important; grid-row: 1 !important; }
+  .v2-skilltrees-card--2 { grid-column: 2 !important; grid-row: 2 !important; }
+  .v2-skilltrees-orb--2  { grid-column: 1 !important; grid-row: 2 !important; }
+  .v2-skilltrees-card--3 { grid-column: 1 !important; grid-row: 3 !important; }
+  .v2-skilltrees-orb--3  { grid-column: 2 !important; grid-row: 3 !important; }
+  .v2-skilltrees-card--4 { grid-column: 2 !important; grid-row: 4 !important; }
+  .v2-skilltrees-orb--4  { grid-column: 1 !important; grid-row: 4 !important; }
   /* Orb shrinks to its content height and sits at the top of the
      row, alongside the card's top edge. A small top padding gives
      it a little visual lift so it doesn't bump the card's top
