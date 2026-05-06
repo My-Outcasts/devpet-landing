@@ -5433,38 +5433,32 @@ html {
    768px (source-order cascade for equally-specific selectors).
    ──────────────────────────────────────────────────────────── */
 @media (min-width: 768px) and (max-width: 1199px) {
-  /* GetGood — 4 portrait cards in a 2x2 grid (was 1-col on mobile).
-     Constrain the grid further so cards read as compact tiles
-     centered in the section rather than sized-to-viewport. */
+  /* GetGood — 4 square cards in a 2x2 grid centered inside the
+     section. Middle-ground sizing between the previous 600 (too
+     wide) and 460 (too small) caps. */
   .v2-getgood-cards {
     grid-template-columns: repeat(2, 1fr);
-    gap: clamp(16px, 2vw, 24px);
-    /* Tighter cap (was 600). At iPad portrait this leaves wide
-       yellow bands either side and renders each card around
-       220x220 in the 2-col grid. */
-    max-width: 460px;
+    gap: clamp(18px, 2.2vw, 28px);
+    max-width: 540px;
     margin-left: auto;
     margin-right: auto;
     padding: 0;
   }
   .v2-getgood-card {
     aspect-ratio: 1 / 1;
-    /* Tightened padding to suit the smaller box. */
-    padding: clamp(16px, 2vw, 24px) clamp(12px, 1.6vw, 20px);
-    gap: clamp(10px, 1.4vw, 16px);
+    padding: clamp(18px, 2.2vw, 28px) clamp(14px, 1.8vw, 22px);
+    gap: clamp(12px, 1.6vw, 20px);
   }
-  /* Tighten icon + label for the smaller card. The earlier tablet
-     bumps (icon 92 percent, label clamp 28-40) were tuned for the
-     600-wide grid; at 460-wide the same values overpower the
-     box. Bring them back to a moderate scale. */
+  /* Icon + label scaled to the new 540-wide grid (each card lands
+     ~256x256 at iPad portrait). */
   .v2-getgood-card-icon {
-    max-height: 64%;
+    max-height: 68%;
   }
   .v2-getgood-card-icon img {
-    max-width: 84%;
+    max-width: 88%;
   }
   .v2-getgood-card-label {
-    font-size: clamp(20px, 2.6vw, 28px);
+    font-size: clamp(22px, 2.9vw, 32px);
   }
   /* Icon container — let the image take more of the card height
      (was capped at 60% in the mobile rule). At iPad scale 70-75%
