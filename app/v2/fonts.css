@@ -4372,12 +4372,11 @@ html {
   .v2-hero-mobile-cta {
     display: inline-block;
     align-self: center;
-    /* Tightened top + a bit more bottom so the pill sits visually
-       balanced between the pets row above and the green Product
-       section below — was margin-top: clamp(20,5vw,36) which left
-       a noticeably larger gap above the button than below it on
-       a 390px iPhone. */
-    margin: clamp(6px, 1.5vw, 14px) auto clamp(20px, 5vw, 36px);
+    /* Top margin sized to clear byte's translateY(40px) V-shape
+       offset on mobile — without it the deepest pet (byte) sits
+       on top of the CTA pill. Bottom margin keeps a clean buffer
+       before the green Product section. */
+    margin: clamp(48px, 12vw, 72px) auto clamp(20px, 5vw, 36px);
   }
 
   /* ── Product (Section 3) ──────────────────────────────────── */
