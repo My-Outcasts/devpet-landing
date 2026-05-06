@@ -8,7 +8,6 @@ import SkillTrees from './components/SkillTrees'
 import Testimonials from './components/Testimonials'
 import FinalCta from './components/FinalCta'
 import Footer from './components/Footer'
-import InstallPrompt from './components/InstallPrompt'
 import CopyGuard from './components/CopyGuard'
 
 export default function V2LandingPage() {
@@ -16,7 +15,6 @@ export default function V2LandingPage() {
     <main id="top" className="relative bg-black text-white">
       <CopyGuard />
       <Nav />
-      <InstallPrompt />
       <Hero />
       {/* Blue "canvas" band that holds the Product section. The
           Product's rounded-corner card sits inside this wrapper so

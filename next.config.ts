@@ -14,17 +14,16 @@ const nextConfig: NextConfig = {
   // Purely a DX preference — Next still surfaces build and runtime
   // errors via the overlay; only the route-status badge is removed.
   devIndicators: false,
-  // Root URL points at the current (v2) landing. The old
-  // `app/page.tsx` content stays in the codebase in case we need
-  // to roll back, but anyone hitting the domain root bounces to
-  // /v2. `permanent: false` emits a 307 redirect (temporary) so
-  // we can change our mind later without search engines caching
-  // it as a 301.
+  // Canonical landing URL is `/` — the V2 landing is re-exported
+  // from `app/page.tsx`. We canonicalize `/v2` → `/` so the base
+  // domain never includes `/v2` and any old inbound links land on
+  // the canonical URL. `permanent: false` (307) keeps it reversible
+  // without search engines caching it as a 301.
   async redirects() {
     return [
       {
-        source: '/',
-        destination: '/v2',
+        source: '/v2',
+        destination: '/',
         permanent: false,
       },
     ]

@@ -2,7 +2,7 @@
   "name": "Codepet",
   "short_name": "Codepet",
   "description": "Trường học lập trình AI cùng bạn đồng hành. 16 kỹ năng. 4 cấp độ. Xây sản phẩm thật.",
-  "start_url": "/v2",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
