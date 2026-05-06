@@ -2550,15 +2550,15 @@ html {
      1.2em. Same pixel display face as the Mindset and Product labels
      so the retro type system stays consistent.
 
-     Letter-spacing was 0 — bumped to 0.05em so the periods in
-     "CODE.PHÁT TRIỂN.HỌC HỎI" have visible breathing room from
-     the surrounding glyphs (the pixel font's natural advance is
-     tight enough that "E.P" and "N.H" read as one cluster). */
+     Letter-spacing was 0 — bumped to 0.025em (was 0.05) so the
+     periods in "CODE.PHÁT TRIỂN.HỌC HỎI" have a small amount of
+     breathing room from the surrounding glyphs without opening
+     a wide gap between PHÁT TRIỂN and HỌC HỎI. */
   font-family: 'Upheaval TT', 'Minecraft', monospace;
   font-weight: 400;
   font-size: clamp(44px, 5.6vw, 80px);
   line-height: 1.2;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.025em;
   text-transform: uppercase;
   color: #000000;
   /* Bottom margin trimmed from clamp(56px, 6vw, 88px) → clamp(32px,
@@ -5697,5 +5697,31 @@ html {
      elements without one when they go inline). */
   .v2-mindset-headline .line + .line::before {
     content: ' ';
+  }
+
+  /* Section eyebrow labels (corner-label "■ KỸ NĂNG" /
+     "■ LÊN TRÌNH" etc.) — the desktop default sits at 13px,
+     which reads tiny on iPad next to the bigger section
+     headlines. Bump to clamp(18,2.2vw,24) plus a slightly
+     larger square bullet so the eyebrow weight matches the
+     Product section's "■ SẢN PHẨM" label. */
+  .v2-corner-label {
+    font-size: clamp(18px, 2.2vw, 24px);
+  }
+  .v2-corner-label::before {
+    width: 16px;
+    height: 16px;
+  }
+
+  /* SkillTrees intro paragraph — match the Product body gutter
+     so the prose doesn't span the section's full width on iPad.
+     Desktop default uses max-width: min(1600, 100vw - 96), which
+     evaluates to ~672px on iPad — too close to the section edges. */
+  .v2-skilltrees-intro {
+    max-width: 640px;
+    padding-left: clamp(24px, 4vw, 64px);
+    padding-right: clamp(24px, 4vw, 64px);
+    margin-left: auto;
+    margin-right: auto;
   }
 }
