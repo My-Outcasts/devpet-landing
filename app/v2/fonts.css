@@ -5638,29 +5638,39 @@ html {
     margin-bottom: clamp(8px, 1.5vw, 20px);
   }
 
-  /* Hero headline + subhead — the mobile rules pin both to a fixed
-     40px, which reads as small on a 768-wide iPad (40px is sized
-     for a 390px iPhone). At tablet, scale up to a comfortable
-     reading size that still leaves room for the pets row. At
-     768px wide the clamp lands near 64px; at 1199px it's near 80px. */
+  /* Hero headline + subhead — fluid ramp from 768 (iPad portrait,
+     ~50px) up to 1199 (~64px). Capped at 64 so the headline
+     doesn't dominate narrow foldable / mid-laptop widths
+     (800-900) where the previous 56-80 ramp was rendering 67-72px
+     and pushing each line to fill the viewport edge-to-edge. */
   .v2-hero-headline,
   .v2-hero-subhead {
-    font-size: clamp(56px, 8.4vw, 80px);
+    font-size: clamp(44px, 6vw, 64px);
   }
 
-  /* Sparkle + heart decorations — the mobile rules pin both to
-     top: 20px (right under the nav) which leaves a big empty band
-     between them and the headline on iPad. Drop them down to sit
-     visually adjacent to the headline's first line, and bump
-     their size a notch so they don't read as tiny next to the
-     bigger tablet-tier headline. */
+  /* Nav links — prevent labels like "GET GOOD" / "SKILL TREE"
+     from wrapping at the space when the nav is tight. Reduce
+     gap and font slightly at narrower tablet widths so the row
+     fits without spilling. */
+  .v2-nav-links {
+    gap: clamp(16px, 2.6vw, 32px);
+  }
+  .v2-nav-links a {
+    font-size: clamp(13px, 1.7vw, 18px);
+    white-space: nowrap;
+  }
+
+  /* Sparkle + heart decorations — bumped to clamp(56,8vw,88) so
+     they read as proper ornaments next to the new tablet headline
+     instead of tiny pip stickers. Vertical position aligned with
+     the headline first line. */
   .v2-hero-deco--sparkle-tl {
-    top: clamp(96px, 14vw, 160px);
-    width: clamp(40px, 5.5vw, 64px);
+    top: clamp(96px, 14vw, 180px);
+    width: clamp(56px, 8vw, 88px);
   }
   .v2-hero-deco--heart-tr {
-    top: clamp(96px, 14vw, 160px);
-    width: clamp(40px, 5.5vw, 64px);
+    top: clamp(96px, 14vw, 180px);
+    width: clamp(56px, 8vw, 88px);
   }
 
   /* ── Product section iPad polish ────────────────────────────
