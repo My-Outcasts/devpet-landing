@@ -107,10 +107,10 @@ export default function Hero() {
           mobile-only show rules. */}
       <a
         href="#waitlist"
-        className="v2-nav-cta v2-hero-mobile-cta"
+        className="v2-hero-mobile-cta"
         aria-label={t.v2.nav.startJourney}
       >
-        <span className="v2-nav-cta-body">{t.v2.nav.startJourney}</span>
+        <span className="v2-hero-mobile-cta-body">{t.v2.nav.startJourney}</span>
       </a>
     </section>
   )
