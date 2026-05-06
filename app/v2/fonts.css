@@ -5816,28 +5816,31 @@ html {
     letter-spacing: 0.06em;
   }
 
-  /* Footer nav — explicitly show the link list at iPad so it
-     can't accidentally collapse, AND bump it above the brand
-     (logo + copyright) so the four nav links appear right at
-     the start of the white footer band — visible without
-     scrolling all the way past the logo. */
+  /* Footer — restore the desktop two-column layout at iPad: C
+     logo + copyright on the left, four nav links on the right.
+     The mobile @media block collapses footer-inner to a single
+     column which doesn't match the user's design intent on a
+     768-wide tablet. Override grid-template-columns back to
+     `auto 1fr` and justify the nav to the right. */
   .v2-footer-inner {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: clamp(24px, 3vw, 40px);
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    gap: clamp(32px, 5vw, 80px);
+    align-items: end;
+  }
+  .v2-footer-brand {
+    align-items: flex-start;
+    text-align: left;
   }
   .v2-footer-nav {
-    order: -1;
+    justify-self: end !important;
     display: block !important;
-    width: 100%;
-    justify-self: center !important;
   }
   .v2-footer-links {
     display: flex !important;
     flex-wrap: wrap;
     gap: clamp(16px, 2.5vw, 32px);
-    justify-content: center !important;
+    justify-content: flex-end !important;
   }
   .v2-footer-link {
     display: inline-block;
@@ -5847,10 +5850,6 @@ html {
        reads inconsistent. Force everything uppercase via CSS. */
     text-transform: uppercase;
     letter-spacing: 0.04em;
-  }
-  .v2-footer-brand {
-    align-items: center;
-    text-align: center;
   }
 
   /* Tame the 100vh sections so the footer surfaces sooner on
