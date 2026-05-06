@@ -5811,4 +5811,23 @@ html {
   .v2-finalcta-input {
     letter-spacing: 0.06em;
   }
+
+  /* Footer nav — explicitly show the link list at iPad so it
+     can't accidentally collapse. The mobile @media block leaves
+     the nav visible but `flex-wrap: wrap` plus the narrow column
+     can push the links off-screen if something else has injected
+     overflow. Force visible flex + wrapping with a clear gap. */
+  .v2-footer-nav {
+    display: block !important;
+  }
+  .v2-footer-links {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: clamp(16px, 2.5vw, 32px);
+    justify-content: flex-start;
+  }
+  .v2-footer-link {
+    display: inline-block;
+    font-size: clamp(15px, 1.8vw, 18px);
+  }
 }
