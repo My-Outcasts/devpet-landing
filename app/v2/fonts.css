@@ -5497,11 +5497,17 @@ html {
   }
 
   /* SkillTrees — restore the 4-row × 2-col zigzag (was 1-col on
-     mobile). Card 1 left, card 2 right, card 3 left, card 4 right. */
+     mobile). Card 1 left, card 2 right, card 3 left, card 4 right.
+     Constrain the grid max-width so the columns aren't so narrow
+     that the body text wraps to 6+ lines and balloons the row
+     height (which makes the orb look stranded in empty space). */
   .v2-skilltrees-cards {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(4, auto);
-    gap: clamp(20px, 3vw, 40px) clamp(32px, 5vw, 72px);
+    gap: clamp(20px, 3vw, 40px) clamp(24px, 4vw, 48px);
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .v2-skilltrees-card--1 { grid-column: 1; grid-row: 1; }
   .v2-skilltrees-orb--1  { grid-column: 2; grid-row: 1; }
@@ -5511,6 +5517,13 @@ html {
   .v2-skilltrees-orb--3  { grid-column: 2; grid-row: 3; }
   .v2-skilltrees-card--4 { grid-column: 2; grid-row: 4; }
   .v2-skilltrees-orb--4  { grid-column: 1; grid-row: 4; }
+  /* Bump the orb sprite up at iPad so it reads at parity with
+     the card opposite it. Desktop default clamp(160,18vw,260)
+     evaluates to its 160 minimum on iPad, leaving the orb tiny
+     against the (tall) card body. */
+  .v2-skilltrees-orb img {
+    width: clamp(180px, 24vw, 240px);
+  }
 
   /* Product Byte — cap size at tablet so the sprite doesn't bleed
      past the green band into the eyebrow above. The mobile rule
