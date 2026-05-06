@@ -5408,4 +5408,29 @@ html {
   .v2-hero-mobile-cta {
     display: none;
   }
+
+  /* Hero — give the section bottom breathing room at tablet so the
+     V-shape pets row (byte sits ~60px below the row baseline) does
+     not push pixels into the green Product section underneath. The
+     mobile block sets padding-bottom: 0 because the in-flow CTA
+     used to absorb that vertical buffer; with the CTA hidden on
+     iPad, the section needs its own padding. Also shrink the V
+     choreography slightly so the row reads more horizontal at
+     tablet widths, avoiding a deep dip near the section seam. */
+  .v2-hero {
+    padding-bottom: clamp(56px, 8vw, 96px);
+  }
+  .v2-hero-pet--pink    { transform: translateY(0); }
+  .v2-hero-pet--owl     { transform: translateY(12px); }
+  .v2-hero-pet--fox     { transform: translateY(24px); }
+  .v2-hero-pet--byte    { transform: translateY(32px); }
+  .v2-hero-pet--yellow  { transform: translateY(24px); }
+  .v2-hero-pet--red     { transform: translateY(12px); }
+  .v2-hero-pet--penguin { transform: translateY(0); }
+
+  /* Pets row — slight bottom margin so the lowest pet (byte) has
+     visible white space before the green band starts. */
+  .v2-hero-pets {
+    margin-bottom: clamp(8px, 1.5vw, 20px);
+  }
 }
