@@ -5526,4 +5526,56 @@ html {
   .v2-hero-subhead {
     font-size: clamp(56px, 8.4vw, 80px);
   }
+
+  /* ── Product section iPad polish ────────────────────────────
+     Body paragraph: add side padding so the prose doesn't touch
+     the section edges, and let the measure breathe a bit wider
+     than the desktop 560px cap. */
+  .v2-product-body {
+    padding-left: clamp(24px, 4vw, 64px);
+    padding-right: clamp(24px, 4vw, 64px);
+    max-width: 640px;
+  }
+
+  /* "Tích hợp với:" caption + platform list scaled up to iPad
+     weight — the desktop sizes (20px caption / 16-22px platform
+     labels) read small at 768. Logo glyphs and inter-item gaps
+     scale in step. */
+  .v2-product-integrates {
+    font-size: clamp(20px, 2.4vw, 26px);
+    margin-bottom: clamp(16px, 2vw, 24px);
+  }
+  .v2-product-integrations {
+    gap: clamp(28px, 3.5vw, 48px);
+  }
+  .v2-product-integrations li {
+    font-size: clamp(18px, 2.2vw, 24px);
+    gap: 12px;
+  }
+  .v2-product-integrations li img {
+    width: clamp(22px, 2.6vw, 28px);
+  }
+
+  /* Waitlist form — bump the gap between the email input and the
+     submit pill so they don't crowd each other. The mobile-tier
+     rule sets 10px which is fine on a phone but reads tight on
+     iPad where the form is stacked vertically. */
+  .v2-product-form {
+    gap: clamp(20px, 3vw, 32px);
+  }
+
+  /* Coin decorations flanking byte — slightly larger and pulled
+     in toward the centre so they read as orbiting byte instead
+     of hugging the section edges. The desktop rule used 6.8vw /
+     5.4vw widths and 4% / 2% offsets; iPad needs a bigger
+     baseline plus tighter inset because the byte itself is
+     capped at 220px here. */
+  .v2-product-coin--1 {
+    width: clamp(80px, 11vw, 120px);
+    right: 14%;
+  }
+  .v2-product-coin--2 {
+    width: clamp(64px, 9vw, 96px);
+    left: 14%;
+  }
 }
