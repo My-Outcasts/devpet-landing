@@ -5622,11 +5622,19 @@ html {
      onto 3 separate, often-narrow lines. At tablet, let the
      three spans flow inline so the browser can wrap the full
      phrase to 2 lines naturally. Slight letter-spacing bump
-     (~0.04em) opens the pixel glyphs for readability. */
+     (~0.04em) opens the pixel glyphs for readability. Side
+     padding + max-width inset the headline from the section
+     edges so it sits inside the same visual gutter as the
+     Product body paragraph rather than running edge-to-edge. */
   .v2-mindset-headline {
-    font-size: clamp(48px, 7vw, 72px);
-    line-height: 1.05;
+    font-size: clamp(40px, 6vw, 60px);
+    line-height: 1.1;
     letter-spacing: 0.04em;
+    max-width: 640px;
+    padding-left: clamp(24px, 4vw, 64px);
+    padding-right: clamp(24px, 4vw, 64px);
+    margin-left: auto;
+    margin-right: auto;
   }
   .v2-mindset-headline .line {
     display: inline;
