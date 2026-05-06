@@ -5842,6 +5842,11 @@ html {
   .v2-footer-link {
     display: inline-block;
     font-size: clamp(15px, 1.8vw, 18px);
+    /* Normalize casing — the i18n strings mix sentence case
+       ("Trang chủ") with UPPERCASE ("VỀ CODEPET") so the row
+       reads inconsistent. Force everything uppercase via CSS. */
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
   .v2-footer-brand {
     align-items: center;
