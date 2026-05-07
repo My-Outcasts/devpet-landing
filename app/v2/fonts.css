@@ -429,10 +429,11 @@ html {
   inset: 0;
   /* Gradient sky fallback — reads as a soft pixel-art horizon
      even before the forest PNG is added. The PNG, when present,
-     overrides this layer entirely via the url() in the same
-     background-image stack. */
+     overrides this layer entirely. background-position bottom
+     so the grass band stays anchored when the panel stretches
+     vertically (clouds get cropped instead of the foreground). */
   background:
-    url('/v2/survey/forest-bg.png') center/cover no-repeat,
+    url('/v2/survey/forest-bg.png') center bottom / cover no-repeat,
     linear-gradient(
       to bottom,
       #6CD3D8 0%,
@@ -440,25 +441,28 @@ html {
       #6FB85F 60%,
       #4E9A48 100%
     );
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
+  /* Default smooth scaling — pixelated rendering forced the PNG to
+     nearest-neighbour at non-integer scale ratios, which made every
+     edge jagged. `auto` lets the browser bilinearly downscale the
+     2x art so the foliage/grass detail reads cleanly. */
+  image-rendering: auto;
 }
 
-/* Three companions stand on the grass in the centre of the scene
-   with each one running a slow idle bob so the panel still has
-   life. The grass band on the new forest-bg art occupies roughly
-   the bottom ~12 percent of the panel — bottom: 9% lands the
-   sprite feet on the grass surface rather than floating above it. */
+/* Three companions stroll across the grass on independent walk
+   loops. Each walker translates from off-screen left to off-screen
+   right and then loops, while a faster bob keyframe pumps the
+   sprite vertically so the pixel art reads as walking, not
+   sliding. Different durations + start delays keep the trio
+   from moving in lockstep. */
 .v2-survey-walker {
   position: absolute;
   bottom: 9%;
-  width: 18%;
-  max-width: 88px;
-  /* Idle bob keyframe — gentle vertical pump so the pixel art
-     doesn't read as a frozen still. Each walker overrides the
-     duration + delay so the three bobs are out of sync. */
-  animation: v2-survey-bob 1.6s ease-in-out infinite;
+  left: 0;
+  width: 14%;
+  max-width: 72px;
+  animation:
+    v2-survey-walk 16s linear infinite,
+    v2-survey-bob 0.6s ease-in-out infinite;
   will-change: transform;
 }
 .v2-survey-walker img {
@@ -470,36 +474,49 @@ html {
   image-rendering: crisp-edges;
 }
 
-/* Static positions — fox left, byte centre, penguin right.
-   Roughly equal spacing centred horizontally. Different bob
-   timings keep the trio from breathing in lockstep. */
+/* Per-walker tuning — different speeds, delays, slight size
+   tweaks. Negative animation-delay seeds each walker at a
+   different phase so they don't all start off-screen left at
+   the same time. */
 .v2-survey-walker--fox {
-  left: 22%;
-  animation-duration: 1.5s;
-  animation-delay: 0s;
+  animation-duration: 16s, 0.55s;
+  animation-delay: 0s, 0s;
+  z-index: 3;
 }
 .v2-survey-walker--byte {
-  left: 41%;
-  width: 20%;
-  max-width: 100px;
-  animation-duration: 1.8s;
-  animation-delay: -0.4s;
+  animation-duration: 18s, 0.7s;
+  animation-delay: -6s, -0.2s;
+  z-index: 2;
+  width: 16%;
+  max-width: 84px;
 }
 .v2-survey-walker--penguin {
-  left: 62%;
-  animation-duration: 1.7s;
-  animation-delay: -0.8s;
+  animation-duration: 20s, 0.65s;
+  animation-delay: -12s, -0.4s;
+  z-index: 1;
+  width: 13%;
+  max-width: 64px;
+}
+
+@keyframes v2-survey-walk {
+  /* Travel from off-screen left to off-screen right, then loop
+     (snap-back invisible behind the panel). */
+  0%   { transform: translateX(-110%); }
+  100% { transform: translateX(820%); }
 }
 
 @keyframes v2-survey-bob {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -4px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .v2-survey-walker {
     animation: none;
   }
+  .v2-survey-walker--fox     { left: 24%; transform: translateX(0); }
+  .v2-survey-walker--byte    { left: 44%; transform: translateX(0); }
+  .v2-survey-walker--penguin { left: 64%; transform: translateX(0); }
 }
 
 /* Right column — form. min-height: 0 is critical for grid items
