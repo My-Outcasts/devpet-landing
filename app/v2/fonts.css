@@ -669,12 +669,24 @@ html {
     min-height: 0;
   }
   .v2-survey-scene-bg {
-    /* Centered crop — at 16:5 the source PNG is squished
-       vertically with `cover`, so showing the middle band
-       (trees + grass) reads better than the bottom (just grass).
-       The walkers stay glued to grass via bottom: 6% on the
-       walker layer below, independent of the bg crop. */
-    background-position: center 70%, center;
+    /* The forest source PNG is 360×780 (portrait), so `cover`
+       on a wide banner stretches it to fill width and crops out
+       most of the vertical content (only the grass band ends up
+       visible). Switching to `auto 100%` keeps the image at its
+       natural aspect with full vertical scene visible — sky,
+       trees, bushes, grass — centered horizontally. The gradient
+       fallback layer (sky cyan → grass green at the same Y as
+       the image) fills the wider sides so it reads as a single
+       continuous scene rather than an image with hard edges. */
+    background:
+      url('/v2/survey/forest-bg.png') center bottom / auto 100% no-repeat,
+      linear-gradient(
+        to bottom,
+        #6CD3D8 0%,
+        #B7E8C8 60%,
+        #6FB85F 60%,
+        #4E9A48 100%
+      );
   }
   .v2-survey-walker {
     /* Sprites get smaller real estate vertically here, so cap
@@ -721,11 +733,20 @@ html {
     min-height: 120px;
   }
   .v2-survey-scene-bg {
-    /* Show a bit more of the scene than `center bottom` would
-       at this short height — `center 75%` reveals the bushes
-       above the grass while keeping the path visible at the
-       bottom edge for the walking pets. */
-    background-position: center 75%, center;
+    /* Same fix as tablet portrait — `auto 100%` keeps the
+       360×780 portrait source at its natural aspect (full sky →
+       trees → grass visible) and centers it horizontally with
+       the gradient fallback bridging the sides. See tablet
+       portrait rule for full rationale. */
+    background:
+      url('/v2/survey/forest-bg.png') center bottom / auto 100% no-repeat,
+      linear-gradient(
+        to bottom,
+        #6CD3D8 0%,
+        #B7E8C8 60%,
+        #6FB85F 60%,
+        #4E9A48 100%
+      );
   }
   .v2-survey-walker {
     /* Smaller pets so the trio stays in proportion with the
