@@ -394,7 +394,11 @@ html {
   overflow: hidden;
   width: 100%;
   max-width: 880px;
-  max-height: calc(100vh - 32px);
+  /* Fixed height — caps at 680px or 90 percent of viewport,
+     whichever is smaller. Prevents the modal from sprawling
+     vertically as form fields are added; the right pane scrolls
+     internally instead. */
+  height: min(680px, calc(100vh - 32px));
   box-shadow:
     0 20px 50px rgba(20, 16, 50, 0.4),
     0 0 0 1px rgba(30, 24, 72, 0.12);
@@ -498,12 +502,34 @@ html {
   }
 }
 
-/* Right column — form. */
+/* Right column — form. min-height: 0 is critical for grid items
+   with overflow-y: auto — without it the implicit min-height is
+   max-content and the pane grows to fit instead of clipping +
+   scrolling. The pane fills the modal height (set on the parent)
+   and scrolls internally if the form is taller than the modal. */
 .v2-survey-pane {
   position: relative;
   padding: clamp(28px, 3vw, 40px) clamp(24px, 3vw, 36px);
   overflow-y: auto;
-  max-height: calc(100vh - 32px);
+  min-height: 0;
+  height: 100%;
+  /* Pad the bottom a touch more so the last field's focus ring
+     doesn't sit flush against the scroll edge. */
+  padding-bottom: clamp(28px, 3vw, 40px);
+  /* Custom scrollbar styling so it feels intentional rather than
+     OS-default chunky. Falls back gracefully on Firefox. */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(30, 24, 72, 0.25) transparent;
+}
+.v2-survey-pane::-webkit-scrollbar {
+  width: 8px;
+}
+.v2-survey-pane::-webkit-scrollbar-thumb {
+  background: rgba(30, 24, 72, 0.2);
+  border-radius: 4px;
+}
+.v2-survey-pane::-webkit-scrollbar-thumb:hover {
+  background: rgba(30, 24, 72, 0.35);
 }
 
 .v2-survey-close {
