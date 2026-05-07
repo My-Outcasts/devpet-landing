@@ -138,6 +138,18 @@ export default function FinalCta() {
   const [surveyDone, setSurveyDone] = useState(false)
   const showSurvey = done && !surveyDone
 
+  // Auto-reset to idle after a duplicate signup so the form is
+  // reusable. Fresh signups (state === 'success') stay terminal.
+  useEffect(() => {
+    if (state !== 'duplicate' || !surveyDone) return
+    const timer = setTimeout(() => {
+      setState('idle')
+      setEmail('')
+      setSurveyDone(false)
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [state, surveyDone])
+
   let buttonLabel = t.v2.form.submit
   if (loading) buttonLabel = t.v2.form.loading
   else if (state === 'success') buttonLabel = t.v2.form.success
