@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { FormEvent, useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useLocale } from '@/lib/LocaleProvider'
 
 /**
@@ -54,6 +55,18 @@ export default function ProfileSurvey({ email, onComplete }: Props) {
   const [signupFor, setSignupFor] = useState<SignupFor>('self')
   const [familyAge, setFamilyAge] = useState('')
   const [state, setState] = useState<SurveyState>('idle')
+
+  // Track when the component is mounted so we can render via
+  // createPortal to document.body. createPortal escapes the form's
+  // ancestor chain — critical because the parent sections
+  // (.v2-product-inner, .v2-finalcta-reveal) carry CSS transforms
+  // that would otherwise re-anchor `position: fixed` to that
+  // transformed box instead of the viewport, leaving the modal
+  // partially visible inside the section.
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const submitting = state === 'submitting'
   const submitLabel = submitting ? survey.submitting : survey.submit
@@ -113,7 +126,11 @@ export default function ProfileSurvey({ email, onComplete }: Props) {
     if (!submitting) onComplete()
   }
 
-  return (
+  // Don't render anything during SSR — portal target (document.body)
+  // doesn't exist on the server, and we want a clean mount.
+  if (!mounted) return null
+
+  const overlay = (
     <div
       className="v2-survey-overlay"
       role="dialog"
@@ -280,4 +297,6 @@ export default function ProfileSurvey({ email, onComplete }: Props) {
       </div>
     </div>
   )
+
+  return createPortal(overlay, document.body)
 }
