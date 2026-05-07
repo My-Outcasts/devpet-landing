@@ -441,20 +441,18 @@ html {
   image-rendering: crisp-edges;
 }
 
+/* Three companions stand together in the centre of the scene,
+   with each one running a slow idle bob so the panel still has
+   life. Replaces the earlier walk-across animation per design. */
 .v2-survey-walker {
   position: absolute;
-  bottom: 8%;
-  left: 0;
-  width: 22%;
-  max-width: 96px;
-  /* Walk loop — slide left-to-right across the panel, then loop.
-     Each walker has its own duration + delay below so the three
-     characters feel like independent strollers rather than a
-     parade. Bob keyframe pumps a small vertical bounce so the
-     pixel art reads as walking, not sliding. */
-  animation:
-    v2-survey-walk 14s linear infinite,
-    v2-survey-bob 0.6s ease-in-out infinite;
+  bottom: 22%;
+  width: 18%;
+  max-width: 88px;
+  /* Idle bob keyframe — gentle vertical pump so the pixel art
+     doesn't read as a frozen still. Each walker overrides the
+     duration + delay so the three bobs are out of sync. */
+  animation: v2-survey-bob 1.6s ease-in-out infinite;
   will-change: transform;
 }
 .v2-survey-walker img {
@@ -466,55 +464,36 @@ html {
   image-rendering: crisp-edges;
 }
 
-/* Per-walker tuning — different speeds, delays and bottom offsets
-   so the three characters land in slightly different planes and
-   move at slightly different cadences. Fox in front, byte mid,
-   penguin slightly back-and-right at start. */
+/* Static positions — fox left, byte centre, penguin right.
+   Roughly equal spacing centred horizontally. Different bob
+   timings keep the trio from breathing in lockstep. */
 .v2-survey-walker--fox {
-  animation-duration: 16s, 0.55s;
-  animation-delay: 0s, 0s;
-  bottom: 6%;
-  z-index: 3;
+  left: 22%;
+  animation-duration: 1.5s;
+  animation-delay: 0s;
 }
 .v2-survey-walker--byte {
-  animation-duration: 18s, 0.7s;
-  animation-delay: -4s, -0.2s;
-  bottom: 9%;
-  z-index: 2;
-  width: 24%;
-  max-width: 110px;
+  left: 41%;
+  width: 20%;
+  max-width: 100px;
+  animation-duration: 1.8s;
+  animation-delay: -0.4s;
 }
 .v2-survey-walker--penguin {
-  animation-duration: 20s, 0.65s;
-  animation-delay: -8s, -0.4s;
-  bottom: 7%;
-  z-index: 1;
-  width: 20%;
-  max-width: 88px;
-}
-
-@keyframes v2-survey-walk {
-  /* Travel from off-screen left to off-screen right, then snap
-     back. Using two transforms keeps the bob keyframe independent
-     via animation-composition: replace (default) — the position
-     comes from translateX, the bounce from translateY. */
-  0%   { transform: translateX(-110%); }
-  100% { transform: translateX(420%); }
+  left: 62%;
+  animation-duration: 1.7s;
+  animation-delay: -0.8s;
 }
 
 @keyframes v2-survey-bob {
-  0%, 100% { translate: 0 0; }
-  50%      { translate: 0 -4px; }
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .v2-survey-walker {
     animation: none;
-    /* Park them in a sensible static composition. */
   }
-  .v2-survey-walker--fox     { left: 18%; transform: translateX(0); }
-  .v2-survey-walker--byte    { left: 42%; transform: translateX(0); }
-  .v2-survey-walker--penguin { left: 66%; transform: translateX(0); }
 }
 
 /* Right column — form. */
