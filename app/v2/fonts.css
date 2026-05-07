@@ -448,20 +448,26 @@ html {
   image-rendering: auto;
 }
 
-/* Three companions stroll across the grass on independent walk
-   loops. Each walker translates from off-screen left to off-screen
-   right and then loops, while a faster bob keyframe pumps the
-   sprite vertically so the pixel art reads as walking, not
-   sliding. Different durations + start delays keep the trio
-   from moving in lockstep. */
+/* Three companions stroll in formation across the grass —
+   identical size, identical walk speed, and a fixed phase offset
+   between each so the spacing stays constant the entire loop.
+   Bob keyframe still runs per-walker so the sprites pump
+   vertically as they go. */
 .v2-survey-walker {
   position: absolute;
   bottom: 9%;
   left: 0;
+  /* Same size for all three so the trio reads as a uniform
+     line of companions. */
   width: 14%;
   max-width: 72px;
+  /* Identical walk duration is what keeps the spacing constant
+     — different durations would let the faster character
+     catch up to the slower one. The bob duration varies
+     slightly per walker (below) so the three sprites don't
+     pump in perfect lockstep. */
   animation:
-    v2-survey-walk 16s linear infinite,
+    v2-survey-walk 22s linear infinite,
     v2-survey-bob 0.6s ease-in-out infinite;
   will-change: transform;
 }
@@ -474,28 +480,24 @@ html {
   image-rendering: crisp-edges;
 }
 
-/* Per-walker tuning — different speeds, delays, slight size
-   tweaks. Negative animation-delay seeds each walker at a
-   different phase so they don't all start off-screen left at
-   the same time. */
+/* Negative animation-delay seeds each walker at a different
+   point in the same 22 s loop. The delay deltas (3 s apart)
+   give each walker an equal lead over the next, so the gap
+   between fox -> byte and byte -> penguin stays the same
+   throughout the cycle. */
 .v2-survey-walker--fox {
-  animation-duration: 16s, 0.55s;
   animation-delay: 0s, 0s;
   z-index: 3;
 }
 .v2-survey-walker--byte {
-  animation-duration: 18s, 0.7s;
-  animation-delay: -6s, -0.2s;
+  animation-delay: -3s, -0.2s;
+  animation-duration: 22s, 0.7s;
   z-index: 2;
-  width: 16%;
-  max-width: 84px;
 }
 .v2-survey-walker--penguin {
-  animation-duration: 20s, 0.65s;
-  animation-delay: -12s, -0.4s;
+  animation-delay: -6s, -0.4s;
+  animation-duration: 22s, 0.65s;
   z-index: 1;
-  width: 13%;
-  max-width: 64px;
 }
 
 @keyframes v2-survey-walk {
