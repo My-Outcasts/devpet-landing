@@ -137,21 +137,21 @@ export default function Product() {
   const [surveyDone, setSurveyDone] = useState(false)
   const showSurvey = done && !surveyDone
 
-  // Auto-reset the form after a duplicate signup so the visitor can
-  // try a different email. Fresh signups (state === 'success') stay
-  // on the "Thanks — you're in!" pill since they're a terminal
-  // state. We only reset for duplicates, and only after the survey
-  // step is finished, so the user reads the duplicate message for
-  // ~2s before the form returns to idle.
+  // Auto-reset the form ~2 s after the user reaches a terminal
+  // confirmation pill (either fresh signup or already-on-list).
+  // The visitor reads the message, then the form becomes reusable
+  // so they can submit another email. Fires only after the survey
+  // step is finished so the modal isn't still on-screen when the
+  // reset happens. Cleans up if the component unmounts mid-timer.
   useEffect(() => {
-    if (state !== 'duplicate' || !surveyDone) return
+    if (!done || !surveyDone) return
     const timer = setTimeout(() => {
       setState('idle')
       setEmail('')
       setSurveyDone(false)
     }, 2000)
     return () => clearTimeout(timer)
-  }, [state, surveyDone])
+  }, [done, surveyDone])
 
   let buttonLabel = t.v2.form.submit
   if (loading) buttonLabel = t.v2.form.loading
