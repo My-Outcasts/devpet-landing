@@ -394,11 +394,18 @@ html {
   overflow: hidden;
   width: 100%;
   max-width: 880px;
-  /* Fixed height — caps at 680px or 90 percent of viewport,
-     whichever is smaller. Prevents the modal from sprawling
-     vertically as form fields are added; the right pane scrolls
-     internally instead. */
+  /* Fixed height — caps at 680px or full viewport minus
+     gutter, whichever is smaller. Prevents the modal from
+     sprawling vertically as form fields are added; the right
+     pane scrolls internally instead.
+
+     `dvh` (dynamic viewport height) tracks iOS Safari's URL bar
+     collapse — `vh` would let the modal overflow on first paint
+     because Safari reports the bar-collapsed height even when
+     the bar is still visible. Older browsers fall through to
+     the `vh` line above. */
   height: min(680px, calc(100vh - 32px));
+  height: min(680px, calc(100dvh - 32px));
   box-shadow:
     0 20px 50px rgba(20, 16, 50, 0.4),
     0 0 0 1px rgba(30, 24, 72, 0.12);
@@ -538,6 +545,12 @@ html {
   position: relative;
   padding: clamp(28px, 3vw, 40px) clamp(24px, 3vw, 36px);
   overflow-y: auto;
+  /* Stop scroll from chaining to the document underneath when the
+     pane hits its top/bottom — without this, mobile users who
+     reach the end of the form scroll the locked page (or trigger
+     iOS bounce) instead of staying put. */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   min-height: 0;
   height: 100%;
   /* Pad the bottom a touch more so the last field's focus ring
@@ -592,17 +605,195 @@ html {
   cursor: not-allowed;
 }
 
-/* Stack to single column when the screen can't fit both columns. */
-@media (max-width: 720px) {
+/* ── Survey modal responsive system ─────────────────────────────
+   Three breakpoint tiers, matching the rest of the page:
+
+     Mobile          — < 768px
+     Tablet portrait — 768–1023px
+     Tablet landscape— 1024–1199px
+     Desktop         — ≥ 1200px (base rules above)
+
+   Mobile and tablet portrait both stack to a single column with
+   the forest scene as a banner above the form. Tablet landscape
+   keeps the desktop two-column layout but slims the image side
+   so iPad-landscape modals don't feel cramped on the form side.
+   ──────────────────────────────────────────────────────────── */
+
+/* Tablet landscape — keep two columns, give the form more room.
+   The image column drops from 360px to 300px and the modal
+   max-width pulls in from 880 to 840 so the panel sits with a
+   bit more breathing room from the edges. */
+@media (min-width: 1024px) and (max-width: 1199.98px) {
+  .v2-survey-modal {
+    grid-template-columns: minmax(0, 300px) minmax(0, 540px);
+    max-width: 840px;
+  }
+}
+
+/* Tablet portrait — stack to single column with the forest as a
+   200–220px banner above the form. The two-column layout starts
+   to feel cramped here because the form column would be < 420px
+   wide once the image column claims its share. */
+@media (min-width: 768px) and (max-width: 1023.98px) {
   .v2-survey-modal {
     grid-template-columns: 1fr;
-    max-width: 480px;
+    grid-template-rows: minmax(180px, 220px) minmax(0, 1fr);
+    max-width: 600px;
+    height: min(720px, calc(100vh - 32px));
+    height: min(720px, calc(100dvh - 32px));
   }
   .v2-survey-image {
-    /* Hide the image panel on narrow phones — the form is the
-       primary content; the image is a flourish that costs ~280px
-       of vertical space we'd rather give to fields. */
+    /* Banner mode — let the bottom of the scene meet the form
+       edge cleanly. The walkers' bottom: 6% still lands them on
+       the grass band because the PNG is positioned at
+       `center bottom`. */
+    min-height: 0;
+  }
+  .v2-survey-walker {
+    /* Sprites get smaller real estate vertically here, so cap
+       the absolute size a bit smaller than desktop to keep the
+       trio in proportion with the banner. */
+    max-width: 60px;
+    width: 12%;
+  }
+  .v2-survey-pane {
+    padding: 28px 28px 24px;
+  }
+}
+
+/* Mobile — stack with a compact 140–160px banner. The pane gets
+   tighter padding, the action bar sticks to the bottom of the
+   form so the submit is always reachable, and the close button
+   grows to a 44×44 hit area. */
+@media (max-width: 767.98px) {
+  .v2-survey-overlay {
+    /* Tighter outer gutter so the modal can claim almost all of
+       a 360–390px iPhone viewport. */
+    padding: 8px;
+  }
+  .v2-survey-modal {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(140px, 160px) minmax(0, 1fr);
+    max-width: 480px;
+    border-radius: 12px;
+    height: min(680px, calc(100vh - 16px));
+    height: min(680px, calc(100dvh - 16px));
+  }
+  .v2-survey-image {
+    /* Banner band on top of the form. min-height: 0 lets the
+       grid row's max-height (160px) actually cap it. */
+    min-height: 0;
+  }
+  .v2-survey-walker {
+    /* Smaller pets so the trio stays in proportion with the
+       compressed banner. */
+    width: 11%;
+    max-width: 52px;
+    bottom: 4%;
+  }
+  .v2-survey-pane {
+    /* Tighter padding and a sticky action bar — see below. The
+       extra bottom padding reserves room for the sticky bar so
+       the last field never gets covered. */
+    padding: 20px 16px 96px;
+    font-size: 15px;
+  }
+  .v2-survey-form {
+    gap: 14px;
+  }
+  /* Banner subtitle is redundant once the form is visible (the
+     fields make the optional-info ask self-evident). Hide on
+     mobile to save a row of vertical space. */
+  .v2-survey-banner {
+    padding: 8px 10px;
+    margin-bottom: 14px;
+  }
+  .v2-survey-banner-title {
+    font-size: 16px;
+  }
+  .v2-survey-banner-subtitle {
     display: none;
+  }
+  .v2-survey-label {
+    font-size: 15px;
+  }
+  /* 16px input font-size is mandatory on iOS — anything smaller
+     triggers an auto-zoom on focus that the user has to manually
+     undo. `select` and `textarea` inherit from .v2-survey-input. */
+  .v2-survey-input {
+    font-size: 16px;
+    height: 42px;
+  }
+  .v2-survey-textarea {
+    min-height: 76px;
+  }
+  .v2-survey-tile {
+    /* Comfortable tap target — 10/12 padding leaves the tile
+       just under the 44px guideline. Bumping to 12/14 brings
+       it past. */
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+  .v2-survey-grid2 {
+    /* Below ~340px (small Android), 2-col would force tile text
+       to wrap awkwardly. Single-column gender stack reads better. */
+    gap: 8px;
+  }
+  /* Close button — 44×44 hit area for thumb-friendly dismissal.
+     Visible icon stays the same size; only the touchable shell
+     grows. */
+  .v2-survey-close {
+    width: 44px;
+    height: 44px;
+    top: 6px;
+    right: 6px;
+  }
+  .v2-survey-toggle {
+    /* Full-width segmented control on mobile — a fit-content
+       toggle is too small to hit reliably. */
+    width: 100%;
+  }
+  .v2-survey-toggle-opt {
+    flex: 1;
+    text-align: center;
+    padding: 10px 12px;
+  }
+  /* Sticky action bar — pins to the bottom of the scrollable
+     pane so submit/skip are always within reach. The pane has
+     extra bottom padding (96px above) to keep the last field
+     from sliding under the bar. */
+  .v2-survey-actions {
+    position: sticky;
+    bottom: -20px;
+    margin: 8px -16px -20px;
+    padding: 12px 16px 16px;
+    background: #FFFFFF;
+    box-shadow: 0 -8px 12px -8px rgba(20, 16, 50, 0.18);
+    z-index: 1;
+  }
+  .v2-survey-skip {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
+  .v2-survey-submit-body {
+    height: 38px;
+    padding: 12px 22px 11px;
+    font-size: 14px;
+  }
+}
+
+/* Very narrow Android phones — Galaxy Z Fold cover screen and
+   similar (< 360px). 2-col gender grid wraps text awkwardly at
+   that width; single column reads cleaner. */
+@media (max-width: 359.98px) {
+  .v2-survey-grid2 {
+    grid-template-columns: 1fr;
+  }
+  .v2-survey-pane {
+    padding: 18px 14px 96px;
+  }
+  .v2-survey-overlay {
+    padding: 4px;
   }
 }
 
