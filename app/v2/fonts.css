@@ -692,14 +692,19 @@ html {
     bottom: 4%;
   }
   .v2-survey-pane {
-    /* Tighter padding and a sticky action bar — see below. The
-       extra bottom padding reserves room for the sticky bar so
-       the last field never gets covered. */
-    padding: 20px 16px 96px;
+    /* Pane has no bottom padding — the form's own padding-bottom
+       (below) reserves room for the sticky action bar so the
+       last field can scroll above it cleanly. */
+    padding: 20px 16px 0;
     font-size: 15px;
   }
   .v2-survey-form {
     gap: 14px;
+    /* Reserve scroll room below the last field so it's never
+       hidden under the sticky action bar pinned at bottom: 0.
+       70px ≈ action bar height (40px button + 24px vertical
+       padding) plus a 6px buffer. */
+    padding-bottom: 70px;
   }
   /* Banner subtitle is redundant once the form is visible (the
      fields make the optional-info ask self-evident). Hide on
@@ -758,14 +763,22 @@ html {
     text-align: center;
     padding: 10px 12px;
   }
-  /* Sticky action bar — pins to the bottom of the scrollable
-     pane so submit/skip are always within reach. The pane has
-     extra bottom padding (96px above) to keep the last field
-     from sliding under the bar. */
+  /* Sticky action bar — pins flush to the bottom of the
+     scrollable pane (`bottom: 0`) so submit/skip are always
+     within reach without breaking when the user scrolls.
+     `margin: ... -16px ... -16px` extends past the pane's
+     horizontal padding so the white background + shadow span
+     edge-to-edge. The form's `padding-bottom: 70px` (above)
+     keeps the last field scrollable above the bar.
+
+     Earlier iteration used `bottom: -20px` with a matching
+     negative margin-bottom — that pushed the bar past the
+     pane's overflow boundary on iOS, leaving it floating
+     mid-form instead of pinned at the bottom. */
   .v2-survey-actions {
     position: sticky;
-    bottom: -20px;
-    margin: 8px -16px -20px;
+    bottom: 0;
+    margin: 0 -16px;
     padding: 12px 16px 16px;
     background: #FFFFFF;
     box-shadow: 0 -8px 12px -8px rgba(20, 16, 50, 0.18);
