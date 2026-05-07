@@ -778,6 +778,38 @@
       "errorValidation": "Please enter a valid email address.",
       "errorServer": "Something went wrong. Try again in a moment?"
     },
+    "survey": {
+      "title": "Thanks — you’re on the list!",
+      "subtitle": "Help us tailor Codepet to you (optional).",
+      "ageLabel": "Your age",
+      "agePlaceholder": "Select an age range",
+      "ageOptions": ["Under 18", "18 – 24", "25 – 34", "35 – 44", "45 – 54", "55 +"],
+      "genderLabel": "Gender",
+      "genderOptions": ["Male", "Female", "Non-binary", "Prefer not to say"],
+      "sourceLabel": "How did you hear about Codepet?",
+      "sourcePlaceholder": "Pick one",
+      "sourceOptions": [
+        "A friend or colleague",
+        "Social media (Twitter, LinkedIn, Reddit)",
+        "TikTok or YouTube",
+        "Search (Google)",
+        "Article or blog",
+        "Newsletter",
+        "Other"
+      ],
+      "sourceOtherPlaceholder": "Other source (optional)",
+      "signupForLabel": "Who are you signing up for?",
+      "signupForSelf": "For myself",
+      "signupForFamily": "For a family member",
+      "familyAgeLabel": "Family member's age",
+      "familyAgePlaceholder": "Select an age range",
+      "skip": "Skip",
+      "submit": "Submit",
+      "submitting": "Submitting…",
+      "done": "Got it — thank you!",
+      "doneSubtitle": "We’ll email you when Codepet launches.",
+      "errorServer": "Something went wrong. Try again in a moment?"
+    },
     "footer": {
       "copyright": "© 2026 All right reserved",
       "wordmarkAlt": "Codepet",

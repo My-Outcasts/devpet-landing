@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useRef, useState } from 'react'
 import { useLocale } from '@/lib/LocaleProvider'
+import ProfileSurvey from './ProfileSurvey'
 
 /**
  * Final CTA — Section 9 of the /v2 landing.
@@ -130,6 +131,10 @@ export default function FinalCta() {
 
   const done = state === 'success' || state === 'duplicate'
   const loading = state === 'loading'
+  // Progressive profiling — once email is captured, swap the form area
+  // to the survey panel before falling through to the thank-you state.
+  const [surveyDone, setSurveyDone] = useState(false)
+  const showSurvey = done && state === 'success' && !surveyDone
 
   let buttonLabel = t.v2.form.submit
   if (loading) buttonLabel = t.v2.form.loading
@@ -152,6 +157,15 @@ export default function FinalCta() {
         <span className="v2-finalcta-mobile-break">{t.v2.finalCta.subtitleLine2}</span>
       </p>
 
+      {showSurvey ? (
+        <div id="waitlist">
+          <ProfileSurvey
+            email={email}
+            variant="dark"
+            onComplete={() => setSurveyDone(true)}
+          />
+        </div>
+      ) : (
       <form
         id="waitlist"
         className={
@@ -216,6 +230,7 @@ export default function FinalCta() {
           </p>
         )}
       </form>
+      )}
     </section>
   )
 }

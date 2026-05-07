@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { FormEvent, useEffect, useRef, useState } from 'react'
 import { useLocale } from '@/lib/LocaleProvider'
+import ProfileSurvey from './ProfileSurvey'
 
 /**
  * Product — Section 3 of the /v2 landing.
@@ -127,6 +128,11 @@ export default function Product() {
 
   const done = state === 'success' || state === 'duplicate'
   const loading = state === 'loading'
+  // Progressive profiling — once email is captured, swap the form area
+  // to the survey panel. Survey calls onComplete on either skip or
+  // submit; we then drop into the final thank-you message below.
+  const [surveyDone, setSurveyDone] = useState(false)
+  const showSurvey = done && state === 'success' && !surveyDone
 
   let buttonLabel = t.v2.form.submit
   if (loading) buttonLabel = t.v2.form.loading
@@ -181,6 +187,13 @@ export default function Product() {
             </li>
           </ul>
 
+          {showSurvey ? (
+            <ProfileSurvey
+              email={email}
+              variant="light"
+              onComplete={() => setSurveyDone(true)}
+            />
+          ) : (
           <form
             className={
               'v2-product-form' + (done ? ' v2-product-form--done' : '')
@@ -259,6 +272,7 @@ export default function Product() {
               </p>
             )}
           </form>
+          )}
         </div>
 
         {/* ── Right column: Byte character + scattered coins ── */}

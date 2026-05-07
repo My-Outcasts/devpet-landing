@@ -360,6 +360,338 @@ html {
   image-rendering: pixelated;
 }
 
+/* ── Profile survey ─────────────────────────────────────────────
+   Optional 5-field survey rendered after a successful email submit.
+   Lives inside whichever waitlist surface the user just submitted
+   from — Product (green band, light variant) or FinalCta (purple
+   band, dark variant) — so we ship two colour-tone variants that
+   differ only in label / input contrast.
+
+   Visual brief:
+     - Outer surface: white card with stepped pixel corner radius,
+       sized to the parent column.
+     - Top: small green "Thanks!" banner with a check.
+     - 5 fields stacked vertically, ~16px gap, label above input.
+     - Inputs use the same VT323 pixel face as the existing
+       Product input, sized down a notch so 5 fields read as a
+       single panel rather than five separate forms.
+     - Action row at bottom: Skip (ghost) + Submit (red pixel pill).
+   ──────────────────────────────────────────────────────────── */
+.v2-survey {
+  width: 100%;
+  max-width: 480px;
+  background: #FFFFFF;
+  color: #1E1848;
+  border-radius: 14px;
+  padding: clamp(20px, 2.4vw, 32px) clamp(20px, 2.2vw, 28px);
+  box-sizing: border-box;
+  font-family: var(--font-pixel);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  text-align: left;
+  /* Pixel-style stepped border via 4 cardinal drop-shadows — same
+     trick used by .v2-nav-cta to draw a navy outline outside the
+     clipped silhouette. Smaller offset (1px) keeps it subtle. */
+  box-shadow:
+    0  1px 0 rgba(30, 24, 72, 0.3),
+    0 -1px 0 rgba(30, 24, 72, 0.3),
+    1px 0 0 rgba(30, 24, 72, 0.3),
+    -1px 0 0 rgba(30, 24, 72, 0.3),
+    0 8px 0 rgba(30, 24, 72, 0.06);
+}
+
+.v2-survey--dark {
+  /* Used inside the FinalCta purple band — surface still white so
+     the form reads cleanly on the brand purple. */
+  background: #FFFFFF;
+}
+.v2-survey--light {
+  /* Used inside the Product green band — same surface, slightly
+     warmer shadow tone so the card pops against green instead of
+     blue. */
+  box-shadow:
+    0  1px 0 rgba(0, 0, 0, 0.25),
+    0 -1px 0 rgba(0, 0, 0, 0.25),
+    1px 0 0 rgba(0, 0, 0, 0.25),
+    -1px 0 0 rgba(0, 0, 0, 0.25),
+    0 8px 0 rgba(0, 0, 0, 0.05);
+}
+
+.v2-survey-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #E1F5EE;
+  color: #04342C;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: clamp(16px, 1.6vw, 22px);
+}
+.v2-survey-tick {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #1D9E75;
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-family: var(--font-pixel);
+  -webkit-font-smoothing: antialiased;
+  margin-top: 1px;
+}
+.v2-survey-banner-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.v2-survey-banner-subtitle {
+  margin: 2px 0 0;
+  font-size: 12px;
+  font-weight: 400;
+  color: #085041;
+  letter-spacing: 0;
+}
+
+.v2-survey-form {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 1.6vw, 20px);
+}
+
+.v2-survey-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.v2-survey-field--family.v2-survey-field--off {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.v2-survey-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1E1848;
+  letter-spacing: 0;
+  text-transform: none;
+  margin: 0;
+}
+
+.v2-survey-input {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  color: #1E1848;
+  background: #F7F5FC;
+  border: 1px solid rgba(30, 24, 72, 0.14);
+  border-radius: 6px;
+  box-sizing: border-box;
+  letter-spacing: 0;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.v2-survey-input:focus {
+  outline: none;
+  border-color: #7B6BD8;
+  background: #FFFFFF;
+}
+.v2-survey-input--inline {
+  margin-top: 6px;
+}
+.v2-survey-input:disabled {
+  cursor: not-allowed;
+}
+
+.v2-survey-grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 10px;
+}
+.v2-survey-tile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #F7F5FC;
+  border: 1px solid rgba(30, 24, 72, 0.14);
+  border-radius: 6px;
+  font-size: 13px;
+  color: #1E1848;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.v2-survey-tile:hover {
+  border-color: rgba(123, 107, 216, 0.5);
+}
+.v2-survey-tile--on {
+  background: #EEEDFE;
+  border-color: #7B6BD8;
+  color: #26215C;
+}
+.v2-survey-radio-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+.v2-survey-radio {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid rgba(30, 24, 72, 0.4);
+  flex: 0 0 auto;
+  background: #FFFFFF;
+  box-sizing: border-box;
+}
+.v2-survey-tile--on .v2-survey-radio {
+  border: 4px solid #7B6BD8;
+}
+
+.v2-survey-toggle {
+  display: inline-flex;
+  background: #F7F5FC;
+  border: 1px solid rgba(30, 24, 72, 0.14);
+  border-radius: 6px;
+  padding: 3px;
+  width: fit-content;
+  gap: 2px;
+}
+.v2-survey-toggle-opt {
+  font-family: var(--font-pixel);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  font-size: 13px;
+  letter-spacing: 0;
+  padding: 7px 14px;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: #5F5E5A;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.v2-survey-toggle-opt--on {
+  background: #FFFFFF;
+  color: #1E1848;
+  font-weight: 500;
+  box-shadow: 0 0 0 1px rgba(30, 24, 72, 0.14);
+}
+
+.v2-survey-error {
+  margin: 0;
+  padding: 8px 12px;
+  background: #FCEBEB;
+  color: #791F1F;
+  border-radius: 6px;
+  font-size: 13px;
+  letter-spacing: 0;
+}
+
+.v2-survey-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: clamp(8px, 1vw, 12px);
+}
+.v2-survey-skip {
+  font-family: var(--font-pixel);
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  background: transparent;
+  border: 1px solid rgba(30, 24, 72, 0.18);
+  border-radius: 6px;
+  color: #5F5E5A;
+  cursor: pointer;
+}
+.v2-survey-skip:hover {
+  border-color: rgba(30, 24, 72, 0.4);
+  color: #1E1848;
+}
+.v2-survey-skip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.v2-survey-submit {
+  display: inline-block;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  line-height: 0;
+  filter:
+    drop-shadow( 2px 0 0 #1E1848)
+    drop-shadow(-2px 0 0 #1E1848)
+    drop-shadow(0  2px 0 #1E1848)
+    drop-shadow(0 -2px 0 #1E1848);
+  transition: filter 0.15s ease;
+}
+.v2-survey-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.v2-survey-submit-body {
+  display: inline-block;
+  text-align: center;
+  font-family: var(--font-pixel);
+  font-size: 13px;
+  font-weight: 500;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  letter-spacing: 0.024em;
+  background: #E24B4A;
+  height: 36px;
+  padding: 11px 22px 10px;
+  box-sizing: border-box;
+  line-height: 1;
+  -webkit-font-smoothing: none;
+  box-shadow:
+    inset 0  3px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -3px 0 rgba(0, 0, 0, 0.25);
+  /* Pill silhouette via clip-path — 4-step stairs per quarter at
+     18px corner radius (= half-height). Smaller than the nav CTA's
+     20px steps to suit the 36px-tall pill. */
+  clip-path: polygon(
+    18px 0, calc(100% - 18px) 0,
+    calc(100% - 14px) 0,  calc(100% - 14px) 4px,
+    calc(100% - 10px) 4px, calc(100% - 10px) 8px,
+    calc(100% - 6px)  8px, calc(100% - 6px)  12px,
+    calc(100% - 2px)  12px, calc(100% - 2px) 16px,
+    100% 16px,
+    100% 20px,
+    calc(100% - 2px)  20px, calc(100% - 2px)  24px,
+    calc(100% - 6px)  24px, calc(100% - 6px)  28px,
+    calc(100% - 10px) 28px, calc(100% - 10px) 32px,
+    calc(100% - 14px) 32px, calc(100% - 14px) 36px,
+    calc(100% - 18px) 36px,
+    18px 36px,
+    14px 36px, 14px 32px,
+    10px 32px, 10px 28px,
+    6px  28px, 6px  24px,
+    2px  24px, 2px  20px,
+    0 20px,
+    0 16px,
+    2px  16px, 2px  12px,
+    6px  12px, 6px  8px,
+    10px 8px,  10px 4px,
+    14px 4px,  14px 0
+  );
+}
+
 /* ── Responsive breakpoint system ──────────────────────────────
    Three tiers cover phone, tablet/small-laptop, and desktop.
 

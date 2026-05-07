@@ -778,6 +778,38 @@
       "errorValidation": "Vui lòng nhập địa chỉ email hợp lệ.",
       "errorServer": "Có lỗi xảy ra. Thử lại sau ít phút nhé?"
     },
+    "survey": {
+      "title": "Cảm ơn — bạn đã vào danh sách!",
+      "subtitle": "Cho chúng tôi biết thêm một chút để Codepet phù hợp với bạn (không bắt buộc).",
+      "ageLabel": "Tuổi của bạn",
+      "agePlaceholder": "Chọn nhóm tuổi",
+      "ageOptions": ["Dưới 18", "18 – 24", "25 – 34", "35 – 44", "45 – 54", "55 trở lên"],
+      "genderLabel": "Giới tính",
+      "genderOptions": ["Nam", "Nữ", "Khác", "Không muốn trả lời"],
+      "sourceLabel": "Bạn biết Codepet từ đâu?",
+      "sourcePlaceholder": "Chọn một",
+      "sourceOptions": [
+        "Bạn bè / đồng nghiệp",
+        "Mạng xã hội (Twitter, LinkedIn, Reddit)",
+        "TikTok hoặc YouTube",
+        "Tìm kiếm Google",
+        "Bài viết / blog",
+        "Newsletter",
+        "Khác"
+      ],
+      "sourceOtherPlaceholder": "Nguồn khác (tuỳ chọn)",
+      "signupForLabel": "Bạn đăng ký cho ai?",
+      "signupForSelf": "Cho chính mình",
+      "signupForFamily": "Cho thành viên gia đình",
+      "familyAgeLabel": "Tuổi của thành viên gia đình",
+      "familyAgePlaceholder": "Chọn nhóm tuổi",
+      "skip": "Bỏ qua",
+      "submit": "Gửi",
+      "submitting": "Đang gửi…",
+      "done": "Đã ghi nhận. Cảm ơn bạn!",
+      "doneSubtitle": "Chúng tôi sẽ email khi Codepet ra mắt.",
+      "errorServer": "Có lỗi xảy ra. Thử lại sau nhé?"
+    },
     "footer": {
       "copyright": "© 2026 Mọi quyền đã được bảo lưu",
       "wordmarkAlt": "Codepet",
