@@ -361,65 +361,146 @@ html {
 }
 
 /* ── Profile survey ─────────────────────────────────────────────
-   Optional 5-field survey rendered after a successful email submit.
-   Lives inside whichever waitlist surface the user just submitted
-   from — Product (green band, light variant) or FinalCta (purple
-   band, dark variant) — so we ship two colour-tone variants that
-   differ only in label / input contrast.
+   Optional 5-field survey shown as a popup modal after successful
+   email submit. Two-column layout: brand image panel on the left,
+   form on the right. Backdrop click / X / ESC all dismiss (skip).
 
-   Visual brief:
-     - Outer surface: white card with stepped pixel corner radius,
-       sized to the parent column.
-     - Top: small green "Thanks!" banner with a check.
-     - 5 fields stacked vertically, ~16px gap, label above input.
-     - Inputs use the same VT323 pixel face as the existing
-       Product input, sized down a notch so 5 fields read as a
-       single panel rather than five separate forms.
-     - Action row at bottom: Skip (ghost) + Submit (red pixel pill).
+   Modal stacks to single column on narrow phones (image hides) so
+   the form has the full width to itself.
    ──────────────────────────────────────────────────────────── */
-.v2-survey {
-  width: 100%;
-  max-width: 480px;
+.v2-survey-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(20, 16, 50, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 3vw, 40px);
+  overflow-y: auto;
+  /* Smooth fade-in on mount so the overlay doesn't snap. */
+  animation: v2-survey-fade 0.18s ease-out both;
+}
+@keyframes v2-survey-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.v2-survey-modal {
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 480px);
   background: #FFFFFF;
-  color: #1E1848;
   border-radius: 14px;
-  padding: clamp(20px, 2.4vw, 32px) clamp(20px, 2.2vw, 28px);
-  box-sizing: border-box;
-  /* Open Sans for the form copy — labels, inputs, options. Same
-     prose face used by .v2-product-body / .v2-getgood-body so
-     long-form survey content reads cleanly. The Skip + Submit
-     buttons keep var(--font-pixel) below to stay in the pixel
-     button family. */
+  overflow: hidden;
+  width: 100%;
+  max-width: 880px;
+  max-height: calc(100vh - 32px);
+  box-shadow:
+    0 20px 50px rgba(20, 16, 50, 0.4),
+    0 0 0 1px rgba(30, 24, 72, 0.12);
+  animation: v2-survey-pop 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes v2-survey-pop {
+  from { opacity: 0; transform: translateY(12px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* Left column — brand image panel. Codepet purple band with the
+   Byte sprite centered. Hidden on narrow phones to give the form
+   the full modal width. */
+.v2-survey-image {
+  background: #7B6BD8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(28px, 4vw, 56px);
+  position: relative;
+}
+.v2-survey-image::before {
+  /* Subtle sparkle dot pattern hint via radial gradient — keeps the
+     panel from feeling flat without adding decorative chrome. */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.18) 1.5px, transparent 2px),
+    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.12) 1.5px, transparent 2px),
+    radial-gradient(circle at 60% 25%, rgba(255,255,255,0.14) 1px,   transparent 1.5px);
+  background-size: 64px 64px, 80px 80px, 48px 48px;
+  pointer-events: none;
+}
+.v2-survey-image-sprite {
+  position: relative;
+  width: 100%;
+  max-width: 240px;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* Right column — form. */
+.v2-survey-pane {
+  position: relative;
+  padding: clamp(28px, 3vw, 40px) clamp(24px, 3vw, 36px);
+  overflow-y: auto;
+  max-height: calc(100vh - 32px);
+}
+
+.v2-survey-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(30, 24, 72, 0.16);
+  color: #1E1848;
+  font-size: 20px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.v2-survey-close:hover {
+  background: rgba(30, 24, 72, 0.06);
+  border-color: rgba(30, 24, 72, 0.4);
+}
+.v2-survey-close:active {
+  transform: scale(0.95);
+}
+.v2-survey-close:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Stack to single column when the screen can't fit both columns. */
+@media (max-width: 720px) {
+  .v2-survey-modal {
+    grid-template-columns: 1fr;
+    max-width: 480px;
+  }
+  .v2-survey-image {
+    /* Hide the image panel on narrow phones — the form is the
+       primary content; the image is a flourish that costs ~280px
+       of vertical space we'd rather give to fields. */
+    display: none;
+  }
+}
+
+/* The .v2-survey-pane element provides the form-side surface
+   (white, padded). The Open Sans inheritance is set there so the
+   labels / inputs / dropdowns pick it up. */
+.v2-survey-pane {
   font-family: 'Open Sans', 'VT323', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
-  /* Pixel-style stepped border via 4 cardinal drop-shadows — same
-     trick used by .v2-nav-cta to draw a navy outline outside the
-     clipped silhouette. Smaller offset (1px) keeps it subtle. */
-  box-shadow:
-    0  1px 0 rgba(30, 24, 72, 0.3),
-    0 -1px 0 rgba(30, 24, 72, 0.3),
-    1px 0 0 rgba(30, 24, 72, 0.3),
-    -1px 0 0 rgba(30, 24, 72, 0.3),
-    0 8px 0 rgba(30, 24, 72, 0.06);
-}
-
-.v2-survey--dark {
-  /* Used inside the FinalCta purple band — surface still white so
-     the form reads cleanly on the brand purple. */
-  background: #FFFFFF;
-}
-.v2-survey--light {
-  /* Used inside the Product green band — same surface, slightly
-     warmer shadow tone so the card pops against green instead of
-     blue. */
-  box-shadow:
-    0  1px 0 rgba(0, 0, 0, 0.25),
-    0 -1px 0 rgba(0, 0, 0, 0.25),
-    1px 0 0 rgba(0, 0, 0, 0.25),
-    -1px 0 0 rgba(0, 0, 0, 0.25),
-    0 8px 0 rgba(0, 0, 0, 0.05);
+  color: #1E1848;
 }
 
 .v2-survey-banner {
