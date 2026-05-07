@@ -139,16 +139,44 @@ export default function ProfileSurvey({ email, onComplete }: Props) {
       onClick={onBackdropClick}
     >
       <div className="v2-survey-modal" onClick={(e) => e.stopPropagation()}>
-        {/* ── Left column: brand image panel ─────────────────────── */}
+        {/* ── Left column: animated forest scene ─────────────────────
+            Forest backdrop with three companions strolling across the
+            grass on a continuous loop. Background image lives at
+            /public/v2/survey/forest-bg.png — if missing, the CSS
+            fallback gradient sky still reads as a calm scene.
+            Each character has its own walk loop with a different
+            duration + delay so they don't move in lockstep. */}
         <div className="v2-survey-image" aria-hidden="true">
-          <Image
-            src="/v2/pets/4-purple-byte.png"
-            alt=""
-            width={480}
-            height={620}
-            unoptimized
-            className="v2-survey-image-sprite"
-          />
+          <div className="v2-survey-scene">
+            <div className="v2-survey-scene-bg" />
+            <div className="v2-survey-walker v2-survey-walker--fox">
+              <Image
+                src="/v2/pets/3-orange-fox.png"
+                alt=""
+                width={170}
+                height={220}
+                unoptimized
+              />
+            </div>
+            <div className="v2-survey-walker v2-survey-walker--byte">
+              <Image
+                src="/v2/pets/4-purple-byte.png"
+                alt=""
+                width={170}
+                height={220}
+                unoptimized
+              />
+            </div>
+            <div className="v2-survey-walker v2-survey-walker--penguin">
+              <Image
+                src="/v2/pets/7-blue-penguin.png"
+                alt=""
+                width={170}
+                height={220}
+                unoptimized
+              />
+            </div>
+          </div>
         </div>
 
         {/* ── Right column: form ─────────────────────────────────── */}

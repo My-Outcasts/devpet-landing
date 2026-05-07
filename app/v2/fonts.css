@@ -405,38 +405,116 @@ html {
   to   { opacity: 1; transform: translateY(0)    scale(1); }
 }
 
-/* Left column — brand image panel. Codepet purple band with the
-   Byte sprite centered. Hidden on narrow phones to give the form
-   the full modal width. */
+/* Left column — animated forest scene. The .v2-survey-scene-bg
+   layer holds the background art (forest at /v2/survey/forest-bg.png
+   when present, gradient fallback otherwise). Three .v2-survey-walker
+   children animate across the bottom on independent walk loops. */
 .v2-survey-image {
-  background: #7B6BD8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(28px, 4vw, 56px);
   position: relative;
+  overflow: hidden;
+  /* Pixel-art aspect — let the scene stretch to the modal height
+     and crop horizontally as needed. */
+  background: #6CD3D8;
 }
-.v2-survey-image::before {
-  /* Subtle sparkle dot pattern hint via radial gradient — keeps the
-     panel from feeling flat without adding decorative chrome. */
-  content: '';
+.v2-survey-scene {
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.18) 1.5px, transparent 2px),
-    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.12) 1.5px, transparent 2px),
-    radial-gradient(circle at 60% 25%, rgba(255,255,255,0.14) 1px,   transparent 1.5px);
-  background-size: 64px 64px, 80px 80px, 48px 48px;
-  pointer-events: none;
 }
-.v2-survey-image-sprite {
-  position: relative;
+.v2-survey-scene-bg {
+  position: absolute;
+  inset: 0;
+  /* Gradient sky fallback — reads as a soft pixel-art horizon
+     even before the forest PNG is added. The PNG, when present,
+     overrides this layer entirely via the url() in the same
+     background-image stack. */
+  background:
+    url('/v2/survey/forest-bg.png') center/cover no-repeat,
+    linear-gradient(
+      to bottom,
+      #6CD3D8 0%,
+      #B7E8C8 60%,
+      #6FB85F 60%,
+      #4E9A48 100%
+    );
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.v2-survey-walker {
+  position: absolute;
+  bottom: 8%;
+  left: 0;
+  width: 22%;
+  max-width: 96px;
+  /* Walk loop — slide left-to-right across the panel, then loop.
+     Each walker has its own duration + delay below so the three
+     characters feel like independent strollers rather than a
+     parade. Bob keyframe pumps a small vertical bounce so the
+     pixel art reads as walking, not sliding. */
+  animation:
+    v2-survey-walk 14s linear infinite,
+    v2-survey-bob 0.6s ease-in-out infinite;
+  will-change: transform;
+}
+.v2-survey-walker img {
+  display: block;
   width: 100%;
-  max-width: 240px;
   height: auto;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+}
+
+/* Per-walker tuning — different speeds, delays and bottom offsets
+   so the three characters land in slightly different planes and
+   move at slightly different cadences. Fox in front, byte mid,
+   penguin slightly back-and-right at start. */
+.v2-survey-walker--fox {
+  animation-duration: 16s, 0.55s;
+  animation-delay: 0s, 0s;
+  bottom: 6%;
+  z-index: 3;
+}
+.v2-survey-walker--byte {
+  animation-duration: 18s, 0.7s;
+  animation-delay: -4s, -0.2s;
+  bottom: 9%;
+  z-index: 2;
+  width: 24%;
+  max-width: 110px;
+}
+.v2-survey-walker--penguin {
+  animation-duration: 20s, 0.65s;
+  animation-delay: -8s, -0.4s;
+  bottom: 7%;
+  z-index: 1;
+  width: 20%;
+  max-width: 88px;
+}
+
+@keyframes v2-survey-walk {
+  /* Travel from off-screen left to off-screen right, then snap
+     back. Using two transforms keeps the bob keyframe independent
+     via animation-composition: replace (default) — the position
+     comes from translateX, the bounce from translateY. */
+  0%   { transform: translateX(-110%); }
+  100% { transform: translateX(420%); }
+}
+
+@keyframes v2-survey-bob {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v2-survey-walker {
+    animation: none;
+    /* Park them in a sensible static composition. */
+  }
+  .v2-survey-walker--fox     { left: 18%; transform: translateX(0); }
+  .v2-survey-walker--byte    { left: 42%; transform: translateX(0); }
+  .v2-survey-walker--penguin { left: 66%; transform: translateX(0); }
 }
 
 /* Right column — form. */
