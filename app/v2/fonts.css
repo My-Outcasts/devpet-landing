@@ -2420,7 +2420,11 @@ html {
   min-width: 0;
   height: 52px;
   padding: 0 18px;
-  font-family: var(--font-pixel);
+  /* Typed email reads in Open Sans — pixel font (used elsewhere
+     in the brand) made addresses hard to scan, especially long
+     domains. The pill silhouette stays pixel-styled via the
+     border + radius; only the input value text is humanist. */
+  font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
   font-size: 16px;
   font-weight: 400;
   color: #000000;
@@ -2429,8 +2433,8 @@ html {
   border-radius: 999px;
   outline: none;
   transition: border-color 0.15s ease, background-color 0.15s ease;
-  -webkit-font-smoothing: none;
-  -moz-osx-font-smoothing: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .v2-product-input::placeholder {
@@ -4479,18 +4483,19 @@ html {
   color: #000;
   border: none;
   outline: none;
-  /* Switched from PP Neue Montreal to Minecraft pixel font per
-     brief so the input ties in with the submit button's
-     typography. Size bumped slightly since pixel fonts read
-     smaller at matched px. */
-  font-family: var(--font-pixel);
+  /* Typed email value renders in Open Sans for readability —
+     long addresses (e.g. firstname.lastname@long-domain.com)
+     became cramped and squinty in the pixel font. The pill
+     silhouette and submit button stay pixel-styled; only the
+     input text is humanist. */
+  font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
   font-weight: 500;
   font-size: clamp(16px, 1.5vw, 20px);
-  letter-spacing: -0.01em;
+  letter-spacing: 0;
   text-align: center;
   transition: box-shadow .15s ease;
-  -webkit-font-smoothing: none;
-  -moz-osx-font-smoothing: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .v2-finalcta-input::placeholder {
