@@ -49,25 +49,26 @@ export function LocaleProvider({ children, initialLocale = 'en' }: LocaleProvide
   const [locale, setLocale] = useState<Locale>(initialLocale)
 
   useEffect(() => {
-    // 1. Manual user override (clicked the globe at some point) wins
-    //    over both server-side detection and IP fallback. Their
-    //    saved choice is the source of truth from then on.
-    const manual = localStorage.getItem('devpet-locale-manual')
-    const saved = localStorage.getItem('devpet-locale') as Locale | null
-    if (manual && saved) {
-      if (saved !== locale) setLocale(saved)
-      return
+    // Migration: clear any pre-existing manual override from past
+    // visits. Earlier builds persisted the toggle choice in
+    // localStorage; per the new rule (IP detection always wins on
+    // fresh visits), those keys are no longer respected and we
+    // remove them so they can't influence anything else later.
+    try {
+      localStorage.removeItem('devpet-locale')
+      localStorage.removeItem('devpet-locale-manual')
+    } catch {
+      // Private mode / storage disabled — nothing to clean up.
     }
 
-    // 2. If the server already gave us a non-default locale (i.e. the
-    //    header was present and resolved to 'vi'), trust it and skip
-    //    the client-side fetch entirely.
+    // If the server-side header already gave us 'vi', trust it and
+    // skip the client-side fallback.
     if (initialLocale === 'vi') return
 
-    // 3. Otherwise (local dev, preview without geo, or US/other
-    //    country defaulting to 'en'), do a client-side IP lookup as
-    //    a defensive fallback. This catches the edge case where the
-    //    server header was missing but the visitor is actually in VN.
+    // Otherwise (local dev, preview without geo, or non-VN country
+    // defaulting to 'en'), do a client-side IP lookup as a
+    // defensive fallback. Catches the edge case where Vercel's
+    // header was missing but the visitor is actually in VN.
     detectLocaleFromIP().then((detected) => {
       if (detected !== locale) setLocale(detected)
     })
@@ -82,24 +83,15 @@ export function LocaleProvider({ children, initialLocale = 'en' }: LocaleProvide
   }, [locale])
 
   const toggleLocale = () => {
-    setLocale(prev => {
-      const next = prev === 'en' ? 'vi' : 'en'
-      // If they're toggling back to the country-default the server
-      // detected, clear the manual override entirely. That way the
-      // next visit resumes IP-based auto-detection — useful when
-      // someone toggled out by accident, or when a returning
-      // visitor crosses borders. Without this clear, a one-time
-      // toggle would stick forever even if the user moved to a
-      // different country.
-      if (next === initialLocale) {
-        localStorage.removeItem('devpet-locale')
-        localStorage.removeItem('devpet-locale-manual')
-      } else {
-        localStorage.setItem('devpet-locale', next)
-        localStorage.setItem('devpet-locale-manual', '1')
-      }
-      return next
-    })
+    // Session-only toggle: flips the displayed language for the
+    // current page view but does NOT persist anything. As soon as
+    // the visitor refreshes or opens a new tab, IP-based detection
+    // (server header + client fallback) takes over again. This is
+    // the explicit product rule: a Vietnam IP always defaults to
+    // Vietnamese, all other countries always default to English —
+    // no past manual choice should override the country default
+    // on a fresh visit.
+    setLocale(prev => (prev === 'en' ? 'vi' : 'en'))
   }
 
   return (
