@@ -84,8 +84,20 @@ export function LocaleProvider({ children, initialLocale = 'en' }: LocaleProvide
   const toggleLocale = () => {
     setLocale(prev => {
       const next = prev === 'en' ? 'vi' : 'en'
-      localStorage.setItem('devpet-locale', next)
-      localStorage.setItem('devpet-locale-manual', '1')
+      // If they're toggling back to the country-default the server
+      // detected, clear the manual override entirely. That way the
+      // next visit resumes IP-based auto-detection — useful when
+      // someone toggled out by accident, or when a returning
+      // visitor crosses borders. Without this clear, a one-time
+      // toggle would stick forever even if the user moved to a
+      // different country.
+      if (next === initialLocale) {
+        localStorage.removeItem('devpet-locale')
+        localStorage.removeItem('devpet-locale-manual')
+      } else {
+        localStorage.setItem('devpet-locale', next)
+        localStorage.setItem('devpet-locale-manual', '1')
+      }
       return next
     })
   }
