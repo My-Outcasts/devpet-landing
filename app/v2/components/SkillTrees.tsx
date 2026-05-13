@@ -211,9 +211,16 @@ export default function SkillTrees() {
           SkillTrees band. Points to #product (the only place on
           this page that captures emails); FinalCta no longer
           carries a form. */}
+      {/* Intentionally NOT given the `v2-skilltrees-reveal` class.
+          The reveal IntersectionObserver only picks up elements
+          present at mount; even when this CTA was in the list,
+          the observer's `is-revealed` toggle wasn't sticking and
+          left it stuck at opacity 0. The button sits below the
+          already-animated tier cards, so showing it without its
+          own slide-in is the simplest fix and reads fine. */}
       <a
         href="#product"
-        className="v2-skilltrees-cta v2-skilltrees-reveal"
+        className="v2-skilltrees-cta"
         aria-label={t.v2.nav.startJourney}
       >
         <span className="v2-skilltrees-cta-body">{t.v2.nav.startJourney}</span>
