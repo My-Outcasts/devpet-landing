@@ -166,6 +166,18 @@ export default function Testimonials() {
             </li>
           ))}
         </ul>
+
+        {/* Codepet signup CTA — pixel-pill matching the section
+            chain (Mindset / GetGood / SkillTrees). Purple-on-pink
+            here so it sits cleanly against the testimonials band.
+            Points to #product where the email form lives. */}
+        <a
+          href="#product"
+          className="v2-testimonials-cta v2-testimonials-reveal"
+          aria-label={t.v2.nav.startJourney}
+        >
+          <span className="v2-testimonials-cta-body">{t.v2.nav.startJourney}</span>
+        </a>
       </div>
     </section>
   )

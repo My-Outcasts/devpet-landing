@@ -205,6 +205,19 @@ export default function SkillTrees() {
           </div>
         ))}
       </div>
+
+      {/* Codepet signup CTA — pixel-pill matching the Mindset /
+          Get Good pattern, but red-on-yellow to read against the
+          SkillTrees band. Points to #product (the only place on
+          this page that captures emails); FinalCta no longer
+          carries a form. */}
+      <a
+        href="#product"
+        className="v2-skilltrees-cta v2-skilltrees-reveal"
+        aria-label={t.v2.nav.startJourney}
+      >
+        <span className="v2-skilltrees-cta-body">{t.v2.nav.startJourney}</span>
+      </a>
     </section>
   )
 }
