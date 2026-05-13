@@ -186,17 +186,20 @@ export default function Nav() {
             <a href="#skill-trees" className="v2-nav-link" onClick={handleAnchorClick}>{t.v2.nav.skillTree}</a>
           </li>
           {/* External link to the Codepet Academy course site
-              (codepet-academy.vercel.app). Opens in the same tab so
-              browser back-nav returns to the landing page; rel
-              attributes are good-hygiene for cross-site links.
-              `setMenuOpen(false)` (via handleAnchorClick) tidies up
-              the mobile menu after tap, matching the in-page
-              anchor links. */}
+              (codepet-academy.vercel.app). Opens in a NEW tab —
+              the academy is a separate destination, and keeping
+              the landing tab open lets the visitor finish their
+              waitlist signup without losing context. `rel`
+              attributes are mandatory hygiene for `target="_blank"`
+              links: `noopener` blocks the destination from
+              accessing window.opener, `noreferrer` strips the
+              Referer header on the outbound request. */}
           <li>
             <a
               href="https://codepet-academy.vercel.app/"
               className="v2-nav-link"
-              rel="noopener"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={handleAnchorClick}
             >
               {t.v2.nav.academy}
