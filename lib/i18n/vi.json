@@ -685,7 +685,6 @@
       "product": "VỀ CODEPET",
       "getGood": "LÊN TRÌNH",
       "skillTree": "KỸ NĂNG",
-      "academy": "KHOÁ HỌC",
       "startJourney": "Bắt đầu hành trình",
       "homeAria": "Trang chủ Codepet",
       "primaryAria": "Chính",
@@ -765,7 +764,10 @@
       "titleLine1": "Cùng nói về",
       "titleLine2": "tương lai của lập trình.",
       "subtitleLine1": "Đừng suy nghĩ nữa.",
-      "subtitleLine2": "hãy bắt đầu phát triển."
+      "subtitleLine2": "hãy bắt đầu phát triển.",
+      "academyTitle": "Tìm hiểu thêm về Codepet Academy",
+      "academyDesc": "Chương trình 12 tuần cho founder — ra mắt một sản phẩm thật, dạy bởi AI đồng hành.",
+      "academyButton": "Tìm hiểu thêm về các khoá học"
     },
     "form": {
       "placeholder": "name@gmail.com",

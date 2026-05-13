@@ -197,26 +197,6 @@ export default function Nav() {
           <li>
             <a href="#skill-trees" className="v2-nav-link" onClick={handleAnchorClick}>{t.v2.nav.skillTree}</a>
           </li>
-          {/* External link to the Codepet Academy course site
-              (codepet-academy.vercel.app). Opens in a NEW tab —
-              the academy is a separate destination, and keeping
-              the landing tab open lets the visitor finish their
-              waitlist signup without losing context. `rel`
-              attributes are mandatory hygiene for `target="_blank"`
-              links: `noopener` blocks the destination from
-              accessing window.opener, `noreferrer` strips the
-              Referer header on the outbound request. */}
-          <li>
-            <a
-              href="https://codepet-academy.vercel.app/"
-              className="v2-nav-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleAnchorClick}
-            >
-              {t.v2.nav.academy}
-            </a>
-          </li>
         </ul>
 
         <a href="#top" className="v2-nav-wordmark" aria-label={t.v2.nav.homeAria} onClick={handleAnchorClick}>
@@ -285,7 +265,7 @@ export default function Nav() {
                 <line x1="2" y1="12" x2="22" y2="12" />
               </svg>
             </button>
-            <a href="#waitlist" className="v2-nav-cta" onClick={handleAnchorClick}>
+            <a href="#product" className="v2-nav-cta" onClick={handleAnchorClick}>
               <span className="v2-nav-cta-body">{t.v2.nav.startJourney}</span>
             </a>
           </div>

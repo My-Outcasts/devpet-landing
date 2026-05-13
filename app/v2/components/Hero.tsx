@@ -106,7 +106,7 @@ export default function Hero() {
           pill classes for the body styling — see fonts.css for the
           mobile-only show rules. */}
       <a
-        href="#waitlist"
+        href="#product"
         className="v2-hero-mobile-cta"
         aria-label={t.v2.nav.startJourney}
       >
