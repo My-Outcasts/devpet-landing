@@ -736,6 +736,8 @@
     },
     "skillTrees": {
       "cornerLabel": "KỸ NĂNG",
+      "cta": "Lên trình ngay",
+      "ctaAria": "Lên trình ngay với Codepet",
       "introLead": "Một quy trình đơn giản và hiệu quả để biến ý tưởng của bạn thành hiện thực.",
       "introMuted": "Từ bước đầu tiên đến khi hình thành sản phẩm, mỗi giai đoạn đều được hướng dẫn rõ ràng và hiệu quả.",
       "tier1Title": "Nền tảng",
@@ -750,6 +752,8 @@
     "testimonials": {
       "title": "Kết quả thật bản beta.",
       "subtitle": "Đến từ câu chuyện người dùng",
+      "cta": "Đến lượt bạn",
+      "ctaAria": "Tham gia Codepet — đến lượt bạn",
       "item1Quote": "“40% prompt hỏng giảm còn 12%. Codepet đã giúp tôi kiên trì.”",
       "item1Name": "sarah k.",
       "item1Role": "designer học code",

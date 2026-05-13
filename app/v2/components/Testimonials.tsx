@@ -180,9 +180,9 @@ export default function Testimonials() {
         <a
           href="#product"
           className="v2-testimonials-cta"
-          aria-label={t.v2.nav.startJourney}
+          aria-label={t.v2.testimonials.ctaAria}
         >
-          <span className="v2-testimonials-cta-body">{t.v2.nav.startJourney}</span>
+          <span className="v2-testimonials-cta-body">{t.v2.testimonials.cta}</span>
         </a>
       </div>
     </section>

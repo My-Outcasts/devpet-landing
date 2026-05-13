@@ -221,9 +221,9 @@ export default function SkillTrees() {
       <a
         href="#product"
         className="v2-skilltrees-cta"
-        aria-label={t.v2.nav.startJourney}
+        aria-label={t.v2.skillTrees.ctaAria}
       >
-        <span className="v2-skilltrees-cta-body">{t.v2.nav.startJourney}</span>
+        <span className="v2-skilltrees-cta-body">{t.v2.skillTrees.cta}</span>
       </a>
     </section>
   )

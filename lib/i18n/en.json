@@ -736,6 +736,8 @@
     },
     "skillTrees": {
       "cornerLabel": "Skill Tree",
+      "cta": "Level up now",
+      "ctaAria": "Level up with Codepet",
       "introLead": "A simple and efficient workflow to bring your vision to life.",
       "introMuted": "From the first call to final delivery, every step is designed for clarity and efficiency.",
       "tier1Title": "Foundations",
@@ -750,6 +752,8 @@
     "testimonials": {
       "title": "real results from the beta",
       "subtitle": "three stories. real change.",
+      "cta": "Your turn to ship",
+      "ctaAria": "Join Codepet — your turn to ship",
       "item1Quote": "“40% broken prompts to just 12%. the pet makes me persistent.”",
       "item1Name": "sarah k.",
       "item1Role": "designer who codes",
