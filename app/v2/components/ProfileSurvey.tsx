@@ -197,6 +197,21 @@ export default function ProfileSurvey({ email, onComplete }: Props) {
       onClick={onBackdropClick}
     >
       <div className="v2-survey-modal" onClick={(e) => e.stopPropagation()}>
+        {/* X close button — pinned to the modal's top-right corner so
+            it sits at the outer edge of the panel regardless of which
+            column it falls over (image on mobile, form on desktop).
+            The survey is required, so this still routes through
+            triggerMustComplete instead of dismissing. */}
+        <button
+          type="button"
+          className="v2-survey-close"
+          aria-label={survey.errorMustComplete}
+          onClick={triggerMustComplete}
+          disabled={submitting}
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+
         {/* ── Left column: animated forest scene ─────────────────────
             Forest backdrop with three companions strolling across the
             grass on a continuous loop. Background image lives at
@@ -239,20 +254,6 @@ export default function ProfileSurvey({ email, onComplete }: Props) {
 
         {/* ── Right column: form ─────────────────────────────────── */}
         <div className="v2-survey-pane">
-          {/* X button no longer dismisses — survey is required.
-              Clicking it surfaces the "please fill out the form"
-              warning. Kept in place so the modal still has the
-              visual affordance of a close control. */}
-          <button
-            type="button"
-            className="v2-survey-close"
-            aria-label={survey.errorMustComplete}
-            onClick={triggerMustComplete}
-            disabled={submitting}
-          >
-            <span aria-hidden="true">×</span>
-          </button>
-
           {bannerVisible && (
             <div className="v2-survey-banner">
               <span className="v2-survey-tick" aria-hidden="true">✓</span>

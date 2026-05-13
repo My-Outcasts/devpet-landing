@@ -387,6 +387,11 @@ html {
 }
 
 .v2-survey-modal {
+  /* `position: relative` so the absolutely-positioned X close
+     button (now a direct child of .v2-survey-modal) anchors to
+     the modal's outer corner, not to the form pane on the
+     right. Required for the user-circled top-right placement. */
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 360px) minmax(0, 480px);
   background: #FFFFFF;
@@ -581,13 +586,19 @@ html {
 }
 
 .v2-survey-close {
+  /* Pinned to the top-right corner of .v2-survey-modal (not the
+     form pane). On desktop this lands above the form (white
+     surface); on mobile/tablet-portrait the modal stacks
+     image-over-form, so the X overlays the forest banner. Use a
+     translucent white pill so it stays legible against either
+     surface without recoloring per breakpoint. */
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 12px;
+  right: 12px;
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(30, 24, 72, 0.16);
   color: #1E1848;
   font-size: 20px;
@@ -596,12 +607,15 @@ html {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 2;
+  /* Above the image, form pane, and banner — needs to clear
+     everything inside the modal grid. */
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(20, 16, 50, 0.18);
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
 @media (hover: hover) {
   .v2-survey-close:hover {
-    background: rgba(30, 24, 72, 0.06);
+    background: #FFFFFF;
     border-color: rgba(30, 24, 72, 0.4);
   }
 }
