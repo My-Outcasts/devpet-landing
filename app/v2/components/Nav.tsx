@@ -147,13 +147,25 @@ export default function Nav() {
   // scroll-snap settles by reversing slightly) and pop the bar
   // back down into the section. 1.5s comfortably covers the
   // smooth-scroll + snap-correction tail.
-  const handleAnchorClick = () => {
+  //
+  // EXCEPTION: clicks that target #top (the Codepet wordmark).
+  // The bar is supposed to be visible at the top of the page per
+  // the Headroom rule (scrollY <= NAV_HEIGHT → show), but if the
+  // user is already at #top, clicking the wordmark fires no
+  // scroll event — so the rule never gets to run setHidden(false)
+  // and the bar stays stuck off-screen for the full 1.5s
+  // suppression window. Showed up to the user as a black band
+  // across the top (the page's <main> background bleeding through
+  // where the nav used to be). Fix: short-circuit the hide for
+  // #top targets so the wordmark click is a no-op when already
+  // at the destination.
+  const handleAnchorClick = (e?: React.MouseEvent<HTMLAnchorElement>) => {
+    // Close the mobile menu regardless of destination.
+    setMenuOpen(false)
+    const href = e?.currentTarget?.getAttribute('href') || ''
+    if (href === '#top') return
     suppressShowUntilRef.current = Date.now() + 1500
     setHidden(true)
-    // Close the mobile menu on any link tap so the user lands at
-    // the destination section without the dropdown still covering
-    // it.
-    setMenuOpen(false)
   }
 
   return (
