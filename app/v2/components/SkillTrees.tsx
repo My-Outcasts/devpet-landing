@@ -161,7 +161,7 @@ export default function SkillTrees() {
         {t.v2.skillTrees.cornerLabel}
       </span>
 
-      <p className="v2-skilltrees-intro v2-skilltrees-reveal">
+      <p className="v2-skilltrees-intro">
         {t.v2.skillTrees.introLead}
         <br />
         <span className="muted">{t.v2.skillTrees.introMuted}</span>
@@ -171,7 +171,7 @@ export default function SkillTrees() {
         {tiers.map((tier) => (
           <article
             key={tier.num}
-            className={`v2-skilltrees-card v2-skilltrees-reveal ${tier.modifier}`}
+            className={`v2-skilltrees-card ${tier.modifier}`}
           >
             <span className="v2-skilltrees-card-number" aria-hidden="true">
               {tier.num}
@@ -192,7 +192,7 @@ export default function SkillTrees() {
         {orbs.map((orb) => (
           <div
             key={orb.modifier}
-            className={`v2-skilltrees-orb v2-skilltrees-reveal ${orb.modifier}`}
+            className={`v2-skilltrees-orb ${orb.modifier}`}
             aria-hidden="true"
           >
             <Image

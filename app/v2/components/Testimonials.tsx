@@ -132,13 +132,25 @@ export default function Testimonials() {
           <p className="v2-testimonials-subtitle">{t.v2.testimonials.subtitle}</p>
         </header>
 
+        {/* CTA placed RIGHT BELOW the heading — primary action sits
+            above the social proof so visitors see it without
+            scrolling past the three quote cards. The .v2-testimonials-cta
+            class has its own margin-top + bottom for this layout. */}
+        <a
+          href="#product"
+          className="v2-testimonials-cta v2-testimonials-cta--top"
+          aria-label={t.v2.testimonials.ctaAria}
+        >
+          <span className="v2-testimonials-cta-body">{t.v2.testimonials.cta}</span>
+        </a>
+
         <ul className="v2-testimonials-list">
           {/* Loop variable renamed to `item` to avoid colliding with
               the `t` translation alias from useLocale(). */}
           {testimonials.map((item, i) => (
             <li
               key={i}
-              className="v2-testimonials-item v2-testimonials-reveal v2-testimonials-reveal--h"
+              className="v2-testimonials-item"
               data-stagger={i * 40}
             >
               <div className="v2-testimonials-pet">
@@ -167,23 +179,6 @@ export default function Testimonials() {
           ))}
         </ul>
 
-        {/* Codepet signup CTA — pixel-pill matching the section
-            chain (Mindset / GetGood / SkillTrees). Purple-on-pink
-            here so it sits cleanly against the testimonials band.
-            Points to #product where the email form lives. */}
-        {/* Intentionally NOT given the `v2-testimonials-reveal`
-            class — same reason as the SkillTrees CTA above: the
-            scroll-progress reveal driver was leaving this element
-            stuck at opacity 0 (transform translateY(150px)) even
-            after the quote cards had finished animating in.
-            Showing it directly is the simplest fix. */}
-        <a
-          href="#product"
-          className="v2-testimonials-cta"
-          aria-label={t.v2.testimonials.ctaAria}
-        >
-          <span className="v2-testimonials-cta-body">{t.v2.testimonials.cta}</span>
-        </a>
       </div>
     </section>
   )
