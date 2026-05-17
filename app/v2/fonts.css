@@ -1881,11 +1881,11 @@ html {
 }
 
 .v2-hero-deco--heart-tr {
-  /* Dropped down to sit beside / just after the second headline line
-     on the right flank — well clear of the first line's end so the
-     heart is fully visible regardless of locale width. */
+  /* Sits in the empty zone on the right flank, between the two
+     headline lines — clear of the wider Vietnamese headline and
+     well above the pets row. */
   right: 5%;
-  top: 36%;
+  top: 24%;
   width: clamp(36px, 4.2vw, 60px);
   --r: 12deg;
   animation-delay: 0.5s;
