@@ -1870,23 +1870,22 @@ html {
    than "next to". */
 
 .v2-hero-deco--sparkle-tl {
-  /* Pulled in from the viewport's left flank toward the headline.
-     At a 1440px-wide canvas, 14% leaves the sparkle sitting just
-     outside the LEARN TO BUILD line's left edge instead of hugging
-     the page margin. */
-  left: 14%;
-  top: 18%;                              /* above/beside LEARN TO BUILD */
+  /* Pulled further into the left flank so even the wider Vietnamese
+     headline ("HỌC CÁCH LẬP TRÌNH AGENTIC") can't graze the sparkle.
+     Sits clearly above the first headline line at the left edge. */
+  left: 5%;
+  top: 16%;
   width: clamp(80px, 9.2vw, 133px);
   --r: 6deg;
   animation-delay: 0.4s;
 }
 
 .v2-hero-deco--heart-tr {
-  /* Mirror of sparkle-tl on the right flank — same 14% offset so
-     the two decorations sit symmetrically just outside the
-     headline edges. */
-  right: 14%;
-  top: 16%;                              /* mirror of sparkle-tl on the right flank */
+  /* Dropped down to sit beside / just after the second headline line
+     on the right flank — well clear of the first line's end so the
+     heart is fully visible regardless of locale width. */
+  right: 5%;
+  top: 36%;
   width: clamp(36px, 4.2vw, 60px);
   --r: 12deg;
   animation-delay: 0.5s;
