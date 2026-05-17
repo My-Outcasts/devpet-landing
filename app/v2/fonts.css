@@ -1824,7 +1824,11 @@ html {
 */
 .v2-hero-deco {
   position: absolute;
-  z-index: 0;                  /* behind headline/subhead */
+  /* Above the headline so wider locales (e.g. Vietnamese
+     "HỌC CÁCH LẬP TRÌNH AGENTIC") can't clip the sparkle or
+     heart with overflowing text. pointer-events:none keeps
+     them from blocking any interaction underneath. */
+  z-index: 3;
   pointer-events: none;
   user-select: none;
   /* Per-deco rotation exposed as a CSS variable so the drop-in
