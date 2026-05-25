@@ -28,6 +28,23 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  // Mount the separate Codepet Academy deployment under /academy
+  // so visitors see code-pet.com/academy in the URL bar instead of
+  // bouncing to a different *.vercel.app domain. Vercel proxies the
+  // request server-side; the academy codebase (Murror/codepet-academy)
+  // stays untouched and continues to deploy independently.
+  async rewrites() {
+    return [
+      {
+        source: '/academy',
+        destination: 'https://codepet-academy.vercel.app',
+      },
+      {
+        source: '/academy/:path*',
+        destination: 'https://codepet-academy.vercel.app/:path*',
+      },
+    ]
+  },
 };
 
 export default nextConfig;

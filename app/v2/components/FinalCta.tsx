@@ -103,15 +103,13 @@ export default function FinalCta() {
 
       {/* Pixel-pill CTA — same submit-style classes as the old
           waitlist button so the visual silhouette / hover state
-          is identical. Anchor instead of button so it can carry
-          target="_blank" and rel="noopener noreferrer" — the
-          academy is a separate origin and we open it in a new
-          tab to preserve the landing page in the user's history. */}
+          is identical. Now an in-app link to /academy (proxied
+          to the separate codepet-academy deployment via the
+          rewrite in next.config.ts) so users stay on code-pet.com
+          throughout the journey. */}
       <a
         className="v2-finalcta-submit v2-finalcta-reveal"
-        href="https://codepet-academy.vercel.app/"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="/academy"
       >
         {t.v2.finalCta.academyButton}
       </a>
