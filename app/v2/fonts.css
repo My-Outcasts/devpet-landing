@@ -4945,17 +4945,19 @@ html {
 
 .v2-footer-copyright {
   margin: 0;
-  /* VT323 retro-terminal face — matches the rest of the footer
-     and the page's small captions / eyebrows. */
-  font-family: var(--font-pixel);
+  /* Open Sans for readability — the footer copyright reads as
+     legal/utility text and benefits from a clean sans-serif over
+     the pixel display face, especially for diacritics in
+     non-English locales (Vietnamese). */
+  font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
   font-weight: 400;
-  font-size: clamp(11px, 1vw, 13px);
-  letter-spacing: -0.01em;
+  font-size: clamp(12px, 1vw, 14px);
+  letter-spacing: 0.01em;
   /* Black on white per design pass — was a translucent white
      when the footer ground was brand blue. */
   color: #000000;
-  -webkit-font-smoothing: none;
-  -moz-osx-font-smoothing: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .v2-footer-nav {
@@ -4985,15 +4987,17 @@ html {
      --v2-text-primary (white) when the footer ground was blue. */
   color: #000000;
   text-decoration: none;
-  /* VT323 retro-terminal face — matches the copyright + the rest
-     of the page's small captions / eyebrows. */
-  font-family: var(--font-pixel);
-  font-weight: 500;
-  font-size: clamp(14px, 1.3vw, 17px);
-  letter-spacing: -0.01em;
+  /* Open Sans for footer nav legibility (matches the copyright
+     line) — pixel face was hard to read at small sizes,
+     especially for Vietnamese tone marks. */
+  font-family: 'Open Sans', system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+  font-size: clamp(13px, 1.1vw, 15px);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
   transition: opacity .15s ease;
-  -webkit-font-smoothing: none;
-  -moz-osx-font-smoothing: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .v2-footer-link:hover {
