@@ -22,7 +22,7 @@ export default function PostCard({
   const accentClass = category ? ACCENT_CLASS[category.accent] : ''
 
   return (
-    <Link href={postPath(locale, post.slug)} className="blog-card">
+    <Link href={postPath(locale, post.slug)} className="blog-card" data-category={post.category}>
       <div className="blog-card-cover">
         {post.cover ? (
           // eslint-disable-next-line @next/next/no-img-element
