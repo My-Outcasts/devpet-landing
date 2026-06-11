@@ -1,6 +1,6 @@
 ---
 title: "Dùng AI như một người bạn tư duy, đừng dùng như thanh tìm kiếm"
-description: "Đa số mọi người dùng AI để lấy câu trả lời. Đây là cách dùng AI để đặt câu hỏi sắc hơn, tư duy rõ hơn và thật sự hiểu vấn đề — từng prompt một."
+description: "Đa số mọi người dùng AI để lấy câu trả lời. Đây là cách dùng AI để đặt câu hỏi sắc hơn, tư duy rõ hơn và thật sự hiểu vấn đề, từng prompt một."
 date: "2026-06-11"
 updated: "2026-06-11"
 category: "second-brain"

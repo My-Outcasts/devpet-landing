@@ -1,6 +1,6 @@
 ---
 title: "Hơn cả gợi ý tự động: một 'bộ não thứ hai' biết nghĩ cùng bạn"
-description: "Phần lớn công cụ AI trả lời xong là quên bạn ngay. Bài toán khó hơn — và đáng giá hơn — là một bộ não thứ hai biết ghi nhớ, kết nối và suy nghĩ cùng bạn theo thời gian."
+description: "Phần lớn công cụ AI trả lời xong là quên bạn ngay. Bài toán khó hơn và đáng giá hơn là một bộ não thứ hai biết ghi nhớ, kết nối và suy nghĩ cùng bạn theo thời gian."
 date: "2026-06-05"
 updated: "2026-06-11"
 category: "second-brain"

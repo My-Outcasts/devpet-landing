@@ -55,7 +55,6 @@ export default function PostCard({
         <p className="blog-post-excerpt">{post.description}</p>
         <span className={`blog-post-more ${accentClass}`}>
           {s.readMore}
-          <span aria-hidden="true"> →</span>
         </span>
       </div>
     </Link>

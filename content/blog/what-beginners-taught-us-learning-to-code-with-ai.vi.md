@@ -1,6 +1,6 @@
 ---
 title: "500 người mới học code cùng AI đã dạy lại chúng tôi điều gì"
-description: "Những mẫu hình rút ra từ việc quan sát hàng trăm người lần đầu làm sản phẩm cùng một người bạn AI — nơi AI giúp được, nơi nó âm thầm gây hại, và điều gì khiến kỹ năng thật sự đọng lại."
+description: "Những mẫu hình rút ra từ việc quan sát hàng trăm người lần đầu làm sản phẩm cùng một người bạn AI: nơi AI giúp được, nơi nó âm thầm gây hại, và điều gì khiến kỹ năng thật sự đọng lại."
 date: "2026-05-28"
 updated: "2026-06-11"
 category: "user-insights"

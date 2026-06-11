@@ -1,6 +1,6 @@
 ---
 title: "Đo trước khi tối ưu: con bug khiến chúng tôi nhận ra mình đã sai"
-description: "Một người dùng báo rằng những session dài làm Codepet giật và ngốn bộ nhớ. Chúng tôi biết chính xác phải sửa gì — và phép đo chứng minh chúng tôi sai hoàn toàn. Một câu chuyện kỹ thuật ngắn về việc cưỡng lại điều hiển nhiên."
+description: "Một người dùng báo rằng những session dài làm Codepet giật và ngốn bộ nhớ. Chúng tôi biết chính xác phải sửa gì, và phép đo chứng minh chúng tôi sai hoàn toàn. Một câu chuyện kỹ thuật ngắn về việc cưỡng lại điều hiển nhiên."
 date: "2026-06-11"
 updated: "2026-06-11"
 category: "building-ai-products"

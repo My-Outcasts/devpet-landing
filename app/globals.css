@@ -385,8 +385,7 @@
   display: inline-flex; align-items: center;
   font-family: var(--blog-label); font-weight: 800; font-size: 0.92rem; letter-spacing: 0.02em;
 }
-.blog-post-more span { transition: transform 0.2s ease; }
-.blog-post-row:hover .blog-post-more span { transform: translateX(4px); }
+.blog-post-row:hover .blog-post-more { text-decoration: underline; text-underline-offset: 3px; }
 
 @media (max-width: 780px) {
   .blog-post-row,

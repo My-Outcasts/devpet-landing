@@ -1,6 +1,6 @@
 ---
 title: "What 500 Beginners Taught Us About Learning to Code with AI"
-description: "Patterns from watching hundreds of first-time builders learn with an AI companion — where AI helps, where it quietly hurts, and what actually makes skill stick."
+description: "Patterns from watching hundreds of first-time builders learn with an AI companion: where AI helps, where it quietly hurts, and what actually makes skill stick."
 date: "2026-05-28"
 category: "user-insights"
 author: "Nguyen"
@@ -12,16 +12,16 @@ Over the last few months we watched more than 500 people open Codepet for the fi
 
 Here's what surprised us.
 
-## AI removes the wrong kind of struggle — and that's the danger
+## AI removes the wrong kind of struggle, and that's the danger
 
 The promise of coding with AI is that it removes friction. And it does. But not all friction is bad. Some of it *is* the learning.
 
 We saw a clear split:
 
-- **Productive struggle** — figuring out *why* a fix works, naming a variable, deciding how to structure a function. This is where skill forms.
-- **Pointless struggle** — fighting a cryptic error message, a missing semicolon, environment setup. This is pure tax.
+- **Productive struggle**: figuring out *why* a fix works, naming a variable, deciding how to structure a function. This is where skill forms.
+- **Pointless struggle**: fighting a cryptic error message, a missing semicolon, environment setup. This is pure tax.
 
-AI is fantastic at deleting pointless struggle. The risk is that, left unchecked, it deletes the productive kind too — it'll happily write the whole function before the learner has formed a single hypothesis.
+AI is fantastic at deleting pointless struggle. The risk is that, left unchecked, it deletes the productive kind too. It'll happily write the whole function before the learner has formed a single hypothesis.
 
 > The beginners who improved fastest weren't the ones who asked the AI for the least help. They were the ones the AI made *think* before it answered.
 
@@ -41,7 +41,7 @@ Tutorials hide this problem by handing you the project. The moment we asked peop
 
 ## Confidence is a feature you have to design for
 
-The strongest predictor of whether someone came back the next day wasn't how much they knew — it was whether they felt like *the kind of person who builds things*.
+The strongest predictor of whether someone came back the next day wasn't how much they knew. It was whether they felt like *the kind of person who builds things*.
 
 That feeling is fragile and designable. A few things moved it:
 
@@ -51,7 +51,7 @@ That feeling is fragile and designable. A few things moved it:
 
 ## What we got wrong
 
-We thought gamification would drive engagement. For beginners, heavy gamification *backfired* — streaks created guilt, leaderboards created comparison, and both pulled focus away from the actual building. The mechanics that worked were the quiet ones: a pet that remembered yesterday, a visible sense of "you're further than you were."
+We thought gamification would drive engagement. For beginners, heavy gamification *backfired*: streaks created guilt, leaderboards created comparison, and both pulled focus away from the actual building. The mechanics that worked were the quiet ones: a pet that remembered yesterday, a visible sense of "you're further than you were."
 
 ## The takeaway
 
@@ -59,4 +59,4 @@ If you're building anything that teaches with AI, the lesson is counterintuitive
 
 Remove the tax. Protect the struggle that builds skill. Shrink the first win until it's impossible to avoid. And design, explicitly, for the moment someone thinks *I can actually do this.*
 
-We're still learning — every cohort surprises us. If you want to see how these insights show up in the product, the [Building AI Products](/blog/category/building-ai-products) series covers the engineering side of the same story.
+We're still learning. Every cohort surprises us. If you want to see how these insights show up in the product, the [Building AI Products](/blog/category/building-ai-products) series covers the engineering side of the same story.

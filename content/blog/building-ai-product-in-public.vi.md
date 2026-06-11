@@ -1,6 +1,6 @@
 ---
 title: "Build in public: một năm đầu làm sản phẩm AI đã dạy chúng tôi điều gì"
-description: "Chuyện thật về một năm làm app macOS chạy bằng AI — những ván cược được giá, những tính năng buộc phải buông, và đôi điều cho bất kỳ ai đang làm sản phẩm AI lúc này."
+description: "Chuyện thật về một năm làm app macOS chạy bằng AI: những ván cược được giá, những tính năng buộc phải buông, và đôi điều cho bất kỳ ai đang làm sản phẩm AI lúc này."
 date: "2026-06-09"
 updated: "2026-06-11"
 category: "building-ai-products"
