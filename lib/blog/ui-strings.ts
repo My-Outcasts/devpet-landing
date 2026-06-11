@@ -27,6 +27,7 @@ export interface BlogStrings {
   relatedReading: string
   moreInCategory: string
   readArticle: string
+  readMore: string
   empty: string
   langSwitch: string
   langSwitchHref: string
@@ -64,6 +65,7 @@ const STRINGS: Record<Locale, BlogStrings> = {
     relatedReading: 'Keep reading',
     moreInCategory: 'More in',
     readArticle: 'Read article',
+    readMore: 'Read more',
     empty: 'No articles yet — the first stories are on their way.',
     langSwitch: 'Tiếng Việt',
     langSwitchHref: '/vi/blog',
@@ -101,6 +103,7 @@ const STRINGS: Record<Locale, BlogStrings> = {
     relatedReading: 'Đọc tiếp',
     moreInCategory: 'Thêm về',
     readArticle: 'Đọc bài',
+    readMore: 'Đọc tiếp',
     empty: 'Chưa có bài viết — những câu chuyện đầu tiên đang trên đường tới.',
     langSwitch: 'English',
     langSwitchHref: '/blog',
