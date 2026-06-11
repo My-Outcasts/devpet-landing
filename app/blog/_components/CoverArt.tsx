@@ -270,3 +270,5 @@ export default function CoverArt({
     </svg>
   )
 }
+
+/* redeploy: varied covers */
