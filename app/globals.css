@@ -218,6 +218,25 @@
 }
 .blog-chip-dot { width: 8px; height: 8px; border-radius: 9999px; background: currentColor; opacity: 0.7; }
 
+/* Per-category tab colors (Codepet brand palette). Resting: a colored
+   dot identifies each topic; hover/active fills the chip with that
+   color. */
+.blog-chip[data-category='building-ai-products'] .blog-chip-dot { background: #9538CF; opacity: 1; }
+.blog-chip[data-category='user-insights'] .blog-chip-dot       { background: #1C40CF; opacity: 1; }
+.blog-chip[data-category='second-brain'] .blog-chip-dot        { background: #FF8CC9; opacity: 1; }
+
+.blog-chip[data-category='building-ai-products']:hover,
+.blog-chip[data-category='building-ai-products'][data-active='true'] { background: #9538CF; border-color: #9538CF; color: #fff; }
+.blog-chip[data-category='user-insights']:hover,
+.blog-chip[data-category='user-insights'][data-active='true']        { background: #1C40CF; border-color: #1C40CF; color: #fff; }
+.blog-chip[data-category='second-brain']:hover,
+.blog-chip[data-category='second-brain'][data-active='true']         { background: #FF8CC9; border-color: #FF8CC9; color: #4A1230; }
+
+/* On hover/active the chip ground is colored, so the dot switches to the
+   text color for contrast. */
+.blog-chip:hover .blog-chip-dot,
+.blog-chip[data-active='true'] .blog-chip-dot { background: currentColor; opacity: 0.9; }
+
 /* Category accent colors (brand purples) */
 .blog-accent-primary { color: #6F5FC4; }
 .blog-accent-info    { color: #4B6CD4; }
@@ -272,21 +291,21 @@
 .blog-newsletter-inner {
   max-width: 72rem; margin: 0 auto; padding: clamp(1.75rem, 3vw, 2.75rem);
   display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.25rem, 3vw, 3rem); align-items: center;
-  background: linear-gradient(135deg, #2D2466 0%, #534AB7 100%);
+  background: linear-gradient(135deg, #7B6BD8 0%, #9538CF 100%);
   border-radius: 20px;
 }
 .blog-newsletter-copy h2 {
   font-family: var(--blog-display); font-weight: 700;
   font-size: clamp(1.5rem, 2.6vw, 2.1rem); line-height: 1.12; letter-spacing: -0.01em; color: #fff; margin: 0 0 0.6rem;
 }
-.blog-newsletter-copy p { margin: 0; color: rgba(255, 255, 255, 0.8); line-height: 1.55; font-size: 0.98rem; }
+.blog-newsletter-copy p { margin: 0; color: rgba(255, 255, 255, 0.92); line-height: 1.55; font-size: 0.98rem; }
 .blog-newsletter-form { display: flex; flex-wrap: wrap; gap: 0.6rem; position: relative; }
 .blog-newsletter-input {
   flex: 1 1 12rem; min-width: 0; padding: 0.85rem 1.1rem;
-  background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255,255,255,0.35); border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255,255,255,0.5); border-radius: 9999px;
   color: #fff; font-size: 0.95rem; font-family: inherit;
 }
-.blog-newsletter-input::placeholder { color: rgba(255, 255, 255, 0.6); }
+.blog-newsletter-input::placeholder { color: rgba(255, 255, 255, 0.78); }
 .blog-newsletter-input:focus { outline: none; border-color: #fff; }
 .blog-newsletter-btn {
   flex: 0 0 auto; padding: 0.85rem 1.6rem; border: 0; border-radius: 9999px; cursor: pointer;
