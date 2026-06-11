@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { headers } from 'next/headers'
 import { Varela_Round } from 'next/font/google'
 import { LocaleProvider } from '@/lib/LocaleProvider'
-import { SITE_URL, GOOGLE_SITE_VERIFICATION } from '@/lib/site'
+import { SITE_URL, GOOGLE_SITE_VERIFICATION, BING_SITE_VERIFICATION } from '@/lib/site'
 import './globals.css'
 
 const varelaRound = Varela_Round({ weight: '400', subsets: ['latin'], variable: '--font-varela' })
@@ -25,11 +25,21 @@ export const metadata: Metadata = {
   // images) in this segment and below can be authored as relative paths
   // and resolved to absolute URLs at render time.
   metadataBase: new URL(SITE_URL),
-  // Renders <meta name="google-site-verification" …> only when a token
-  // is configured (see GOOGLE_SITE_VERIFICATION). Used for the Search
-  // Console HTML-tag verification method.
-  ...(GOOGLE_SITE_VERIFICATION
-    ? { verification: { google: GOOGLE_SITE_VERIFICATION } }
+  // Renders search-engine ownership meta tags only when a token is
+  // configured. Google → <meta name="google-site-verification">; Bing →
+  // <meta name="msvalidate.01"> (via the `other` map). Each is omitted
+  // when its token is empty, so no broken/empty tag ever ships.
+  ...((GOOGLE_SITE_VERIFICATION || BING_SITE_VERIFICATION)
+    ? {
+        verification: {
+          ...(GOOGLE_SITE_VERIFICATION
+            ? { google: GOOGLE_SITE_VERIFICATION }
+            : {}),
+          ...(BING_SITE_VERIFICATION
+            ? { other: { 'msvalidate.01': BING_SITE_VERIFICATION } }
+            : {}),
+        },
+      }
     : {}),
   title: 'Codepet — The AI coding school with your pet',
   description: 'Learn to vibecode with your companion. 16 skills, 4 tiers, and a pet that grows as you do.',

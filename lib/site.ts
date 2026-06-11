@@ -28,6 +28,20 @@ export const GOOGLE_SITE_VERIFICATION =
   process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
   '6PkFavEqoC92ldoGPdFfGg_59VZOKXfFPoc6cM9BVjY'
 
+/**
+ * Bing Webmaster Tools site-verification token (the value from the
+ * `<meta name="msvalidate.01" content="…">` tag Bing shows for its
+ * HTML-meta-tag method). Set it here or via the
+ * `NEXT_PUBLIC_BING_SITE_VERIFICATION` env var — when empty, no tag is
+ * rendered. Like the Google token it's public (ships in page HTML).
+ *
+ * NOTE: if you instead verify by *importing the site from Google Search
+ * Console* in Bing Webmaster Tools, no token is needed and this can stay
+ * empty.
+ */
+export const BING_SITE_VERIFICATION =
+  process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION || ''
+
 /** Brand line reused in OG/meta fallbacks and JSON-LD `publisher`. */
 export const SITE_TAGLINE =
   'Codepet is a macOS app that trains people to build real software with AI.'
