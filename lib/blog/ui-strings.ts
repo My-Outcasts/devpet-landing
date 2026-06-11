@@ -84,10 +84,10 @@ const STRINGS: Record<Locale, BlogStrings> = {
   vi: {
     brandHome: 'Codepet',
     backToSite: '← Về trang Codepet',
-    indexTitle: 'TechZ',
+    indexTitle: 'Tech-Zì',
     indexTagline:
       'Ghi chép thực chiến về xây dựng sản phẩm AI, những điều học được từ người dùng thật, và cách nuôi dưỡng một bộ não thứ hai biết suy nghĩ.',
-    metaIndexTitle: 'TechZ — Codepet',
+    metaIndexTitle: 'Tech-Zì — Codepet',
     metaIndexDescription:
       'Góc nhìn về xây dựng sản phẩm AI, nghiên cứu người dùng và phát triển bộ não thứ hai — từ đội ngũ đang xây dựng Codepet.',
     featured: 'Nổi bật',
