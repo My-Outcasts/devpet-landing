@@ -472,19 +472,27 @@
 @keyframes cv-sway    { 0% { transform: translate(0, 0) rotate(-4deg); } 50% { transform: translate(12px, -16px) rotate(5deg); } 100% { transform: translate(0, 0) rotate(-4deg); } }
 @keyframes cv-twinkle { 0%, 100% { opacity: 0.1; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.25); } }
 @keyframes cv-spin    { to { transform: rotate(360deg); } }
+/* Pixel-art friendly: translate / opacity only (no scale or rotate, which
+   would make the flat cells uneven and blur the crisp grid). */
+@keyframes cv-bob     { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes cv-blink   { 0%, 100% { opacity: 0.15; } 50% { opacity: 1; } }
 
 .blog-root svg .cv-float   { animation: cv-float 4.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; will-change: transform; }
 .blog-root svg .cv-sway    { animation: cv-sway 4.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; will-change: transform; }
 .blog-root svg .cv-twinkle { animation: cv-twinkle 2.1s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
 .blog-root svg .cv-spin    { animation: cv-spin 26s linear infinite; transform-box: view-box; }
 .blog-root svg .cv-spin-slow { animation: cv-spin 48s linear infinite; transform-box: view-box; }
+.blog-root svg .cv-bob     { animation: cv-bob 4.2s ease-in-out infinite; transform-box: fill-box; will-change: transform; }
+.blog-root svg .cv-blink   { animation: cv-blink 2.1s ease-in-out infinite; }
 
 @media (prefers-reduced-motion: reduce) {
   .blog-root svg .cv-float,
   .blog-root svg .cv-sway,
   .blog-root svg .cv-twinkle,
   .blog-root svg .cv-spin,
-  .blog-root svg .cv-spin-slow { animation: none; }
+  .blog-root svg .cv-spin-slow,
+  .blog-root svg .cv-bob,
+  .blog-root svg .cv-blink { animation: none; }
 }
 
 
