@@ -99,9 +99,39 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       ? '/fonts/dearpix/dearpix.woff2'
       : '/fonts/upheaval/upheavtt.woff2'
 
+  // Brand-entity structured data (site-wide). Establishes Codepet as an
+  // Organization and the site as a WebSite for Google's Knowledge Graph
+  // — strengthens entity recognition + E-E-A-T across every page.
+  const brandJsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
+      name: 'Codepet',
+      url: SITE_URL,
+      logo: `${SITE_URL}/icons/codepet-icon-512.png`,
+      description:
+        'Codepet is a macOS app that trains people to build real software with AI.',
+      parentOrganization: { '@type': 'Organization', name: 'MURROR' },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      name: 'Codepet',
+      url: SITE_URL,
+      inLanguage: ['en', 'vi'],
+      publisher: { '@id': `${SITE_URL}/#organization` },
+    },
+  ]
+
   return (
     <html lang={initialLocale}>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(brandJsonLd) }}
+        />
         <link
           rel="preload"
           href={displayFontHref}
