@@ -1,14 +1,17 @@
 import type { CategorySlug } from '@/lib/blog/categories'
 
 /**
- * Deterministic generative cover art — flat editorial illustrations.
+ * Deterministic generative cover art — flat editorial illustrations,
+ * gently animated.
  *
  * The blog has no photography, so each post gets a unique illustrated
- * scene drawn as inline SVG from a seed derived from its slug. To keep
- * every post visually distinct, there are several DIFFERENT scene types
- * (landscape, mountains, arches, orbit, blobs, plant, sunburst); the
- * slug picks both the scene type and the seeded variation, while the
- * category picks the palette. Same slug → same art (SSR-safe, free).
+ * scene drawn as inline SVG from a seed derived from its slug. There are
+ * several DIFFERENT scene types (landscape, mountains, arches, orbit,
+ * blobs, plant, sunburst); the slug picks the scene + seeded variation,
+ * the category picks the palette. Subtle CSS animations (float, sway,
+ * twinkle, spin) bring the scene to life — see the `cv-*` keyframes in
+ * globals.css, which honour prefers-reduced-motion. Same slug → same art
+ * (SSR-safe, free, no image requests).
  */
 
 type Palette = {
@@ -68,16 +71,19 @@ type R = () => number
 type El = React.ReactElement
 
 const r1 = (n: number) => Number(n.toFixed(1))
+/** Negative animation-delay so each element starts mid-cycle (desynced). */
+const delay = (rng: R, max = 5) => ({ animationDelay: `-${(rng() * max).toFixed(2)}s` })
 
 function specks(rng: R, p: Palette, n = 6): El[] {
   return Array.from({ length: n }, (_, i) => (
     <circle
       key={`sp${i}`}
+      className="cv-twinkle"
+      style={delay(rng, 4)}
       cx={r1(W * rng())}
       cy={r1(H * (0.05 + rng() * 0.45))}
       r={r1(2 + rng() * 4)}
       fill={p.speck}
-      opacity={r1(0.4 + rng() * 0.4)}
     />
   ))
 }
@@ -86,12 +92,15 @@ function leaf(rng: R, p: Palette, cx: number, cy: number, size: number, key: str
   const rot = Math.round(rng() * 360)
   const d = `M ${r1(cx)} ${r1(cy - size)} Q ${r1(cx + size * 0.62)} ${r1(cy)} ${r1(cx)} ${r1(cy + size)} Q ${r1(cx - size * 0.62)} ${r1(cy)} ${r1(cx)} ${r1(cy - size)} Z`
   return (
-    <g key={key} transform={`rotate(${rot} ${r1(cx)} ${r1(cy)})`} opacity={r1(0.55 + rng() * 0.4)}>
-      <path d={d} fill={p.leaf} />
-      <line
-        x1={r1(cx)} y1={r1(cy - size * 0.8)} x2={r1(cx)} y2={r1(cy + size * 0.8)}
-        stroke={p.sky[0]} strokeWidth={Math.max(2, size * 0.06)} strokeLinecap="round" opacity={0.6}
-      />
+    // Outer group sways (translate only, so it doesn't fight the inner rotate).
+    <g key={key} className="cv-sway" style={delay(rng, 7)}>
+      <g transform={`rotate(${rot} ${r1(cx)} ${r1(cy)})`} opacity={r1(0.55 + rng() * 0.4)}>
+        <path d={d} fill={p.leaf} />
+        <line
+          x1={r1(cx)} y1={r1(cy - size * 0.8)} x2={r1(cx)} y2={r1(cy + size * 0.8)}
+          stroke={p.sky[0]} strokeWidth={Math.max(2, size * 0.06)} strokeLinecap="round" opacity={0.6}
+        />
+      </g>
     </g>
   )
 }
@@ -100,7 +109,7 @@ function leaf(rng: R, p: Palette, cx: number, cy: number, size: number, key: str
 function sceneHills(rng: R, p: Palette): El[] {
   const els: El[] = [...specks(rng, p, 6)]
   const left = rng() > 0.5
-  els.push(<circle key="sun" cx={r1(left ? W * 0.22 : W * 0.78)} cy={r1(H * (0.28 + rng() * 0.12))} r={r1(85 + rng() * 60)} fill={p.accent} />)
+  els.push(<circle key="sun" className="cv-float" style={delay(rng)} cx={r1(left ? W * 0.22 : W * 0.78)} cy={r1(H * (0.28 + rng() * 0.12))} r={r1(85 + rng() * 60)} fill={p.accent} />)
   for (let i = 0; i < 4 + Math.floor(rng() * 3); i++) els.push(leaf(rng, p, W * (0.1 + rng() * 0.8), H * (0.1 + rng() * 0.28), 32 + rng() * 40, `lf${i}`))
   for (let i = 0; i < 3; i++) {
     const baseY = H * (0.52 + (i / 2) * 0.26)
@@ -119,7 +128,7 @@ function sceneHills(rng: R, p: Palette): El[] {
 /* ── Scene 2: mountain range + moon + stars ── */
 function sceneMountains(rng: R, p: Palette): El[] {
   const els: El[] = [...specks(rng, p, 9)]
-  els.push(<circle key="moon" cx={r1(W * (0.6 + rng() * 0.25))} cy={r1(H * (0.22 + rng() * 0.12))} r={r1(70 + rng() * 50)} fill={p.accent} />)
+  els.push(<circle key="moon" className="cv-float" style={delay(rng)} cx={r1(W * (0.6 + rng() * 0.25))} cy={r1(H * (0.22 + rng() * 0.12))} r={r1(70 + rng() * 50)} fill={p.accent} />)
   const layer = (baseY: number, tone: string, count: number, minH: number, maxH: number) => {
     for (let i = 0; i < count; i++) {
       const cx = W * (i / (count - 1)) + (rng() * 2 - 1) * 120
@@ -148,23 +157,28 @@ function sceneArches(rng: R, p: Palette): El[] {
   return els
 }
 
-/* ── Scene 4: planet + orbit + moons ── */
+/* ── Scene 4: planet + orbit + moons (moons circle the planet) ── */
 function sceneOrbit(rng: R, p: Palette): El[] {
-  const els: El[] = [<rect key="bg2" x="0" y="0" width={W} height={H} fill="none" />, ...specks(rng, p, 12)]
+  const els: El[] = [...specks(rng, p, 12)]
   const cx = W * (0.4 + rng() * 0.2)
   const cy = H * (0.5 + (rng() * 2 - 1) * 0.08)
   els.push(<circle key="planet" cx={r1(cx)} cy={r1(cy)} r={r1(120 + rng() * 60)} fill={p.tones[1]} />)
   const rot = Math.round((rng() * 2 - 1) * 35)
   const rx = 300 + rng() * 140
   const ry = 110 + rng() * 60
-  els.push(<ellipse key="orbit" cx={r1(cx)} cy={r1(cy)} rx={r1(rx)} ry={r1(ry)} fill="none" stroke={p.tones[0]} strokeWidth={10} transform={`rotate(${rot} ${r1(cx)} ${r1(cy)})`} opacity={0.9} />)
+  const moonEls: El[] = []
+  moonEls.push(<ellipse key="orbit" cx={r1(cx)} cy={r1(cy)} rx={r1(rx)} ry={r1(ry)} fill="none" stroke={p.tones[0]} strokeWidth={10} opacity={0.9} />)
   const moons = 2 + Math.floor(rng() * 2)
   for (let i = 0; i < moons; i++) {
-    const a = rng() * Math.PI * 2
-    const mx = cx + Math.cos(a) * rx * Math.cos((rot * Math.PI) / 180) - Math.sin(a) * ry * Math.sin((rot * Math.PI) / 180)
-    const my = cy + Math.cos(a) * rx * Math.sin((rot * Math.PI) / 180) + Math.sin(a) * ry * Math.cos((rot * Math.PI) / 180)
-    els.push(<circle key={`mn${i}`} cx={r1(mx)} cy={r1(my)} r={r1(16 + rng() * 18)} fill={i === 0 ? p.accent : p.tones[2]} />)
+    const a = (i / moons) * Math.PI * 2
+    moonEls.push(<circle key={`mn${i}`} cx={r1(cx + Math.cos(a) * rx)} cy={r1(cy + Math.sin(a) * ry)} r={r1(16 + rng() * 18)} fill={i === 0 ? p.accent : p.tones[2]} />)
   }
+  // Whole orbit (ring + moons) tilts, then spins around the planet centre.
+  els.push(
+    <g key="orbitwrap" transform={`rotate(${rot} ${r1(cx)} ${r1(cy)})`}>
+      <g className="cv-spin" style={{ transformOrigin: `${r1(cx)}px ${r1(cy)}px` }}>{moonEls}</g>
+    </g>
+  )
   return els
 }
 
@@ -179,8 +193,8 @@ function sceneBlobs(rng: R, p: Palette): El[] {
     const col = cols[Math.floor(rng() * cols.length)]
     const op = r1(0.55 + rng() * 0.4)
     const kind = Math.floor(rng() * 3)
-    if (kind === 0) els.push(<circle key={`b${i}`} cx={r1(cx)} cy={r1(cy)} r={r1(size / 2)} fill={col} opacity={op} />)
-    else if (kind === 1) els.push(<rect key={`b${i}`} x={r1(cx - size / 2)} y={r1(cy - size / 2)} width={r1(size)} height={r1(size)} rx={r1(size * 0.32)} transform={`rotate(${Math.round(rng() * 90)} ${r1(cx)} ${r1(cy)})`} fill={col} opacity={op} />)
+    if (kind === 0) els.push(<circle key={`b${i}`} className="cv-float" style={delay(rng, 6)} cx={r1(cx)} cy={r1(cy)} r={r1(size / 2)} fill={col} opacity={op} />)
+    else if (kind === 1) els.push(<rect key={`b${i}`} className="cv-float" style={delay(rng, 6)} x={r1(cx - size / 2)} y={r1(cy - size / 2)} width={r1(size)} height={r1(size)} rx={r1(size * 0.32)} transform={`rotate(${Math.round(rng() * 90)} ${r1(cx)} ${r1(cy)})`} fill={col} opacity={op} />)
     else els.push(leaf(rng, p, cx, cy, size * 0.4, `b${i}`))
   }
   els.push(...specks(rng, p, 6))
@@ -190,7 +204,7 @@ function sceneBlobs(rng: R, p: Palette): El[] {
 /* ── Scene 6: growing plant ── */
 function scenePlant(rng: R, p: Palette): El[] {
   const els: El[] = [...specks(rng, p, 5)]
-  els.push(<circle key="sun" cx={r1(W * (0.72 + rng() * 0.16))} cy={r1(H * (0.24 + rng() * 0.1))} r={r1(70 + rng() * 40)} fill={p.accent} />)
+  els.push(<circle key="sun" className="cv-float" style={delay(rng)} cx={r1(W * (0.72 + rng() * 0.16))} cy={r1(H * (0.24 + rng() * 0.1))} r={r1(70 + rng() * 40)} fill={p.accent} />)
   const groundY = H * 0.82
   const stems = 3 + Math.floor(rng() * 3)
   for (let s = 0; s < stems; s++) {
@@ -209,21 +223,23 @@ function scenePlant(rng: R, p: Palette): El[] {
   return els
 }
 
-/* ── Scene 7: sunburst ── */
+/* ── Scene 7: sunburst (rays slowly rotate) ── */
 function sceneSunburst(rng: R, p: Palette): El[] {
   const els: El[] = []
   const cx = W * (0.3 + rng() * 0.4)
   const cy = H * (0.4 + rng() * 0.25)
   const rays = 12 + Math.floor(rng() * 6)
   const len = 520
+  const rayEls: El[] = []
   for (let i = 0; i < rays; i++) {
-    const a = (i / rays) * Math.PI * 2 + rng() * 0.05
+    const a = (i / rays) * Math.PI * 2
     const wA = 0.06
     const p1 = [cx + Math.cos(a - wA) * len, cy + Math.sin(a - wA) * len]
     const p2 = [cx + Math.cos(a + wA) * len, cy + Math.sin(a + wA) * len]
-    els.push(<polygon key={`ry${i}`} points={`${r1(cx)},${r1(cy)} ${r1(p1[0])},${r1(p1[1])} ${r1(p2[0])},${r1(p2[1])}`} fill={i % 2 ? p.tones[0] : p.tones[1]} opacity={0.85} />)
+    rayEls.push(<polygon key={`ry${i}`} points={`${r1(cx)},${r1(cy)} ${r1(p1[0])},${r1(p1[1])} ${r1(p2[0])},${r1(p2[1])}`} fill={i % 2 ? p.tones[0] : p.tones[1]} opacity={0.85} />)
   }
-  els.push(<circle key="core" cx={r1(cx)} cy={r1(cy)} r={r1(70 + rng() * 40)} fill={p.accent} />)
+  els.push(<g key="rays" className="cv-spin-slow" style={{ transformOrigin: `${r1(cx)}px ${r1(cy)}px` }}>{rayEls}</g>)
+  els.push(<circle key="core" className="cv-float" style={delay(rng)} cx={r1(cx)} cy={r1(cy)} r={r1(70 + rng() * 40)} fill={p.accent} />)
   els.push(...specks(rng, p, 7))
   return els
 }
@@ -242,7 +258,6 @@ export default function CoverArt({
   const p = PALETTES[category] ?? PALETTES['building-ai-products']
   const rng = makeRng(hashString(`${slug}|${category}`))
   const id = `cv${hashString(slug).toString(36)}`
-  // Scene type is chosen from the slug so every post differs.
   const scene = SCENES[hashString(`${slug}|scene`) % SCENES.length]
 
   return (
@@ -270,5 +285,3 @@ export default function CoverArt({
     </svg>
   )
 }
-
-/* redeploy: varied covers */

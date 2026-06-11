@@ -435,6 +435,27 @@
 
 .blog-empty { padding: 4rem 0; text-align: center; color: var(--blog-muted); font-size: 1.1rem; }
 
+/* ── Cover-art animations (CoverArt.tsx) — subtle, looping, GPU-friendly
+   (transform/opacity only). Disabled under prefers-reduced-motion. ── */
+@keyframes cv-float   { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes cv-sway    { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(5px, -8px); } }
+@keyframes cv-twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 0.95; } }
+@keyframes cv-spin    { to { transform: rotate(360deg); } }
+
+.blog-root svg .cv-float   { animation: cv-float 7s ease-in-out infinite; transform-box: fill-box; transform-origin: center; will-change: transform; }
+.blog-root svg .cv-sway    { animation: cv-sway 8s ease-in-out infinite; will-change: transform; }
+.blog-root svg .cv-twinkle { animation: cv-twinkle 3.6s ease-in-out infinite; }
+.blog-root svg .cv-spin    { animation: cv-spin 60s linear infinite; transform-box: view-box; }
+.blog-root svg .cv-spin-slow { animation: cv-spin 110s linear infinite; transform-box: view-box; }
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-root svg .cv-float,
+  .blog-root svg .cv-sway,
+  .blog-root svg .cv-twinkle,
+  .blog-root svg .cv-spin,
+  .blog-root svg .cv-spin-slow { animation: none; }
+}
+
 
 /* ── Character SVG animations from DevPet showcase ── */
 
