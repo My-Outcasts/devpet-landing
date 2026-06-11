@@ -23,7 +23,7 @@ export default function FeaturedCard({
   const accentClass = category ? ACCENT_CLASS[category.accent] : ''
 
   return (
-    <Link href={postPath(locale, post.slug)} className="blog-featured">
+    <Link href={postPath(locale, post.slug)} className="blog-featured" data-category={post.category}>
       <div className="blog-featured-text">
         {category && (
           <span className={`blog-featured-cat ${accentClass}`}>

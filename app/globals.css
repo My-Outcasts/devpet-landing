@@ -337,6 +337,17 @@
 }
 .blog-card-author { margin-top: auto; display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: var(--blog-body); }
 
+/* ── Card content background: light tints of the Codepet brand palette,
+   one per category (purple / blue / pink). Applies to both the grid
+   cards and the featured story; the cover art sits on top with its own
+   fill, so only the text panel/body picks up the tint. ── */
+.blog-card[data-category='building-ai-products'],
+.blog-featured[data-category='building-ai-products'] { background: #F3EBFB; }   /* Purple #9538CF tint */
+.blog-card[data-category='user-insights'],
+.blog-featured[data-category='user-insights']        { background: #EAEEFB; }   /* Blue #1C40CF tint */
+.blog-card[data-category='second-brain'],
+.blog-featured[data-category='second-brain']         { background: #FDEFF7; }   /* Pink #FF8CC9 tint */
+
 /* ── Article page ── */
 .blog-article { max-width: 44rem; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
 .blog-article-back { display: inline-block; color: var(--blog-muted); font-size: 0.88rem; font-weight: 600; text-decoration: none; margin-bottom: 1.75rem; }
