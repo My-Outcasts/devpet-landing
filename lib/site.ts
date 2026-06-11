@@ -16,6 +16,18 @@ export const SITE_URL = (
 
 export const SITE_NAME = 'Codepet'
 
+/**
+ * Google Search Console site-verification token (the value from the
+ * `<meta name="google-site-verification" content="…">` tag GSC shows
+ * for the HTML-tag method). Set it here or via the
+ * `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` env var — when empty, no tag
+ * is rendered. The token is public (it ships in page HTML), so either
+ * place is fine.
+ */
+export const GOOGLE_SITE_VERIFICATION =
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+  '6PkFavEqoC92ldoGPdFfGg_59VZOKXfFPoc6cM9BVjY'
+
 /** Brand line reused in OG/meta fallbacks and JSON-LD `publisher`. */
 export const SITE_TAGLINE =
   'Codepet is a macOS app that trains people to build real software with AI.'
