@@ -31,6 +31,7 @@ export default function CategoryChips({
           key={c.slug}
           href={categoryPath(locale, c.slug)}
           className="blog-chip"
+          data-category={c.slug}
           data-active={activeSlug === c.slug}
         >
           <span className="blog-chip-dot" />
