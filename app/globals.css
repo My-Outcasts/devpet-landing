@@ -410,7 +410,8 @@
 .blog-post-row:nth-child(even) .blog-post-aside { order: -1; }
 
 .blog-post-card {
-  --card-bg: #EFEAFB; --card-ink: var(--blog-ink); --card-muted: var(--blog-muted); --card-eyebrow: #6F5FC4;
+  /* default = Blue (theme 1 of the brand rotation) */
+  --card-bg: #1C40CF; --card-ink: #fff; --card-muted: rgba(255, 255, 255, 0.85); --card-eyebrow: #C2D2FF;
   display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.25rem, 3vw, 2.25rem); align-items: center;
   padding: clamp(1.25rem, 2.5vw, 2rem);
   border-radius: 28px; background: var(--card-bg);
@@ -443,14 +444,15 @@
 /* Even rows keep the flipped layout (image on the right). */
 .blog-post-row:nth-child(even) .blog-post-card-cover { order: 2; }
 
-/* ── Card colour themes — Codepet-brand palette cycled across the list.
-   Odd rows get soft tints (dark ink); even/flipped rows get a deep
-   saturated brand colour (light ink). Cycle length 6; 6n+1 = default. ── */
-.blog-post-row:nth-child(6n+2) .blog-post-card { --card-bg: #241B48; --card-ink: #fff; --card-muted: rgba(255, 255, 255, 0.78); --card-eyebrow: #C2B0F0; } /* Deep Violet */
-.blog-post-row:nth-child(6n+3) .blog-post-card { --card-bg: #E7ECFB; --card-eyebrow: #2C4AC0; }                                                          /* Sky tint */
-.blog-post-row:nth-child(6n+4) .blog-post-card { --card-bg: #1C40CF; --card-ink: #fff; --card-muted: rgba(255, 255, 255, 0.82); --card-eyebrow: #BFD0FF; } /* Royal Blue */
-.blog-post-row:nth-child(6n+5) .blog-post-card { --card-bg: #FDEAF4; --card-eyebrow: #C13F86; }                                                          /* Blush tint */
-.blog-post-row:nth-child(6n+6) .blog-post-card { --card-bg: #176A33; --card-ink: #fff; --card-muted: rgba(255, 255, 255, 0.82); --card-eyebrow: #BFE9C8; } /* Forest */
+/* ── Card colour themes — the full Codepet brand palette, cycled across
+   the list (every 7 posts). Deep hues take white text; the lighter brand
+   colours (pink / yellow / orange) take dark ink. 7n+1 = default (Blue). ── */
+.blog-post-row:nth-child(7n+2) .blog-post-card { --card-bg: #FF8CC9; --card-ink: #2A1330; --card-muted: #5E2E4A; --card-eyebrow: #B23C7A; } /* Pink */
+.blog-post-row:nth-child(7n+3) .blog-post-card { --card-bg: #029902; --card-ink: #fff; --card-muted: rgba(255, 255, 255, 0.88); --card-eyebrow: #C2E8C8; } /* Green */
+.blog-post-row:nth-child(7n+4) .blog-post-card { --card-bg: #FCBE1D; --card-ink: #3A2C04; --card-muted: #5E4A12; --card-eyebrow: #8A6410; } /* Yellow */
+.blog-post-row:nth-child(7n+5) .blog-post-card { --card-bg: #9538CF; --card-ink: #fff; --card-muted: rgba(255, 255, 255, 0.85); --card-eyebrow: #E7D6FA; } /* Purple */
+.blog-post-row:nth-child(7n+6) .blog-post-card { --card-bg: #F58345; --card-ink: #3A1A08; --card-muted: #5E2E14; --card-eyebrow: #9E4516; } /* Orange */
+.blog-post-row:nth-child(7n+7) .blog-post-card { --card-bg: #E24B4A; --card-ink: #fff; --card-muted: rgba(255, 255, 255, 0.88); --card-eyebrow: #FCDAD9; } /* Red */
 
 /* External side-note column. */
 .blog-post-aside { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.9rem; padding: 0 0.5rem; }
