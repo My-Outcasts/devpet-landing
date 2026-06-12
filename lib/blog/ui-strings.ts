@@ -48,10 +48,10 @@ const STRINGS: Record<Locale, BlogStrings> = {
   en: {
     brandHome: 'Codepet',
     backToSite: '← Back to Codepet',
-    indexTitle: 'TechZ',
+    indexTitle: 'Codepet journey',
     indexTagline:
       'Field notes on building AI-powered products, what we learn from real builders, and growing a second, intelligent brain.',
-    metaIndexTitle: 'TechZ — Codepet',
+    metaIndexTitle: 'Codepet journey',
     metaIndexDescription:
       'Insights on building AI-powered products, user research, and developing a second brain — from the team building Codepet.',
     featured: 'Featured',
@@ -86,10 +86,10 @@ const STRINGS: Record<Locale, BlogStrings> = {
   vi: {
     brandHome: 'Codepet',
     backToSite: '← Về trang Codepet',
-    indexTitle: 'Tech-Zì',
+    indexTitle: 'Codepet journey',
     indexTagline:
       'Ghi chép thực chiến về xây dựng sản phẩm AI, những điều học được từ người dùng thật, và cách nuôi dưỡng một bộ não thứ hai biết suy nghĩ.',
-    metaIndexTitle: 'Tech-Zì — Codepet',
+    metaIndexTitle: 'Codepet journey',
     metaIndexDescription:
       'Góc nhìn về xây dựng sản phẩm AI, nghiên cứu người dùng và phát triển bộ não thứ hai — từ đội ngũ đang xây dựng Codepet.',
     featured: 'Nổi bật',
