@@ -50,7 +50,7 @@ const STRINGS: Record<Locale, BlogStrings> = {
     backToSite: '← Back to Codepet',
     indexTitle: 'Codepet journey',
     indexTagline:
-      'Field notes on building AI-powered products, what we learn from real builders, and growing a second, intelligent brain.',
+      'Field notes from building AI products in the open: what real users teach us, and how to grow a second brain that thinks with you.',
     metaIndexTitle: 'Codepet journey',
     metaIndexDescription:
       'Insights on building AI-powered products, user research, and developing a second brain — from the team building Codepet.',
@@ -88,7 +88,7 @@ const STRINGS: Record<Locale, BlogStrings> = {
     backToSite: '← Về trang Codepet',
     indexTitle: 'Codepet journey',
     indexTagline:
-      'Ghi chép thực chiến về xây dựng sản phẩm AI, những điều học được từ người dùng thật, và cách nuôi dưỡng một bộ não thứ hai biết suy nghĩ.',
+      'Ghi chép thực chiến từ hành trình làm sản phẩm AI: những gì người dùng thật dạy chúng tôi, và cách nuôi dưỡng một bộ não thứ hai biết nghĩ cùng bạn.',
     metaIndexTitle: 'Codepet journey',
     metaIndexDescription:
       'Góc nhìn về xây dựng sản phẩm AI, nghiên cứu người dùng và phát triển bộ não thứ hai — từ đội ngũ đang xây dựng Codepet.',
