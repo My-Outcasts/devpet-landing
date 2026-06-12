@@ -25,6 +25,14 @@
  */
 
 function doPost(e) {
+  // Serialize writes so two near-simultaneous signups can't both slip
+  // past the dedupe check and create twin rows.
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(10000);
+  } catch (err) {
+    return _json({ result: 'error', message: 'busy' });
+  }
   try {
     // The Next.js route forwards the original JSON body untouched, so
     // the payload arrives as postData.contents (not e.parameter).
@@ -41,10 +49,12 @@ function doPost(e) {
 
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
 
-    // Dedupe: scan column B (Email) for a case-insensitive match.
+    // Dedupe: scan the whole Email column (B) from row 1. Starting at row
+    // 1 keeps it correct whether or not a header row is present (a header
+    // like "Email" can never collide with a real address anyway).
     const lastRow = sheet.getLastRow();
-    if (lastRow >= 2) {
-      const existing = sheet.getRange(2, 2, lastRow - 1, 1).getValues();
+    if (lastRow >= 1) {
+      const existing = sheet.getRange(1, 2, lastRow, 1).getValues();
       for (let i = 0; i < existing.length; i++) {
         const cell = (existing[i][0] || '').toString().trim().toLowerCase();
         if (cell === email) {
@@ -57,6 +67,8 @@ function doPost(e) {
     return _json({ result: 'ok' });
   } catch (err) {
     return _json({ result: 'error', message: String(err) });
+  } finally {
+    lock.releaseLock();
   }
 }
 
