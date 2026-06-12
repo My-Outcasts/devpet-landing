@@ -4,6 +4,8 @@ description: "Phần lớn công cụ AI trả lời xong là quên bạn ngay. 
 date: "2026-06-05"
 updated: "2026-06-11"
 category: "second-brain"
+cover: "/blog/building-a-second-brain-that-thinks-with-you/cover.png"
+coverAlt: "Tranh pixel: cây sồi lớn trên đồng cỏ vàng với lối mòn quanh co"
 author: "Nguyen"
 authorTitle: "Nhà sáng lập, Codepet"
 tags: ["second-brain", "ai", "memory", "future"]

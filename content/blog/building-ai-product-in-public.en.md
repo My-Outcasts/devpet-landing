@@ -4,6 +4,8 @@ description: "The honest story of building an AI-powered macOS app: the bets tha
 date: "2026-06-09"
 updated: "2026-06-09"
 category: "building-ai-products"
+cover: "/blog/building-ai-product-in-public/cover.png"
+coverAlt: "Pixel-art sunset over rolling green hills and distant mountains"
 author: "Nguyen"
 authorTitle: "Founder, Codepet"
 tags: ["ai-products", "building-in-public", "startups", "macos"]

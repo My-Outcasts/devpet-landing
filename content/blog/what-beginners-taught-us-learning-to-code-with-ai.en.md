@@ -3,6 +3,8 @@ title: "What 500 Beginners Taught Us About Learning to Code with AI"
 description: "Patterns from watching hundreds of first-time builders learn with an AI companion: where AI helps, where it quietly hurts, and what actually makes skill stick."
 date: "2026-05-28"
 category: "user-insights"
+cover: "/blog/what-beginners-taught-us-learning-to-code-with-ai/cover.png"
+coverAlt: "Pixel-art green hills and wildflowers under a bright cloudy sky"
 author: "Nguyen"
 authorTitle: "Founder, Codepet"
 tags: ["user-research", "learning", "ai", "education"]

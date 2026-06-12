@@ -4,6 +4,8 @@ description: "Những mẫu hình rút ra từ việc quan sát hàng trăm ngư
 date: "2026-05-28"
 updated: "2026-06-11"
 category: "user-insights"
+cover: "/blog/what-beginners-taught-us-learning-to-code-with-ai/cover.png"
+coverAlt: "Tranh pixel: đồi cỏ xanh và hoa dại dưới bầu trời nhiều mây"
 author: "Nguyen"
 authorTitle: "Nhà sáng lập, Codepet"
 tags: ["user-research", "learning", "ai", "education"]
