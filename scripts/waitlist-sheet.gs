@@ -1,24 +1,21 @@
 /**
  * Codepet waitlist endpoint — Google Apps Script web app.
  *
- * Writes signups to a SPECIFIC spreadsheet + tab:
- *   Spreadsheet: 1eb7qRbZGU4JbMNMgHlchPptTunVULEWV1r533NPy7-A
- *   Tab (gid):   1290467831   ("Sheet 2")
+ * BOUND to a dedicated signups Google Sheet: it appends each subscriber
+ * to the FIRST tab of whatever spreadsheet this script is attached to,
+ * so there are no spreadsheet IDs to hardcode. Create the sheet from
+ * inside Google Sheets, then open Extensions → Apps Script there.
  *
  * Setup:
- *   1. Open that spreadsheet → Extensions → Apps Script.
- *   2. Paste this whole file, Save.
- *   3. Run doGet once to grant the authorization prompt (so the script
- *      may edit the spreadsheet).
- *   4. Deploy → New deployment → Web app
- *        Execute as: Me · Who has access: Anyone.
- *   5. Copy the /exec URL into GOOGLE_SHEET_WEBHOOK_URL
- *      (Vercel env var + local .env.local), then redeploy the site.
- *   (Editing an existing deployment? Pick "New version" so the change
- *    goes live; the /exec URL then stays the same.)
- *
- * Sheet 2 row 1 headers (recommended — dedupe scans column B):
- *   A: Timestamp   B: Email   C: Locale   D: UserAgent
+ *   1. Create a new Google Sheet for signups.
+ *   2. Put these headers in row 1 (dedupe scans column B):
+ *        A: Timestamp   B: Email   C: Locale   D: UserAgent
+ *   3. In that sheet: Extensions → Apps Script, paste this file, Save.
+ *   4. Run doGet once to clear the authorization prompt.
+ *   5. Deploy → New deployment → Web app
+ *        (Execute as: Me · Who has access: Anyone) → copy the /exec URL.
+ *   6. Set GOOGLE_SHEET_WEBHOOK_URL = that /exec URL in Vercel (and
+ *      .env.local), then redeploy the site.
  *
  * Contract (matches app/api/waitlist/route.ts):
  *   Request  — POST JSON: { "email": "...", "locale": "en" }
@@ -26,9 +23,6 @@
  *              { "result": "duplicate" } if email already present,
  *              { "result": "error", "message": "..." } on failure.
  */
-
-const SPREADSHEET_ID = '1eb7qRbZGU4JbMNMgHlchPptTunVULEWV1r533NPy7-A';
-const SHEET_GID = 1290467831; // "Sheet 2"
 
 function doPost(e) {
   try {
@@ -45,8 +39,7 @@ function doPost(e) {
       return _json({ result: 'error', message: 'invalid_email' });
     }
 
-    const sheet = _sheetByGid(SPREADSHEET_ID, SHEET_GID);
-    if (!sheet) return _json({ result: 'error', message: 'sheet_not_found' });
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
 
     // Dedupe: scan column B (Email) for a case-insensitive match.
     const lastRow = sheet.getLastRow();
@@ -72,15 +65,6 @@ function doGet() {
     result: 'ok',
     hint: 'POST JSON { email, locale } to save an address.',
   });
-}
-
-/** Find a tab by its gid (the number in the sheet URL after #gid=). */
-function _sheetByGid(id, gid) {
-  const sheets = SpreadsheetApp.openById(id).getSheets();
-  for (let i = 0; i < sheets.length; i++) {
-    if (sheets[i].getSheetId() === gid) return sheets[i];
-  }
-  return null;
 }
 
 function _json(obj) {
