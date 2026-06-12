@@ -64,6 +64,9 @@ function doPost(e) {
     }
 
     sheet.appendRow([new Date(), email, locale, ua]);
+    // Commit the row NOW (before the lock is released) so the next
+    // request's dedupe scan can actually see it.
+    SpreadsheetApp.flush();
     return _json({ result: 'ok' });
   } catch (err) {
     return _json({ result: 'error', message: String(err) });

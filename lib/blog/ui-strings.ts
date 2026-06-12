@@ -75,7 +75,7 @@ const STRINGS: Record<Locale, BlogStrings> = {
     ctaButton: 'Get Codepet',
     newsletterTitle: 'Insights in your inbox',
     newsletterBody:
-      'New essays on building AI products, user research, and the second brain — straight to your inbox. No spam.',
+      'Free emails about the latest Codepet posts on building products with AI. Unsubscribe anytime.',
     newsletterPlaceholder: 'Enter your email',
     newsletterButton: 'Subscribe',
     newsletterSuccess: "You're in. Watch your inbox.",
