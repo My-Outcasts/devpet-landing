@@ -394,62 +394,78 @@
   font-family: var(--blog-label); font-size: 0.78rem; font-weight: 800; letter-spacing: 0.12em;
   text-transform: uppercase; color: var(--blog-muted); margin: clamp(2rem, 4vw, 3rem) 0 0.5rem;
 }
-/* One post per row; the image side alternates via :nth-child(even) below. */
-.blog-grid { display: flex; flex-direction: column; gap: 0; padding-bottom: 1rem; }
+.blog-grid { display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 3.5rem); padding-bottom: 1rem; }
 
-/* ── Post row (editorial split) ── */
-/* No card chrome — a large cover beside an airy text column, divided from
-   the next post by a thin rule. Even rows reverse so the image alternates
-   left → right → left down the list. */
+/* ── Post row (rounded card + external side-note, AKINA-style) ──
+   Each post is a big rounded card (cover + text) with a small side-note
+   column (meta + a pill) beside it. Odd rows: light card on the left,
+   note on the right. Even rows flip — note on the left, dark card on the
+   right — and the image moves to the card's right edge. */
 .blog-post-row {
-  display: flex; align-items: center;
-  gap: clamp(1.75rem, 4vw, 3.5rem);
-  padding: clamp(2.25rem, 4.5vw, 3.5rem) 0;
-  border-top: 1px solid var(--blog-line);
-  text-decoration: none; color: inherit;
+  display: grid; align-items: center;
+  grid-template-columns: minmax(0, 2.45fr) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2.5rem);
 }
-.blog-grid .blog-post-row:first-child { border-top: 0; padding-top: clamp(1rem, 2vw, 1.5rem); }
-.blog-post-row:nth-child(even) { flex-direction: row-reverse; }
+.blog-post-row:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(0, 2.45fr); }
+.blog-post-row:nth-child(even) .blog-post-aside { order: -1; }
 
-.blog-post-cover {
-  flex: 0 0 48%; position: relative; aspect-ratio: 4 / 3;
-  border-radius: 18px; overflow: hidden; background: var(--blog-surface);
+.blog-post-card {
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.25rem, 3vw, 2.25rem); align-items: center;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+  border-radius: 28px; background: #EFEAFB;
+  text-decoration: none; color: inherit;
+  transition: transform 0.18s, box-shadow 0.18s;
 }
-.blog-post-cover svg, .blog-post-cover img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
+.blog-post-card:hover { transform: translateY(-3px); box-shadow: 0 24px 50px rgba(45, 36, 102, 0.16); }
+.blog-post-card-cover { position: relative; aspect-ratio: 4 / 3; border-radius: 18px; overflow: hidden; background: var(--blog-surface); }
+.blog-post-card-cover svg, .blog-post-card-cover img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
   transition: transform 0.45s ease;
 }
-.blog-post-row:hover .blog-post-cover svg,
-.blog-post-row:hover .blog-post-cover img { transform: scale(1.035); }
-
-.blog-post-content { flex: 1; min-width: 0; }
-.blog-post-eyebrow {
-  display: inline-block; font-family: var(--blog-label);
-  font-size: 0.75rem; font-weight: 800; letter-spacing: 0.11em; text-transform: uppercase;
-  margin-bottom: 0.9rem;
+.blog-post-card:hover .blog-post-card-cover svg,
+.blog-post-card:hover .blog-post-card-cover img { transform: scale(1.04); }
+.blog-post-card-body { display: flex; flex-direction: column; align-items: center; text-align: center; min-width: 0; }
+.blog-post-card-eyebrow {
+  font-family: var(--blog-label); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 0.7rem;
 }
-.blog-post-content .blog-card-meta { margin-bottom: 0.7rem; }
-.blog-post-title {
+.blog-post-card-title {
   font-family: var(--blog-display); font-weight: 700;
-  font-size: clamp(1.6rem, 2.7vw, 2.45rem); line-height: 1.12; letter-spacing: -0.015em;
-  color: var(--blog-ink); margin: 0 0 0.9rem;
-  transition: color 0.18s;
+  font-size: clamp(1.4rem, 2.3vw, 2rem); line-height: 1.14; letter-spacing: -0.01em;
+  color: var(--blog-ink); margin: 0 0 0.8rem;
 }
-.blog-post-row:hover .blog-post-title { color: var(--blog-accent, #6F5FC4); }
-.blog-post-excerpt {
-  font-size: 1.02rem; line-height: 1.6; color: var(--blog-muted); margin: 0 0 1.3rem;
-  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+.blog-post-card-excerpt {
+  font-size: 0.95rem; line-height: 1.6; color: var(--blog-muted); margin: 0;
+  display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
 }
-.blog-post-more {
-  display: inline-flex; align-items: center;
-  font-family: var(--blog-label); font-weight: 800; font-size: 0.92rem; letter-spacing: 0.02em;
-}
-.blog-post-row:hover .blog-post-more { text-decoration: underline; text-underline-offset: 3px; }
 
-@media (max-width: 780px) {
+/* Even rows: dark card, image on the right, light text. */
+.blog-post-row:nth-child(even) .blog-post-card { background: #241B48; }
+.blog-post-row:nth-child(even) .blog-post-card-cover { order: 2; }
+.blog-post-row:nth-child(even) .blog-post-card-title { color: #fff; }
+.blog-post-row:nth-child(even) .blog-post-card-excerpt { color: rgba(255, 255, 255, 0.78); }
+.blog-post-row:nth-child(even) .blog-post-card-eyebrow { color: #C2B0F0; }
+
+/* External side-note column. */
+.blog-post-aside { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.9rem; padding: 0 0.5rem; }
+.blog-post-aside-note { margin: 0; justify-content: center; font-size: 0.9rem; line-height: 1.5; color: var(--blog-muted); }
+.blog-post-aside-rule { width: 2.5rem; height: 1px; background: var(--blog-line); }
+.blog-post-pill {
+  display: inline-flex; align-items: center; padding: 0.6rem 1.5rem; border-radius: 9999px;
+  border: 1px solid var(--blog-line); background: #fff; color: var(--blog-ink);
+  font-family: var(--blog-label); font-weight: 700; font-size: 0.85rem; text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.15s;
+}
+.blog-post-pill:hover { background: var(--blog-accent); border-color: var(--blog-accent); color: #fff; transform: translateY(-1px); }
+
+@media (max-width: 880px) {
   .blog-post-row,
-  .blog-post-row:nth-child(even) { flex-direction: column; align-items: stretch; gap: 1.25rem; }
-  .blog-post-cover { flex: none; width: 100%; aspect-ratio: 16 / 9; }
+  .blog-post-row:nth-child(even) { grid-template-columns: 1fr; gap: 1.1rem; }
+  .blog-post-row:nth-child(even) .blog-post-aside { order: 0; }
+  .blog-post-card,
+  .blog-post-row:nth-child(even) .blog-post-card { grid-template-columns: 1fr; gap: 1.1rem; }
+  .blog-post-card-cover,
+  .blog-post-row:nth-child(even) .blog-post-card-cover { order: -1; aspect-ratio: 16 / 9; }
 }
 
 /* ── Featured lead story: light category tint behind the text panel ── */

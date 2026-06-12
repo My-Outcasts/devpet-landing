@@ -13,10 +13,10 @@ const ACCENT_CLASS: Record<string, string> = {
 }
 
 /**
- * Editorial split row: a large cover on one side and an airy text column
- * on the other (category eyebrow → meta → serif headline → excerpt →
- * "Read more"). No card chrome — alternation of the image side is handled
- * in CSS via .blog-post-row:nth-child(even). A thin rule separates rows.
+ * Post row (AKINA-style): a large rounded card (cover + centered text) with
+ * a small external side-note column (date · reading time + a "Read" pill).
+ * Odd/even rows alternate light/dark card, image side, and note side — all
+ * handled by :nth-child rules in globals.css.
  */
 export default function PostCard({
   post,
@@ -28,35 +28,41 @@ export default function PostCard({
   const s = blogStrings(locale)
   const category = getCategory(post.category)
   const accentClass = category ? ACCENT_CLASS[category.accent] : ''
+  const href = postPath(locale, post.slug)
 
   return (
-    <Link href={postPath(locale, post.slug)} className="blog-post-row" data-category={post.category}>
-      <div className="blog-post-cover">
-        {post.cover ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={post.cover} alt={post.coverAlt || ''} loading="lazy" />
-        ) : (
-          <CoverArt slug={post.slug} category={post.category} />
-        )}
-      </div>
+    <article className="blog-post-row">
+      <Link href={href} className="blog-post-card" data-category={post.category}>
+        <div className="blog-post-card-cover">
+          {post.cover ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={post.cover} alt={post.coverAlt || ''} loading="lazy" />
+          ) : (
+            <CoverArt slug={post.slug} category={post.category} />
+          )}
+        </div>
+        <div className="blog-post-card-body">
+          {category && (
+            <span className={`blog-post-card-eyebrow ${accentClass}`}>
+              {category.label[locale]}
+            </span>
+          )}
+          <h3 className="blog-post-card-title">{post.title}</h3>
+          <p className="blog-post-card-excerpt">{post.description}</p>
+        </div>
+      </Link>
 
-      <div className="blog-post-content">
-        {category && (
-          <span className={`blog-post-eyebrow ${accentClass}`}>
-            {category.label[locale]}
-          </span>
-        )}
-        <div className="blog-card-meta">
+      <div className="blog-post-aside">
+        <div className="blog-card-meta blog-post-aside-note">
           <span>{formatDate(post.date, locale)}</span>
           <span className="blog-dot" />
           <span>{formatReadingTime(post.readingMinutes, locale)}</span>
         </div>
-        <h3 className="blog-post-title">{post.title}</h3>
-        <p className="blog-post-excerpt">{post.description}</p>
-        <span className={`blog-post-more ${accentClass}`}>
+        <span className="blog-post-aside-rule" />
+        <Link href={href} className="blog-post-pill">
           {s.readMore}
-        </span>
+        </Link>
       </div>
-    </Link>
+    </article>
   )
 }
