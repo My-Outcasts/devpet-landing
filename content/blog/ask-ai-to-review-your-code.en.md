@@ -1,6 +1,6 @@
 ---
 title: "Ask AI to Review Your Code, Not Write It"
-description: "The most common way beginners use AI is also the one that stalls their growth. Here's the question shift that actually builds skill — and the prompts that make it work."
+description: "The most common way beginners use AI is also the one that stalls their growth. Here's the question shift that actually builds skill, and the prompts that make it work."
 date: "2026-06-12"
 category: "user-insights"
 author: "Nguyen"
@@ -18,17 +18,17 @@ Open any new-coder forum and the advice is consistent: use AI to learn faster. W
 
 It feels like learning. The problem is solved. You understood the output. On to the next task.
 
-The trouble only appears later — usually three or four weeks in, when tasks get harder and the AI's answers stop clicking as neatly. That's when learners discover they've been building confidence, not understanding.
+The trouble only appears later, usually three or four weeks in, when tasks get harder and the AI's answers stop clicking as neatly. That's when learners discover they've been building confidence, not understanding.
 
 ## Why generation mode doesn't build skill
 
-There's a useful distinction in how we acquire skill: **recognition** versus **recall**. Reading AI-generated code and thinking "yes, that makes sense" exercises recognition. Writing code yourself — even incorrectly — exercises recall and problem-solving.
+There's a useful distinction in how we acquire skill: **recognition** versus **recall**. Reading AI-generated code and thinking "yes, that makes sense" exercises recognition. Writing code yourself, even incorrectly, exercises recall and problem-solving.
 
-Skilled programmers think in patterns, not lines. When they see a bug, they form a hypothesis, look for evidence, and iterate. That process is what gets trained when you struggle. And AI-generated solutions — however well commented — tend to eliminate the struggle entirely.
+Skilled programmers think in patterns, not lines. When they see a bug, they form a hypothesis, look for evidence, and iterate. That process is what gets trained when you struggle. And AI-generated solutions, however well commented, tend to eliminate the struggle entirely.
 
 > "The learner who copies a correct solution gains an example. The learner who writes a broken attempt and asks why it's broken gains a mental model."
 
-This is something we noticed across Codepet users early on. Learners who asked for code generation could solve today's task, but they came back asking nearly identical questions the next day. Learners who wrote attempts and asked for feedback were — slowly, sometimes frustratingly — building something that transferred to new problems.
+This is something we noticed across Codepet users early on. Learners who asked for code generation could solve today's task, but they came back asking nearly identical questions the next day. Learners who wrote attempts and asked for feedback were, slowly, sometimes frustratingly, building something that transferred to new problems.
 
 ## The review prompt shift
 
@@ -50,7 +50,7 @@ def get_active(users):
       return user
 ```
 
-The AI's response changes completely. It points out that `return` exits the function at the first match (so you need a list and `append`, or a list comprehension), explains *why* the original logic fails, and might offer a corrected version — but now you're reading that correction with context. You know what was wrong. The fix lands.
+The AI's response changes completely. It points out that `return` exits the function at the first match (so you need a list and `append`, or a list comprehension), explains *why* the original logic fails, and might offer a corrected version, but now you're reading that correction with context. You know what was wrong. The fix lands.
 
 You can push this further depending on what you want to learn:
 
@@ -68,13 +68,13 @@ What edge cases does this not handle? Give me one, and let me try
 to handle it myself before you show me.
 ```
 
-That last prompt is especially powerful — the AI hands the problem back to you.
+That last prompt is especially powerful. The AI hands the problem back to you.
 
 ## Why "wrong" attempts are valuable input
 
 One counterintuitive thing: you don't have to write *good* code for this to work. In fact, writing confidently wrong code is often more educational than writing cautiously correct code.
 
-When you make a real mistake — not a typo, but a genuine conceptual error — the correction targets exactly the gap in your understanding. You get precision feedback on your specific mental model, not a generic explanation of how the topic works in general.
+When you make a real mistake (not a typo, but a genuine conceptual error) the correction targets exactly the gap in your understanding. You get precision feedback on your specific mental model, not a generic explanation of how the topic works in general.
 
 If you're stuck and genuinely can't write an attempt, start with pseudocode:
 
@@ -91,11 +91,11 @@ That's still a meaningful attempt. The AI can see what you understood (the logic
 
 ## What this looks like inside Codepet
 
-When we built Codepet, we made a deliberate choice about the default behavior. The tempting option was to build the fastest path to a working answer — that feels good in the short term. Instead, we designed the AI companion to redirect "write me this" prompts toward guided attempts.
+When we built Codepet, we made a deliberate choice about the default behavior. The tempting option was to build the fastest path to a working answer. That feels good in the short term. Instead, we designed the AI companion to redirect "write me this" prompts toward guided attempts.
 
 If you ask your Codepet companion to solve a problem outright, it pushes back gently: "What would your first attempt look like, even roughly?" It then reviews that attempt, points to exactly what needs work, and asks a follow-up question rather than handing over the complete answer.
 
-This isn't about making things deliberately harder. It's about making the help land in a way that actually transfers. The mental friction isn't an obstacle to learning — it *is* the learning.
+This isn't about making things deliberately harder. It's about making the help land in a way that actually transfers. The mental friction isn't an obstacle to learning. It *is* the learning.
 
 Learners tell us it's more frustrating at first. They also tell us that two months in, they're solving problems they couldn't have imagined tackling unaided. That tradeoff is the whole product strategy.
 
@@ -112,9 +112,9 @@ It's slower than asking for the answer. It's also the only approach that builds 
 
 ## The AI that teaches by asking
 
-There's a broader principle here that goes beyond coding: the AI interactions that build real capability are the ones where the AI asks *you* a question — not the ones where it answers yours.
+There's a broader principle here that goes beyond coding: the AI interactions that build real capability are the ones where the AI asks *you* a question, not the ones where it answers yours.
 
-The models powering today's AI tools are extraordinarily good at explaining things. But they're also extraordinarily good at making you *feel* like you understood something you didn't. The prompt pattern above — write an attempt, ask for a review — is a lightweight forcing function that turns explanation into genuine understanding.
+The models powering today's AI tools are extraordinarily good at explaining things. But they're also extraordinarily good at making you *feel* like you understood something you didn't. The prompt pattern above (write an attempt, ask for a review) is a lightweight forcing function that turns explanation into genuine understanding.
 
 Code is a forgiving medium for this. The feedback is binary: it runs or it doesn't. When you write a broken attempt, you're setting up a falsifiable hypothesis. When the AI reviews it, you get precise correction. That's as close as casual learning gets to real scientific feedback.
 
