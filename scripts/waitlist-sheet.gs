@@ -1,21 +1,34 @@
 /**
  * Codepet waitlist endpoint — Google Apps Script web app.
  *
- * Paste this entire file into the Apps Script editor bound to your
- * waitlist Google Sheet (Extensions → Apps Script), then Deploy →
- * New deployment → Web app (Execute as: Me · Who has access: Anyone).
- * Copy the /exec URL into GOOGLE_SHEET_WEBHOOK_URL in .env.local.
+ * Writes signups to a SPECIFIC spreadsheet + tab:
+ *   Spreadsheet: 1eb7qRbZGU4JbMNMgHlchPptTunVULEWV1r533NPy7-A
+ *   Tab (gid):   1290467831   ("Sheet 2")
  *
- * The bound spreadsheet's first sheet should have these headers
- * in row 1:
+ * Setup:
+ *   1. Open that spreadsheet → Extensions → Apps Script.
+ *   2. Paste this whole file, Save.
+ *   3. Run doGet once to grant the authorization prompt (so the script
+ *      may edit the spreadsheet).
+ *   4. Deploy → New deployment → Web app
+ *        Execute as: Me · Who has access: Anyone.
+ *   5. Copy the /exec URL into GOOGLE_SHEET_WEBHOOK_URL
+ *      (Vercel env var + local .env.local), then redeploy the site.
+ *   (Editing an existing deployment? Pick "New version" so the change
+ *    goes live; the /exec URL then stays the same.)
+ *
+ * Sheet 2 row 1 headers (recommended — dedupe scans column B):
  *   A: Timestamp   B: Email   C: Locale   D: UserAgent
  *
  * Contract (matches app/api/waitlist/route.ts):
  *   Request  — POST JSON: { "email": "...", "locale": "en" }
- *   Response — JSON: { "result": "ok" } on insert,
- *                    { "result": "duplicate" } if email already present,
- *                    { "result": "error", "message": "..." } on failure.
+ *   Response — { "result": "ok" } on insert,
+ *              { "result": "duplicate" } if email already present,
+ *              { "result": "error", "message": "..." } on failure.
  */
+
+const SPREADSHEET_ID = '1eb7qRbZGU4JbMNMgHlchPptTunVULEWV1r533NPy7-A';
+const SHEET_GID = 1290467831; // "Sheet 2"
 
 function doPost(e) {
   try {
@@ -32,7 +45,8 @@ function doPost(e) {
       return _json({ result: 'error', message: 'invalid_email' });
     }
 
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+    const sheet = _sheetByGid(SPREADSHEET_ID, SHEET_GID);
+    if (!sheet) return _json({ result: 'error', message: 'sheet_not_found' });
 
     // Dedupe: scan column B (Email) for a case-insensitive match.
     const lastRow = sheet.getLastRow();
@@ -58,6 +72,15 @@ function doGet() {
     result: 'ok',
     hint: 'POST JSON { email, locale } to save an address.',
   });
+}
+
+/** Find a tab by its gid (the number in the sheet URL after #gid=). */
+function _sheetByGid(id, gid) {
+  const sheets = SpreadsheetApp.openById(id).getSheets();
+  for (let i = 0; i < sheets.length; i++) {
+    if (sheets[i].getSheetId() === gid) return sheets[i];
+  }
+  return null;
 }
 
 function _json(obj) {
