@@ -94,7 +94,6 @@ export default function NewsletterBand({ locale }: { locale: Locale }) {
             </p>
           )}
         </form>
-        <span className="blog-newsletter-mark" aria-hidden="true">Codepet</span>
       </div>
     </section>
   )

@@ -377,11 +377,6 @@
 .blog-newsletter-msg { margin: 0; font-size: 0.85rem; color: #fff; }
 .blog-newsletter-msg.is-ok { color: #CFF7D8; }
 .blog-newsletter-msg.is-err { color: #FFD6D6; }
-.blog-newsletter-mark {
-  font-family: var(--blog-display); font-weight: 700; font-size: clamp(1.4rem, 3vw, 2.2rem);
-  color: rgba(255, 255, 255, 0.85); letter-spacing: 0.02em; margin-top: 0.4rem;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.35);
-}
 @media (max-width: 780px) { .blog-newsletter-inner { grid-template-columns: 1fr; } }
 
 /* ── Section label + grid ── */
