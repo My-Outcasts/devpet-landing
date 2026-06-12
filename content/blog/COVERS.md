@@ -34,6 +34,37 @@ and falls back to the generated pixel-art landscape otherwise.
 
 That's it. To revert to the generated art, delete the two lines.
 
+## Cover image library
+
+A set of ready-to-use pixel-art scenes lives in `public/blog/library/`.
+You don't have to copy these per post — point `cover:` straight at one:
+
+```yaml
+cover: "/blog/library/mountain-lake-blue.png"
+coverAlt: "Pixel-art snow mountain over a calm blue lake"
+```
+
+Available now (1024×1024, center-cropped by the layout):
+
+- `mountain-lake-blue` — snow peak over a calm blue lake (moody)
+- `alpenglow-peaks-moon` — pink-lit jagged peaks, moon, pine forest
+- `savanna-pink-mountains` — pink sky, coral mountains, golden grassland
+- `cabins-meadow-sunset` — two log cabins in a field, peach clouds
+- `cottage-hill-sun` — cottage on a green hill, big soft sun
+- `seaside-tram` — green tram by the sea, overhead wires
+- `lake-daisies-sunset` — pink-sunset lake, lone island tree, daisy field
+- `window-rice-fields` — wooden windows looking onto green rice fields
+- `balcony-still-life` — courtyard view, tiled roof, rose, fruit on a table
+- `fireplace-village-cat` — cozy room, fireplace, rolling village, a cat
+- `town-houses-clouds` — town rooftops under big pink clouds
+- `city-rooftops-sunset` — rooftop view over a city skyline at sunset
+- `cherry-blossom-wall` — cherry-blossom tree against a white wall
+- `old-town-street-goldenhour` — European street at golden hour
+- `rowboats-teal-water` — two rowboats on teal water, seen from above
+- `lakeside-village-hillside` — red-roofed village on a steep green hillside
+- `train-viaduct-mountain` — white train on a stone viaduct, snow mountain
+- `fjord-dock-boat` — fjord with a wooden dock, boat, and clouds
+
 ## Image specs
 
 - **Aspect ratio:** 16:9. **Size:** 1280×720 (also fine for social/OG).
