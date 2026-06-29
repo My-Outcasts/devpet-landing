@@ -55,6 +55,11 @@ export default function Constellation() {
     type Node = { angle: number; speed: number; radius: number; r: number; color: string; wob: number }
     let nodes: Node[] = []
 
+    // Occasional shooting stars streaking across the field.
+    type Shoot = { x: number; y: number; vx: number; vy: number; life: number; max: number }
+    let shoots: Shoot[] = []
+    let nextShoot = 90
+
     function rand(seed: number) {
       // deterministic-ish pseudo random from an index so SSR/repaint
       // stays visually stable enough; varies by index, no Math.random
@@ -82,6 +87,8 @@ export default function Constellation() {
         wob: rand(i + 11) * Math.PI * 2,
       }))
 
+      shoots = []
+      nextShoot = 90
       const count = Math.min(150, Math.floor((w * h) / 9000))
       motes = Array.from({ length: count }, (_, i) => ({
         x: rand(i) * w,
@@ -149,21 +156,58 @@ export default function Constellation() {
         ctx!.stroke()
       }
 
-      // nodes (glow + core)
+      // nodes (glow + core) — additive blending for a real bloom
+      ctx!.globalCompositeOperation = 'lighter'
       for (const p of positions) {
-        const g = ctx!.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 7)
-        g.addColorStop(0, p.color + 'cc')
+        const g = ctx!.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * 8)
+        g.addColorStop(0, p.color + 'dd')
         g.addColorStop(0.4, p.color + '40')
         g.addColorStop(1, p.color + '00')
         ctx!.fillStyle = g
         ctx!.beginPath()
-        ctx!.arc(p.x, p.y, p.r * 7, 0, Math.PI * 2)
+        ctx!.arc(p.x, p.y, p.r * 8, 0, Math.PI * 2)
         ctx!.fill()
         ctx!.beginPath()
         ctx!.arc(p.x, p.y, p.r, 0, Math.PI * 2)
         ctx!.fillStyle = '#fff'
         ctx!.fill()
       }
+
+      // ── shooting stars ──
+      if (!reduce) {
+        nextShoot -= 1
+        if (nextShoot <= 0) {
+          const s = t
+          shoots.push({
+            x: rand(s) * w * 0.7,
+            y: rand(s + 1) * h * 0.32,
+            vx: 6 + rand(s + 2) * 5,
+            vy: 2.2 + rand(s + 3) * 2,
+            life: 0,
+            max: 55 + rand(s + 4) * 35,
+          })
+          nextShoot = 240 + Math.floor(rand(s + 5) * 360)
+        }
+        for (const sh of shoots) {
+          sh.life += 1
+          sh.x += sh.vx
+          sh.y += sh.vy
+          const k = 1 - sh.life / sh.max
+          const tailX = sh.x - sh.vx * 9
+          const tailY = sh.y - sh.vy * 9
+          const lg = ctx!.createLinearGradient(tailX, tailY, sh.x, sh.y)
+          lg.addColorStop(0, 'rgba(200,190,255,0)')
+          lg.addColorStop(1, `rgba(220,210,255,${Math.max(0, k) * 0.9})`)
+          ctx!.strokeStyle = lg
+          ctx!.lineWidth = 1.6
+          ctx!.beginPath()
+          ctx!.moveTo(tailX, tailY)
+          ctx!.lineTo(sh.x, sh.y)
+          ctx!.stroke()
+        }
+        shoots = shoots.filter((s) => s.life < s.max && s.x < w + 40 && s.y < h + 40)
+      }
+      ctx!.globalCompositeOperation = 'source-over'
 
       if (!reduce) raf = requestAnimationFrame(frame)
     }

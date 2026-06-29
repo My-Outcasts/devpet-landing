@@ -1,0 +1,242 @@
+/* ============================================================
+   /v3 — effects layer (awwwards-grade polish)
+   Atmosphere (grain + nebula), marquee, hero product window,
+   3D tilt, richer department cards, image reveals.
+   Loaded after v3.css.
+   ============================================================ */
+
+/* ── Atmosphere: drifting nebula glows + film grain ── */
+.v3-atmos {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.v3-nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.5;
+  will-change: transform;
+}
+.v3-nebula--a {
+  width: 60vw; height: 60vw;
+  top: -18vw; left: -12vw;
+  background: radial-gradient(circle, rgba(124,58,237,0.5), transparent 62%);
+  animation: v3-drift-a 26s ease-in-out infinite;
+}
+.v3-nebula--b {
+  width: 52vw; height: 52vw;
+  top: 38%; right: -16vw;
+  background: radial-gradient(circle, rgba(37,99,235,0.4), transparent 62%);
+  animation: v3-drift-b 32s ease-in-out infinite;
+}
+.v3-nebula--c {
+  width: 46vw; height: 46vw;
+  bottom: -16vw; left: 26%;
+  background: radial-gradient(circle, rgba(255,107,157,0.28), transparent 62%);
+  animation: v3-drift-c 38s ease-in-out infinite;
+}
+@keyframes v3-drift-a { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(8vw,6vw) scale(1.12); } }
+@keyframes v3-drift-b { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-7vw,-5vw) scale(1.1); } }
+@keyframes v3-drift-c { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(5vw,-7vw) scale(1.15); } }
+
+/* Film grain — fractal noise SVG, tiled, subtly animated. */
+.v3-grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 1;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: v3-grain-shift 0.7s steps(3) infinite;
+}
+@keyframes v3-grain-shift {
+  0% { transform: translate(0,0); }
+  33% { transform: translate(-3%, 2%); }
+  66% { transform: translate(2%, -3%); }
+  100% { transform: translate(0,0); }
+}
+
+/* Keep page content above the atmosphere layers. */
+.v3 main { position: relative; z-index: 2; }
+
+/* ── Headline mask reveal (load) ── */
+.v3-line-mask { overflow: hidden; display: block; }
+.v3-line-mask > span {
+  display: inline-block;
+  transform: translateY(110%);
+  animation: v3-line-rise 0.9s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.v3-line-mask--2 > span { animation-delay: 0.12s; }
+@keyframes v3-line-rise { to { transform: translateY(0); } }
+
+/* ── Magnetic button (JS adds the translate; CSS smooths it) ── */
+.v3-magnetic { transition: transform 0.25s cubic-bezier(0.22,1,0.36,1); will-change: transform; }
+
+/* ── Hero product window (glass app frame showing the company) ── */
+.v3-window-wrap {
+  position: relative;
+  z-index: 3;
+  margin: -24px auto 0;
+  max-width: 860px;
+  perspective: 1600px;
+}
+.v3-window {
+  position: relative;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(20,17,34,0.92), rgba(10,9,18,0.92));
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow:
+    0 40px 120px -30px rgba(124,58,237,0.55),
+    0 10px 40px -10px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+  overflow: hidden;
+  transform: rotateX(12deg);
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+  will-change: transform;
+}
+.v3-window-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 13px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.02);
+}
+.v3-window-dot { width: 11px; height: 11px; border-radius: 50%; }
+.v3-window-title {
+  margin-left: 12px;
+  font-family: var(--v3-pixel);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--v3-ink-mute);
+}
+.v3-window-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 16px;
+}
+@media (max-width: 720px) { .v3-window-grid { grid-template-columns: repeat(2, 1fr); } }
+.v3-mini {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.v3-mini img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+.v3-mini::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 45%, rgba(7,6,12,0.82));
+}
+.v3-mini-tag {
+  position: absolute;
+  left: 8px; bottom: 7px;
+  z-index: 2;
+  font-family: var(--v3-pixel);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: var(--mini);
+  box-shadow: 0 3px 10px -2px var(--mini);
+}
+/* soft reflection under the window */
+.v3-window-wrap::after {
+  content: '';
+  position: absolute;
+  left: 8%; right: 8%; bottom: -54px; height: 80px;
+  background: radial-gradient(ellipse at center, rgba(124,58,237,0.4), transparent 70%);
+  filter: blur(10px);
+  z-index: -1;
+}
+
+/* ── Marquee ── */
+.v3-marquee {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  padding: 30px 0;
+  border-top: 1px solid var(--v3-line);
+  border-bottom: 1px solid var(--v3-line);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.v3-marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: v3-marquee 28s linear infinite;
+}
+.v3-marquee:hover .v3-marquee-track { animation-play-state: paused; }
+.v3-marquee-item {
+  font-family: var(--v3-sans);
+  font-weight: 600;
+  font-size: clamp(20px, 3vw, 34px);
+  letter-spacing: -0.01em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(244,242,251,0.32);
+  padding: 0 26px;
+}
+.v3-marquee-item .star { -webkit-text-stroke: 0; color: var(--v3-accent-2); padding: 0 26px; }
+@keyframes v3-marquee { to { transform: translateX(-50%); } }
+
+/* ── Department cards: cover zoom on hover ── */
+.v3-dept-cover img {
+  transition: transform 0.6s cubic-bezier(0.22,1,0.36,1);
+}
+.v3-dept:hover .v3-dept-cover img { transform: scale(1.07); }
+
+/* ── Section heading kicker line ── */
+.v3-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 22px; height: 1px;
+  vertical-align: middle;
+  margin-right: 10px;
+  background: var(--v3-accent-2);
+  opacity: 0.7;
+}
+
+/* ── Showcase: large feature cover (editorial) ── */
+.v3-showcase {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  margin-top: 30px;
+  border: 1px solid var(--v3-line);
+  aspect-ratio: 21 / 9;
+}
+.v3-showcase img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+.v3-showcase::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(7,6,12,0.1) 0%, transparent 30%, rgba(7,6,12,0.85) 100%);
+}
+.v3-showcase-cap {
+  position: absolute;
+  left: 28px; bottom: 26px; z-index: 2;
+  max-width: 520px;
+}
+.v3-showcase-cap h3 {
+  font-family: var(--v3-sans);
+  font-weight: 600;
+  font-size: clamp(22px, 3vw, 36px);
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+}
+.v3-showcase-cap p { font-size: 14.5px; color: var(--v3-ink-soft); margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .v3-nebula, .v3-grain, .v3-marquee-track { animation: none !important; }
+  .v3-line-mask > span { transform: none !important; animation: none !important; }
+  .v3-window { transform: none !important; }
+}

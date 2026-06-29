@@ -204,14 +204,19 @@
    ============================================================ */
 .v3-hero {
   position: relative;
+  overflow: hidden;
+  padding: 0 24px 130px;
+}
+.v3-hero-stage {
+  position: relative;
+  z-index: 2;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 120px 24px 80px;
-  overflow: hidden;
+  padding: 120px 0 40px;
 }
 /* Canvas constellation fills the hero behind the text */
 .v3-hero-canvas {

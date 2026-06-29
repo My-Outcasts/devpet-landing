@@ -20,6 +20,16 @@ export default function Departments() {
         <p className="v3-sub">{DEPARTMENTS.sub}</p>
       </Reveal>
 
+      <Reveal>
+        <div className="v3-showcase">
+          <Image src={DEPARTMENTS.items[2].cover} alt="A world for every department" fill sizes="(max-width: 720px) 100vw, 1180px" unoptimized />
+          <div className="v3-showcase-cap">
+            <h3>Eight worlds. One company.</h3>
+            <p>Every department is its own place to work — byte knows the way around all of them.</p>
+          </div>
+        </div>
+      </Reveal>
+
       <div className="v3-dept-grid">
         {DEPARTMENTS.items.map((d, i) => (
           <Reveal key={d.key} delay={(i % 4) * 90}>

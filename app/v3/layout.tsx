@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Google_Sans_Flex, Playfair_Display } from 'next/font/google'
 import './v3.css'
+import './v3-fx.css'
 
 // Main / body font (variable). Consumed by --v3-sans in v3.css.
 const gsans = Google_Sans_Flex({

@@ -1,35 +1,79 @@
 'use client'
 
+import { useRef, type CSSProperties, type MouseEvent } from 'react'
+import Image from 'next/image'
 import Constellation from './Constellation'
-import { HERO } from '../content'
+import Magnetic from './Magnetic'
+import { HERO, DEPARTMENTS } from '../content'
 
 /**
  * Hero — the magical centrepiece. A near-black canvas where the
- * eight departments orbit a central glow (Constellation) with the
- * pixel-font headline floating above.
+ * eight departments orbit a central glow (Constellation), an
+ * elegant headline with a load mask-reveal, and a glass "app window"
+ * that recreates the product's Company view from the real covers
+ * (tilts toward the cursor in 3D).
  */
 export default function Hero() {
+  const winRef = useRef<HTMLDivElement>(null)
+  const preview = DEPARTMENTS.items.slice(0, 4)
+
+  function onWinMove(e: MouseEvent) {
+    const el = winRef.current
+    if (!el) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const r = el.getBoundingClientRect()
+    const px = (e.clientX - r.left) / r.width - 0.5
+    const py = (e.clientY - r.top) / r.height - 0.5
+    el.style.transform = `rotateX(${12 - py * 14}deg) rotateY(${px * 16}deg)`
+  }
+  function onWinLeave() {
+    if (winRef.current) winRef.current.style.transform = 'rotateX(12deg)'
+  }
+
   return (
     <header id="top" className="v3-hero">
       <Constellation />
 
-      <div className="v3-hero-inner">
-        <h1 className="v3-hero-headline">
-          {HERO.headlineLead}{' '}
-          <span className="it">{HERO.headlineAccent}</span>
-        </h1>
-        <p className="v3-hero-sub">{HERO.sub}</p>
-        <div className="v3-hero-cta">
-          <a href="/download" className="v3-btn v3-btn--primary">
-            <AppleMark /> {HERO.ctaPrimary}
-          </a>
-          <a href="#loop" className="v3-btn v3-btn--ghost">{HERO.ctaSecondary}</a>
+      <div className="v3-hero-stage">
+        <div className="v3-hero-inner">
+          <h1 className="v3-hero-headline">
+            <span className="v3-line-mask"><span>{HERO.headlineLead}</span></span>
+            <span className="v3-line-mask v3-line-mask--2"><span className="it">{HERO.headlineAccent}</span></span>
+          </h1>
+          <p className="v3-hero-sub">{HERO.sub}</p>
+          <div className="v3-hero-cta">
+            <Magnetic>
+              <a href="/download" className="v3-btn v3-btn--primary">
+                <AppleMark /> {HERO.ctaPrimary}
+              </a>
+            </Magnetic>
+            <Magnetic strength={0.25}>
+              <a href="#loop" className="v3-btn v3-btn--ghost">{HERO.ctaSecondary}</a>
+            </Magnetic>
+          </div>
         </div>
       </div>
 
-      <div className="v3-scrollhint" aria-hidden="true">
-        <span>{HERO.scrollHint}</span>
-        <i />
+      {/* Glass app window — the product's Company view, from real covers */}
+      <div className="v3-window-wrap" onMouseMove={onWinMove} onMouseLeave={onWinLeave}>
+        <div className="v3-window" ref={winRef}>
+          <div className="v3-window-bar">
+            <span className="v3-window-dot" style={{ background: '#ff5f57' }} />
+            <span className="v3-window-dot" style={{ background: '#febc2e' }} />
+            <span className="v3-window-dot" style={{ background: '#28c840' }} />
+            <span className="v3-window-title">CODEPET — YOUR COMPANY</span>
+          </div>
+          <div className="v3-window-grid">
+            {preview.map((d) => (
+              <div key={d.key} className="v3-mini">
+                <Image src={d.cover} alt={d.name} width={200} height={150} unoptimized />
+                <span className="v3-mini-tag" style={{ '--mini': d.color } as CSSProperties}>
+                  {d.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </header>
   )
