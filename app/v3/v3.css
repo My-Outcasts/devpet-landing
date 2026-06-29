@@ -218,13 +218,20 @@
   text-align: center;
   padding: 120px 0 40px;
 }
-/* ASCII "night coder" art — the hero backdrop, behind everything */
+/* ASCII "night coder" art — the hero backdrop. Constrained to ONE
+   screen height (not the full tall hero) so `cover` only crops a
+   little and the whole composition reads instead of zooming in.
+   Fades out at the bottom into the page ground. */
 .v3-hero-bg {
-  object-fit: cover;
-  object-position: center;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 100svh;
   z-index: 0;
-  opacity: 0.9;
-  filter: brightness(0.62) saturate(1.05);
+  background: url('/v3/hero-ascii.jpg') center 38% / cover no-repeat;
+  opacity: 0.92;
+  filter: brightness(0.72) saturate(1.05);
+  -webkit-mask-image: linear-gradient(180deg, #000 68%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 68%, transparent 100%);
 }
 /* Canvas constellation — subtle motion layer over the art */
 .v3-hero-canvas {
@@ -244,8 +251,8 @@
   z-index: 1;
   pointer-events: none;
   background:
-    radial-gradient(110% 70% at 50% 44%, rgba(7,6,12,0.35) 0%, rgba(7,6,12,0.62) 70%, rgba(7,6,12,0.82) 100%),
-    linear-gradient(180deg, rgba(7,6,12,0.7) 0%, transparent 26%, transparent 58%, var(--v3-bg) 100%);
+    radial-gradient(120% 75% at 50% 46%, rgba(7,6,12,0.18) 0%, rgba(7,6,12,0.48) 68%, rgba(7,6,12,0.7) 100%),
+    linear-gradient(180deg, rgba(7,6,12,0.62) 0%, transparent 28%, transparent 62%, var(--v3-bg) 100%);
 }
 .v3-hero-inner { position: relative; z-index: 2; max-width: 880px; }
 
