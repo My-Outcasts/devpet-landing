@@ -21,33 +21,33 @@ export const HERO = {
   // italic accent (Playfair Display) against the pixel lead.
   headlineLead: 'Let’s build your',
   headlineAccent: 'second brand',
-  sub: 'Codepet is your AI cofounder — run your whole company with AI, department by department. byte drafts and builds with you, and you approve every move.',
+  sub: 'Building something of your own means being the whole team at once. Codepet is the AI cofounder who carries it with you — so the dream never rests on you alone.',
   ctaPrimary: 'Download for macOS',
-  ctaSecondary: 'See how it works',
+  ctaSecondary: 'Meet byte',
   scrollHint: 'scroll to explore',
 }
 
-// The approve loop — byte's core promise. Three calm beats.
+// How byte works — the trust loop. Speed, but you stay in the loop.
 export const LOOP = {
-  eyebrow: 'THE LOOP',
-  headlineLead: 'byte drafts & builds.',
-  headlineAccent: 'You approve every move.',
-  sub: 'No black boxes. You watch every step, request changes in plain language, and nothing ships until you say so.',
+  eyebrow: 'HOW BYTE WORKS',
+  headlineLead: 'byte does the work.',
+  headlineAccent: 'You stay in control.',
+  sub: 'See every step in plain language, steer it with a sentence, and approve before anything goes live. All the speed of AI — without ever losing the thread of what your company is doing.',
   steps: [
     {
       key: 'execute',
       label: 'Execute',
-      desc: 'byte runs the task and shows its work — a live build log, step by step.',
+      desc: 'byte gets to work and shows you everything — a live log, in plain language, as it goes.',
     },
     {
       key: 'deliver',
       label: 'Deliver',
-      desc: 'A real artifact appears: a site, a PR, an email, a model — ready to review.',
+      desc: 'Out comes something real — a site, a post, a pull request, a plan — ready for your eyes.',
     },
     {
       key: 'approve',
       label: 'Approve',
-      desc: 'Request changes in a sentence, or approve to ship it straight to your Library.',
+      desc: 'Love it? Ship it. Want it different? Just say so. Nothing goes live until it’s truly yours.',
     },
   ],
 }
@@ -56,9 +56,9 @@ export const LOOP = {
 // Covers + colours mirror the product app (public/v3/covers).
 export const DEPARTMENTS = {
   eyebrow: 'ONE COMPANY · EIGHT DEPARTMENTS',
-  headlineLead: 'Run the whole company,',
-  headlineAccent: 'not just the code.',
-  sub: 'Your business as eight departments — each with what it needs, and tasks byte can do, draft, or hand to you.',
+  headlineLead: 'Every job a company needs —',
+  headlineAccent: 'covered, together.',
+  sub: 'Engineering to legal, marketing to finance. byte walks into each one knowing what it needs next — and which calls are still yours to make.',
   items: [
     { key: 'eng',     name: 'Engineering', need: 'Ship the work and verify every change.',        color: '#2563EB', cover: '/v3/covers/eng.png' },
     { key: 'mkt',     name: 'Marketing',   need: 'Find the words and the launch sequence.',        color: '#FF8C42', cover: '/v3/covers/mkt.png' },
@@ -74,9 +74,9 @@ export const DEPARTMENTS = {
 // The roadmap as a luminous path.
 export const JOURNEY = {
   eyebrow: 'YOUR ROADMAP',
-  headlineLead: 'From a spark',
+  headlineLead: 'From the first spark',
   headlineAccent: 'to a company that runs.',
-  sub: 'Five phases, each unlocking the next. byte maps the path across all eight departments.',
+  sub: 'byte maps the whole path — find, build, ship, launch, grow — and walks it beside you, one unlocked step at a time.',
   phases: [
     { key: 'find',   label: 'Find',         note: 'Validate the idea' },
     { key: 'build',  label: 'Build',        note: 'Shape the product' },
@@ -87,9 +87,9 @@ export const JOURNEY = {
 }
 
 export const FINAL = {
-  headlineLead: 'Let’s build your',
-  headlineAccent: 'second brand.',
-  sub: 'A free macOS app. byte is waiting.',
+  headlineLead: 'You don’t have to',
+  headlineAccent: 'build it alone.',
+  sub: 'Codepet is free on macOS. byte is ready whenever you are.',
   ctaPrimary: 'Download for macOS',
   ctaSecondary: 'Read the Build Log',
 }

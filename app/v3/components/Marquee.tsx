@@ -3,10 +3,10 @@
  * the -50% translate loops seamlessly. Pauses on hover.
  */
 const PHRASES = [
-  'Run your whole company',
-  'Department by department',
-  'byte builds — you approve',
-  'Ship what you understand',
+  'Never build alone',
+  'From idea to company',
+  'A cofounder who shows up',
+  'You — with backup',
 ]
 
 export default function Marquee() {

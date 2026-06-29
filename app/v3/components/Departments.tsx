@@ -24,8 +24,8 @@ export default function Departments() {
         <div className="v3-showcase">
           <Image src={DEPARTMENTS.items[2].cover} alt="A world for every department" fill sizes="(max-width: 720px) 100vw, 1180px" unoptimized />
           <div className="v3-showcase-cap">
-            <h3>Eight worlds. One company.</h3>
-            <p>Every department is its own place to work — byte knows the way around all of them.</p>
+            <h3>Every part of the work has a place.</h3>
+            <p>byte moves between them so you never have to hold the whole company in your head at once.</p>
           </div>
         </div>
       </Reveal>
