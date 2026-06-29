@@ -1,16 +1,25 @@
 import type { Metadata } from 'next'
-import { Instrument_Serif } from 'next/font/google'
+import { Google_Sans_Flex, Playfair_Display } from 'next/font/google'
 import './v3.css'
 
-// Elegant serif for the cinematic-dark headlines (regular + italic).
-// Exposed as a CSS variable consumed by --v3-serif in v3.css.
-const instrument = Instrument_Serif({
-  weight: '400',
-  style: ['normal', 'italic'],
+// Main / body font (variable). Consumed by --v3-sans in v3.css.
+const gsans = Google_Sans_Flex({
   subsets: ['latin'],
-  variable: '--font-instrument',
+  variable: '--font-gsans',
   display: 'swap',
 })
+
+// Italic accent for headline emphasis words. Consumed by --v3-italic.
+const playfair = Playfair_Display({
+  weight: ['400', '500', '600'],
+  style: ['italic'],
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+})
+
+// Headings use the self-hosted pixel font (Minecraft), declared via
+// @font-face in v3.css — no Google fetch needed.
 
 export const metadata: Metadata = {
   title: 'Codepet — your AI cofounder',
@@ -19,5 +28,5 @@ export const metadata: Metadata = {
 }
 
 export default function V3Layout({ children }: { children: React.ReactNode }) {
-  return <div className={`v3 ${instrument.variable}`}>{children}</div>
+  return <div className={`v3 ${gsans.variable} ${playfair.variable}`}>{children}</div>
 }

@@ -43,9 +43,11 @@
   --v3-glass:     rgba(255,255,255,0.045);
   --v3-glass-hi:  rgba(255,255,255,0.09);
 
-  --v3-serif: var(--font-instrument), 'Instrument Serif', Georgia, 'Times New Roman', serif;
-  --v3-sans:  'PP Neue Montreal', system-ui, -apple-system, sans-serif;
-  --v3-pixel: 'Minecraft', monospace;
+  /* Type system: main = Google Sans Flex · headings = Pixel (Minecraft)
+     · italic accents = Playfair Display Italic. */
+  --v3-sans:   var(--font-gsans), 'Google Sans Flex', 'Inter', system-ui, -apple-system, sans-serif;
+  --v3-pixel:  'Minecraft', 'Pixelify Sans', monospace;
+  --v3-italic: var(--font-playfair), 'Playfair Display', Georgia, serif;
 
   background: var(--v3-bg);
   color: var(--v3-ink);
@@ -82,14 +84,20 @@
 }
 
 .v3-h2 {
-  font-family: var(--v3-serif);
+  font-family: var(--v3-pixel);
   font-weight: 400;
-  font-size: clamp(34px, 5.2vw, 62px);
-  line-height: 1.04;
-  letter-spacing: -0.01em;
+  font-size: clamp(27px, 4.3vw, 50px);
+  line-height: 1.16;
+  letter-spacing: 0;
   margin: 0;
 }
-.v3-h2 .it { font-style: italic; color: var(--v3-ink); }
+.v3-h2 .it {
+  font-family: var(--v3-italic);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--v3-ink);
+}
 .v3-lead { color: var(--v3-ink); }
 .v3-accent-text { color: var(--v3-ink-soft); }
 
@@ -243,15 +251,18 @@
 }
 
 .v3-hero-headline {
-  font-family: var(--v3-serif);
+  font-family: var(--v3-pixel);
   font-weight: 400;
-  font-size: clamp(46px, 9vw, 112px);
-  line-height: 0.98;
-  letter-spacing: -0.02em;
+  font-size: clamp(38px, 6.6vw, 82px);
+  line-height: 1.1;
+  letter-spacing: 0;
   margin: 0;
 }
 .v3-hero-headline .it {
+  font-family: var(--v3-italic);
   font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   background: linear-gradient(180deg, #fff 10%, var(--v3-accent-2) 95%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -320,9 +331,10 @@
   color: var(--v3-accent-2);
 }
 .v3-step-label {
-  font-family: var(--v3-serif);
+  font-family: var(--v3-italic);
   font-style: italic;
-  font-size: 30px;
+  font-weight: 500;
+  font-size: 32px;
   margin: 12px 0 12px;
   color: var(--v3-ink);
 }
@@ -393,9 +405,10 @@
   box-shadow: 0 6px 18px -6px var(--dept);
 }
 .v3-dept-name {
-  font-family: var(--v3-serif);
-  font-size: 22px;
-  margin: 6px 0 6px;
+  font-family: var(--v3-pixel);
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  margin: 8px 0 7px;
   color: var(--v3-ink);
 }
 .v3-dept-need { font-size: 13px; line-height: 1.5; color: var(--v3-ink-soft); margin: 0; }
@@ -433,10 +446,11 @@
 }
 .v3-phase:last-child .v3-phase-dot { background: var(--v3-accent-2); }
 .v3-phase-label {
-  font-family: var(--v3-serif);
-  font-size: 21px;
+  font-family: var(--v3-pixel);
+  font-size: 15px;
+  letter-spacing: 0.01em;
   color: var(--v3-ink);
-  margin: 0 0 5px;
+  margin: 0 0 7px;
 }
 .v3-phase-note { font-size: 12.5px; color: var(--v3-ink-mute); margin: 0; }
 
@@ -460,15 +474,18 @@
 }
 .v3-final-inner { position: relative; z-index: 2; }
 .v3-final-headline {
-  font-family: var(--v3-serif);
+  font-family: var(--v3-pixel);
   font-weight: 400;
-  font-size: clamp(40px, 7vw, 86px);
-  line-height: 1.0;
-  letter-spacing: -0.02em;
+  font-size: clamp(34px, 5.6vw, 66px);
+  line-height: 1.12;
+  letter-spacing: 0;
   margin: 0;
 }
 .v3-final-headline .it {
+  font-family: var(--v3-italic);
   font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.01em;
   background: linear-gradient(180deg, #fff, var(--v3-accent-2));
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent;

@@ -17,9 +17,8 @@ export const NAV = {
 }
 
 export const HERO = {
-  eyebrow: 'YOUR AI COFOUNDER',
   // The headline is split so the design can render the tail in an
-  // italic serif accent (matching the reference art direction).
+  // italic accent (Playfair Display) against the pixel lead.
   headlineLead: 'Let’s build your',
   headlineAccent: 'second brand',
   sub: 'Codepet is your AI cofounder — run your whole company with AI, department by department. byte drafts and builds with you, and you approve every move.',
@@ -102,5 +101,5 @@ export const FOOTER = {
     { label: 'Privacy', href: '/privacy' },
     { label: 'Download', href: '/download' },
   ],
-  copyright: '© 2026 Codepet — a MURROR product.',
+  copyright: '© 2026 Codepet — built by Outcasts.',
 }

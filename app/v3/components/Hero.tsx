@@ -1,15 +1,12 @@
 'use client'
 
-import Image from 'next/image'
 import Constellation from './Constellation'
 import { HERO } from '../content'
 
 /**
  * Hero — the magical centrepiece. A near-black canvas where the
- * eight departments orbit a central glow (Constellation), with the
- * pixel `byte` sprite nestled at the heart and an elegant serif
- * headline floating above. Fusion of cinematic-dark + Codepet's
- * pixel identity.
+ * eight departments orbit a central glow (Constellation) with the
+ * pixel-font headline floating above.
  */
 export default function Hero() {
   return (
@@ -17,18 +14,6 @@ export default function Hero() {
       <Constellation />
 
       <div className="v3-hero-inner">
-        <Image
-          src="/v3/byte.png"
-          alt="byte, your AI cofounder"
-          width={84}
-          height={84}
-          className="v3-hero-byte"
-          priority
-          unoptimized
-        />
-        <p className="v3-eyebrow" style={{ textAlign: 'center', color: 'var(--v3-accent-2)' }}>
-          {HERO.eyebrow}
-        </p>
         <h1 className="v3-hero-headline">
           {HERO.headlineLead}{' '}
           <span className="it">{HERO.headlineAccent}</span>
