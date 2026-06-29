@@ -64,6 +64,9 @@ Available now (1024×1024, center-cropped by the layout):
 - `lakeside-village-hillside` — red-roofed village on a steep green hillside
 - `train-viaduct-mountain` — white train on a stone viaduct, snow mountain
 - `fjord-dock-boat` — fjord with a wooden dock, boat, and clouds
+- `seaside-pier-mountain` — hazy seaside bay, long piers, headland mountains *(cooler, less pastel)*
+- `tropical-beach-sailboats` — bright tropical beach, sailboats, palms, blue sea *(more saturated)*
+- `city-night-billboards` — neon billboards over a busy night street *(dark, off-palette)*
 
 ## Image specs
 
