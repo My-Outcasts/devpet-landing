@@ -21,7 +21,7 @@ export default function Loop() {
       <div className="v3-loop-grid">
         {LOOP.steps.map((s, i) => (
           <Reveal key={s.key} delay={i * 110}>
-            <div className="v3-step">
+            <div className="v3-step v3-spot">
               <span className="v3-step-num">0{i + 1}</span>
               <h3 className="v3-step-label">{s.label}</h3>
               <p className="v3-step-desc">{s.desc}</p>

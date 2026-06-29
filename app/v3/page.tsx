@@ -1,4 +1,6 @@
 import Atmosphere from './components/Atmosphere'
+import CursorGlow from './components/CursorGlow'
+import Spotlights from './components/Spotlights'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
@@ -19,6 +21,8 @@ export default function V3Page() {
   return (
     <>
       <Atmosphere />
+      <CursorGlow />
+      <Spotlights />
       <main>
         <Nav />
         <Hero />

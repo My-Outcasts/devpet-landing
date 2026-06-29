@@ -1,9 +1,11 @@
+import type { CSSProperties } from 'react'
 import Reveal from './Reveal'
 import { JOURNEY } from '../content'
 
 /**
- * Journey — the roadmap as a single luminous path. Five phases on a
- * glowing connector line: Find → Build → Ship → Launch → Run & grow.
+ * Journey — the roadmap as a single luminous path. On scroll-in the
+ * connector line draws left-to-right and the five phase dots ignite in
+ * sequence (driven by the wrapping Reveal's `.is-in` + per-dot `--i`).
  */
 export default function Journey() {
   return (
@@ -17,17 +19,17 @@ export default function Journey() {
         <p className="v3-sub">{JOURNEY.sub}</p>
       </Reveal>
 
-      <div className="v3-journey-path">
-        {JOURNEY.phases.map((p, i) => (
-          <Reveal key={p.key} delay={i * 120}>
-            <div className="v3-phase">
+      <Reveal>
+        <div className="v3-journey-path">
+          {JOURNEY.phases.map((p, i) => (
+            <div key={p.key} className="v3-phase" style={{ ['--i']: i } as CSSProperties}>
               <div className="v3-phase-dot" />
               <h3 className="v3-phase-label">{p.label}</h3>
               <p className="v3-phase-note">{p.note}</p>
             </div>
-          </Reveal>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Reveal>
     </section>
   )
 }

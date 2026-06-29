@@ -72,8 +72,8 @@ export default function Hero() {
               </div>
             </div>
             <div className="v3-copilot-msg">
-              Welcome back. Let’s start where it counts — I’ll take the first pass,
-              and you make the calls.
+              Welcome back. Let’s start where it counts — Codepet takes the first
+              pass, and you make the calls.
             </div>
             <div className="v3-copilot-chips">
               <span className="v3-copilot-chip">Start with Engineering</span>

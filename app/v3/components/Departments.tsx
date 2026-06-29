@@ -25,7 +25,7 @@ export default function Departments() {
           <Image src="/v3/coder-burst.jpg" alt="One builder, a whole company of work" fill sizes="(max-width: 720px) 100vw, 1180px" unoptimized />
           <div className="v3-showcase-cap">
             <h3>One person. A whole company’s worth of work.</h3>
-            <p>byte carries the load across every department — so it never all lands on you at once.</p>
+            <p>Codepet carries the load across every department — so it never all lands on you at once.</p>
           </div>
         </div>
       </Reveal>
@@ -33,7 +33,7 @@ export default function Departments() {
       <div className="v3-dept-grid">
         {DEPARTMENTS.items.map((d, i) => (
           <Reveal key={d.key} delay={(i % 4) * 90}>
-            <article className="v3-dept" style={{ '--dept': d.color } as CSSProperties}>
+            <article className="v3-dept v3-spot" style={{ '--dept': d.color } as CSSProperties}>
               <div className="v3-dept-cover">
                 <Image src={d.cover} alt={`${d.name} cover`} fill sizes="(max-width: 520px) 100vw, 280px" unoptimized />
               </div>

@@ -30,15 +30,15 @@ export const HERO = {
 
 // How byte works — the trust loop. Speed, but you stay in the loop.
 export const LOOP = {
-  eyebrow: 'HOW BYTE WORKS',
-  headlineLead: 'byte does the work.',
+  eyebrow: 'HOW CODEPET WORKS',
+  headlineLead: 'Codepet does the work.',
   headlineAccent: 'You stay in control.',
   sub: 'See every step in plain language, steer it with a sentence, and approve before anything goes live. All the speed of AI — without ever losing the thread of what your company is doing.',
   steps: [
     {
       key: 'execute',
       label: 'Execute',
-      desc: 'byte gets to work and shows you everything — a live log, in plain language, as it goes.',
+      desc: 'Codepet gets to work and shows you everything — a live log, in plain language, as it goes.',
     },
     {
       key: 'deliver',
@@ -59,13 +59,13 @@ export const ENVIRONMENT = {
   eyebrow: 'BUILT ON CLAUDE CODE',
   headlineLead: 'Plugged into the tools',
   headlineAccent: 'you already build with.',
-  sub: 'byte works inside Claude Code. It recommends the right skills, connectors and agents — and switches them on with you — so your cofounder is wired into your real workflow from the very first run. No blank config, no dread.',
-  panelTitle: 'byte’s recommended setup',
+  sub: 'Codepet works inside Claude Code. It recommends the right skills, connectors and agents — and switches them on with you — so your cofounder is wired into your real workflow from the very first run. No blank config, no dread.',
+  panelTitle: 'Codepet’s recommended setup',
   items: [
     { name: 'Project skills', desc: 'Abilities tuned to what you’re building' },
-    { name: 'Connectors',     desc: 'Your services, where byte already works' },
-    { name: 'Subagents',      desc: 'Specialists byte hands the right job to' },
-    { name: 'Guardrails',     desc: 'Limits you set — byte stays inside them' },
+    { name: 'Connectors',     desc: 'Your services, where Codepet already works' },
+    { name: 'Subagents',      desc: 'Specialists Codepet hands the right job to' },
+    { name: 'Guardrails',     desc: 'Limits you set — Codepet stays inside them' },
   ],
 }
 
@@ -75,7 +75,7 @@ export const DEPARTMENTS = {
   eyebrow: 'ONE COMPANY · EIGHT DEPARTMENTS',
   headlineLead: 'Every job a company needs —',
   headlineAccent: 'covered, together.',
-  sub: 'Engineering to legal, marketing to finance. byte walks into each one knowing what it needs next — and which calls are still yours to make.',
+  sub: 'Engineering to legal, marketing to finance. Codepet walks into each one knowing what it needs next — and which calls are still yours to make.',
   items: [
     { key: 'eng',     name: 'Engineering', need: 'Ship the work and verify every change.',        color: '#2563EB', cover: '/v3/covers/eng.png' },
     { key: 'mkt',     name: 'Marketing',   need: 'Find the words and the launch sequence.',        color: '#FF8C42', cover: '/v3/covers/mkt.png' },
@@ -93,7 +93,7 @@ export const JOURNEY = {
   eyebrow: 'YOUR ROADMAP',
   headlineLead: 'From the first spark',
   headlineAccent: 'to a company that runs.',
-  sub: 'byte maps the whole path — find, build, ship, launch, grow — and walks it beside you, one unlocked step at a time.',
+  sub: 'Codepet maps the whole path — find, build, ship, launch, grow — and walks it beside you, one unlocked step at a time.',
   phases: [
     { key: 'find',   label: 'Find',         note: 'Validate the idea' },
     { key: 'build',  label: 'Build',        note: 'Shape the product' },
