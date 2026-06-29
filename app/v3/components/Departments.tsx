@@ -22,10 +22,10 @@ export default function Departments() {
 
       <Reveal>
         <div className="v3-showcase">
-          <Image src={DEPARTMENTS.items[2].cover} alt="A world for every department" fill sizes="(max-width: 720px) 100vw, 1180px" unoptimized />
+          <Image src="/v3/coder-burst.jpg" alt="One builder, a whole company of work" fill sizes="(max-width: 720px) 100vw, 1180px" unoptimized />
           <div className="v3-showcase-cap">
-            <h3>Every part of the work has a place.</h3>
-            <p>byte moves between them so you never have to hold the whole company in your head at once.</p>
+            <h3>One person. A whole company’s worth of work.</h3>
+            <p>byte carries the load across every department — so it never all lands on you at once.</p>
           </div>
         </div>
       </Reveal>

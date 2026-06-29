@@ -9,6 +9,7 @@ export const NAV = {
   brand: 'Codepet',
   links: [
     { label: 'How it works', href: '#loop' },
+    { label: 'Setup', href: '#environment' },
     { label: 'Departments', href: '#departments' },
     { label: 'Journey', href: '#journey' },
     { label: 'Blog', href: '/blog' },
@@ -49,6 +50,22 @@ export const LOOP = {
       label: 'Approve',
       desc: 'Love it? Ship it. Want it different? Just say so. Nothing goes live until it’s truly yours.',
     },
+  ],
+}
+
+// Environment — byte's guided Claude Code setup (skills, connectors,
+// agents). The "this is wired into your real tools" proof.
+export const ENVIRONMENT = {
+  eyebrow: 'BUILT ON CLAUDE CODE',
+  headlineLead: 'Plugged into the tools',
+  headlineAccent: 'you already build with.',
+  sub: 'byte works inside Claude Code. It recommends the right skills, connectors and agents — and switches them on with you — so your cofounder is wired into your real workflow from the very first run. No blank config, no dread.',
+  panelTitle: 'byte’s recommended setup',
+  items: [
+    { name: 'Project skills', desc: 'Abilities tuned to what you’re building' },
+    { name: 'Connectors',     desc: 'Your services, where byte already works' },
+    { name: 'Subagents',      desc: 'Specialists byte hands the right job to' },
+    { name: 'Guardrails',     desc: 'Limits you set — byte stays inside them' },
   ],
 }
 

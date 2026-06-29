@@ -3,6 +3,7 @@ import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
 import Loop from './components/Loop'
+import Environment from './components/Environment'
 import Departments from './components/Departments'
 import Journey from './components/Journey'
 import FinalCta from './components/FinalCta'
@@ -23,6 +24,7 @@ export default function V3Page() {
         <Hero />
         <Marquee />
         <Loop />
+        <Environment />
         <Departments />
         <Journey />
         <FinalCta />

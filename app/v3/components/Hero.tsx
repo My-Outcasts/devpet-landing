@@ -1,10 +1,9 @@
 'use client'
 
-import { useRef, type CSSProperties, type MouseEvent } from 'react'
-import Image from 'next/image'
+import { useRef, type MouseEvent } from 'react'
 import Constellation from './Constellation'
 import Magnetic from './Magnetic'
-import { HERO, DEPARTMENTS } from '../content'
+import { HERO } from '../content'
 
 /**
  * Hero — the magical centrepiece. A near-black canvas where the
@@ -15,7 +14,6 @@ import { HERO, DEPARTMENTS } from '../content'
  */
 export default function Hero() {
   const winRef = useRef<HTMLDivElement>(null)
-  const preview = DEPARTMENTS.items.slice(0, 4)
 
   function onWinMove(e: MouseEvent) {
     const el = winRef.current
@@ -55,24 +53,34 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Glass app window — the product's Company view, from real covers */}
+      {/* Glass app window — byte's copilot panel (a distinct product
+          surface from the Departments grid below, so nothing repeats) */}
       <div className="v3-window-wrap" onMouseMove={onWinMove} onMouseLeave={onWinLeave}>
         <div className="v3-window" ref={winRef}>
           <div className="v3-window-bar">
             <span className="v3-window-dot" style={{ background: '#ff5f57' }} />
             <span className="v3-window-dot" style={{ background: '#febc2e' }} />
             <span className="v3-window-dot" style={{ background: '#28c840' }} />
-            <span className="v3-window-title">CODEPET — YOUR COMPANY</span>
+            <span className="v3-window-title">CODEPET — byte</span>
           </div>
-          <div className="v3-window-grid">
-            {preview.map((d) => (
-              <div key={d.key} className="v3-mini">
-                <Image src={d.cover} alt={d.name} width={200} height={150} unoptimized />
-                <span className="v3-mini-tag" style={{ '--mini': d.color } as CSSProperties}>
-                  {d.name}
-                </span>
+          <div className="v3-copilot">
+            <div className="v3-copilot-head">
+              <span className="v3-copilot-avatar" aria-hidden="true" />
+              <div>
+                <div className="v3-copilot-name">byte</div>
+                <div className="v3-copilot-status">guiding · Codepet</div>
               </div>
-            ))}
+            </div>
+            <div className="v3-copilot-msg">
+              Welcome back. Let’s start where it counts — I’ll take the first pass,
+              and you make the calls.
+            </div>
+            <div className="v3-copilot-chips">
+              <span className="v3-copilot-chip">Start with Engineering</span>
+              <span className="v3-copilot-chip">Draft my launch post</span>
+              <span className="v3-copilot-chip">Open the roadmap</span>
+            </div>
+            <div className="v3-copilot-input">Ask byte anything about your company…</div>
           </div>
         </div>
       </div>
