@@ -347,6 +347,67 @@
   100% { transform: scale(1);    opacity: 1; }
 }
 
+/* Photo (non-pixel) department covers render smoothly, not pixelated. */
+.v3-dept-cover--photo img { image-rendering: auto; }
+
+/* ── Lenis smooth scroll (recommended base styles) ── */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* Velocity skew is applied per top-level section (not the whole page —
+   skewing one tall element would fling its bottom sideways). Each
+   section shears about its own centre, so the lean stays a few px. */
+.v3-skewer > * {
+  transform: skewY(var(--vskew, 0deg));
+  transform-origin: center center;
+  will-change: transform;
+}
+
+/* ── Kinetic typography: heading words rise + fade in sequence ── */
+.v3-split { display: inline; }
+.v3-word {
+  display: inline-block;
+  margin-right: 0.24em;
+  transform: translateY(0.45em);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.22,1,0.36,1), opacity 0.7s ease;
+  transition-delay: calc(var(--wi, 0) * 0.05s);
+}
+.v3-split.is-in .v3-word { transform: none; opacity: 1; }
+
+/* ── Page-load intro: a panel that wipes up to reveal the hero ── */
+.v3-intro {
+  position: fixed; inset: 0; z-index: 200;
+  background: var(--v3-bg);
+  display: grid; place-items: center;
+  will-change: transform;
+  animation: v3-intro-out 1.15s cubic-bezier(0.76,0,0.24,1) 0.7s forwards;
+}
+.v3-intro-word {
+  font-family: var(--v3-pixel);
+  font-size: clamp(28px, 5vw, 56px);
+  letter-spacing: 0.04em;
+  color: var(--v3-ink);
+  opacity: 0;
+  animation: v3-intro-word 0.9s ease 0.1s forwards;
+}
+.v3-intro::after {
+  content: '';
+  position: absolute; left: 50%; bottom: 34%;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--v3-accent-2), transparent);
+  transform: translateX(-50%);
+  animation: v3-intro-line 0.8s ease 0.2s forwards;
+}
+@keyframes v3-intro-out { to { transform: translateY(-100%); } }
+@keyframes v3-intro-word {
+  0%   { opacity: 0; transform: translateY(8px); letter-spacing: 0.2em; }
+  100% { opacity: 1; transform: none; letter-spacing: 0.04em; }
+}
+@keyframes v3-intro-line { to { width: 180px; } }
+
 @media (prefers-reduced-motion: reduce) {
   .v3-nebula, .v3-grain, .v3-marquee-track { animation: none !important; }
   .v3-line-mask > span { transform: none !important; animation: none !important; }
@@ -354,4 +415,7 @@
   .v3-cursor-glow { display: none !important; }
   .v3-journey-path::before { transform: scaleX(1) !important; animation: none !important; }
   .v3-phase-dot { transform: none !important; opacity: 1 !important; animation: none !important; }
+  .v3-skewer > * { transform: none !important; }
+  .v3-word { transform: none !important; opacity: 1 !important; }
+  .v3-intro { display: none !important; }
 }

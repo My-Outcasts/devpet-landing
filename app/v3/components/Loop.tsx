@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import SplitText from './SplitText'
 import { LOOP } from '../content'
 
 /**
@@ -12,8 +13,8 @@ export default function Loop() {
       <Reveal>
         <p className="v3-eyebrow">{LOOP.eyebrow}</p>
         <h2 className="v3-h2">
-          <span className="v3-lead">{LOOP.headlineLead}</span>{' '}
-          <span className="it">{LOOP.headlineAccent}</span>
+          <SplitText text={LOOP.headlineLead} className="v3-lead" />{' '}
+          <SplitText text={LOOP.headlineAccent} className="it" />
         </h2>
         <p className="v3-sub">{LOOP.sub}</p>
       </Reveal>

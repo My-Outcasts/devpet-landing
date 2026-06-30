@@ -1,6 +1,8 @@
+import Intro from './components/Intro'
 import Atmosphere from './components/Atmosphere'
 import CursorGlow from './components/CursorGlow'
 import Spotlights from './components/Spotlights'
+import SmoothScroll from './components/SmoothScroll'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Marquee from './components/Marquee'
@@ -12,19 +14,20 @@ import FinalCta from './components/FinalCta'
 
 /**
  * /v3 — the cinematic-dark Codepet rebuild (draft).
- * Atmosphere (grain + nebula) sits behind everything; the page runs
- * Hero → Marquee → Loop → Departments → Journey → Final CTA. Lives at
- * /v3 so it previews beside the current homepage; promoting it to `/`
- * is a one-line swap.
+ * Fixed layers (intro, atmosphere, cursor glow, nav) sit outside the
+ * skewed scroll content. SmoothScroll drives Lenis + the velocity skew
+ * on `main` (.v3-skewer). Promoting to `/` is a one-line swap.
  */
 export default function V3Page() {
   return (
     <>
+      <Intro />
       <Atmosphere />
       <CursorGlow />
       <Spotlights />
-      <main>
-        <Nav />
+      <SmoothScroll />
+      <Nav />
+      <main className="v3-skewer">
         <Hero />
         <Marquee />
         <Loop />

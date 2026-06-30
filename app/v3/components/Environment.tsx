@@ -1,4 +1,5 @@
 import Reveal from './Reveal'
+import SplitText from './SplitText'
 import { ENVIRONMENT } from '../content'
 
 /**
@@ -14,8 +15,8 @@ export default function Environment() {
           <div>
             <p className="v3-eyebrow">{ENVIRONMENT.eyebrow}</p>
             <h2 className="v3-h2">
-              <span className="v3-lead">{ENVIRONMENT.headlineLead}</span>{' '}
-              <span className="it">{ENVIRONMENT.headlineAccent}</span>
+              <SplitText text={ENVIRONMENT.headlineLead} className="v3-lead" />{' '}
+              <SplitText text={ENVIRONMENT.headlineAccent} className="it" />
             </h2>
             <p className="v3-sub">{ENVIRONMENT.sub}</p>
           </div>

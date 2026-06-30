@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import Image from 'next/image'
 import Reveal from './Reveal'
+import SplitText from './SplitText'
 import { DEPARTMENTS } from '../content'
 
 /**
@@ -14,8 +15,8 @@ export default function Departments() {
       <Reveal>
         <p className="v3-eyebrow">{DEPARTMENTS.eyebrow}</p>
         <h2 className="v3-h2">
-          <span className="v3-lead">{DEPARTMENTS.headlineLead}</span>{' '}
-          <span className="it">{DEPARTMENTS.headlineAccent}</span>
+          <SplitText text={DEPARTMENTS.headlineLead} className="v3-lead" />{' '}
+          <SplitText text={DEPARTMENTS.headlineAccent} className="it" />
         </h2>
         <p className="v3-sub">{DEPARTMENTS.sub}</p>
       </Reveal>
@@ -34,7 +35,7 @@ export default function Departments() {
         {DEPARTMENTS.items.map((d, i) => (
           <Reveal key={d.key} delay={(i % 4) * 90}>
             <article className="v3-dept v3-spot" style={{ '--dept': d.color } as CSSProperties}>
-              <div className="v3-dept-cover">
+              <div className={`v3-dept-cover${(d as { photo?: boolean }).photo ? ' v3-dept-cover--photo' : ''}`}>
                 <Image src={d.cover} alt={`${d.name} cover`} fill sizes="(max-width: 520px) 100vw, 280px" unoptimized />
               </div>
               <div className="v3-dept-body">

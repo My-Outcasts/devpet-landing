@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react'
 import Reveal from './Reveal'
+import SplitText from './SplitText'
 import { JOURNEY } from '../content'
 
 /**
@@ -13,8 +14,8 @@ export default function Journey() {
       <Reveal>
         <p className="v3-eyebrow">{JOURNEY.eyebrow}</p>
         <h2 className="v3-h2">
-          <span className="v3-lead">{JOURNEY.headlineLead}</span>{' '}
-          <span className="it">{JOURNEY.headlineAccent}</span>
+          <SplitText text={JOURNEY.headlineLead} className="v3-lead" />{' '}
+          <SplitText text={JOURNEY.headlineAccent} className="it" />
         </h2>
         <p className="v3-sub">{JOURNEY.sub}</p>
       </Reveal>
