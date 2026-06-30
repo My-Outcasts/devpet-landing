@@ -829,18 +829,17 @@ html.lenis, html.lenis body { height: auto; }
   flex-wrap: nowrap;
   gap: clamp(10px, 2.3vw, 32px);
   max-width: 1000px;
-  /* The band sits BEFORE the marquee; the small negative bottom margin dips
-     the pets' feet onto the marquee's TOP line, bodies above it, with the
-     ticker text scrolling cleanly below them. */
-  margin: 0 auto -8px;
+  /* The band sits BEFORE the marquee; this small bottom margin lifts the
+     pets a little above the banner's top line, text scrolling below them. */
+  margin: 0 auto 10px;
   padding: 0 24px 0;
 }
+/* Clean, flat pixel pets — no glow, no bob. */
 .v3-petband-pet {
   height: clamp(48px, 5.8vw, 76px);
   width: auto;
-  filter: drop-shadow(0 0 13px rgba(167,139,250,0.42)) drop-shadow(0 9px 11px rgba(0,0,0,0.5));
-  animation: v3-pet-float 4.6s ease-in-out infinite;
-  animation-delay: calc(var(--i, 0) * -0.55s);
+  filter: none;
+  animation: none;
 }
 @media (max-width: 560px) {
   .v3-petband { gap: 8px; }
