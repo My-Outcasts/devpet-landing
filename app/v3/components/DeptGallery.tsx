@@ -2,7 +2,8 @@
 
 import Image from 'next/image'
 import { useEffect, useRef, type CSSProperties, type MouseEvent } from 'react'
-import type { DEPARTMENTS } from '../content'
+import { DEPARTMENTS } from '../content'
+import SplitText from './SplitText'
 
 type Dept = (typeof DEPARTMENTS)['items'][number]
 
@@ -93,6 +94,14 @@ export default function DeptGallery({ items }: { items: readonly Dept[] }) {
   return (
     <div className="v3-gallery" ref={wrapRef}>
       <div className="v3-gallery-sticky">
+        <div className="v3-gallery-head">
+          <p className="v3-eyebrow">{DEPARTMENTS.eyebrow}</p>
+          <h2 className="v3-h2">
+            <SplitText text={DEPARTMENTS.headlineLead} className="v3-lead" />{' '}
+            <SplitText text={DEPARTMENTS.headlineAccent} className="it" />
+          </h2>
+          <p className="v3-sub">{DEPARTMENTS.sub}</p>
+        </div>
         <div className="v3-gallery-track" ref={trackRef}>
           {items.map((d) => (
             <article
