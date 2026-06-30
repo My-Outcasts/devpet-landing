@@ -30,8 +30,8 @@ export default function V3Page() {
       <Nav />
       <main className="v3-skewer">
         <Hero />
-        <Marquee />
         <PetBand />
+        <Marquee />
         <Loop />
         <Environment />
         <Departments />
