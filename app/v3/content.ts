@@ -61,19 +61,14 @@ export const ENVIRONMENT = {
   headlineAccent: 'you already build with.',
   sub: 'Codepet works inside Claude Code. It recommends the right skills, connectors and agents — and switches them on with you — so your cofounder is wired into your real workflow from the very first run. No blank config, no dread.',
   panelTitle: 'Codepet’s recommended setup',
+  // Alternating (zigzag) rows: each capability pairs an image with the option.
+  // `image` values are PLACEHOLDERS — swap each for a real screenshot.
   items: [
-    { name: 'Project skills', desc: 'Abilities tuned to what you’re building',   color: '#3B82F6' },
-    { name: 'Connectors',     desc: 'Your services, where Codepet already works', color: '#2DD4BF' },
-    { name: 'Subagents',      desc: 'Specialists Codepet hands the right job to',  color: '#A855F7' },
-    { name: 'Guardrails',     desc: 'Limits you set — Codepet stays inside them',  color: '#FF6B9D' },
+    { name: 'Project skills', desc: 'Abilities tuned to what you’re building',   color: '#3B82F6', image: '/v3/covers/code-pyramid.jpg'     },
+    { name: 'Connectors',     desc: 'Your services, where Codepet already works', color: '#2DD4BF', image: '/v3/covers/code-observatory.jpg' },
+    { name: 'Subagents',      desc: 'Specialists Codepet hands the right job to',  color: '#A855F7', image: '/v3/covers/code-ghibli.jpg'     },
+    { name: 'Guardrails',     desc: 'Limits you set — Codepet stays inside them',  color: '#FF6B9D', image: '/v3/covers/code-chess.jpg'      },
   ],
-  // Large feature image band below the text + panel.
-  // PLACEHOLDER `image` — swap for a real setup / connectors screenshot.
-  feature: {
-    image: '/v3/hero-ascii.jpg',
-    head: 'Your whole workspace, wired in.',
-    sub: 'Skills, connectors and subagents — switched on and ready from the very first run.',
-  },
 }
 
 // Eight departments — names, one-line needs, accent colour + cover.

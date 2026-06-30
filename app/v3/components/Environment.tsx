@@ -1,92 +1,48 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useRef, type CSSProperties } from 'react'
+import { type CSSProperties } from 'react'
 import Reveal from './Reveal'
 import SplitText from './SplitText'
 import { ENVIRONMENT } from '../content'
 
 /**
- * Environment — Codepet's guided Claude Code setup. The "recommended setup"
- * panel wires itself up when it scrolls into view: rows slide in staggered,
- * the four toggles flip ON one-by-one with a click-pulse, and a sheen sweeps
- * the glass. Reduced-motion: arrives fully on, no sequence.
+ * Environment — Codepet's guided Claude Code setup as an alternating (zigzag)
+ * feature list. A heading intro, then one row per capability: its image on
+ * one side and the option (hue node, name, description, an ON toggle in its
+ * colour) on the other, alternating left/right down the section.
  */
 export default function Environment() {
-  const panelRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const el = panelRef.current
-    if (!el) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      el.classList.add('is-live')
-      return
-    }
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            el.classList.add('is-live')
-            io.unobserve(el)
-          }
-        })
-      },
-      { threshold: 0.4 },
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-
   return (
     <section id="environment" className="v3-section">
-      <div className="v3-env-grid">
-        <Reveal>
-          <div>
-            <p className="v3-eyebrow">{ENVIRONMENT.eyebrow}</p>
-            <h2 className="v3-h2">
-              <SplitText text={ENVIRONMENT.headlineLead} className="v3-lead" />{' '}
-              <SplitText text={ENVIRONMENT.headlineAccent} className="it" />
-            </h2>
-            <p className="v3-sub">{ENVIRONMENT.sub}</p>
-          </div>
-        </Reveal>
-
-        <Reveal delay={120}>
-          <div className="v3-env-panel" ref={panelRef}>
-            <span className="v3-env-aura" aria-hidden="true" />
-            <div className="v3-env-panel-title">
-              <span className="v3-env-live" aria-hidden="true" />
-              {ENVIRONMENT.panelTitle}
-            </div>
-            <div className="v3-env-rows">
-              {ENVIRONMENT.items.map((it, i) => (
-                <div
-                  key={it.name}
-                  className="v3-env-row"
-                  style={{ ['--ri']: i, ['--c']: it.color } as CSSProperties}
-                >
-                  <span className="v3-env-node" aria-hidden="true" />
-                  <div className="v3-env-text">
-                    <div className="v3-env-name">{it.name}</div>
-                    <div className="v3-env-desc">{it.desc}</div>
-                  </div>
-                  <span className="v3-env-toggle" aria-hidden="true"><span /></span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-      </div>
-
-      <Reveal delay={80}>
-        <figure className="v3-env-feature v3-img-reveal" data-parallax="0.04">
-          <Image src={ENVIRONMENT.feature.image} alt="" fill sizes="(max-width: 720px) 100vw, 1180px" unoptimized />
-          <figcaption className="v3-env-feature-cap">
-            <h3>{ENVIRONMENT.feature.head}</h3>
-            <p>{ENVIRONMENT.feature.sub}</p>
-          </figcaption>
-        </figure>
+      <Reveal>
+        <div className="v3-env-intro">
+          <p className="v3-eyebrow">{ENVIRONMENT.eyebrow}</p>
+          <h2 className="v3-h2">
+            <SplitText text={ENVIRONMENT.headlineLead} className="v3-lead" />{' '}
+            <SplitText text={ENVIRONMENT.headlineAccent} className="it" />
+          </h2>
+          <p className="v3-sub">{ENVIRONMENT.sub}</p>
+        </div>
       </Reveal>
+
+      <div className="v3-env-zigzag">
+        {ENVIRONMENT.items.map((it, i) => (
+          <Reveal key={it.name} delay={(i % 2) * 60}>
+            <div className="v3-env-zrow" style={{ ['--c']: it.color } as CSSProperties}>
+              <div className="v3-env-zimg v3-img-reveal">
+                <Image src={it.image} alt="" fill sizes="(max-width: 760px) 100vw, 560px" unoptimized />
+              </div>
+              <div className="v3-env-zbody">
+                <span className="v3-env-node" aria-hidden="true" />
+                <h3 className="v3-env-zname">{it.name}</h3>
+                <p className="v3-env-zdesc">{it.desc}</p>
+                <span className="v3-env-toggle" aria-hidden="true"><span /></span>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
     </section>
   )
 }
