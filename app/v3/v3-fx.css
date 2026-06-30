@@ -815,6 +815,31 @@ html.lenis, html.lenis body { height: auto; }
   .v3-pet--loop, .v3-pet--env, .v3-pet--journey, .v3-pet--final { display: none; }
 }
 
+/* The full cast lined up in the glow band above the marquee. */
+.v3-petband {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  gap: clamp(16px, 4.2vw, 60px);
+  max-width: 1080px;
+  margin: -36px auto 0;
+  padding: 0 24px 18px;
+}
+.v3-petband-pet {
+  height: clamp(48px, 5.8vw, 76px);
+  width: auto;
+  filter: drop-shadow(0 0 13px rgba(167,139,250,0.42)) drop-shadow(0 9px 11px rgba(0,0,0,0.5));
+  animation: v3-pet-float 4.6s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * -0.55s);
+}
+@media (max-width: 560px) {
+  .v3-petband { gap: 10px; padding-bottom: 12px; }
+  .v3-petband-pet { height: 40px; }
+}
+
 /* ── Hero glass window: depth entrance on load ── */
 .v3-window-wrap { animation: v3-window-in 1.25s cubic-bezier(0.22,1,0.36,1) 0.85s both; }
 @keyframes v3-window-in {

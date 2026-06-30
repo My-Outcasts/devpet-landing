@@ -5,6 +5,7 @@ import Spotlights from './components/Spotlights'
 import SmoothScroll from './components/SmoothScroll'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
+import PetBand from './components/PetBand'
 import Marquee from './components/Marquee'
 import Loop from './components/Loop'
 import Environment from './components/Environment'
@@ -29,6 +30,7 @@ export default function V3Page() {
       <Nav />
       <main className="v3-skewer">
         <Hero />
+        <PetBand />
         <Marquee />
         <Loop />
         <Environment />
