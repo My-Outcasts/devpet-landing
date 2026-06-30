@@ -105,7 +105,7 @@ export default function DeptGallery({ items }: { items: readonly Dept[] }) {
               <div className={`v3-dept-cover${(d as { photo?: boolean }).photo ? ' v3-dept-cover--photo' : ''}`}>
                 <Image src={d.cover} alt={`${d.name} cover`} fill sizes="(max-width: 520px) 100vw, 340px" unoptimized />
                 {(d as { pet?: string }).pet && (
-                  <img className="v3-dept-pet" src={`/characters/${(d as { pet?: string }).pet}.svg`} alt="" aria-hidden="true" />
+                  <img className="v3-dept-pet" src={(d as { pet?: string }).pet} alt="" aria-hidden="true" />
                 )}
               </div>
               <div className="v3-dept-body">

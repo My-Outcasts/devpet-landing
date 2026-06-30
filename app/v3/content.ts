@@ -77,14 +77,14 @@ export const DEPARTMENTS = {
   headlineAccent: 'covered, together.',
   sub: 'Engineering to legal, marketing to finance. Codepet walks into each one knowing what it needs next — and which calls are still yours to make.',
   items: [
-    { key: 'eng',     name: 'Engineering', need: 'Ship the work and verify every change.',        color: '#2563EB', cover: '/v3/covers/code-pyramid.jpg',     photo: true, pet: 'byte'   },
-    { key: 'mkt',     name: 'Marketing',   need: 'Find the words and the launch sequence.',        color: '#FF8C42', cover: '/v3/covers/code-drummer.jpg',     photo: true, pet: 'nova'   },
-    { key: 'ops',     name: 'Operations',  need: 'Stand up the machinery behind the scenes.',      color: '#2DD4BF', cover: '/v3/coder-burst.jpg',            photo: true, pet: 'null'   },
-    { key: 'fin',     name: 'Finance',     need: 'Model the numbers, price with confidence.',      color: '#FDB022', cover: '/v3/covers/code-chess.jpg',      photo: true, pet: 'zero'   },
-    { key: 'legal',   name: 'Legal',       need: 'Cover the basics from sensible templates.',      color: '#9333EA', cover: '/v3/covers/code-observatory.jpg', photo: true, pet: 'sage'   },
-    { key: 'design',  name: 'Design',      need: 'Make the first run feel like magic.',            color: '#A855F7', cover: '/v3/covers/code-book.jpg',       photo: true, pet: 'luna'   },
-    { key: 'sales',   name: 'Sales',       need: 'Land your first real users, personally.',        color: '#7C3AED', cover: '/v3/covers/code-guitar.jpg',     photo: true, pet: 'crash'  },
-    { key: 'support', name: 'Support',     need: 'Answer once, then keep triage running quietly.', color: '#FF6B9D', cover: '/v3/covers/code-ghibli.jpg',     photo: true, pet: 'glitch' },
+    { key: 'eng',     name: 'Engineering', need: 'Ship the work and verify every change.',        color: '#2563EB', cover: '/v3/covers/code-pyramid.jpg',     photo: true, pet: '/v2/pets/4-purple-byte.png'  },
+    { key: 'mkt',     name: 'Marketing',   need: 'Find the words and the launch sequence.',        color: '#FF8C42', cover: '/v3/covers/code-drummer.jpg',     photo: true, pet: '/v2/pets/3-orange-fox.png'   },
+    { key: 'ops',     name: 'Operations',  need: 'Stand up the machinery behind the scenes.',      color: '#2DD4BF', cover: '/v3/coder-burst.jpg',            photo: true, pet: '/v2/pets/2-green-owl.png'    },
+    { key: 'fin',     name: 'Finance',     need: 'Model the numbers, price with confidence.',      color: '#FDB022', cover: '/v3/covers/code-chess.jpg',      photo: true, pet: '/v2/pets/5-yellow-bear.png'  },
+    { key: 'legal',   name: 'Legal',       need: 'Cover the basics from sensible templates.',      color: '#9333EA', cover: '/v3/covers/code-observatory.jpg', photo: true, pet: '/v2/pets/7-blue-penguin.png' },
+    { key: 'design',  name: 'Design',      need: 'Make the first run feel like magic.',            color: '#A855F7', cover: '/v3/covers/code-book.jpg',       photo: true, pet: '/v2/pets/1-pink-bear.png'    },
+    { key: 'sales',   name: 'Sales',       need: 'Land your first real users, personally.',        color: '#7C3AED', cover: '/v3/covers/code-guitar.jpg',     photo: true, pet: '/v2/pets/6-red-bear.png'     },
+    { key: 'support', name: 'Support',     need: 'Answer once, then keep triage running quietly.', color: '#FF6B9D', cover: '/v3/covers/code-ghibli.jpg',     photo: true, pet: '/v2/pets/1-pink-bear.png'    },
   ],
 }
 
