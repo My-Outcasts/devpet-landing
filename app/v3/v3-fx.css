@@ -418,13 +418,11 @@
   border-radius: inherit;
   transform: scaleX(var(--p, 0));
   transform-origin: left center;
-  background: linear-gradient(90deg, var(--v3-accent), var(--v3-accent-2), #ff8cc8, var(--v3-accent-2));
-  background-size: 200% 100%;
+  /* Static gradient — the beam's only motion is the scroll-driven fill. */
+  background: linear-gradient(90deg, var(--v3-accent), var(--v3-accent-2), #ff8cc8);
   box-shadow: 0 0 12px 1px rgba(124,58,237,0.7), 0 0 30px 4px rgba(167,139,250,0.38);
-  animation: v3-flow 3s linear infinite;
-  transition: transform 0.16s linear;
+  transition: transform 0.12s linear;
 }
-@keyframes v3-flow { to { background-position: -200% 0; } }
 /* A bright comet rides the leading edge of the beam. */
 .v3-journey-comet {
   position: absolute; top: 50%;
@@ -571,8 +569,11 @@ html.lenis, html.lenis body { height: auto; }
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 32px;
+  /* Sit the cards near the top of the pinned frame (just under the nav)
+     rather than dead-centre, so there's no big blank above them. */
+  justify-content: flex-start;
+  padding-top: clamp(110px, 16vh, 190px);
+  gap: 26px;
   overflow: hidden;
 }
 .v3-gallery.is-pinned .v3-gallery-track {

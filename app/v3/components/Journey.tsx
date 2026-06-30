@@ -31,8 +31,10 @@ export default function Journey() {
     let raf = 0
     const update = () => {
       const rect = path.getBoundingClientRect()
-      const start = window.innerHeight * 0.82 // path top here → progress 0
-      const end = window.innerHeight * 0.4 //   path top here → progress 1
+      // Spread the fill over a wide scroll range so the beam tracks the
+      // scroll closely (gradual) instead of completing in a short burst.
+      const start = window.innerHeight * 1.0 //  path enters the bottom → progress 0
+      const end = window.innerHeight * 0.22 //   path nears the top    → progress 1
       const p = Math.min(1, Math.max(0, (start - rect.top) / (start - end)))
       path.style.setProperty('--p', p.toFixed(4))
       const reached = p * (n - 1)
