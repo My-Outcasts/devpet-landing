@@ -265,7 +265,7 @@
   border-radius: 10px; padding: 11px 14px;
 }
 
-/* ── Environment section: text + recommended-setup panel ── */
+/* ── Environment section: artistic per-capability "recommended setup" ── */
 .v3-env-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -273,39 +273,104 @@
   align-items: center;
 }
 @media (max-width: 880px) { .v3-env-grid { grid-template-columns: 1fr; gap: 36px; } }
+
+/* Glass panel with a gradient border (padding-box/border-box trick) and a
+   slow drifting aurora behind the content. */
 .v3-env-panel {
-  background: var(--v3-glass);
-  border: 1px solid var(--v3-line);
-  border-radius: 20px;
-  padding: 22px 24px;
-  backdrop-filter: blur(14px);
+  position: relative;
+  border-radius: 22px;
+  padding: 20px 20px 22px;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(180deg, rgba(22,18,38,0.72), rgba(10,9,18,0.8)) padding-box,
+    linear-gradient(135deg, rgba(167,139,250,0.55), rgba(45,212,191,0.28), rgba(255,107,157,0.45)) border-box;
+  backdrop-filter: blur(16px) saturate(130%);
+  box-shadow: 0 34px 90px -44px rgba(124,58,237,0.55), inset 0 1px 0 rgba(255,255,255,0.05);
+  overflow: hidden;
 }
+.v3-env-aura {
+  position: absolute; inset: -30%;
+  z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(40% 40% at 24% 26%, rgba(59,130,246,0.20), transparent 70%),
+    radial-gradient(38% 38% at 80% 30%, rgba(168,85,247,0.20), transparent 70%),
+    radial-gradient(42% 42% at 58% 88%, rgba(255,107,157,0.18), transparent 70%);
+  filter: blur(10px);
+  animation: v3-env-drift 18s ease-in-out infinite alternate;
+}
+@keyframes v3-env-drift {
+  0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+  100% { transform: translate(5%, -4%) rotate(9deg) scale(1.08); }
+}
+
 .v3-env-panel-title {
+  position: relative; z-index: 1;
+  display: flex; align-items: center; gap: 8px;
   font-family: var(--v3-pixel);
   font-size: 11px;
   letter-spacing: 0.12em;
   color: var(--v3-accent-2);
-  margin-bottom: 8px;
+  margin: 4px 4px 16px;
 }
+.v3-env-live {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 10px 1px rgba(52,211,153,0.9);
+  animation: v3-env-blink 2s ease-in-out infinite;
+}
+@keyframes v3-env-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+.v3-env-rows {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; gap: 10px;
+}
+/* Each capability becomes a tinted glass info-card in its own hue (--c).
+   Hidden by default; the wire-up animation reveals each in sequence. Hover
+   changes only colour/glow (no transform) so the staggered entrance delay
+   can never lag the hover response. */
 .v3-env-row {
-  display: flex; align-items: center; justify-content: space-between; gap: 14px;
-  padding: 15px 0;
-  border-top: 1px solid var(--v3-line);
+  position: relative;
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  opacity: 0;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--c) 13%, transparent),
+      color-mix(in srgb, var(--c) 5%, transparent));
+  border: 1px solid color-mix(in srgb, var(--c) 32%, transparent);
+  transition: box-shadow 0.35s ease, border-color 0.3s ease, background 0.3s ease;
 }
+.v3-env-row:hover {
+  border-color: color-mix(in srgb, var(--c) 64%, transparent);
+  box-shadow: 0 14px 42px -16px color-mix(in srgb, var(--c) 75%, transparent);
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--c) 20%, transparent),
+      color-mix(in srgb, var(--c) 8%, transparent));
+}
+.v3-env-node {
+  flex: none;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 18%, transparent), 0 0 14px 1px var(--c);
+}
+.v3-env-text { flex: 1; min-width: 0; }
 .v3-env-name { font-family: var(--v3-sans); font-weight: 600; font-size: 15px; color: var(--v3-ink); }
 .v3-env-desc { font-size: 13px; color: var(--v3-ink-soft); margin-top: 3px; }
-/* Toggle defaults to OFF; the panel flips each one ON in sequence once it
-   scrolls into view (.v3-env-panel.is-live), wiring the setup up. */
+
+/* Toggle: OFF by default, flips ON (in the item's hue) when the panel wires
+   up (.v3-env-panel.is-live). */
 .v3-env-toggle {
   position: relative; flex: none;
-  width: 40px; height: 23px; border-radius: 9999px;
-  background: rgba(255,255,255,0.12);
+  width: 42px; height: 24px; border-radius: 9999px;
+  background: rgba(255,255,255,0.1);
   box-shadow: none;
   transition: background 0.4s ease, box-shadow 0.4s ease;
 }
 .v3-env-toggle span {
   position: absolute; top: 3px; left: 3px;
-  width: 17px; height: 17px; border-radius: 50%; background: #9c96b3;
+  width: 18px; height: 18px; border-radius: 50%; background: #9c96b3;
   transition: left 0.45s cubic-bezier(0.34,1.56,0.64,1), background 0.4s ease;
 }
 
@@ -634,7 +699,8 @@ html.lenis, html.lenis body { height: auto; }
 .v3-env-panel::after { /* sheen sweep on activate */
   content: ''; position: absolute; top: 0; left: -60%;
   width: 50%; height: 100%;
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.09), transparent);
+  z-index: 4;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.1), transparent);
   transform: skewX(-12deg);
   opacity: 0; pointer-events: none;
 }
@@ -644,25 +710,28 @@ html.lenis, html.lenis body { height: auto; }
   25% { opacity: 1; }
   100% { left: 130%; opacity: 0; }
 }
-.v3-env-row { opacity: 0; transform: translateX(14px); }
+/* Rows reveal in sequence via an animation (forwards), so the persisted end
+   state never fights the hover colour transition. */
 .v3-env-panel.is-live .v3-env-row {
-  opacity: 1; transform: none;
-  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);
-  transition-delay: calc(var(--ri, 0) * 0.16s);
+  animation: v3-env-row-in 0.55s cubic-bezier(0.22,1,0.36,1) calc(var(--ri, 0) * 0.16s) forwards;
+}
+@keyframes v3-env-row-in {
+  0%   { opacity: 0; transform: translateX(16px); }
+  100% { opacity: 1; transform: translateX(0); }
 }
 .v3-env-panel.is-live .v3-env-toggle {
-  background: linear-gradient(90deg, var(--v3-accent), var(--v3-accent-2));
-  box-shadow: 0 0 14px -3px var(--v3-accent);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--c) 78%, #ffffff 22%), var(--c));
+  box-shadow: 0 0 16px -2px var(--c);
   transition-delay: calc(var(--ri, 0) * 0.16s + 0.28s);
   animation: v3-toggle-pop 0.7s ease calc(var(--ri, 0) * 0.16s + 0.32s) 1;
 }
 .v3-env-panel.is-live .v3-env-toggle span {
-  left: 20px; background: #fff;
+  left: 21px; background: #fff;
   transition-delay: calc(var(--ri, 0) * 0.16s + 0.28s);
 }
 @keyframes v3-toggle-pop {
-  0%   { box-shadow: 0 0 0 0 rgba(167,139,250,0.55); }
-  100% { box-shadow: 0 0 0 9px rgba(167,139,250,0); }
+  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--c) 55%, transparent); }
+  100% { box-shadow: 0 0 0 9px color-mix(in srgb, var(--c) 0%, transparent); }
 }
 
 /* ── Final CTA: byte arrival ── */
@@ -716,9 +785,10 @@ html.lenis, html.lenis body { height: auto; }
   .v3-loop-pulse, .v3-step-log-caret, .v3-env-panel::after,
   .v3-btn--shimmer::before, .v3-final-accent { animation: none !important; }
   .v3-step.is-active { transform: none !important; box-shadow: none !important; }
-  .v3-env-row { opacity: 1 !important; transform: none !important; }
-  .v3-env-toggle { background: linear-gradient(90deg, var(--v3-accent), var(--v3-accent-2)) !important; }
-  .v3-env-toggle span { left: 20px !important; background: #fff !important; }
+  .v3-env-row { opacity: 1 !important; transform: none !important; animation: none !important; }
+  .v3-env-aura, .v3-env-live { animation: none !important; }
+  .v3-env-toggle { background: var(--c) !important; box-shadow: 0 0 16px -2px var(--c) !important; }
+  .v3-env-toggle span { left: 21px !important; background: #fff !important; }
   .v3-env-panel.is-live .v3-env-toggle { animation: none !important; }
   .v3-window-wrap { animation: none !important; }
 }

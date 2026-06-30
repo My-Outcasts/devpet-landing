@@ -52,16 +52,27 @@ export default function Environment() {
 
         <Reveal delay={120}>
           <div className="v3-env-panel" ref={panelRef}>
-            <div className="v3-env-panel-title">{ENVIRONMENT.panelTitle}</div>
-            {ENVIRONMENT.items.map((it, i) => (
-              <div key={it.name} className="v3-env-row" style={{ ['--ri']: i } as CSSProperties}>
-                <div>
-                  <div className="v3-env-name">{it.name}</div>
-                  <div className="v3-env-desc">{it.desc}</div>
+            <span className="v3-env-aura" aria-hidden="true" />
+            <div className="v3-env-panel-title">
+              <span className="v3-env-live" aria-hidden="true" />
+              {ENVIRONMENT.panelTitle}
+            </div>
+            <div className="v3-env-rows">
+              {ENVIRONMENT.items.map((it, i) => (
+                <div
+                  key={it.name}
+                  className="v3-env-row"
+                  style={{ ['--ri']: i, ['--c']: it.color } as CSSProperties}
+                >
+                  <span className="v3-env-node" aria-hidden="true" />
+                  <div className="v3-env-text">
+                    <div className="v3-env-name">{it.name}</div>
+                    <div className="v3-env-desc">{it.desc}</div>
+                  </div>
+                  <span className="v3-env-toggle" aria-hidden="true"><span /></span>
                 </div>
-                <span className="v3-env-toggle" aria-hidden="true"><span /></span>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </Reveal>
       </div>

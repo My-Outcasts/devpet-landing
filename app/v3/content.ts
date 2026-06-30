@@ -62,10 +62,10 @@ export const ENVIRONMENT = {
   sub: 'Codepet works inside Claude Code. It recommends the right skills, connectors and agents — and switches them on with you — so your cofounder is wired into your real workflow from the very first run. No blank config, no dread.',
   panelTitle: 'Codepet’s recommended setup',
   items: [
-    { name: 'Project skills', desc: 'Abilities tuned to what you’re building' },
-    { name: 'Connectors',     desc: 'Your services, where Codepet already works' },
-    { name: 'Subagents',      desc: 'Specialists Codepet hands the right job to' },
-    { name: 'Guardrails',     desc: 'Limits you set — Codepet stays inside them' },
+    { name: 'Project skills', desc: 'Abilities tuned to what you’re building',   color: '#3B82F6' },
+    { name: 'Connectors',     desc: 'Your services, where Codepet already works', color: '#2DD4BF' },
+    { name: 'Subagents',      desc: 'Specialists Codepet hands the right job to',  color: '#A855F7' },
+    { name: 'Guardrails',     desc: 'Limits you set — Codepet stays inside them',  color: '#FF6B9D' },
   ],
 }
 
