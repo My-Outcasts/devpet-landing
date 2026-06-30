@@ -30,6 +30,8 @@ export default function SmoothScroll() {
       const vel = (lenis as { velocity?: number }).velocity ?? 0
       const v = Math.max(-0.7, Math.min(0.7, vel * 0.025))
       document.documentElement.style.setProperty('--vskew', `${v.toFixed(3)}deg`)
+      // Expose raw velocity for the scroll-reactive marquee.
+      ;(window as unknown as { __v3vel?: number }).__v3vel = vel
 
       for (const { el, speed } of parallax) {
         const r = el.getBoundingClientRect()
