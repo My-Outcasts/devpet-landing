@@ -829,9 +829,9 @@ html.lenis, html.lenis body { height: auto; }
   flex-wrap: nowrap;
   gap: clamp(10px, 2.3vw, 32px);
   max-width: 1000px;
-  /* The band sits BEFORE the marquee; this small bottom margin lifts the
-     pets a little above the banner's top line, text scrolling below them. */
-  margin: 0 auto 10px;
+  /* The band sits BEFORE the marquee; this bottom margin lifts the pets up
+     into the glow band above the banner's top line. */
+  margin: 0 auto 34px;
   padding: 0 24px 0;
 }
 /* Clean, flat pixel pets — no glow, no bob. */
