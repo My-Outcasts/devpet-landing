@@ -23,7 +23,7 @@ export default function Departments() {
 
       <Reveal>
         <div className="v3-showcase">
-          <Image src="/v3/coder-burst.jpg" alt="One builder, a whole company of work" fill sizes="(max-width: 720px) 100vw, 1180px" unoptimized />
+          <Image src="/v3/coder-couch.jpg" alt="One builder, a whole company of work" fill sizes="(max-width: 720px) 100vw, 1180px" unoptimized />
           <div className="v3-showcase-cap">
             <h3>One person. A whole company’s worth of work.</h3>
             <p>Codepet carries the load across every department — so it never all lands on you at once.</p>
