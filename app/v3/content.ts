@@ -14,7 +14,7 @@ export const NAV = {
     { label: 'Journey', href: '#journey' },
     { label: 'Blog', href: '/blog' },
   ],
-  cta: 'Download for macOS',
+  cta: 'Open the web app',
 }
 
 export const HERO = {
@@ -23,7 +23,7 @@ export const HERO = {
   headlineLead: 'Let’s build your',
   headlineAccent: 'second brand',
   sub: 'Building something of your own means being the whole team at once. Codepet is the AI cofounder who carries it with you — so the dream never rests on you alone.',
-  ctaPrimary: 'Download for macOS',
+  ctaPrimary: 'Open the web app',
   ctaSecondary: 'Meet byte',
   scrollHint: 'scroll to explore',
 }
@@ -106,17 +106,17 @@ export const JOURNEY = {
 export const FINAL = {
   headlineLead: 'You don’t have to',
   headlineAccent: 'build it alone.',
-  sub: 'Codepet is free on macOS. byte is ready whenever you are.',
-  ctaPrimary: 'Download for macOS',
+  sub: 'Codepet runs free in your browser. byte is ready whenever you are.',
+  ctaPrimary: 'Open the web app',
   ctaSecondary: 'Read the Build Log',
 }
 
 export const FOOTER = {
-  tagline: 'Your AI cofounder for macOS.',
+  tagline: 'Your AI cofounder, in your browser.',
   links: [
     { label: 'Blog', href: '/blog' },
     { label: 'Privacy', href: '/privacy' },
-    { label: 'Download', href: '/download' },
+    { label: 'Web app', href: '/app' },
   ],
   copyright: '© 2026 Codepet — built by Outcasts.',
 }
