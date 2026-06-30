@@ -67,6 +67,7 @@ export default function Journey() {
         <div className="v3-journey-rail" aria-hidden="true">
           <span className="v3-journey-beam" />
           <span className="v3-journey-comet" />
+          <img className="v3-pet v3-pet--journey" src="/characters/glitch.svg" alt="" aria-hidden="true" />
         </div>
         {JOURNEY.phases.map((p, i) => (
           <div key={p.key} className="v3-phase" style={{ ['--i']: i } as CSSProperties}>

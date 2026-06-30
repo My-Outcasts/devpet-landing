@@ -761,6 +761,57 @@ html.lenis, html.lenis body { height: auto; }
 }
 @keyframes v3-spin { to { --v3a: 360deg; } }
 
+/* ── Pixel pet companions — charming accents across the sections ──
+   Float via the `translate` property so positioning `transform`s (centering,
+   walking) compose cleanly with the bob. */
+.v3-pet, .v3-dept-pet {
+  pointer-events: none;
+  image-rendering: pixelated;
+  animation: v3-pet-float 4.6s ease-in-out infinite;
+}
+@keyframes v3-pet-float {
+  0%, 100% { translate: 0 0; }
+  50%      { translate: 0 -9px; }
+}
+
+/* Department-card companion: peeks from the cover's bottom-right, haloed in
+   the card's own hue. */
+.v3-dept-pet {
+  position: absolute;
+  right: 10px; bottom: -15px;
+  height: 64px; width: auto;
+  z-index: 4;
+  filter:
+    drop-shadow(0 0 9px color-mix(in srgb, var(--dept) 55%, transparent))
+    drop-shadow(0 6px 9px rgba(0,0,0,0.55));
+}
+.v3-dept:hover .v3-dept-pet { animation-duration: 1.7s; }
+
+/* Section companions. */
+.v3-pet--loop, .v3-pet--env, .v3-pet--journey, .v3-pet--final {
+  position: absolute;
+  filter: drop-shadow(0 0 14px rgba(167,139,250,0.45)) drop-shadow(0 10px 14px rgba(0,0,0,0.5));
+}
+.v3-pet--loop   { bottom: 66px; right: 50px;  height: 122px; z-index: 5; }
+.v3-pet--env    { bottom: 74px; left: 42px;   height: 90px;  z-index: 5; }
+/* glitch walks the roadmap: rides the beam's leading edge (--p inherited). */
+.v3-pet--journey {
+  left: calc(var(--p, 0) * 100%);
+  bottom: 15px;
+  height: 54px; z-index: 6;
+  transform: translateX(-50%);
+  transition: left 0.16s linear;
+}
+/* byte arrives in the final bloom, behind the headline. */
+.v3-pet--final {
+  top: 26px; left: 50%;
+  height: 128px; z-index: 1;
+  transform: translateX(-50%);
+}
+@media (max-width: 820px) {
+  .v3-pet--loop, .v3-pet--env, .v3-pet--journey, .v3-pet--final { display: none; }
+}
+
 /* ── Hero glass window: depth entrance on load ── */
 .v3-window-wrap { animation: v3-window-in 1.25s cubic-bezier(0.22,1,0.36,1) 0.85s both; }
 @keyframes v3-window-in {
@@ -791,4 +842,5 @@ html.lenis, html.lenis body { height: auto; }
   .v3-env-toggle span { left: 21px !important; background: #fff !important; }
   .v3-env-panel.is-live .v3-env-toggle { animation: none !important; }
   .v3-window-wrap { animation: none !important; }
+  .v3-pet, .v3-dept-pet { animation: none !important; translate: none !important; }
 }

@@ -38,6 +38,7 @@ export default function Environment() {
 
   return (
     <section id="environment" className="v3-section">
+      <img className="v3-pet v3-pet--env" src="/characters/sage.svg" alt="" aria-hidden="true" />
       <div className="v3-env-grid">
         <Reveal>
           <div>
