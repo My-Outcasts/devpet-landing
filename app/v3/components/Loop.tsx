@@ -21,7 +21,6 @@ export default function Loop() {
     const stage = stageRef.current
     if (!stage) return
     const cards = Array.from(stage.querySelectorAll<HTMLElement>('.v3-loopcard--stage'))
-    const dots = Array.from(stage.querySelectorAll<HTMLElement>('.v3-loopstage-dot'))
     const n = cards.length
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
@@ -55,8 +54,6 @@ export default function Loop() {
         card.style.filter = blur > 0.2 ? `blur(${blur.toFixed(1)}px)` : 'none'
         card.style.zIndex = String(Math.round(1000 + z))
       })
-      const near = Math.max(0, Math.min(n - 1, Math.round(prog)))
-      dots.forEach((dot, i) => dot.classList.toggle('is-on', i === near))
     }
 
     const update = () => {
@@ -75,7 +72,6 @@ export default function Loop() {
         card.style.filter = ''
         card.style.zIndex = ''
       })
-      dots.forEach((dot, i) => dot.classList.toggle('is-on', i === 0))
     }
 
     const measure = () => {
@@ -141,11 +137,6 @@ export default function Loop() {
               </div>
             </article>
           ))}
-          <div className="v3-loopstage-dots" aria-hidden="true">
-            {LOOP.steps.map((s, i) => (
-              <span key={s.key} className={`v3-loopstage-dot${i === 0 ? ' is-on' : ''}`} />
-            ))}
-          </div>
         </div>
       </div>
     </section>

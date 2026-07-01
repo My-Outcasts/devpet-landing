@@ -606,34 +606,13 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: min(560px, 86vw);
-  height: min(600px, 74vh);
+  width: min(760px, 92vw);
+  height: min(700px, 84vh);
   transform: translate(-50%, -50%);
   transform-style: preserve-3d;
   backface-visibility: hidden;
   will-change: transform, opacity, filter;
   box-shadow: 0 40px 120px -40px rgba(0, 0, 0, 0.85);
-}
-.v3-loopstage-dots {
-  position: absolute;
-  left: 50%;
-  bottom: clamp(26px, 5vh, 54px);
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-  z-index: 3000;
-}
-.v3-loopstage-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--v3-line);
-  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-}
-.v3-loopstage-dot.is-on {
-  background: var(--v3-accent-2);
-  transform: scale(1.35);
-  box-shadow: 0 0 12px rgba(167, 139, 250, 0.7);
 }
 /* Fallback — not pinned (≤820px / reduced-motion): plain stacked cards. */
 .v3-loopstage:not(.is-pinned) .v3-loopstage-sticky {
@@ -656,7 +635,6 @@
   width: 100%;
   height: clamp(320px, 62vw, 440px);
 }
-.v3-loopstage:not(.is-pinned) .v3-loopstage-dots { display: none; }
 
 .v3-scrollhint {
   position: absolute;
