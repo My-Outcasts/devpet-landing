@@ -216,7 +216,7 @@
   overflow: hidden;
   margin-top: 30px;
   border: 1px solid var(--v3-line);
-  aspect-ratio: 21 / 9;
+  aspect-ratio: 16 / 9;
 }
 .v3-showcase img { width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
 .v3-showcase::after {
@@ -748,23 +748,9 @@ html.lenis, html.lenis body { height: auto; }
   padding-inline: max(32px, calc((100vw - 1180px) / 2));
   will-change: transform;
 }
-.v3-gallery.is-pinned .v3-dept { flex: 0 0 340px; width: 340px; }
-.v3-gallery.is-pinned .v3-gallery-rail {
-  display: block;
-  width: min(1116px, calc(100vw - 64px));
-  margin: 0 auto;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--v3-line);
-  overflow: hidden;
-}
-.v3-gallery.is-pinned .v3-gallery-rail i {
-  display: block;
-  height: 100%;
-  width: calc(8% + var(--p, 0) * 92%);
-  background: linear-gradient(90deg, var(--v3-accent), var(--v3-accent-2));
-  box-shadow: 0 0 12px -2px var(--v3-accent);
-}
+.v3-gallery.is-pinned .v3-dept { flex: 0 0 420px; width: 420px; }
+/* Progress rail intentionally hidden — the horizontal scroll reads on its own. */
+.v3-gallery.is-pinned .v3-gallery-rail { display: none; }
 
 /* ── 3D tilt + moving glare on department cards ── */
 .v3-dept--tilt {
