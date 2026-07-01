@@ -12,6 +12,15 @@ export default function SmoothScroll() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
+    // Mobile / touch: use the browser's NATIVE scrolling. Lenis layers a JS
+    // scroll loop on top of iOS's already-smooth momentum, and the
+    // scroll-driven velocity skew (which re-transforms all 7 full-height
+    // sections every frame) + parallax add per-frame work the mobile GPU
+    // can't keep up with — that's the hitching. Native scroll is smoother
+    // here; the ambient atmosphere (nebula, grain, glow) is pure CSS and
+    // stays. Anchor links glide via CSS scroll-behavior instead (see v3.css).
+    if (window.matchMedia('(max-width: 820px)').matches) return
+
     const lenis = new Lenis({ duration: 1.1, smoothWheel: true })
 
     let raf = 0

@@ -1001,16 +1001,22 @@ html.lenis, html.lenis body { height: auto; }
   100% { opacity: 1; transform: none; }
 }
 
-/* ── Mobile: keep the desktop atmosphere, drop only the one always-on
-   full-screen repaint ──
-   The real mobile-scroll cost was the continuously-running WebGL/canvas
-   hero loops (now paused off-screen in JS), not the ambient CSS. So the
-   nebula drift, velocity skew, frosted backdrops and glow all run on
-   phones now, matching desktop. The single exception: the film grain's
-   mix-blend animation repaints the whole screen every frame regardless of
-   scroll — we keep the static grain texture but stop its animation. */
+/* ── Mobile: keep the ambient atmosphere, cut the per-scroll-frame cost ──
+   Phones use native scroll (no Lenis — see SmoothScroll). What stays is the
+   compositor-cheap ambient look: nebula drift, glow, static grain. What goes
+   is everything that repaints/recomputes on every scroll frame — the single
+   biggest source of the hitching:
+   - film grain's full-screen mix-blend ANIMATION (static texture kept)
+   - velocity skew: with Lenis off the var never updates, so null the
+     transform too (otherwise 7 full-height sections sit on needless layers)
+   - backdrop-filter on the large scrolling panels: re-samples the blurred
+     backdrop every frame during scroll. Faint fill still reads on the dark
+     canvas; the fixed nav keeps its blur. */
 @media (max-width: 820px) {
   .v3-grain { animation: none !important; }
+  .v3-skewer > * { transform: none !important; }
+  .v3-step,
+  .v3-env-panel { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
