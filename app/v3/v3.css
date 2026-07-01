@@ -523,6 +523,76 @@
   transform: none !important;
 }
 
+/* ============================================================
+   LOOP — Execute / Deliver / Approve as full-bleed image cards
+   ============================================================ */
+.v3-loopcards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 1.6vw, 26px);
+  margin-top: clamp(36px, 5vh, 64px);
+}
+.v3-loopcards > * { min-width: 0; }
+.v3-loopcard {
+  position: relative;
+  height: clamp(360px, 32vw, 440px);
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--v3-line);
+  background: var(--v3-bg-2);
+  transition: box-shadow 0.45s ease, border-color 0.45s ease;
+}
+.v3-loopcard-media { position: absolute; inset: 0; }
+.v3-loopcard-media img {
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 0.7s ease;
+}
+.v3-loopcard.is-active .v3-loopcard-media img { transform: scale(1.07); }
+.v3-loopcard-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(7, 6, 12, 0.12) 28%, rgba(7, 6, 12, 0.92) 100%);
+}
+.v3-loopcard-body {
+  position: absolute;
+  inset: 0;
+  padding: clamp(20px, 2vw, 30px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.v3-loopcard-num {
+  align-self: flex-start;
+  font-family: var(--v3-pixel);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--v3-accent-2);
+}
+.v3-loopcard-title {
+  margin: 0 0 8px;
+  font-family: var(--v3-italic);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(26px, 2.4vw, 34px);
+  color: #fff;
+}
+.v3-loopcard-desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--v3-ink-soft);
+  max-width: 34ch;
+}
+.v3-loopcard.is-active {
+  border-color: rgba(167, 139, 250, 0.5);
+  box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.4), 0 24px 70px -24px rgba(124, 58, 237, 0.75);
+}
+@media (max-width: 900px) {
+  .v3-loopcards { grid-template-columns: 1fr; }
+  .v3-loopcard { height: clamp(320px, 60vw, 420px); }
+}
+
 .v3-scrollhint {
   position: absolute;
   bottom: 30px; left: 50%;
