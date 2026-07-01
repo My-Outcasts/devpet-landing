@@ -41,8 +41,9 @@ export const metadata: Metadata = {
         },
       }
     : {}),
-  title: 'Codepet — The AI coding school with your pet',
-  description: 'Learn to vibecode with your companion. 16 skills, 4 tiers, and a pet that grows as you do.',
+  title: 'Codepet — your AI cofounder',
+  description:
+    'Run your whole company with AI, department by department. byte drafts and builds with you, and you approve every move. A free macOS app.',
   // PWA manifest — installable on macOS / Windows / Android. When the
   // visitor adds Codepet to their dock or home screen, Chrome/Safari
   // open it in a standalone window with no tab bar or URL bar
@@ -121,7 +122,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       url: SITE_URL,
       logo: `${SITE_URL}/icons/codepet-icon-512.png`,
       description:
-        'Codepet is a macOS app that trains people to build real software with AI.',
+        'Codepet is your AI cofounder — a free macOS app that helps you run your whole company with AI, department by department, with you approving every move.',
       parentOrganization: { '@type': 'Organization', name: 'MURROR' },
     },
     {

@@ -26,6 +26,14 @@ const nextConfig: NextConfig = {
         destination: '/',
         permanent: false,
       },
+      // The v3 cinematic-dark design is now the canonical landing at `/`
+      // (see app/page.tsx). Canonicalize the old draft URL so any inbound
+      // links to /v3 land on `/`. 307 keeps it reversible.
+      {
+        source: '/v3',
+        destination: '/',
+        permanent: false,
+      },
       // Stable, branded download URL → latest GitHub release asset. The
       // website button points here (code-pet.com/download/Codepet.dmg) so it
       // never changes per release; only the GitHub release gets updated.
@@ -52,6 +60,19 @@ const nextConfig: NextConfig = {
       {
         source: '/academy/:path*',
         destination: 'https://codepet-academy.vercel.app/:path*',
+      },
+      // Mount the Codepet v1.2 web app under /app so the v3 landing's
+      // "Open the web app" CTA keeps visitors on code-pet.com/app instead
+      // of bouncing to the *.vercel.app domain. Vercel proxies the request
+      // server-side; the app codebase (My-Outcasts/Codepet-ver-1.2) stays
+      // untouched and deploys independently.
+      {
+        source: '/app',
+        destination: 'https://codepet-v1-2.vercel.app',
+      },
+      {
+        source: '/app/:path*',
+        destination: 'https://codepet-v1-2.vercel.app/:path*',
       },
     ]
   },
