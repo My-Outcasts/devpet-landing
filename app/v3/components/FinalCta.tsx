@@ -1,6 +1,7 @@
 import Reveal from './Reveal'
 import Magnetic from './Magnetic'
 import ConvergeParticles from './ConvergeParticles'
+import SoonButton from './SoonButton'
 import { FINAL, FOOTER } from '../content'
 
 /**
@@ -25,9 +26,9 @@ export default function FinalCta() {
             </p>
             <div className="v3-final-cta">
               <Magnetic strength={0.45}>
-                <a href="/app" className="v3-btn v3-btn--primary v3-btn--shimmer">
+                <SoonButton className="v3-btn v3-btn--primary v3-btn--shimmer">
                   {FINAL.ctaPrimary}
-                </a>
+                </SoonButton>
               </Magnetic>
               <a href="/blog" className="v3-btn v3-btn--ghost">{FINAL.ctaSecondary}</a>
             </div>

@@ -642,6 +642,12 @@ html.lenis, html.lenis body { height: auto; }
   display: grid; place-items: center;
   will-change: transform;
   animation: v3-intro-out 1.15s cubic-bezier(0.76,0,0.24,1) 0.7s forwards;
+  /* Decorative, aria-hidden splash. It MUST never intercept pointer
+     events — otherwise if the wipe-out animation is paused/incomplete
+     (background tab throttling, some reduced-motion paths) this
+     full-screen z-index:200 layer silently swallows every click,
+     including the hero waitlist input. */
+  pointer-events: none;
 }
 .v3-intro-word {
   font-family: var(--v3-pixel);
