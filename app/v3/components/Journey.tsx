@@ -6,25 +6,45 @@ import SplitText from './SplitText'
 import { JOURNEY } from '../content'
 
 /**
- * Journey — a horizontal roadmap you travel along by scrolling. The section
- * pins; vertical scroll pans the track left→right so each stage
- * (Find→Build→Ship→Launch→Grow) arrives at centre one at a time, while a
- * horizontal line "draws" behind it — its glowing tip stays at screen
- * centre, so scrolling literally moves you to each stage. Each stage
- * unlocks as it's reached (node lights, card fades in). Below 820px /
+ * Journey — a curved horizontal roadmap you travel by scrolling. The
+ * section pins; each stage gets one "beat" of scroll during which a curved
+ * line sweeps left→right and fills the ENTIRE screen, a glowing dot rides
+ * the curve edge to edge, and that stage's (large) title is shown. Reaching
+ * the next beat swaps the title and the line sweeps again. Below 820px /
  * reduced-motion it falls back to a plain vertical list.
  */
+const CURVE = 'M0,150 C200,80 420,80 600,150 C780,220 1000,220 1200,150'
+const VBW = 1200
+const VBH = 300
+
 export default function Journey() {
   const wrapRef = useRef<HTMLDivElement>(null)
-  const trackRef = useRef<HTMLDivElement>(null)
+  const svgRef = useRef<SVGSVGElement>(null)
+  const drawRef = useRef<SVGPathElement>(null)
+  const dotRef = useRef<HTMLSpanElement>(null)
 
   useEffect(() => {
     const wrap = wrapRef.current
-    const track = trackRef.current
-    if (!wrap || !track) return
-    const cells = Array.from(track.querySelectorAll<HTMLElement>('.v3-hroad-cell'))
-    const n = cells.length
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const draw = drawRef.current
+    const svg = svgRef.current
+    const dot = dotRef.current
+    if (!wrap || !draw || !svg || !dot) return
+    const stages = Array.from(wrap.querySelectorAll<HTMLElement>('.v3-hroad-stage'))
+    const n = stages.length
+
+    const place = (fill: number) => {
+      const L = draw.getTotalLength()
+      const pt = draw.getPointAtLength(fill * L)
+      const box = svg.getBoundingClientRect()
+      dot.style.left = `${((pt.x / VBW) * box.width).toFixed(1)}px`
+      dot.style.top = `${((pt.y / VBH) * box.height).toFixed(1)}px`
+    }
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      wrap.classList.remove('is-pinned')
+      stages.forEach((s) => s.classList.add('is-active'))
+      return
+    }
 
     let active = false
     let raf = 0
@@ -33,28 +53,25 @@ export default function Journey() {
       if (!active) return
       const top = wrap.getBoundingClientRect().top + window.scrollY
       const dist = wrap.offsetHeight - window.innerHeight
-      let p = (window.scrollY - top) / Math.max(1, dist)
-      p = Math.min(1, Math.max(0, p))
-      const cellW = cells[0].getBoundingClientRect().width
-      const startX = window.innerWidth / 2 - cellW / 2
-      const travel = (n - 1) * cellW
-      track.style.transform = `translate3d(${(startX - p * travel).toFixed(1)}px,0,0)`
-      wrap.style.setProperty('--p', p.toFixed(4))
-      cells.forEach((c, i) => c.classList.toggle('is-on', p >= i / (n - 1) - 0.06))
+      const p = Math.min(1, Math.max(0, (window.scrollY - top) / Math.max(1, dist)))
+      const pos = p * n
+      const idx = Math.min(n - 1, Math.floor(pos))
+      const fill = p >= 1 ? 1 : Math.min(1, pos - idx)
+      wrap.style.setProperty('--fill', fill.toFixed(4))
+      place(fill)
+      stages.forEach((s, i) => s.classList.toggle('is-active', i === idx))
     }
 
     const measure = () => {
-      active = window.innerWidth > 820 && !reduce
+      active = window.innerWidth > 820
       wrap.classList.toggle('is-pinned', active)
       if (active) {
-        const cellW = cells[0].getBoundingClientRect().width
-        wrap.style.height = `${(n - 1) * cellW + window.innerHeight}px`
+        wrap.style.height = `${n * window.innerHeight}px`
+        update()
       } else {
         wrap.style.height = ''
-        track.style.transform = ''
-        cells.forEach((c) => c.classList.add('is-on'))
+        stages.forEach((s) => s.classList.add('is-active'))
       }
-      update()
     }
 
     const onScroll = () => {
@@ -84,24 +101,37 @@ export default function Journey() {
         <p className="v3-sub">{JOURNEY.sub}</p>
       </Reveal>
 
-      <div className="v3-hroad" ref={wrapRef} style={{ ['--n']: JOURNEY.phases.length } as CSSProperties}>
+      <div className="v3-hroad" ref={wrapRef}>
         <div className="v3-hroad-sticky">
-          <div className="v3-hroad-track" ref={trackRef}>
-            <div className="v3-hroad-line" aria-hidden="true">
-              <span className="v3-hroad-fill" />
-            </div>
+          <div className="v3-hroad-lineband">
+            <svg
+              className="v3-hroad-svg"
+              ref={svgRef}
+              viewBox={`0 0 ${VBW} ${VBH}`}
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <defs>
+                <linearGradient id="v3-hroad-grad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#a78bfa" />
+                  <stop offset="100%" stopColor="#7c3aed" />
+                </linearGradient>
+              </defs>
+              <path className="v3-hroad-track" d={CURVE} />
+              <path className="v3-hroad-draw" ref={drawRef} d={CURVE} pathLength={1} />
+            </svg>
+            <span className="v3-hroad-dot" ref={dotRef} aria-hidden="true" />
+          </div>
+
+          <div className="v3-hroad-labels">
             {JOURNEY.phases.map((ph, i) => (
               <div
                 key={ph.key}
-                className="v3-hroad-cell"
-                data-pos={i % 2 === 0 ? 'above' : 'below'}
+                className={`v3-hroad-stage${i === 0 ? ' is-active' : ''}`}
               >
-                <div className="v3-hroad-card">
-                  <span className="v3-rm-idx">0{i + 1}</span>
-                  <h3 className="v3-rm-label">{ph.label}</h3>
-                  <p className="v3-rm-note">{ph.note}</p>
-                </div>
-                <span className="v3-hroad-node" />
+                <span className="v3-rm-idx">0{i + 1}</span>
+                <h3 className="v3-hroad-title">{ph.label}</h3>
+                <p className="v3-hroad-note">{ph.note}</p>
               </div>
             ))}
           </div>

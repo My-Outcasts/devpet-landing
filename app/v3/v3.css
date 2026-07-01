@@ -807,7 +807,7 @@
 .v3-phase-note { font-size: 12.5px; color: var(--v3-ink-mute); margin: 0; }
 
 /* ============================================================
-   ROADMAP — horizontal pinned line you travel along by scrolling
+   ROADMAP — curved line that fills the screen; one stage per scroll
    ============================================================ */
 .v3-hroad { position: relative; }
 .v3-hroad-sticky {
@@ -815,122 +815,78 @@
   top: 0;
   height: 100vh;
   overflow: hidden;
-  display: flex;
-  align-items: center;
 }
-.v3-hroad-track {
-  position: relative;
-  display: flex;
-  width: max-content;
-  height: min(58vh, 440px);
-  will-change: transform;
-}
-.v3-hroad-cell {
-  flex: 0 0 62vw;
-  position: relative;
-  display: grid;
-  place-items: center;
-}
-.v3-hroad-line {
-  position: absolute;
-  top: 50%;
-  left: 31vw;
-  width: calc((var(--n) - 1) * 62vw);
-  height: 2px;
-  transform: translateY(-50%);
-  background: var(--v3-line);
-}
-.v3-hroad-fill {
+.v3-hroad-lineband {
   position: absolute;
   left: 0;
-  top: 0;
-  height: 100%;
-  width: calc(var(--p, 0) * (var(--n) - 1) * 62vw);
-  background: linear-gradient(90deg, var(--v3-accent-2), var(--v3-accent));
-  box-shadow: 0 0 16px rgba(124, 58, 237, 0.6);
+  right: 0;
+  top: 30%;
+  height: 180px;
 }
-.v3-hroad-node {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: var(--v3-bg-2);
-  border: 2px solid var(--v3-line);
-  z-index: 2;
-  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+.v3-hroad-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.v3-hroad-svg path { fill: none; vector-effect: non-scaling-stroke; }
+.v3-hroad-track { stroke: var(--v3-line); stroke-width: 1.5; }
+.v3-hroad-draw {
+  stroke: url(#v3-hroad-grad);
+  stroke-width: 2.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: calc(1 - var(--fill, 0));
+  filter: drop-shadow(0 0 7px rgba(124, 58, 237, 0.6));
 }
-.v3-hroad-cell.is-on .v3-hroad-node {
-  background: var(--v3-accent-2);
-  border-color: var(--v3-accent-2);
-  box-shadow: 0 0 16px rgba(167, 139, 250, 0.85);
-  transform: scale(1.25);
-}
-.v3-hroad-card {
+.v3-hroad-dot {
   position: absolute;
-  left: 50%;
-  width: min(340px, 70vw);
+  left: 0;
+  top: 50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--v3-accent-2);
+  box-shadow: 0 0 22px 5px rgba(167, 139, 250, 0.75);
+  transform: translate(-50%, -50%);
+}
+.v3-hroad-labels {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 55%;
   text-align: center;
+  padding: 0 24px;
+}
+.v3-hroad-stage {
+  position: absolute;
+  left: 0;
+  right: 0;
   opacity: 0;
-  transition: opacity 0.55s ease, transform 0.55s ease;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
 }
-.v3-hroad-cell[data-pos='above'] .v3-hroad-card {
-  bottom: calc(50% + 42px);
-  transform: translateX(-50%) translateY(16px);
-}
-.v3-hroad-cell[data-pos='below'] .v3-hroad-card {
-  top: calc(50% + 42px);
-  transform: translateX(-50%) translateY(-16px);
-}
-.v3-hroad-cell.is-on .v3-hroad-card { opacity: 1; transform: translateX(-50%); }
-.v3-rm-idx { font-family: var(--v3-pixel); font-size: 11px; letter-spacing: 0.1em; color: var(--v3-accent-2); }
-.v3-rm-label {
+.v3-hroad-stage.is-active { opacity: 1; transform: none; }
+.v3-hroad-title {
   font-family: var(--v3-italic);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(26px, 3vw, 40px);
+  font-size: clamp(52px, 9vw, 120px);
+  line-height: 1.02;
   color: #fff;
-  margin: 6px 0;
+  margin: 12px 0 14px;
 }
-.v3-rm-note { font-size: 14px; line-height: 1.55; color: var(--v3-ink-soft); margin: 0; }
+.v3-hroad-note { font-size: clamp(16px, 1.8vw, 24px); color: var(--v3-ink-soft); margin: 0; }
+.v3-rm-idx { font-family: var(--v3-pixel); font-size: 12px; letter-spacing: 0.1em; color: var(--v3-accent-2); }
 
 /* Fallback — not pinned (≤820px / reduced-motion): plain vertical list. */
-.v3-hroad:not(.is-pinned) .v3-hroad-sticky {
-  position: static;
-  height: auto;
-  display: block;
-  overflow: visible;
-}
-.v3-hroad:not(.is-pinned) .v3-hroad-track {
-  flex-direction: column;
-  width: 100%;
-  height: auto;
-  transform: none !important;
-  gap: 30px;
-  margin-top: 12px;
-}
-.v3-hroad:not(.is-pinned) .v3-hroad-cell { flex: none; width: 100%; place-items: stretch; }
-.v3-hroad:not(.is-pinned) .v3-hroad-line {
-  top: 0;
-  bottom: 0;
-  left: 6px;
-  width: 2px;
-  height: auto;
-  transform: none;
-}
-.v3-hroad:not(.is-pinned) .v3-hroad-fill { display: none; }
-.v3-hroad:not(.is-pinned) .v3-hroad-node { position: absolute; left: 6px; top: 4px; transform: translateX(-50%); }
-.v3-hroad:not(.is-pinned) .v3-hroad-card,
-.v3-hroad:not(.is-pinned) .v3-hroad-cell[data-pos='above'] .v3-hroad-card,
-.v3-hroad:not(.is-pinned) .v3-hroad-cell[data-pos='below'] .v3-hroad-card {
-  position: static;
-  left: auto;
-  top: auto;
-  bottom: auto;
-  transform: none;
+.v3-hroad:not(.is-pinned) .v3-hroad-sticky { position: static; height: auto; overflow: visible; }
+.v3-hroad:not(.is-pinned) .v3-hroad-lineband,
+.v3-hroad:not(.is-pinned) .v3-hroad-dot { display: none; }
+.v3-hroad:not(.is-pinned) .v3-hroad-labels { position: static; text-align: left; padding: 0; margin-top: 12px; }
+.v3-hroad:not(.is-pinned) .v3-hroad-stage {
+  position: relative;
   opacity: 1;
-  text-align: left;
-  width: 100%;
-  padding-left: 26px;
+  transform: none;
+  padding: 16px 0 16px 24px;
+  border-left: 2px solid var(--v3-line);
 }
+.v3-hroad:not(.is-pinned) .v3-hroad-title { font-size: clamp(40px, 12vw, 64px); }
 
 /* ============================================================
    FINAL CTA + FOOTER
