@@ -1,11 +1,13 @@
 'use client'
 
 import { NAV } from '../content'
+import SoonButton from './SoonButton'
 
 /**
  * Nav — a floating frosted pill, centred at the top.
  * Minimal by design (less-is-more): brand, a few anchors, and the
- * single "Open the web app" CTA (proxied to the v1.2 app at /app).
+ * single "Open the web app" CTA. The web app isn't live yet, so that
+ * CTA reveals a "launching soon" note instead of navigating.
  */
 export default function Nav() {
   return (
@@ -19,7 +21,7 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <a href="/app" className="v3-nav-cta">{NAV.cta}</a>
+        <SoonButton className="v3-nav-cta">{NAV.cta}</SoonButton>
       </nav>
     </div>
   )

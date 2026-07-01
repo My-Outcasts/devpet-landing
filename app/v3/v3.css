@@ -362,6 +362,28 @@
   color: #f8a3a3;
 }
 
+/* SoonButton — "Open the web app" CTAs reveal a small floating
+   "launching soon" note on click (web app is pre-launch). */
+.v3-soon-wrap { position: relative; display: inline-flex; }
+.v3-soon-note {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: 5;
+  font-size: 12px;
+  color: var(--v3-ink-soft);
+  background: var(--v3-glass-hi);
+  border: 1px solid var(--v3-line);
+  padding: 7px 13px;
+  border-radius: 9999px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px -10px rgba(0,0,0,0.6);
+  animation: v3-waitlist-in 0.24s ease both;
+  pointer-events: none;
+}
+
 .v3-scrollhint {
   position: absolute;
   bottom: 30px; left: 50%;
