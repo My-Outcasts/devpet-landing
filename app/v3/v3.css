@@ -807,106 +807,129 @@
 .v3-phase-note { font-size: 12.5px; color: var(--v3-ink-mute); margin: 0; }
 
 /* ============================================================
-   ROADMAP — flowing line that draws itself on scroll
+   ROADMAP — horizontal pinned line you travel along by scrolling
    ============================================================ */
-.v3-roadmap {
+.v3-hroad { position: relative; }
+.v3-hroad-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.v3-hroad-track {
   position: relative;
-  max-width: 860px;
-  margin: clamp(40px, 6vh, 76px) auto 0;
-  height: calc(var(--rows, 5) * clamp(150px, 20vh, 200px));
+  display: flex;
+  width: max-content;
+  height: min(58vh, 440px);
+  will-change: transform;
 }
-.v3-roadmap-svg {
+.v3-hroad-cell {
+  flex: 0 0 62vw;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.v3-hroad-line {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  z-index: 0;
+  top: 50%;
+  left: 31vw;
+  width: calc((var(--n) - 1) * 62vw);
+  height: 2px;
+  transform: translateY(-50%);
+  background: var(--v3-line);
 }
-.v3-roadmap-svg path { fill: none; vector-effect: non-scaling-stroke; }
-.v3-rm-echo { stroke: var(--v3-line); stroke-width: 1; opacity: 0.4; }
-.v3-rm-track { stroke: var(--v3-line); stroke-width: 1.5; }
-.v3-rm-draw {
-  stroke: url(#v3-rm-grad);
-  stroke-width: 2.5;
-  stroke-dasharray: 1;
-  stroke-dashoffset: calc(1 - var(--p, 0));
-  filter: drop-shadow(0 0 6px rgba(124, 58, 237, 0.55));
-}
-.v3-rm-step {
+.v3-hroad-fill {
   position: absolute;
   left: 0;
-  right: 0;
-  top: calc((var(--i) + 0.5) / var(--rows) * 100%);
-  z-index: 1;
-}
-.v3-rm-node {
-  position: absolute;
   top: 0;
-  left: calc(50% + var(--nx));
-  transform: translate(-50%, -50%);
-  width: 15px;
-  height: 15px;
+  height: 100%;
+  width: calc(var(--p, 0) * (var(--n) - 1) * 62vw);
+  background: linear-gradient(90deg, var(--v3-accent-2), var(--v3-accent));
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.6);
+}
+.v3-hroad-node {
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background: var(--v3-bg-2);
   border: 2px solid var(--v3-line);
-  transition: background 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease, transform 0.45s ease;
+  z-index: 2;
+  transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
 }
-.v3-rm-step.is-on .v3-rm-node {
+.v3-hroad-cell.is-on .v3-hroad-node {
   background: var(--v3-accent-2);
   border-color: var(--v3-accent-2);
   box-shadow: 0 0 16px rgba(167, 139, 250, 0.85);
-  transform: translate(-50%, -50%) scale(1.25);
+  transform: scale(1.25);
 }
-.v3-rm-card {
+.v3-hroad-card {
   position: absolute;
-  top: 0;
-  width: 40%;
+  left: 50%;
+  width: min(340px, 70vw);
+  text-align: center;
   opacity: 0;
-  transform: translateY(calc(-50% + 22px));
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.55s ease, transform 0.55s ease;
 }
-.v3-rm-step.is-on .v3-rm-card { opacity: 1; transform: translateY(-50%); }
-.v3-rm-step[data-side='left'] .v3-rm-card { right: 56%; text-align: right; }
-.v3-rm-step[data-side='right'] .v3-rm-card { left: 56%; text-align: left; }
-.v3-rm-idx {
-  font-family: var(--v3-pixel);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--v3-accent-2);
+.v3-hroad-cell[data-pos='above'] .v3-hroad-card {
+  bottom: calc(50% + 42px);
+  transform: translateX(-50%) translateY(16px);
 }
+.v3-hroad-cell[data-pos='below'] .v3-hroad-card {
+  top: calc(50% + 42px);
+  transform: translateX(-50%) translateY(-16px);
+}
+.v3-hroad-cell.is-on .v3-hroad-card { opacity: 1; transform: translateX(-50%); }
+.v3-rm-idx { font-family: var(--v3-pixel); font-size: 11px; letter-spacing: 0.1em; color: var(--v3-accent-2); }
 .v3-rm-label {
   font-family: var(--v3-italic);
   font-style: italic;
   font-weight: 500;
-  font-size: clamp(24px, 2.6vw, 34px);
+  font-size: clamp(26px, 3vw, 40px);
   color: #fff;
   margin: 6px 0;
 }
 .v3-rm-note { font-size: 14px; line-height: 1.55; color: var(--v3-ink-soft); margin: 0; }
 
-@media (max-width: 720px) {
-  /* Straighten to a left rail on small screens. */
-  .v3-roadmap { max-width: none; height: calc(var(--rows, 5) * 150px); }
-  .v3-roadmap-svg { display: none; }
-  .v3-roadmap::before {
-    content: '';
-    position: absolute;
-    left: 20px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--v3-line);
-  }
-  .v3-rm-node { left: 20px; }
-  .v3-rm-card,
-  .v3-rm-step[data-side='left'] .v3-rm-card,
-  .v3-rm-step[data-side='right'] .v3-rm-card {
-    left: 44px;
-    right: auto;
-    width: calc(100% - 58px);
-    text-align: left;
-  }
+/* Fallback — not pinned (≤820px / reduced-motion): plain vertical list. */
+.v3-hroad:not(.is-pinned) .v3-hroad-sticky {
+  position: static;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+.v3-hroad:not(.is-pinned) .v3-hroad-track {
+  flex-direction: column;
+  width: 100%;
+  height: auto;
+  transform: none !important;
+  gap: 30px;
+  margin-top: 12px;
+}
+.v3-hroad:not(.is-pinned) .v3-hroad-cell { flex: none; width: 100%; place-items: stretch; }
+.v3-hroad:not(.is-pinned) .v3-hroad-line {
+  top: 0;
+  bottom: 0;
+  left: 6px;
+  width: 2px;
+  height: auto;
+  transform: none;
+}
+.v3-hroad:not(.is-pinned) .v3-hroad-fill { display: none; }
+.v3-hroad:not(.is-pinned) .v3-hroad-node { position: absolute; left: 6px; top: 4px; transform: translateX(-50%); }
+.v3-hroad:not(.is-pinned) .v3-hroad-card,
+.v3-hroad:not(.is-pinned) .v3-hroad-cell[data-pos='above'] .v3-hroad-card,
+.v3-hroad:not(.is-pinned) .v3-hroad-cell[data-pos='below'] .v3-hroad-card {
+  position: static;
+  left: auto;
+  top: auto;
+  bottom: auto;
+  transform: none;
+  opacity: 1;
+  text-align: left;
+  width: 100%;
+  padding-left: 26px;
 }
 
 /* ============================================================

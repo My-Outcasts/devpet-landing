@@ -6,59 +6,75 @@ import SplitText from './SplitText'
 import { JOURNEY } from '../content'
 
 /**
- * Journey — the roadmap as a flowing line that draws itself on scroll.
- * A wavy vertical ribbon (SVG, with faint parallel echo strands) draws
- * from top→bottom as the section scrolls; each phase rides a bend of the
- * curve and unlocks in sequence (slides in, its node lights) the moment
- * the draw reaches it. Reduced-motion: fully drawn, all revealed.
- *
- * The curve threads the node points (viewBox 300×1500): x alternates
- * 110/190 around centre 150, so nodes sit at 50% ∓ 13.33% — matched by
- * the HTML nodes' `--nx` offset so line and dots align at any width.
+ * Journey — a horizontal roadmap you travel along by scrolling. The section
+ * pins; vertical scroll pans the track left→right so each stage
+ * (Find→Build→Ship→Launch→Grow) arrives at centre one at a time, while a
+ * horizontal line "draws" behind it — its glowing tip stays at screen
+ * centre, so scrolling literally moves you to each stage. Each stage
+ * unlocks as it's reached (node lights, card fades in). Below 820px /
+ * reduced-motion it falls back to a plain vertical list.
  */
-const WAVE =
-  'M150,0 C150,80 110,70 110,150 C110,320 190,280 190,450 C190,620 110,580 110,750 C110,920 190,880 190,1050 C190,1220 110,1180 110,1350 C110,1430 150,1420 150,1500'
-
 export default function Journey() {
-  const roadRef = useRef<HTMLDivElement>(null)
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const road = roadRef.current
-    if (!road) return
-    const steps = Array.from(road.querySelectorAll<HTMLElement>('.v3-rm-step'))
-    const n = steps.length
+    const wrap = wrapRef.current
+    const track = trackRef.current
+    if (!wrap || !track) return
+    const cells = Array.from(track.querySelectorAll<HTMLElement>('.v3-hroad-cell'))
+    const n = cells.length
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      road.style.setProperty('--p', '1')
-      steps.forEach((s) => s.classList.add('is-on'))
-      return
-    }
-
+    let active = false
     let raf = 0
+
     const update = () => {
-      const rect = road.getBoundingClientRect()
-      const vh = window.innerHeight
-      const start = vh * 0.8
-      const p = Math.min(1, Math.max(0, (start - rect.top) / (rect.height * 0.8)))
-      road.style.setProperty('--p', p.toFixed(4))
-      steps.forEach((s, i) => s.classList.toggle('is-on', p >= (i + 0.5) / n))
+      if (!active) return
+      const top = wrap.getBoundingClientRect().top + window.scrollY
+      const dist = wrap.offsetHeight - window.innerHeight
+      let p = (window.scrollY - top) / Math.max(1, dist)
+      p = Math.min(1, Math.max(0, p))
+      const cellW = cells[0].getBoundingClientRect().width
+      const startX = window.innerWidth / 2 - cellW / 2
+      const travel = (n - 1) * cellW
+      track.style.transform = `translate3d(${(startX - p * travel).toFixed(1)}px,0,0)`
+      wrap.style.setProperty('--p', p.toFixed(4))
+      cells.forEach((c, i) => c.classList.toggle('is-on', p >= i / (n - 1) - 0.06))
     }
+
+    const measure = () => {
+      active = window.innerWidth > 820 && !reduce
+      wrap.classList.toggle('is-pinned', active)
+      if (active) {
+        const cellW = cells[0].getBoundingClientRect().width
+        wrap.style.height = `${(n - 1) * cellW + window.innerHeight}px`
+      } else {
+        wrap.style.height = ''
+        track.style.transform = ''
+        cells.forEach((c) => c.classList.add('is-on'))
+      }
+      update()
+    }
+
     const onScroll = () => {
+      if (!active) return
       cancelAnimationFrame(raf)
       raf = requestAnimationFrame(update)
     }
-    update()
+
+    measure()
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', update)
+    window.addEventListener('resize', measure)
     return () => {
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', update)
+      window.removeEventListener('resize', measure)
       cancelAnimationFrame(raf)
     }
   }, [])
 
   return (
-    <section id="journey" className="v3-section">
+    <section id="journey" className="v3-section v3-no-skew">
       <Reveal>
         <p className="v3-eyebrow">{JOURNEY.eyebrow}</p>
         <h2 className="v3-h2">
@@ -68,44 +84,28 @@ export default function Journey() {
         <p className="v3-sub">{JOURNEY.sub}</p>
       </Reveal>
 
-      <div
-        className="v3-roadmap"
-        ref={roadRef}
-        style={{ ['--rows']: JOURNEY.phases.length } as CSSProperties}
-      >
-        <svg className="v3-roadmap-svg" viewBox="0 0 300 1500" preserveAspectRatio="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="v3-rm-grad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#a78bfa" />
-              <stop offset="100%" stopColor="#7c3aed" />
-            </linearGradient>
-          </defs>
-          <path className="v3-rm-echo" d={WAVE} transform="translate(9 0)" />
-          <path className="v3-rm-echo" d={WAVE} transform="translate(18 0)" />
-          <path className="v3-rm-echo" d={WAVE} transform="translate(-8 0)" />
-          <path className="v3-rm-track" d={WAVE} />
-          <path className="v3-rm-draw" d={WAVE} pathLength={1} />
-        </svg>
-
-        {JOURNEY.phases.map((ph, i) => {
-          const nx = i % 2 === 0 ? '-13.33%' : '13.33%'
-          const side = i % 2 === 0 ? 'right' : 'left'
-          return (
-            <div
-              key={ph.key}
-              className="v3-rm-step"
-              data-side={side}
-              style={{ ['--i']: i, ['--nx']: nx } as CSSProperties}
-            >
-              <div className="v3-rm-card">
-                <span className="v3-rm-idx">0{i + 1}</span>
-                <h3 className="v3-rm-label">{ph.label}</h3>
-                <p className="v3-rm-note">{ph.note}</p>
-              </div>
-              <span className="v3-rm-node" />
+      <div className="v3-hroad" ref={wrapRef} style={{ ['--n']: JOURNEY.phases.length } as CSSProperties}>
+        <div className="v3-hroad-sticky">
+          <div className="v3-hroad-track" ref={trackRef}>
+            <div className="v3-hroad-line" aria-hidden="true">
+              <span className="v3-hroad-fill" />
             </div>
-          )
-        })}
+            {JOURNEY.phases.map((ph, i) => (
+              <div
+                key={ph.key}
+                className="v3-hroad-cell"
+                data-pos={i % 2 === 0 ? 'above' : 'below'}
+              >
+                <div className="v3-hroad-card">
+                  <span className="v3-rm-idx">0{i + 1}</span>
+                  <h3 className="v3-rm-label">{ph.label}</h3>
+                  <p className="v3-rm-note">{ph.note}</p>
+                </div>
+                <span className="v3-hroad-node" />
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
