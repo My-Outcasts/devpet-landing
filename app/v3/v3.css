@@ -223,7 +223,14 @@
   /* Collapse the inline links + CTA into the hamburger drawer. */
   .v3-nav-links,
   .v3-nav-cta { display: none; }
-  .v3-nav { gap: 14px; padding: 7px 8px 7px 18px; }
+  /* Widen the pill so the brand anchors left and the hamburger right
+     (instead of a narrow centred pill floating mid-screen). */
+  .v3-nav {
+    align-self: stretch; /* fill the wrap's width (overrides its align-items:center) */
+    justify-content: space-between;
+    gap: 12px;
+    padding: 7px 10px 7px 20px;
+  }
 
   .v3-nav-toggle {
     pointer-events: auto;
