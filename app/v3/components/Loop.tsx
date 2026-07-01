@@ -75,7 +75,7 @@ export default function Loop() {
     }
 
     const measure = () => {
-      active = window.innerWidth > 820 && !reduce
+      active = !reduce // full-fidelity: pinned on mobile too (was innerWidth > 820)
       stage.classList.toggle('is-pinned', active)
       if (active) {
         stage.style.height = `${n * window.innerHeight}px`

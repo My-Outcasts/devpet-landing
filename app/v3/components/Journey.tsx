@@ -63,7 +63,7 @@ export default function Journey() {
     }
 
     const measure = () => {
-      active = window.innerWidth > 820
+      active = true // full-fidelity: pinned on mobile too (was innerWidth > 820)
       wrap.classList.toggle('is-pinned', active)
       if (active) {
         wrap.style.height = `${n * window.innerHeight}px`
