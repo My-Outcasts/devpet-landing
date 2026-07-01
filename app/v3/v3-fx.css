@@ -749,6 +749,10 @@ html.lenis, html.lenis body { height: auto; }
   will-change: transform;
 }
 .v3-gallery.is-pinned .v3-dept { flex: 0 0 520px; width: 520px; }
+/* Pinned gallery now runs on mobile too — size cards to the viewport. */
+@media (max-width: 820px) {
+  .v3-gallery.is-pinned .v3-dept { flex: 0 0 84vw; width: 84vw; }
+}
 
 /* ── 3D tilt + moving glare on department cards ── */
 .v3-dept--tilt {
@@ -1062,13 +1066,8 @@ html.lenis, html.lenis body { height: auto; }
   .v3-dept-glare,
   .v3-env-zglare,
   .v3-env-glare { display: none !important; }
-  /* Release layer-promotion hints on elements whose animations are inactive
-     on mobile (pinned tracks/cards) — fewer compositor layers = less memory
-     pressure and smoother scroll. */
-  .v3-uni-track,
-  .v3-uni-media-inner,
-  .v3-gallery-track,
-  .v3-loopcard--stage,
+  /* (The pinned tracks/cards keep their will-change hint now that the
+     scroll sequences run on mobile — they need the compositor layer.) */
   .v3-env-zimg-inner { will-change: auto !important; }
 }
 
