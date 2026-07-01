@@ -964,7 +964,16 @@ html.lenis, html.lenis body { height: auto; }
   transform: translateX(-50%);
 }
 @media (max-width: 820px) {
-  .v3-pet--loop, .v3-pet--env, .v3-pet--journey, .v3-pet--final { display: none; }
+  /* Bring the pixel-pet companions back on mobile — they're tiny sprites
+     with a transform-only bob (cheap, no blur/blend). Keep only the journey
+     pet hidden: it rides the roadmap beam via --p, which isn't set on the
+     mobile (non-pinned) roadmap, so it would pin to the left edge. */
+  .v3-pet--journey { display: none; }
+  /* Nudge the corner pets a touch smaller so they read as accents, not
+     obstacles, on the narrower stacked mobile sections. */
+  .v3-pet--loop { height: 86px; right: 16px; }
+  .v3-pet--env { height: 72px; left: 16px; }
+  .v3-pet--final { height: 100px; }
 }
 
 /* The full cast lined up in the glow band above the marquee. */
@@ -1033,7 +1042,11 @@ html.lenis, html.lenis body { height: auto; }
      layers, which iOS re-rasterises on scroll. The nebulae are already
      radial-gradients fading to transparent — soft glows on their own — so
      drop the blur entirely on mobile. Composite cost collapses to ~nothing. */
-  .v3-nebula { animation: none !important; filter: none !important; }
+  /* Nebula glow: keep the blur OFF (that was the 1.2s/frame killer) but let
+     the drift animation run again — animating a plain radial-gradient layer
+     is transform-only and essentially free, and it brings the ambient
+     "living aurora" motion back to mobile. */
+  .v3-nebula { filter: none !important; }
   .v3-skewer > * { transform: none !important; }
   .v3-reveal { filter: none !important; }
 
