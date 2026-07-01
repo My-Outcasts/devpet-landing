@@ -44,7 +44,7 @@ export default function Environment() {
     }
 
     const measure = () => {
-      active = !reduce // full-fidelity: pinned on mobile too (was innerWidth > 820)
+      active = window.innerWidth > 820 && !reduce
       wrap.classList.toggle('is-pinned', active)
       if (active) {
         maxX = Math.max(0, track.scrollWidth - window.innerWidth)
