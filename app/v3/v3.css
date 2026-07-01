@@ -59,6 +59,14 @@
   overflow-x: clip;
 }
 
+/* The v3 page paints its own near-black canvas. Make the document root
+   match it (scoped via :has so the light blog / v2 pages stay light):
+   otherwise iOS overscroll bounce — and any region mobile Safari hasn't
+   repainted yet during a fast scroll — flashes the WHITE default page
+   background. A dark root makes those moments invisible instead of jarring. */
+:root:has(.v3),
+:root:has(.v3) body { background-color: #07060c; }
+
 .v3 *,
 .v3 *::before,
 .v3 *::after { box-sizing: border-box; }

@@ -1019,6 +1019,13 @@ html.lenis, html.lenis body { height: auto; }
   .v3-skewer > * { transform: none !important; }
   /* Cursor glow is mouse-only; never needed on touch. */
   .v3-cursor-glow { display: none !important; }
+  /* backdrop-filter on large scrolling surfaces forces the browser to
+     re-sample the blurred backdrop every frame — a top cause of the paint
+     lag that flashes the page background during fast mobile scroll. Drop
+     it on the big scrolling panels/cards (the faint translucent fill still
+     reads fine on the dark canvas). The fixed nav keeps its blur. */
+  .v3-step,
+  .v3-env-panel { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
