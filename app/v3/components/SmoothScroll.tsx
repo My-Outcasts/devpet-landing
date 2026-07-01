@@ -14,39 +14,54 @@ export default function SmoothScroll() {
 
     const lenis = new Lenis({ duration: 1.1, smoothWheel: true })
 
-    // On phones/tablets skip the per-scroll skew + parallax math: it forces
-    // a transform recalc on every section each frame and thrashes layout
-    // with getBoundingClientRect, which stutters touch scrolling. Native
-    // momentum + static atmosphere feels smoother there (matches desktop).
-    const light = window.matchMedia('(max-width: 820px)').matches
-
     let raf = 0
     const loop = (t: number) => { lenis.raf(t); raf = requestAnimationFrame(loop) }
     raf = requestAnimationFrame(loop)
 
     // Parallax depth layers — elements tagged [data-parallax] drift against
-    // the scroll by a per-element speed. Cached once; recomputed each scroll.
+    // the scroll by a per-element speed. Each element's document-space centre
+    // is measured ONCE (on load + resize); the scroll handler then derives
+    // its viewport position from window.scrollY alone. This keeps the per-
+    // frame work transform-only — no getBoundingClientRect during scroll,
+    // which is what made touch scrolling thrash layout.
+    let vh = window.innerHeight
     const parallax = Array.from(
       document.querySelectorAll<HTMLElement>('[data-parallax]'),
-    ).map((el) => ({ el, speed: parseFloat(el.dataset.parallax || '0') }))
-    const vh = () => window.innerHeight
+    ).map((el) => ({ el, speed: parseFloat(el.dataset.parallax || '0'), docCenter: 0 }))
+
+    const applyParallax = (sy: number) => {
+      for (const p of parallax) {
+        const center = p.docCenter - sy - vh / 2
+        p.el.style.transform = `translate3d(0, ${(-center * p.speed).toFixed(1)}px, 0)`
+      }
+    }
+    const measureParallax = () => {
+      vh = window.innerHeight
+      // Clear transforms so the measured rect is the element's real position.
+      for (const p of parallax) p.el.style.transform = ''
+      const sy = window.scrollY
+      for (const p of parallax) {
+        const r = p.el.getBoundingClientRect()
+        p.docCenter = r.top + sy + r.height / 2
+      }
+      applyParallax(sy)
+    }
 
     // Scroll-velocity skew → CSS var read by each section (.v3-skewer > *).
     lenis.on('scroll', () => {
       const vel = (lenis as { velocity?: number }).velocity ?? 0
-      // Expose raw velocity for the scroll-reactive marquee (kept on mobile).
+      // Expose raw velocity for the scroll-reactive marquee.
       ;(window as unknown as { __v3vel?: number }).__v3vel = vel
-      if (light) return
 
       const v = Math.max(-0.7, Math.min(0.7, vel * 0.025))
       document.documentElement.style.setProperty('--vskew', `${v.toFixed(3)}deg`)
 
-      for (const { el, speed } of parallax) {
-        const r = el.getBoundingClientRect()
-        const center = r.top + r.height / 2 - vh() / 2
-        el.style.transform = `translate3d(0, ${(-center * speed).toFixed(1)}px, 0)`
-      }
+      applyParallax(window.scrollY)
     })
+
+    measureParallax()
+    window.addEventListener('resize', measureParallax)
+    window.addEventListener('load', measureParallax)
 
     // Route in-page anchors through Lenis for a smooth glide.
     const onClick = (ev: MouseEvent) => {
@@ -62,6 +77,8 @@ export default function SmoothScroll() {
     return () => {
       cancelAnimationFrame(raf)
       document.removeEventListener('click', onClick)
+      window.removeEventListener('resize', measureParallax)
+      window.removeEventListener('load', measureParallax)
       lenis.destroy()
     }
   }, [])

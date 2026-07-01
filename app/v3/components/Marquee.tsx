@@ -27,6 +27,9 @@ export default function Marquee() {
     let x = 0
     let last = 0
     let raf = 0
+    // Pause the drift while the marquee is off-screen (no point animating a
+    // band you can't see — it just eats a frame-budget slice every tick).
+    let visible = true
     const frame = (t: number) => {
       const dt = last ? Math.min(64, t - last) : 16
       last = t
@@ -42,10 +45,20 @@ export default function Marquee() {
       const skew = Math.max(-7, Math.min(7, vel * 0.05))
       const stretch = 1 + Math.min(0.05, Math.abs(vel) * 0.004)
       track.style.transform = `translate3d(${x.toFixed(2)}px,0,0) skewX(${skew.toFixed(2)}deg) scaleX(${stretch.toFixed(3)})`
-      raf = requestAnimationFrame(frame)
+      if (visible) raf = requestAnimationFrame(frame)
     }
     raf = requestAnimationFrame(frame)
-    return () => cancelAnimationFrame(raf)
+
+    const io = new IntersectionObserver(
+      ([e]) => {
+        visible = e.isIntersecting
+        if (visible) { last = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame) }
+      },
+      { rootMargin: '80px' },
+    )
+    io.observe(track)
+
+    return () => { cancelAnimationFrame(raf); io.disconnect() }
   }, [])
 
   // Two copies of the sequence → seamless wrap.
