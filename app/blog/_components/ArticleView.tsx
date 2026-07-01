@@ -12,12 +12,7 @@ import { getCategory } from '@/lib/blog/categories'
 import { blogStrings } from '@/lib/blog/ui-strings'
 import PostCard from './PostCard'
 import CoverArt from './CoverArt'
-
-const ACCENT_CLASS: Record<string, string> = {
-  primary: 'blog-accent-primary',
-  info: 'blog-accent-info',
-  premium: 'blog-accent-premium',
-}
+import ReadingProgress from './ReadingProgress'
 
 export default function ArticleView({
   post,
@@ -30,56 +25,76 @@ export default function ArticleView({
 }) {
   const s = blogStrings(locale)
   const category = getCategory(post.category)
-  const accentClass = category ? ACCENT_CLASS[category.accent] : ''
   const home = localePrefix(locale) || '/'
 
+  // Final word of the title as an italic gradient accent, matching the
+  // index hero + landing headline treatment.
+  const words = post.title.trim().split(/\s+/)
+  const accent = words.length > 1 ? words.pop() : ''
+  const head = words.join(' ')
+
   return (
-    <main>
-      <article className="blog-article">
-        <Link href={blogIndexPath(locale)} className="blog-article-back">
-          {s.backToBlog}
-        </Link>
+    <main className="bx-article-main">
+      <ReadingProgress />
 
-        {category && (
-          <Link
-            href={categoryPath(locale, category.slug)}
-            className={`blog-article-cat ${accentClass}`}
-          >
-            {category.label[locale]}
+      <article className="bx-article" data-category={post.category}>
+        <header className="bx-article-head">
+          <Link href={blogIndexPath(locale)} className="bx-article-back">
+            {s.backToBlog}
           </Link>
-        )}
 
-        <h1 className="blog-article-title">{post.title}</h1>
-        <p className="blog-article-dek">{post.description}</p>
-
-        <div className="blog-article-byline">
-          <span>{formatDate(post.date, locale)}</span>
-          <span className="dot">
-            {formatReadingTime(post.readingMinutes, locale)}
-          </span>
-          {post.updated && post.updated !== post.date && (
-            <span className="dot">
-              {s.updatedOn} {formatDate(post.updated, locale)}
-            </span>
+          {category && (
+            <Link
+              href={categoryPath(locale, category.slug)}
+              className="bx-eyebrow bx-article-cat"
+              data-category={post.category}
+            >
+              {category.label[locale]}
+            </Link>
           )}
-        </div>
+
+          <h1 className="bx-article-title">
+            {head}
+            {accent && (
+              <>
+                {' '}
+                <span className="it">{accent}</span>
+              </>
+            )}
+          </h1>
+          <p className="bx-article-dek">{post.description}</p>
+
+          <div className="bx-meta bx-article-byline">
+            <span>{formatDate(post.date, locale)}</span>
+            <span className="bx-dot" />
+            <span>{formatReadingTime(post.readingMinutes, locale)}</span>
+            {post.updated && post.updated !== post.date && (
+              <>
+                <span className="bx-dot" />
+                <span>
+                  {s.updatedOn} {formatDate(post.updated, locale)}
+                </span>
+              </>
+            )}
+          </div>
+        </header>
 
         {post.cover ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            className="blog-article-cover"
-            src={post.cover}
-            alt={post.coverAlt || ''}
-          />
+          <div className="bx-article-cover">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={post.cover} alt={post.coverAlt || ''} />
+            <div className="bx-article-cover-scrim" aria-hidden="true" />
+          </div>
         ) : (
-          <div className="blog-article-cover">
+          <div className="bx-article-cover">
             <CoverArt slug={post.slug} category={post.category} />
+            <div className="bx-article-cover-scrim" aria-hidden="true" />
           </div>
         )}
 
         {post.toc.length >= 3 && (
-          <nav className="blog-toc" aria-label={s.tableOfContents}>
-            <p className="blog-toc-label">{s.tableOfContents}</p>
+          <nav className="bx-toc" aria-label={s.tableOfContents}>
+            <p className="bx-toc-label">{s.tableOfContents}</p>
             <ul>
               {post.toc.map((item) => (
                 <li key={item.id} className={`depth-${item.depth}`}>
@@ -91,14 +106,14 @@ export default function ArticleView({
         )}
 
         <div
-          className="blog-prose"
+          className="bx-prose"
           dangerouslySetInnerHTML={{ __html: post.html }}
         />
 
         {post.tags && post.tags.length > 0 && (
-          <div className="blog-tags">
+          <div className="bx-tags">
             {post.tags.map((tag) => (
-              <span key={tag} className="blog-tag">
+              <span key={tag} className="bx-tag">
                 #{tag}
               </span>
             ))}
@@ -106,18 +121,20 @@ export default function ArticleView({
         )}
       </article>
 
-      <section className="blog-cta" aria-label={s.ctaTitle}>
-        <h2>{s.ctaTitle}</h2>
-        <p>{s.ctaBody}</p>
-        <Link href={home}>{s.ctaButton}</Link>
+      <section className="bx-cta" aria-label={s.ctaTitle}>
+        <div className="bx-cta-inner">
+          <h2 className="bx-cta-title">{s.ctaTitle}</h2>
+          <p className="bx-cta-body">{s.ctaBody}</p>
+          <Link href={home} className="bx-cta-btn">{s.ctaButton}</Link>
+        </div>
       </section>
 
       {related.length > 0 && (
-        <section className="blog-related">
-          <p className="blog-section-label">{s.relatedReading}</p>
-          <div className="blog-grid">
-            {related.map((p) => (
-              <PostCard key={p.slug} post={p} locale={locale} />
+        <section className="bx-container bx-related">
+          <p className="bx-section-label">{s.relatedReading}</p>
+          <div className="bx-grid">
+            {related.map((p, i) => (
+              <PostCard key={p.slug} post={p} locale={locale} index={i} />
             ))}
           </div>
         </section>
