@@ -748,9 +748,7 @@ html.lenis, html.lenis body { height: auto; }
   padding-inline: max(32px, calc((100vw - 1180px) / 2));
   will-change: transform;
 }
-.v3-gallery.is-pinned .v3-dept { flex: 0 0 420px; width: 420px; }
-/* Progress rail intentionally hidden — the horizontal scroll reads on its own. */
-.v3-gallery.is-pinned .v3-gallery-rail { display: none; }
+.v3-gallery.is-pinned .v3-dept { flex: 0 0 520px; width: 520px; }
 
 /* ── 3D tilt + moving glare on department cards ── */
 .v3-dept--tilt {

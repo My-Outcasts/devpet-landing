@@ -18,13 +18,11 @@ type Dept = (typeof DEPARTMENTS)['items'][number]
 export default function DeptGallery({ items }: { items: readonly Dept[] }) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
-  const railRef = useRef<HTMLDivElement>(null)
 
   // ── Pinned horizontal scroll ──
   useEffect(() => {
     const wrap = wrapRef.current
     const track = trackRef.current
-    const rail = railRef.current
     if (!wrap || !track) return
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -39,7 +37,6 @@ export default function DeptGallery({ items }: { items: readonly Dept[] }) {
       let p = (window.scrollY - top) / Math.max(1, dist)
       p = Math.min(1, Math.max(0, p))
       track.style.transform = `translate3d(${(-p * maxX).toFixed(1)}px,0,0)`
-      if (rail) rail.style.setProperty('--p', p.toFixed(4))
     }
 
     const measure = () => {
@@ -112,7 +109,7 @@ export default function DeptGallery({ items }: { items: readonly Dept[] }) {
               onMouseLeave={reset}
             >
               <div className={`v3-dept-cover${(d as { photo?: boolean }).photo ? ' v3-dept-cover--photo' : ''}`}>
-                <Image src={d.cover} alt={`${d.name} cover`} fill sizes="(max-width: 520px) 100vw, 340px" unoptimized />
+                <Image src={d.cover} alt={`${d.name} cover`} fill sizes="(max-width: 520px) 100vw, 520px" unoptimized />
               </div>
               <div className="v3-dept-body">
                 <span className="v3-dept-tag">{d.name.slice(0, 2)}</span>
@@ -122,9 +119,6 @@ export default function DeptGallery({ items }: { items: readonly Dept[] }) {
               <span className="v3-dept-glare" aria-hidden="true" />
             </article>
           ))}
-        </div>
-        <div className="v3-gallery-rail" ref={railRef} aria-hidden="true">
-          <i />
         </div>
       </div>
     </div>
