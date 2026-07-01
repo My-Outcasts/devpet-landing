@@ -16,12 +16,10 @@ import { ENVIRONMENT } from '../content'
 export default function Environment() {
   const wrapRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
-  const railRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const wrap = wrapRef.current
     const track = trackRef.current
-    const rail = railRef.current
     if (!wrap || !track) return
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -36,7 +34,6 @@ export default function Environment() {
       let p = (window.scrollY - top) / Math.max(1, dist)
       p = Math.min(1, Math.max(0, p))
       track.style.transform = `translate3d(${(-p * maxX).toFixed(1)}px,0,0)`
-      if (rail) rail.style.setProperty('--p', p.toFixed(4))
       // Slow parallax on each panel's media as it crosses the viewport.
       const vw = window.innerWidth
       track.querySelectorAll<HTMLElement>('.v3-uni-media-inner').forEach((m) => {
@@ -113,10 +110,6 @@ export default function Environment() {
               </div>
             </article>
           ))}
-        </div>
-
-        <div className="v3-uni-rail" ref={railRef} aria-hidden="true">
-          <i />
         </div>
       </div>
     </section>
