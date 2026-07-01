@@ -1001,22 +1001,35 @@ html.lenis, html.lenis body { height: auto; }
   100% { opacity: 1; transform: none; }
 }
 
-/* ── Mobile: keep the ambient atmosphere, cut the per-scroll-frame cost ──
-   Phones use native scroll (no Lenis — see SmoothScroll). What stays is the
-   compositor-cheap ambient look: nebula drift, glow, static grain. What goes
-   is everything that repaints/recomputes on every scroll frame — the single
-   biggest source of the hitching:
-   - film grain's full-screen mix-blend ANIMATION (static texture kept)
-   - velocity skew: with Lenis off the var never updates, so null the
-     transform too (otherwise 7 full-height sections sit on needless layers)
-   - backdrop-filter on the large scrolling panels: re-samples the blurred
-     backdrop every frame during scroll. Faint fill still reads on the dark
-     canvas; the fixed nav keeps its blur. */
+/* ── Mobile-lite: strip the three effects that make iOS Safari crawl ──
+   Phones use native scroll (no Lenis — see SmoothScroll). The remaining
+   sluggishness on iOS comes from GPU-heavy COMPOSITING, not per-frame JS.
+   The three worst offenders on mobile Safari, all removed here:
+
+   1. mix-blend-mode film grain — a full-screen blend forces the whole page
+      into an offscreen buffer that recomposites every frame. Remove it.
+   2. backdrop-filter (frosted blur) — very expensive on iOS; kill it on
+      every element (each keeps its own translucent fill, so the look holds).
+   3. animated filter:blur(70px) nebulae — scaling a huge blur re-rasterises
+      it each frame. Keep the nebulae, but static.
+
+   Also: null the (now unused) velocity-skew transform, and drop the reveal
+   blur (a per-element GPU filter) — the opacity + slide entrance stays.
+   What remains is a clean, cheap dark-cinematic look: static nebula glow,
+   the hero constellation, gradients, and smooth native scrolling. */
 @media (max-width: 820px) {
-  .v3-grain { animation: none !important; }
+  .v3-grain { display: none !important; }
+  .v3 *,
+  .v3 *::before,
+  .v3 *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  /* Compensate for the lost frost with a more opaque nav/menu fill. */
+  .v3-nav { background: rgba(12, 10, 22, 0.9); }
+  .v3-nebula { animation: none !important; }
   .v3-skewer > * { transform: none !important; }
-  .v3-step,
-  .v3-env-panel { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  .v3-reveal { filter: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {

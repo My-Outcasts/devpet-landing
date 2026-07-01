@@ -123,7 +123,7 @@ export default function Loop() {
                   alt=""
                   fill
                   sizes="(max-width: 900px) 100vw, 560px"
-                  priority
+                  loading="lazy"
                   unoptimized
                 />
               </div>
