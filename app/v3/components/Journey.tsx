@@ -1,44 +1,43 @@
 'use client'
 
-import { useEffect, useRef, type CSSProperties } from 'react'
+import { useEffect, useRef } from 'react'
 import Reveal from './Reveal'
 import SplitText from './SplitText'
 import { JOURNEY } from '../content'
 
 /**
- * Journey — the roadmap as a scroll-scrubbed luminous path. As the section
- * passes through the viewport a gradient energy beam fills left→right, led
- * by a glowing comet; each phase "unlocks" as the beam reaches it (the node
- * pops with a ring pulse and its label brightens) — matching the copy,
- * "one unlocked step at a time." Progress is bound to scroll, not a one-shot
- * reveal. Reduced-motion: everything lit, no scrubbing.
+ * Journey — the roadmap as a scroll-drawn timeline. A central line fills
+ * top→down as the section scrolls through the viewport; each phase reveals
+ * in sequence (slides up + fades in, its node lights) the moment the fill
+ * reaches it — so scrolling progressively "unlocks" the steps.
+ * Reduced-motion: fully drawn, all steps revealed, no scrubbing.
  */
 export default function Journey() {
-  const pathRef = useRef<HTMLDivElement>(null)
+  const roadRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const path = pathRef.current
-    if (!path) return
-    const phases = Array.from(path.querySelectorAll<HTMLElement>('.v3-phase'))
-    const n = phases.length
+    const road = roadRef.current
+    if (!road) return
+    const steps = Array.from(road.querySelectorAll<HTMLElement>('.v3-rm-step'))
+    const n = steps.length
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      path.style.setProperty('--p', '1')
-      phases.forEach((el) => el.classList.add('is-on'))
+      road.style.setProperty('--p', '1')
+      steps.forEach((s) => s.classList.add('is-on'))
       return
     }
 
     let raf = 0
     const update = () => {
-      const rect = path.getBoundingClientRect()
-      // Spread the fill over a wide scroll range so the beam tracks the
-      // scroll closely (gradual) instead of completing in a short burst.
-      const start = window.innerHeight * 1.0 //  path enters the bottom → progress 0
-      const end = window.innerHeight * 0.22 //   path nears the top    → progress 1
-      const p = Math.min(1, Math.max(0, (start - rect.top) / (start - end)))
-      path.style.setProperty('--p', p.toFixed(4))
-      const reached = p * (n - 1)
-      phases.forEach((el, i) => el.classList.toggle('is-on', reached >= i - 0.35))
+      const rect = road.getBoundingClientRect()
+      const vh = window.innerHeight
+      // Fill starts when the roadmap top reaches ~80% down the viewport and
+      // completes after it has travelled ~80% of its own height upward.
+      const start = vh * 0.8
+      const p = Math.min(1, Math.max(0, (start - rect.top) / (rect.height * 0.8)))
+      road.style.setProperty('--p', p.toFixed(4))
+      // A step unlocks once the fill has passed its centre.
+      steps.forEach((s, i) => s.classList.toggle('is-on', p >= (i + 0.5) / n))
     }
     const onScroll = () => {
       cancelAnimationFrame(raf)
@@ -65,17 +64,20 @@ export default function Journey() {
         <p className="v3-sub">{JOURNEY.sub}</p>
       </Reveal>
 
-      <div className="v3-journey-path" ref={pathRef}>
-        <div className="v3-journey-rail" aria-hidden="true">
-          <span className="v3-journey-beam" />
-          <span className="v3-journey-comet" />
-          <img className="v3-pet v3-pet--journey" src="/v2/pets/4-purple-byte.png" alt="" aria-hidden="true" />
+      <div className="v3-roadmap" ref={roadRef}>
+        <div className="v3-roadmap-line" aria-hidden="true">
+          <span className="v3-roadmap-fill" />
         </div>
-        {JOURNEY.phases.map((p, i) => (
-          <div key={p.key} className="v3-phase" style={{ ['--i']: i } as CSSProperties}>
-            <div className="v3-phase-dot"><i /></div>
-            <h3 className="v3-phase-label">{p.label}</h3>
-            <p className="v3-phase-note">{p.note}</p>
+        {JOURNEY.phases.map((ph, i) => (
+          <div key={ph.key} className="v3-rm-step" data-side={i % 2 === 0 ? 'left' : 'right'}>
+            <div className="v3-rm-card">
+              <span className="v3-rm-idx">0{i + 1}</span>
+              <h3 className="v3-rm-label">{ph.label}</h3>
+              <p className="v3-rm-note">{ph.note}</p>
+            </div>
+            <div className="v3-rm-node-wrap">
+              <span className="v3-rm-node" />
+            </div>
           </div>
         ))}
       </div>
