@@ -67,6 +67,12 @@
 :root:has(.v3),
 :root:has(.v3) body { background-color: #07060c; }
 
+/* Smooth in-page anchor scrolling. On desktop Lenis drives the glide (and
+   sets scroll-behavior:auto), so this is the mobile path where Lenis is off;
+   scroll-margin keeps a jumped-to section clear of the fixed nav pill. */
+:root:has(.v3) { scroll-behavior: smooth; }
+.v3 section[id] { scroll-margin-top: 88px; }
+
 .v3 *,
 .v3 *::before,
 .v3 *::after { box-sizing: border-box; }

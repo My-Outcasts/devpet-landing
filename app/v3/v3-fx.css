@@ -1001,31 +1001,35 @@ html.lenis, html.lenis body { height: auto; }
   100% { opacity: 1; transform: none; }
 }
 
-/* ── Mobile performance (≤820px) ──
-   Phones don't have the GPU headroom for the desktop atmosphere. We keep
-   the static look (gradients, nebula colour) but stop every continuous
-   full-screen repaint loop and the per-scroll velocity skew / parallax
-   that make touch scrolling stutter. The result matches the desktop
-   experience in feel while staying buttery on a handset. */
+/* ── Mobile-lite: strip the three effects that make iOS Safari crawl ──
+   Phones use native scroll (no Lenis — see SmoothScroll). The remaining
+   sluggishness on iOS comes from GPU-heavy COMPOSITING, not per-frame JS.
+   The three worst offenders on mobile Safari, all removed here:
+
+   1. mix-blend-mode film grain — a full-screen blend forces the whole page
+      into an offscreen buffer that recomposites every frame. Remove it.
+   2. backdrop-filter (frosted blur) — very expensive on iOS; kill it on
+      every element (each keeps its own translucent fill, so the look holds).
+   3. animated filter:blur(70px) nebulae — scaling a huge blur re-rasterises
+      it each frame. Keep the nebulae, but static.
+
+   Also: null the (now unused) velocity-skew transform, and drop the reveal
+   blur (a per-element GPU filter) — the opacity + slide entrance stays.
+   What remains is a clean, cheap dark-cinematic look: static nebula glow,
+   the hero constellation, gradients, and smooth native scrolling. */
 @media (max-width: 820px) {
-  /* Animated film grain: a 200%×200% mix-blend overlay repainting every
-     frame — the single biggest scroll cost. Drop it on mobile. */
   .v3-grain { display: none !important; }
-  /* Big blurred nebulae: keep them, but stop the drift animation (a
-     70px-blur element re-rasterising each frame is expensive). */
+  .v3 *,
+  .v3 *::before,
+  .v3 *::after {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+  /* Compensate for the lost frost with a more opaque nav/menu fill. */
+  .v3-nav { background: rgba(12, 10, 22, 0.9); }
   .v3-nebula { animation: none !important; }
-  /* Velocity skew forces a transform recalc on every section each scroll
-     frame — pure overhead on touch, where the effect is imperceptible. */
   .v3-skewer > * { transform: none !important; }
-  /* Cursor glow is mouse-only; never needed on touch. */
-  .v3-cursor-glow { display: none !important; }
-  /* backdrop-filter on large scrolling surfaces forces the browser to
-     re-sample the blurred backdrop every frame — a top cause of the paint
-     lag that flashes the page background during fast mobile scroll. Drop
-     it on the big scrolling panels/cards (the faint translucent fill still
-     reads fine on the dark canvas). The fixed nav keeps its blur. */
-  .v3-step,
-  .v3-env-panel { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  .v3-reveal { filter: none !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {

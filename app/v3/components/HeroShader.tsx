@@ -85,6 +85,21 @@ export default function HeroShader() {
     const uRes = gl.getUniformLocation(prog, 'u_res')
     const uTime = gl.getUniformLocation(prog, 'u_time')
 
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // Phones render a single static frame. A continuously-running fragment
+    // shader (5-octave fbm noise, full-screen) is a heavy, always-on GPU
+    // load that stutters the whole page while scrolling on mobile — and the
+    // aurora is subtle enough that a still frame reads the same. Desktop
+    // animates but pauses whenever the hero scrolls out of view.
+    const staticOnly = reduce || window.matchMedia('(pointer: coarse)').matches
+
+    let raf = 0
+    let visible = true
+    const drawFrame = (ms: number) => {
+      gl.uniform1f(uTime, ms * 0.001)
+      gl.drawArrays(gl.TRIANGLES, 0, 3)
+    }
+
     const SCALE = 0.5 // render at half-res; the field is soft so it's invisible
     const resize = () => {
       const w = Math.max(1, Math.floor(canvas.clientWidth * SCALE))
@@ -95,28 +110,36 @@ export default function HeroShader() {
       }
       gl.viewport(0, 0, canvas.width, canvas.height)
       gl.uniform2f(uRes, canvas.width, canvas.height)
+      // In static mode the loop won't repaint, so redraw at the new size.
+      if (staticOnly) drawFrame(8000)
     }
     resize()
     window.addEventListener('resize', resize)
 
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    let raf = 0
-    const draw = (ms: number) => {
-      resize()
-      gl.uniform1f(uTime, ms * 0.001)
-      gl.drawArrays(gl.TRIANGLES, 0, 3)
-      raf = requestAnimationFrame(draw)
+    const loop = (ms: number) => {
+      drawFrame(ms)
+      if (visible) raf = requestAnimationFrame(loop)
     }
-    if (reduce) {
-      gl.uniform1f(uTime, 8.0)
-      gl.drawArrays(gl.TRIANGLES, 0, 3)
+
+    let io: IntersectionObserver | null = null
+    if (staticOnly) {
+      drawFrame(8000)
     } else {
-      raf = requestAnimationFrame(draw)
+      raf = requestAnimationFrame(loop)
+      io = new IntersectionObserver(
+        ([e]) => {
+          visible = e.isIntersecting
+          if (visible) { cancelAnimationFrame(raf); raf = requestAnimationFrame(loop) }
+        },
+        { rootMargin: '80px' },
+      )
+      io.observe(canvas)
     }
 
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('resize', resize)
+      io?.disconnect()
       gl.getExtension('WEBGL_lose_context')?.loseContext()
     }
   }, [])

@@ -40,6 +40,12 @@ export default function Constellation() {
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+    // Pause the animation loop while the hero (and its canvas) is scrolled
+    // out of view — a constellation of motes + shooting stars redrawing every
+    // frame is wasted GPU/CPU once you're deeper in the page, and on mobile
+    // that idle load is enough to stutter the scroll.
+    let visible = true
+
     let w = 0, h = 0, cx = 0, cy = 0
     let dpr = Math.min(window.devicePixelRatio || 1, 2)
 
@@ -209,7 +215,7 @@ export default function Constellation() {
       }
       ctx!.globalCompositeOperation = 'source-over'
 
-      if (!reduce) raf = requestAnimationFrame(frame)
+      if (!reduce && visible) raf = requestAnimationFrame(frame)
     }
 
     function onPointer(e: PointerEvent) {
@@ -225,10 +231,24 @@ export default function Constellation() {
     const onResize = () => { build() ; if (reduce) frame() }
     window.addEventListener('resize', onResize)
 
+    // Only run the loop while the canvas is on (or near) screen.
+    let io: IntersectionObserver | null = null
+    if (!reduce) {
+      io = new IntersectionObserver(
+        ([e]) => {
+          visible = e.isIntersecting
+          if (visible) { cancelAnimationFrame(raf); frame() }
+        },
+        { rootMargin: '120px' },
+      )
+      io.observe(canvas)
+    }
+
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('pointermove', onPointer)
       window.removeEventListener('resize', onResize)
+      io?.disconnect()
     }
   }, [])
 
