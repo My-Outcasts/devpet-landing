@@ -617,6 +617,14 @@
   height: 1px;
   background: rgba(255, 255, 255, 0.5);
 }
+/* Mobile: the big title and "Discover" sit side-by-side and overflow the
+   narrow panel, so "Discover" gets clipped by the panel's overflow:hidden.
+   Stack the footer (title, then Discover below) and trim the title to fit. */
+@media (max-width: 820px) {
+  .v3-uni-foot { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .v3-uni-foot-text { min-width: 0; }
+  .v3-uni-title { font-size: clamp(34px, 9vw, 54px); }
+}
 /* Fallback — not pinned (≤820px / reduced-motion): stacked panels. */
 .v3-uni:not(.is-pinned) .v3-uni-sticky {
   position: static;
