@@ -22,6 +22,9 @@ export default function HeroCta() {
   const [open, setOpen] = useState(false)
   const [email, setEmail] = useState('')
   const [state, setState] = useState<FormState>('idle')
+  // The web app isn't live yet, so "Sign Up" reveals a "launching soon"
+  // note instead of navigating anywhere.
+  const [showSoon, setShowSoon] = useState(false)
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -62,15 +65,19 @@ export default function HeroCta() {
               <button
                 type="button"
                 className="v3-btn v3-btn--primary"
-                onClick={() => setOpen(true)}
+                onClick={() => { setShowSoon(false); setOpen(true) }}
               >
                 {HERO.ctaPrimary}
               </button>
             </Magnetic>
             <Magnetic strength={0.25}>
-              <a href="/app" className="v3-btn v3-btn--ghost">
+              <button
+                type="button"
+                className="v3-btn v3-btn--ghost"
+                onClick={() => setShowSoon(true)}
+              >
                 {HERO.ctaSecondary}
-              </a>
+              </button>
             </Magnetic>
           </>
         ) : (
@@ -104,7 +111,9 @@ export default function HeroCta() {
           Please enter a valid email and try again.
         </p>
       )}
-      {!done && <p className="v3-hero-cta-note">{HERO.ctaNote}</p>}
+      {showSoon && !open && !done && (
+        <p className="v3-hero-cta-note" role="status">{HERO.ctaNote}</p>
+      )}
     </div>
   )
 }

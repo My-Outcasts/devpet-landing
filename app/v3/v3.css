@@ -313,6 +313,7 @@
   font-size: 13px;
   color: var(--v3-ink-mute);
   letter-spacing: 0.01em;
+  animation: v3-waitlist-in 0.28s ease both;
 }
 .v3-waitlist {
   display: flex;
