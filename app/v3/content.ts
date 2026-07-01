@@ -42,16 +42,19 @@ export const LOOP = {
       key: 'execute',
       label: 'Execute',
       desc: 'Codepet gets to work and shows you everything — a live log, in plain language, as it goes.',
+      image: '/v3/covers/loop-execute.jpg',
     },
     {
       key: 'deliver',
       label: 'Deliver',
       desc: 'Out comes something real — a site, a post, a pull request, a plan — ready for your eyes.',
+      image: '/v3/covers/loop-deliver.jpg',
     },
     {
       key: 'approve',
       label: 'Approve',
       desc: 'Love it? Ship it. Want it different? Just say so. Nothing goes live until it’s truly yours.',
+      image: '/v3/covers/loop-approve.jpg',
     },
   ],
 }
