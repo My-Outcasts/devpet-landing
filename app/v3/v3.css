@@ -154,7 +154,9 @@
   inset: 0 0 auto 0;
   z-index: 80;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
   padding: 18px 16px;
   pointer-events: none;
 }
@@ -198,8 +200,95 @@
   transition: transform 0.16s ease;
 }
 .v3-nav-cta:hover { transform: translateY(-1px); }
+
+/* Hamburger toggle + drawer — desktop-hidden, shown ≤760px. */
+.v3-nav-toggle { display: none; }
+.v3-nav-menu { display: none; }
+
 @media (max-width: 760px) {
-  .v3-nav-links { display: none; }
+  /* Collapse the inline links + CTA into the hamburger drawer. */
+  .v3-nav-links,
+  .v3-nav-cta { display: none; }
+  .v3-nav { gap: 14px; padding: 7px 8px 7px 18px; }
+
+  .v3-nav-toggle {
+    pointer-events: auto;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 9999px;
+    background: transparent;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .v3-nav-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--v3-ink);
+    transition: transform 0.28s ease, opacity 0.2s ease;
+  }
+  .v3-nav-wrap.is-open .v3-nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .v3-nav-wrap.is-open .v3-nav-toggle span:nth-child(2) { opacity: 0; }
+  .v3-nav-wrap.is-open .v3-nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .v3-nav-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    width: min(320px, calc(100vw - 32px));
+    padding: 12px;
+    border-radius: 22px;
+    background: rgba(12,10,22,0.9);
+    border: 1px solid var(--v3-line);
+    backdrop-filter: blur(18px) saturate(140%);
+    box-shadow: 0 20px 60px -16px rgba(0,0,0,0.85);
+    pointer-events: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.24s ease, transform 0.24s ease, visibility 0.24s;
+  }
+  .v3-nav-wrap.is-open .v3-nav-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+
+.v3-nav-menu-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.v3-nav-menu-link {
+  display: block;
+  padding: 13px 15px;
+  border-radius: 13px;
+  font-size: 15px;
+  color: var(--v3-ink-soft);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.v3-nav-menu-link:hover,
+.v3-nav-menu-link:active { background: var(--v3-glass-hi); color: var(--v3-ink); }
+/* Make the drawer CTA a full-width pill. */
+.v3-nav-menu .v3-soon-wrap { display: flex; margin-top: 6px; }
+.v3-nav-menu-cta {
+  flex: 1;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  background: linear-gradient(180deg, var(--v3-accent-2), var(--v3-accent));
+  padding: 13px 16px;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  box-shadow: 0 6px 22px -6px rgba(124,58,237,0.8);
 }
 
 /* ============================================================
@@ -360,6 +449,31 @@
   margin-top: 12px;
   font-size: 13px;
   color: #f8a3a3;
+}
+
+/* ── Phone tuning (≤560px): comfortable touch targets, full-width
+   CTAs, and an email field that never overflows the viewport. ── */
+@media (max-width: 560px) {
+  /* Bigger tap targets (≈50px) for every pill button. */
+  .v3-btn { padding: 15px 24px; }
+
+  /* Hero + final CTA clusters stack full-width instead of wrapping. */
+  .v3-hero-cta,
+  .v3-final-cta { flex-direction: column; align-items: stretch; width: 100%; max-width: 340px; margin-inline: auto; }
+  .v3-hero-cta .v3-magnetic,
+  .v3-final-cta .v3-magnetic { width: 100%; display: block; }
+  .v3-final-cta .v3-soon-wrap { width: 100%; display: flex; }
+  .v3-hero-cta .v3-btn,
+  .v3-final-cta .v3-btn { width: 100%; justify-content: center; }
+
+  /* Waitlist: email field flexes to fill; button sits below, full width. */
+  .v3-waitlist { flex-direction: column; align-items: stretch; width: 100%; max-width: 340px; }
+  .v3-waitlist-input { min-width: 0; width: 100%; }
+  .v3-waitlist .v3-btn { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .v3-section { padding: 76px 18px; }
 }
 
 /* SoonButton — "Open the web app" CTAs reveal a small floating
