@@ -63,7 +63,7 @@ export default function Journey() {
     }
 
     const measure = () => {
-      active = window.innerWidth > 820
+      active = true // curved roadmap pinned on mobile too (transform/SVG only)
       wrap.classList.toggle('is-pinned', active)
       if (active) {
         wrap.style.height = `${n * window.innerHeight}px`

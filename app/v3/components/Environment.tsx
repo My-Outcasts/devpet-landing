@@ -23,6 +23,10 @@ export default function Environment() {
     if (!wrap || !track) return
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // Mobile keeps the horizontal slide but skips the per-panel parallax:
+    // that loop calls getBoundingClientRect on every panel each frame, and
+    // those layout reads add up on a phone. The slide alone reads great.
+    const lite = window.matchMedia('(max-width: 820px)').matches
     let active = false
     let maxX = 0
     let raf = 0
@@ -34,6 +38,7 @@ export default function Environment() {
       let p = (window.scrollY - top) / Math.max(1, dist)
       p = Math.min(1, Math.max(0, p))
       track.style.transform = `translate3d(${(-p * maxX).toFixed(1)}px,0,0)`
+      if (lite) return
       // Slow parallax on each panel's media as it crosses the viewport.
       const vw = window.innerWidth
       track.querySelectorAll<HTMLElement>('.v3-uni-media-inner').forEach((m) => {
@@ -44,7 +49,7 @@ export default function Environment() {
     }
 
     const measure = () => {
-      active = window.innerWidth > 820 && !reduce
+      active = !reduce // pinned on mobile too (parallax skipped — see lite)
       wrap.classList.toggle('is-pinned', active)
       if (active) {
         maxX = Math.max(0, track.scrollWidth - window.innerWidth)

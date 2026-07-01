@@ -23,6 +23,10 @@ export default function Loop() {
     const cards = Array.from(stage.querySelectorAll<HTMLElement>('.v3-loopcard--stage'))
     const n = cards.length
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // Mobile runs the same 3D transition, but WITHOUT the blur dissolve — a
+    // large filter:blur during scroll is the one expensive part (proven by
+    // the on-device timeline). Transforms + opacity carry the effect fine.
+    const noBlur = window.matchMedia('(max-width: 820px)').matches
 
     let active = false
     let raf = 0
@@ -51,7 +55,7 @@ export default function Loop() {
         }
         card.style.transform = `translate(-50%,-50%) translate3d(0,${y.toFixed(1)}px,${z.toFixed(1)}px) rotateX(${rot.toFixed(1)}deg) scale(${s.toFixed(3)})`
         card.style.opacity = op.toFixed(3)
-        card.style.filter = blur > 0.2 ? `blur(${blur.toFixed(1)}px)` : 'none'
+        card.style.filter = !noBlur && blur > 0.2 ? `blur(${blur.toFixed(1)}px)` : 'none'
         card.style.zIndex = String(Math.round(1000 + z))
       })
     }
@@ -75,7 +79,7 @@ export default function Loop() {
     }
 
     const measure = () => {
-      active = window.innerWidth > 820 && !reduce
+      active = !reduce // pinned on mobile too (blur-free — see noBlur)
       stage.classList.toggle('is-pinned', active)
       if (active) {
         stage.style.height = `${n * window.innerHeight}px`
