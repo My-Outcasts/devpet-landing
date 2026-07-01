@@ -7,10 +7,12 @@ import FeaturedCard from './FeaturedCard'
 import NewsletterBand from './NewsletterBand'
 
 /**
- * "Newsroom" listing surface (dark, black+-inspired): centered hero,
- * category filter row, a large featured lead story, a newsletter band,
- * then a grid of rich cover-art cards. Reused by the blog home and by
- * each category page (category pages drop the lead + newsletter).
+ * Blog listing surface — cinematic-dark, aligned to the main site.
+ * An atmospheric hero (eyebrow → editorial headline with a Playfair
+ * italic accent → tagline → frosted topic filters), a large featured
+ * lead story, a newsletter band, then a glass card grid. Reused by the
+ * blog home and each category page (category pages drop the lead +
+ * newsletter).
  */
 export default function BlogIndexView({
   locale,
@@ -32,47 +34,68 @@ export default function BlogIndexView({
   const leadPost = useLead ? posts[0] : null
   const rest = useLead ? posts.slice(1) : posts
 
+  // Render the final word of the title as an italic gradient accent
+  // (matches the landing's "second brain" headline treatment).
+  const words = title.trim().split(/\s+/)
+  const accent = words.length > 1 ? words.pop() : ''
+  const head = words.join(' ')
+
+  const eyebrow =
+    activeSlug === 'all'
+      ? locale === 'vi'
+        ? 'Ghi chép'
+        : 'Field notes'
+      : locale === 'vi'
+        ? 'Chủ đề'
+        : 'Topic'
+
   return (
     <main>
-      <section className="blog-hero">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="blog-hero-bg" src="/blog/hero.png" alt="" aria-hidden="true" />
-        <div className="blog-hero-shade" aria-hidden="true" />
-        <div className="blog-hero-wrap">
-          <div className="blog-hero-glass">
-            <div className="blog-hero-main">
-              <h1>{title}</h1>
-              <p>{tagline}</p>
-            </div>
-          </div>
-          <div className="blog-hero-tabs">
+      <section className="bx-hero">
+        <div className="bx-hero-inner">
+          <p className="bx-hero-eyebrow">{eyebrow}</p>
+          <h1 className="bx-hero-title">
+            {head}
+            {accent && (
+              <>
+                {' '}
+                <span className="it">{accent}</span>
+              </>
+            )}
+          </h1>
+          <p className="bx-hero-sub">{tagline}</p>
+          <div className="bx-hero-tabs">
             <CategoryChips locale={locale} activeSlug={activeSlug} />
           </div>
         </div>
       </section>
 
       {posts.length === 0 ? (
-        <div className="blog-container">
-          <p className="blog-empty">{s.empty}</p>
+        <div className="bx-container">
+          <p className="bx-empty">{s.empty}</p>
         </div>
       ) : (
         <>
           {leadPost && (
-            <div className="blog-container">
+            <div className="bx-container">
               <FeaturedCard post={leadPost} locale={locale} />
             </div>
           )}
 
-          {lead && <NewsletterBand locale={locale} />}
+          {lead && (
+            <div className="bx-container">
+              <NewsletterBand locale={locale} />
+            </div>
+          )}
 
           {rest.length > 0 && (
-            <div className="blog-container" id="latest">
-              <p className="blog-section-label">
+            <div className="bx-container" id="latest">
+              <p className="bx-section-label">
                 {activeSlug === 'all' ? s.latest : s.allTopics}
               </p>
-              <div className="blog-grid">
-                {rest.map((post) => (
-                  <PostCard key={post.slug} post={post} locale={locale} />
+              <div className="bx-grid">
+                {rest.map((post, i) => (
+                  <PostCard key={post.slug} post={post} locale={locale} index={i} />
                 ))}
               </div>
             </div>

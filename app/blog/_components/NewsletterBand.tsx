@@ -8,7 +8,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 type State = 'idle' | 'loading' | 'success' | 'duplicate' | 'error' | 'invalid'
 
 /**
- * Newsletter subscribe band for the blog index. Reuses the site's
+ * Newsletter subscribe band — a dark frosted panel lit from below by a
+ * purple aura (matching the landing's final CTA). Reuses the site's
  * existing /api/waitlist endpoint ({ email, locale }) so signups land in
  * the same Google Sheet as the landing waitlist — no new backend.
  */
@@ -52,22 +53,19 @@ export default function NewsletterBand({ locale }: { locale: Locale }) {
   }
 
   return (
-    <section className="blog-newsletter" aria-label={s.newsletterTitle}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img className="blog-newsletter-bg" src="/blog/band.png" alt="" aria-hidden="true" />
-      <div className="blog-newsletter-shade" aria-hidden="true" />
-      <div className="blog-newsletter-inner">
-        <div className="blog-newsletter-copy">
-          <h2>{s.newsletterTitle}</h2>
-          <p>{s.newsletterBody}</p>
+    <section className="bx-news" aria-label={s.newsletterTitle}>
+      <div className="bx-news-inner">
+        <div className="bx-news-copy">
+          <h2 className="bx-news-title">{s.newsletterTitle}</h2>
+          <p className="bx-news-body">{s.newsletterBody}</p>
         </div>
-        <form className="blog-newsletter-form" onSubmit={handleSubmit} noValidate>
-          <div className="blog-newsletter-pill">
+        <form className="bx-news-form" onSubmit={handleSubmit} noValidate>
+          <div className="bx-news-field">
             <input
               type="email"
               inputMode="email"
               autoComplete="email"
-              className="blog-newsletter-input"
+              className="bx-news-input"
               placeholder={s.newsletterPlaceholder}
               value={email}
               onChange={(e) => {
@@ -79,7 +77,7 @@ export default function NewsletterBand({ locale }: { locale: Locale }) {
             />
             <button
               type="submit"
-              className="blog-newsletter-btn"
+              className="bx-news-btn"
               disabled={state === 'loading' || done}
             >
               {state === 'loading' ? '…' : s.newsletterButton}
@@ -87,7 +85,7 @@ export default function NewsletterBand({ locale }: { locale: Locale }) {
           </div>
           {message && (
             <p
-              className={`blog-newsletter-msg${done ? ' is-ok' : ' is-err'}`}
+              className={`bx-news-msg${done ? ' is-ok' : ' is-err'}`}
               role="status"
             >
               {message}

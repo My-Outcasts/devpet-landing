@@ -5,9 +5,11 @@ import { blogIndexPath, categoryPath } from '@/lib/blog/format'
 import { blogStrings } from '@/lib/blog/ui-strings'
 
 /**
- * Topic filter row. "All articles" returns to the index; each pillar
- * links to its `/blog/category/<slug>` page. `activeSlug` is set on a
- * category page to highlight the current filter (and 'all' on index).
+ * Topic filter row — frosted glass pills on the dark hero. "All
+ * articles" returns to the index; each pillar links to its
+ * `/blog/category/<slug>` page. Every category keeps its own hue as a
+ * leading dot + hover glow (`data-category` drives the colour in CSS);
+ * the active pill fills with the byte-purple gradient.
  */
 export default function CategoryChips({
   locale,
@@ -18,10 +20,10 @@ export default function CategoryChips({
 }) {
   const s = blogStrings(locale)
   return (
-    <nav className="blog-chips" aria-label={s.browseTopics}>
+    <nav className="bx-chips" aria-label={s.browseTopics}>
       <Link
         href={blogIndexPath(locale)}
-        className="blog-chip"
+        className="bx-chip"
         data-active={activeSlug === 'all'}
       >
         {s.allTopics}
@@ -30,11 +32,11 @@ export default function CategoryChips({
         <Link
           key={c.slug}
           href={categoryPath(locale, c.slug)}
-          className="blog-chip"
+          className="bx-chip"
           data-category={c.slug}
           data-active={activeSlug === c.slug}
         >
-          <span className="blog-chip-dot" />
+          <span className="bx-chip-dot" />
           {c.label[locale]}
         </Link>
       ))}
