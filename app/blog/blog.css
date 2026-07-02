@@ -321,30 +321,51 @@
 .bx-featured:hover .bx-featured-media svg { transform: scale(1.06); }
 
 /* ============================================================
-   ARTICLE GRID — frosted glass cards
+   ARTICLE LIST — alternating "zigzag" rows (kept from the old blog,
+   re-themed dark): a wide glass card (cover + centered text) beside a
+   small side-note column; odd/even rows flip the image + aside side.
    ============================================================ */
 .bx-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(18px, 2vw, 26px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(32px, 5vw, 56px);
   padding-bottom: 8px;
 }
 .bx-grid > * { min-width: 0; }
-@media (max-width: 900px) { .bx-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .bx-grid { grid-template-columns: 1fr; } }
 
-.bx-card {
-  height: 100%;
-  border-radius: 18px;
-  overflow: hidden;
+.bx-zz {
+  display: grid;
+  grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(20px, 3vw, 44px);
+}
+.bx-zz--flip { grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr); }
+.bx-zz--flip .bx-zz-aside { order: -1; }
+
+/* The card — cover + centered text side by side. */
+.bx-zz-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(18px, 2.4vw, 36px);
+  padding: clamp(16px, 2vw, 26px);
+  border-radius: 24px;
   background: var(--v3-bg-2);
   border: 1px solid var(--v3-line);
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.35s ease;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.32s ease, border-color 0.32s ease, box-shadow 0.4s ease;
 }
-.bx-card-link { display: flex; flex-direction: column; height: 100%; text-decoration: none; color: inherit; }
-.bx-card-media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--v3-bg); }
-.bx-card-media img,
-.bx-card-media svg {
+.bx-zz--flip .bx-zz-cover { order: 2; }
+.bx-zz-cover {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--v3-bg);
+}
+.bx-zz-cover img,
+.bx-zz-cover svg {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -352,45 +373,92 @@
   object-fit: cover;
   transition: transform 0.6s ease;
 }
-.bx-card-scrim {
+.bx-zz-scrim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 45%, rgba(7,6,12,0.5) 100%);
+  background: linear-gradient(180deg, transparent 55%, rgba(7,6,12,0.45) 100%);
 }
-.bx-card-body {
+.bx-zz-body {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 18px 20px 22px;
-  flex: 1;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  min-width: 0;
 }
-.bx-card-title {
+.bx-zz-title {
   font-family: var(--v3-sans);
   font-weight: 600;
-  font-size: 19px;
-  line-height: 1.24;
-  letter-spacing: -0.01em;
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.16;
+  letter-spacing: -0.02em;
   color: var(--v3-ink);
   margin: 2px 0 0;
 }
-.bx-card-excerpt {
-  font-size: 14px;
-  line-height: 1.55;
+.bx-zz-excerpt {
+  font-size: 15px;
+  line-height: 1.6;
   color: var(--v3-ink-soft);
   margin: 0;
+  max-width: 42ch;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.bx-card-meta { margin-top: auto; padding-top: 4px; }
-.bx-card:hover {
-  transform: translateY(-6px);
+.bx-zz-card:hover {
+  transform: translateY(-4px);
   border-color: color-mix(in srgb, var(--cat, var(--v3-accent-2)) 50%, transparent);
   box-shadow: 0 26px 64px -28px color-mix(in srgb, var(--cat, var(--v3-accent)) 65%, transparent);
 }
-.bx-card:hover .bx-card-media img,
-.bx-card:hover .bx-card-media svg { transform: scale(1.06); }
+.bx-zz-card:hover .bx-zz-cover img,
+.bx-zz-card:hover .bx-zz-cover svg { transform: scale(1.05); }
+
+/* Side-note column — meta, a rule, and a "Read" pill. */
+.bx-zz-aside {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 0 8px;
+}
+.bx-zz-note { justify-content: center; }
+.bx-zz-rule { width: 40px; height: 1px; background: var(--v3-line); }
+.bx-zz-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--v3-ink);
+  text-decoration: none;
+  background: var(--v3-glass);
+  border: 1px solid var(--v3-line);
+  backdrop-filter: blur(12px);
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.25s ease;
+}
+.bx-zz-pill:hover {
+  color: #fff;
+  border-color: transparent;
+  background: linear-gradient(180deg, var(--v3-accent-2), var(--v3-accent));
+  box-shadow: 0 10px 28px -10px rgba(124,58,237,0.8);
+}
+
+/* Stack on narrow screens; aside becomes a compact meta / pill row. */
+@media (max-width: 860px) {
+  .bx-zz,
+  .bx-zz--flip { grid-template-columns: 1fr; gap: 16px; }
+  .bx-zz--flip .bx-zz-aside { order: 0; }
+  .bx-zz-card,
+  .bx-zz--flip .bx-zz-card { grid-template-columns: 1fr; gap: 14px; }
+  .bx-zz-cover,
+  .bx-zz--flip .bx-zz-cover { order: -1; aspect-ratio: 16 / 9; }
+  .bx-zz-body { align-items: flex-start; text-align: left; }
+  .bx-zz-aside { flex-direction: row; justify-content: space-between; width: 100%; }
+  .bx-zz-rule { display: none; }
+}
 
 /* ============================================================
    NEWSLETTER — dark frosted panel with a purple aura
