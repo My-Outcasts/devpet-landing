@@ -30,7 +30,7 @@ const playfair = Playfair_Display({
 })
 
 export const metadata: Metadata = {
-  title: 'Codepet — your AI cofounder',
+  title: 'Codepet — AI teaches you to become a founder',
   description:
     'Run your whole company with AI, department by department. byte drafts and builds with you, and you approve every move. A free macOS app.',
 }
