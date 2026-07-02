@@ -616,6 +616,9 @@
   color: var(--v3-ink);
   text-decoration: none;
   transition: color 0.2s ease;
+  /* The overlay is pointer-events:none (so it doesn't block the pinned
+     scroll); re-enable it on the actual link so Discover is clickable. */
+  pointer-events: auto;
 }
 .v3-uni-discover:hover { color: #fff; }
 .v3-uni-discover::after {
