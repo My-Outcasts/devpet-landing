@@ -333,6 +333,105 @@
 }
 .bx-grid > * { min-width: 0; }
 
+/* ============================================================
+   Compact tile grid — the scannable long tail after the featured
+   lead + two zigzag highlights. Small cards (cover · category ·
+   title · date), 3-up on desktop, with a client "Load more".
+   ============================================================ */
+.bx-tilegrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(20px, 2.4vw, 30px);
+}
+@media (max-width: 900px) { .bx-tilegrid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .bx-tilegrid { grid-template-columns: 1fr; } }
+.bx-tile-cell { display: flex; }
+.bx-tile-cell[hidden] { display: none; }
+
+.bx-tile {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--v3-glass, rgba(255, 255, 255, 0.045));
+  border: 1px solid var(--v3-line, rgba(255, 255, 255, 0.08));
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.bx-tile:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--cat, var(--v3-accent-2)) 50%, transparent);
+  box-shadow: 0 26px 60px -30px color-mix(in srgb, var(--cat, var(--v3-accent)) 65%, transparent);
+}
+.bx-tile-cover {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+}
+.bx-tile-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+.bx-tile:hover .bx-tile-cover img { transform: scale(1.05); }
+.bx-tile-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(7, 6, 12, 0.55) 100%);
+  pointer-events: none;
+}
+.bx-tile-body {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 18px 20px 22px;
+}
+.bx-tile-title {
+  margin: 0;
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.28;
+  font-weight: 600;
+  color: var(--v3-ink, #f4f2fb);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.bx-tile .bx-meta { margin-top: 1px; }
+
+.bx-more-wrap { display: flex; justify-content: center; margin-top: clamp(30px, 4vw, 48px); }
+.bx-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: inherit;
+  cursor: pointer;
+  padding: 13px 28px;
+  border-radius: 999px;
+  color: var(--v3-ink, #f4f2fb);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--v3-line, rgba(255, 255, 255, 0.12));
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+.bx-more-btn:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: color-mix(in srgb, var(--v3-accent-2, #a78bfa) 55%, transparent);
+}
+.bx-more-count {
+  min-width: 22px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  font-size: 12px;
+  text-align: center;
+  background: color-mix(in srgb, var(--v3-accent-2, #a78bfa) 22%, transparent);
+  color: var(--v3-accent-2, #a78bfa);
+}
+
 .bx-zz {
   display: grid;
   grid-template-columns: minmax(0, 2.5fr) minmax(0, 1fr);
